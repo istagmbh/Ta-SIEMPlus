@@ -1,0 +1,1 @@
+Contributions: Please submit all changes via Pull Request. Every PR must be reviewed to maintain standardization and consistency.
