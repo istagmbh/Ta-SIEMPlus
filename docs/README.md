@@ -50,6 +50,8 @@ The form works in all modern browsers:
 - Safari 14+
 - Edge 90+
 
+**Note**: The form uses the jsPDF library from CDN (unpkg.com) for PDF generation. An active internet connection is required for the PDF generation feature to work. The library is loaded client-side and does not require any server-side dependencies.
+
 ### Integration with Runbooks
 
 While this form provides a convenient digital workflow, it complements rather than replaces the existing markdown runbooks and checklists:

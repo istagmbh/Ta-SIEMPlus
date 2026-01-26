@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Managed SIEM Documentation & Tools</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 24px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-color: #667eea;
+        }
+
+        .card-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .list-section {
+            margin-top: 20px;
+        }
+
+        .doc-list {
+            list-style: none;
+        }
+
+        .doc-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .doc-list li:last-child {
+            border-bottom: none;
+        }
+
+        .doc-list a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .doc-list a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .doc-list .description {
+            color: #666;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background: #667eea;
+            color: white;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ Managed SIEM Documentation & Tools</h1>
+            <p>Wazuh operational documentation and maintenance workflows</p>
+        </div>
+
+        <div class="content">
+            <!-- Quick Access Section -->
+            <div class="section">
+                <h2>Quick Access</h2>
+                <div class="card-grid">
+                    <a href="maintenance-form.html" class="card">
+                        <div class="card-icon">📋</div>
+                        <h3>Maintenance Form</h3>
+                        <p>Interactive form with PDF export for maintenance documentation</p>
+                    </a>
+                    <a href="../runbooks/" class="card">
+                        <div class="card-icon">📖</div>
+                        <h3>Runbooks</h3>
+                        <p>Step-by-step operational procedures</p>
+                    </a>
+                    <a href="../checklists/" class="card">
+                        <div class="card-icon">✅</div>
+                        <h3>Checklists</h3>
+                        <p>Change and maintenance checklists</p>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Documentation Section -->
+            <div class="section">
+                <h2>Documentation</h2>
+                <div class="list-section">
+                    <ul class="doc-list">
+                        <li>
+                            <a href="README.md">📄 Documentation Overview</a>
+                            <div class="description">Overview of the docs folder and maintenance form features</div>
+                        </li>
+                        <li>
+                            <a href="TESTING.md">🧪 Testing Guide</a>
+                            <div class="description">Comprehensive guide for testing the maintenance form</div>
+                        </li>
+                        <li>
+                            <a href="../README.md">📚 Main README</a>
+                            <div class="description">Repository overview and quickstart guide</div>
+                        </li>
+                        <li>
+                            <a href="../CONTRIBUTING.md">🤝 Contributing Guidelines</a>
+                            <div class="description">How to contribute to the documentation</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Repository Structure -->
+            <div class="section">
+                <h2>Repository Structure</h2>
+                <div class="list-section">
+                    <ul class="doc-list">
+                        <li>
+                            <a href="../runbooks/">runbooks/</a>
+                            <div class="description">Step-by-step operational runbooks with commands and triage procedures</div>
+                        </li>
+                        <li>
+                            <a href="../checklists/">checklists/</a>
+                            <div class="description">Ticket and change management checklists</div>
+                        </li>
+                        <li>
+                            <a href="../Catalog/">Catalog/</a>
+                            <div class="description">Customer and infrastructure catalog</div>
+                        </li>
+                        <li>
+                            <a href="../templates/">templates/</a>
+                            <div class="description">Templates for change notes and reports</div>
+                        </li>
+                        <li>
+                            <a href="./">docs/</a>
+                            <span class="badge">YOU ARE HERE</span>
+                            <div class="description">Web-based tools and supplementary documentation</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <div class="section">
+                <h2>About</h2>
+                <p style="color: #666; line-height: 1.6;">
+                    This repository standardizes maintenance workflows for the Managed SIEM Service (Wazuh).
+                    The focus is on reproducibility, auditability, and operator-friendliness.
+                    All changes should be submitted via Pull Request and require at least one reviewer.
+                </p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2026 Managed SIEM Service (Wazuh)</p>
+            <p>Based on Wazuh best practices and operational standards</p>
+        </div>
+    </div>
+</body>
+</html>
