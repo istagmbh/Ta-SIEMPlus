@@ -3,11 +3,19 @@
 Diese Sammlung standardisiert Wartungsabläufe für den Managed SIEM Service (Wazuh) und ist für den täglichen Betrieb gedacht.
 Fokus: reproduzierbar, auditierbar, operator-freundlich.
 
+## Übersicht
+
+Dieses Repository enthält alle notwendigen Dokumente für die Wartung und das Upgrade von Wazuh SIEM-Installationen:
+- **Runbooks** für detaillierte Schritt-für-Schritt-Anleitungen
+- **Checklisten** für strukturierte Ticket-/Change-Verwaltung
+- **Katalog** für Kunden- und Infrastruktur-Informationen
+- **Templates** für standardisierte Kommunikation
+
 ## Struktur
 
 - `runbooks/` – Schritt-für-Schritt Runbooks (Befehle / Reihenfolge / Triage)
 - `checklists/` – Ticket-/Change-Checklisten (1:1 abhakbar, keine doppelten Commands)
-- `catalog/` – Kunden-/Infrastruktur-Katalog (URLs/Hosts/Referenzen)
+- `Catalog/` – Kunden-/Infrastruktur-Katalog (URLs/Hosts/Referenzen)
 - `templates/` – Vorlagen für Change-Notizen / Abschlussmeldungen
 
 ## Standardprozess
@@ -26,7 +34,30 @@ Fokus: reproduzierbar, auditierbar, operator-freundlich.
 
 ## Quickstart (Operator)
 
-- Öffne `checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md`
-- Trage `operator`, `customer`, `infrastructure`, `change_ticket`, `maintenance_window_*`, `target_version`, `snapshot_id` ein
-- Arbeite die Checkboxen ab und verweise für Commands auf das Runbook:
-  `runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md`
+### Für ein Wazuh Upgrade:
+
+1. **Vorbereitung:**
+   - Öffne `checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md`
+   - Trage alle erforderlichen Metadaten ein: `operator`, `customer`, `infrastructure`, `change_ticket`, `maintenance_window_*`, `target_version`, `snapshot_id`
+   
+2. **Durchführung:**
+   - Arbeite die Checkboxen in der Checkliste Schritt für Schritt ab
+   - Für detaillierte Befehle siehe das referenzierte Runbook: `runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md`
+   
+3. **Dokumentation:**
+   - Verwende `templates/CHANGE_NOTE_TEMPLATE.md` für die Abschlussmeldung
+   - Dokumentiere alle Abweichungen und Findings
+   - Stelle sicher, dass Pre- und Post-Health Snapshots im Ticket hinterlegt sind
+
+### Für neue Kunden/Infrastruktur:
+
+1. Öffne `Catalog/CUSTOMERS.md`
+2. Kopiere das YAML-Template am Ende der Datei
+3. Fülle alle Felder aus (WICHTIG: keine Secrets direkt eintragen!)
+4. Committe die Änderung via Pull Request
+
+## Wichtige Hinweise
+
+- **Secrets-Management:** Trage NIE Passwörter oder Secrets direkt in die Dateien ein. Verwende stattdessen Referenzen zu eurem Secret-Store (z.B. `vault://...`)
+- **Versionskontrolle:** Alle Änderungen müssen via Pull Request erfolgen und werden reviewed
+- **No-Go Gates:** Beachte unbedingt die No-Go-Kriterien in den Checklisten - sie sind nicht verhandelbar!
