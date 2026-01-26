@@ -17,6 +17,7 @@ Dieses Repository enthält alle notwendigen Dokumente für die Wartung und das U
 - `checklists/` – Ticket-/Change-Checklisten (1:1 abhakbar, keine doppelten Commands)
 - `Catalog/` – Kunden-/Infrastruktur-Katalog (URLs/Hosts/Referenzen)
 - `templates/` – Vorlagen für Change-Notizen / Abschlussmeldungen
+- `docs/` – Web-basierte Tools und ergänzende Dokumentation (z.B. Maintenance Form)
 
 ## Standardprozess
 
