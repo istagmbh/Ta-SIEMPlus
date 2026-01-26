@@ -380,17 +380,30 @@
     <script>
         // Initialize form
         document.addEventListener('DOMContentLoaded', function() {
-            // Set default start time to current time
+            // Set default start time to current time (local timezone)
             const now = new Date();
-            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-            document.getElementById('startDateTime').value = now.toISOString().slice(0, 16);
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const localDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+            
+            document.getElementById('startDateTime').value = localDateTime;
             
             // Set default end time to 2 hours from now
             const endTime = new Date(now.getTime() + 2 * 60 * 60 * 1000);
-            document.getElementById('endDateTime').value = endTime.toISOString().slice(0, 16);
+            const endYear = endTime.getFullYear();
+            const endMonth = String(endTime.getMonth() + 1).padStart(2, '0');
+            const endDay = String(endTime.getDate()).padStart(2, '0');
+            const endHours = String(endTime.getHours()).padStart(2, '0');
+            const endMinutes = String(endTime.getMinutes()).padStart(2, '0');
+            const endLocalDateTime = `${endYear}-${endMonth}-${endDay}T${endHours}:${endMinutes}`;
+            
+            document.getElementById('endDateTime').value = endLocalDateTime;
             
             // Set default approval date to current time
-            document.getElementById('approvalDate').value = now.toISOString().slice(0, 16);
+            document.getElementById('approvalDate').value = localDateTime;
         });
 
         // Form validation
@@ -605,15 +618,27 @@
             if (confirm('Are you sure you want to clear all form data?')) {
                 document.getElementById('maintenanceForm').reset();
                 
-                // Reset date/time fields to defaults
+                // Reset date/time fields to defaults (local timezone)
                 const now = new Date();
-                now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-                document.getElementById('startDateTime').value = now.toISOString().slice(0, 16);
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const localDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+                
+                document.getElementById('startDateTime').value = localDateTime;
                 
                 const endTime = new Date(now.getTime() + 2 * 60 * 60 * 1000);
-                document.getElementById('endDateTime').value = endTime.toISOString().slice(0, 16);
+                const endYear = endTime.getFullYear();
+                const endMonth = String(endTime.getMonth() + 1).padStart(2, '0');
+                const endDay = String(endTime.getDate()).padStart(2, '0');
+                const endHours = String(endTime.getHours()).padStart(2, '0');
+                const endMinutes = String(endTime.getMinutes()).padStart(2, '0');
+                const endLocalDateTime = `${endYear}-${endMonth}-${endDay}T${endHours}:${endMinutes}`;
                 
-                document.getElementById('approvalDate').value = now.toISOString().slice(0, 16);
+                document.getElementById('endDateTime').value = endLocalDateTime;
+                document.getElementById('approvalDate').value = localDateTime;
                 
                 // Clear validation errors
                 document.querySelectorAll('.validation-error').forEach(el => {
