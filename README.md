@@ -9,6 +9,7 @@ Fokus: reproduzierbar, auditierbar, operator-freundlich.
 - `checklists/` – Ticket-/Change-Checklisten (1:1 abhakbar, keine doppelten Commands)
 - `catalog/` – Kunden-/Infrastruktur-Katalog (URLs/Hosts/Referenzen)
 - `templates/` – Vorlagen für Change-Notizen / Abschlussmeldungen
+- `docs/` – Web-basierte Tools und ergänzende Dokumentation (z.B. Maintenance Form)
 
 ## Standardprozess
 
@@ -26,7 +27,14 @@ Fokus: reproduzierbar, auditierbar, operator-freundlich.
 
 ## Quickstart (Operator)
 
+### Option 1: Markdown-basiert (klassisch)
 - Öffne `checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md`
 - Trage `operator`, `customer`, `infrastructure`, `change_ticket`, `maintenance_window_*`, `target_version`, `snapshot_id` ein
 - Arbeite die Checkboxen ab und verweise für Commands auf das Runbook:
   `runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md`
+
+### Option 2: Web-basiertes Formular
+- Öffne `docs/maintenance-form.html` in einem Browser
+- Fülle das interaktive Formular aus (alle Pflichtfelder sind markiert)
+- Generiere einen professionellen PDF-Report mit einem Klick
+- Ideal für strukturierte Dokumentation und Archivierung
