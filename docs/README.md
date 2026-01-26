@@ -1,72 +1,72 @@
-# Documentation and Tools
+# Dokumentation und Werkzeuge
 
-This directory contains supplementary documentation and tools for the Managed SIEM Service (Wazuh).
+Dieses Verzeichnis enthält ergänzende Dokumentation und Werkzeuge für den Managed SIEM Service (Wazuh).
 
-## Web-Based Maintenance Form
+## Web-basiertes Wartungsformular
 
-The `maintenance-form.html` file provides an interactive, browser-based alternative to the markdown-based runbooks and checklists.
+Die Datei `maintenance-form.html` bietet eine interaktive, browserbasierte Alternative zu den markdown-basierten Runbooks und Checklisten.
 
-### Features
+### Funktionen
 
-- **Comprehensive Form**: Captures all essential maintenance workflow information based on Wazuh best practices
-- **Client-Side PDF Generation**: Generates professional PDF reports directly in the browser without server dependencies
-- **Validation**: Built-in form validation ensures all required fields are completed
-- **Responsive Design**: Works on desktop and mobile devices
-- **No Installation Required**: Simply open the HTML file in any modern web browser
+- **Umfassendes Formular**: Erfasst alle wesentlichen Informationen des Wartungsworkflows basierend auf Wazuh Best Practices
+- **Client-seitige PDF-Generierung**: Erstellt professionelle PDF-Berichte direkt im Browser ohne Server-Abhängigkeiten
+- **Validierung**: Integrierte Formularvalidierung stellt sicher, dass alle erforderlichen Felder ausgefüllt sind
+- **Responsive Design**: Funktioniert auf Desktop- und Mobilgeräten
+- **Keine Installation erforderlich**: Öffnen Sie einfach die HTML-Datei in einem modernen Webbrowser
 
-### Required Fields
+### Erforderliche Felder
 
-The form includes the following required fields:
-- System/Asset name
-- Environment (Production/Test/Development)
-- Maintenance type (Routine/Ad-hoc/Emergency)
-- Start and end date/time
-- Responsible person
-- Change/Ticket ID
-- Step-by-step checklist (multi-line)
-- Result/Status (Success/Failure/Partial Success/Rolled Back)
-- Post-maintenance validation/check
-- Backout/Rollback plan
-- Approval/Review (name + date)
+Das Formular enthält die folgenden erforderlichen Felder:
+- System-/Asset-Name
+- Umgebung (Produktion/Test/Entwicklung)
+- Wartungstyp (Routine/Ad-hoc/Notfall)
+- Start- und Enddatum/-zeit
+- Verantwortliche Person
+- Change/Ticket-ID
+- Schritt-für-Schritt-Checkliste (mehrzeilig)
+- Ergebnis/Status (Erfolg/Fehlgeschlagen/Teilweise erfolgreich/Zurückgerollt)
+- Post-Wartungs-Validierung/Prüfung
+- Backout/Rollback-Plan
+- Genehmigung/Review (Name + Datum)
 
-### Optional Fields
+### Optionale Felder
 
-- Affected systems/logs
-- Notes/attachments
+- Betroffene Systeme/Logs
+- Notizen/Anhänge
 
-### Usage
+### Verwendung
 
-1. Open `maintenance-form.html` in a web browser (Chrome, Firefox, Edge, Safari)
-2. Fill in all required fields (marked with *)
-3. Add optional information as needed
-4. Click "Generate PDF" to create a downloadable maintenance report
-5. The PDF will be automatically downloaded with a filename including the ticket ID and date
+1. Öffnen Sie `maintenance-form.html` in einem Webbrowser (Chrome, Firefox, Edge, Safari)
+2. Füllen Sie alle erforderlichen Felder aus (markiert mit *)
+3. Fügen Sie bei Bedarf optionale Informationen hinzu
+4. Klicken Sie auf "PDF generieren", um einen herunterladbaren Wartungsbericht zu erstellen
+5. Das PDF wird automatisch mit einem Dateinamen heruntergeladen, der die Ticket-ID und das Datum enthält
 
-### Browser Compatibility
+### Browser-Kompatibilität
 
-The form works in all modern browsers:
+Das Formular funktioniert in allen modernen Browsern:
 - Chrome 90+
 - Firefox 88+
 - Safari 14+
 - Edge 90+
 
-**Note**: The form uses the jsPDF library from CDN (unpkg.com) for PDF generation. An active internet connection is required for the PDF generation feature to work. The library is loaded client-side and does not require any server-side dependencies.
+**Hinweis**: Das Formular verwendet die jsPDF-Bibliothek von CDN (unpkg.com) zur PDF-Generierung. Eine aktive Internetverbindung ist erforderlich, damit die PDF-Generierungsfunktion funktioniert. Die Bibliothek wird client-seitig geladen und benötigt keine serverseitigen Abhängigkeiten.
 
-### Integration with Runbooks
+### Integration mit Runbooks
 
-While this form provides a convenient digital workflow, it complements rather than replaces the existing markdown runbooks and checklists:
+Während dieses Formular einen praktischen digitalen Workflow bietet, ergänzt es die bestehenden Markdown-Runbooks und -Checklisten, anstatt sie zu ersetzen:
 
-- **Runbooks** (`../runbooks/`): Provide detailed step-by-step technical procedures
-- **Checklists** (`../checklists/`): Offer copy-paste templates for change tickets
-- **Maintenance Form**: Provides a guided digital interface for documentation and PDF export
+- **Runbooks** (`../runbooks/`): Bieten detaillierte Schritt-für-Schritt-Anleitungen
+- **Checklisten** (`../checklists/`): Bieten Copy-Paste-Vorlagen für Change-Tickets
+- **Wartungsformular**: Bietet eine geführte digitale Oberfläche für Dokumentation und PDF-Export
 
-Use the approach that best fits your workflow and change management requirements.
+Verwenden Sie den Ansatz, der am besten zu Ihrem Workflow und Ihren Change-Management-Anforderungen passt.
 
-## Future Enhancements
+## Zukünftige Verbesserungen
 
-Potential future improvements:
-- Auto-save to browser local storage
-- Import/export form data as JSON
-- Integration with ticketing systems
-- Additional PDF styling options
-- Pre-fill from checklist templates
+Mögliche zukünftige Verbesserungen:
+- Auto-Speicherung im Browser Local Storage
+- Import/Export von Formulardaten als JSON
+- Integration mit Ticketing-Systemen
+- Zusätzliche PDF-Styling-Optionen
+- Vorbefüllen aus Checklisten-Vorlagen
