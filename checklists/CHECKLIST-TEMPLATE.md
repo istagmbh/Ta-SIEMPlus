@@ -10,7 +10,7 @@ maintenance_window_start: "UNSET"  # Start time (Europe/Zurich)
 maintenance_window_end: "UNSET"    # End time (Europe/Zurich)
 target_version: "UNSET"     # Target version for upgrades
 snapshot_id: "UNSET"        # Backup/Snapshot reference
-runbook_ref: "path/to/runbook.md"  # Path to associated runbook
+runbook_ref: "{{runbook_ref}}"     # Path to associated runbook
 ---
 
 # Checklist Template

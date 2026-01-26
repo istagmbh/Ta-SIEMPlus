@@ -9,7 +9,7 @@ window_end: "UNSET"      # Europe/Zurich (format: YYYY-MM-DD HH:MM)
 current_version: "UNSET"
 target_version: "UNSET"
 snapshot_id: "UNSET"
-status: "planned|in_progress|done|rolled_back"
+status: "planned"        # planned|in_progress|done|rolled_back
 ---
 
 # Change-Notiz – Wazuh Upgrade (Central Components)

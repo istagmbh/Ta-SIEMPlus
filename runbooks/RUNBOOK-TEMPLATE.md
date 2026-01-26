@@ -9,7 +9,7 @@ components:
   - wazuh-indexer
 owners:
   - "@istagmbh"
-related_checklist: "checklists/CHECKLIST-TEMPLATE.md"
+related_checklist: "{{related_checklist}}"  # e.g., checklists/CHECKLIST-TEMPLATE.md
 last_reviewed: 2026-01-01
 tags: ["wazuh","upgrade","aio"]
 ---
