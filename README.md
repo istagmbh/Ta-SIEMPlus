@@ -40,15 +40,21 @@ Dieses Repository enthält alle notwendigen Dokumente für die Wartung und das U
 1. **Vorbereitung:**
    - Öffne `checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md`
    - Trage alle erforderlichen Metadaten ein: `operator`, `customer`, `infrastructure`, `change_ticket`, `maintenance_window_*`, `target_version`, `snapshot_id`
+   - Lies das Runbook vorab durch, insbesondere die Voraussetzungen und No-Go-Kriterien
    
 2. **Durchführung:**
    - Arbeite die Checkboxen in der Checkliste Schritt für Schritt ab
    - Für detaillierte Befehle siehe das referenzierte Runbook: `runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md`
+   - Das Runbook enthält umfassende Validierungsschritte und Troubleshooting-Hilfen
    
 3. **Dokumentation:**
    - Verwende `templates/CHANGE_NOTE_TEMPLATE.md` für die Abschlussmeldung
    - Dokumentiere alle Abweichungen und Findings
    - Stelle sicher, dass Pre- und Post-Health Snapshots im Ticket hinterlegt sind
+
+4. **Bei Problemen:**
+   - Konsultiere das Troubleshooting-Kapitel im Runbook (Abschnitt 11)
+   - Bei kritischen Problemen: Rollback-Verfahren in Abschnitt 10 befolgen
 
 ### Für neue Kunden/Infrastruktur:
 

@@ -56,10 +56,13 @@ notes: ""
 - [ ] Change freigegeben (approved)
 - [ ] Kunde informiert (Downtime/Impact kommuniziert)
 - [ ] Guide gelesen (Breaking Changes / besondere Schritte)
+- [ ] **Voraussetzungen validiert** (siehe Runbook Abschnitt "Voraussetzungen")
+- [ ] System-Ressourcen geprüft (Disk < 85%, RAM verfügbar, **No-Go wenn Disk > 90%**)
+- [ ] Netzwerk-Konnektivität zu Wazuh-Repositories bestätigt
 - [ ] Candidate-Versionen sind **identisch** (Indexer/Manager/Dashboard inkl. Patchlevel)
-- [ ] Disk OK (Richtwert < 85%, **No-Go > 90%**)
-- [ ] Snapshot/Backup erstellt und dokumentiert (`snapshot_id`)
-- [ ] **Health Snapshot (Runbook 0)** durchgeführt und im Ticket abgelegt
+- [ ] VM/Volume-Snapshot erstellt (empfohlen) ODER Konfigurations-Backup erstellt
+- [ ] Snapshot/Backup-ID dokumentiert (`snapshot_id`)
+- [ ] **Health Snapshot (Runbook Abschnitt 1)** durchgeführt und im Ticket abgelegt
 
 ---
 
@@ -108,13 +111,24 @@ notes: ""
 
 ## D) Post-Go (Abnahme)
 
-- [ ] **Health Snapshot (Runbook 0)** erneut ausgeführt und im Ticket abgelegt
+- [ ] **Versionen verifiziert** (alle Komponenten auf identischer Version)
+- [ ] **Services Health Check** (alle Services aktiv und ohne Fehler)
+- [ ] **Funktionale Validierung** (Cluster Health, Indices, Events)
+- [ ] **Health Snapshot (Runbook Abschnitt 1)** erneut ausgeführt und im Ticket abgelegt
 - [ ] Dashboard erreichbar (HTTPS)
-- [ ] Login erfolgreich
+- [ ] Login erfolgreich (mit korrekten Credentials)
 - [ ] Datenfluss plausibel (neue Events kommen an / Testevent verifiziert)
-- [ ] Keine kritischen Errors in `journalctl` (Indexer/Manager/Dashboard/Filebeat)
+- [ ] Keine kritischen Fehler in journalctl-Logs (Indexer/Manager/Dashboard/Filebeat)
+- [ ] Alle Ports hören wie erwartet (1514, 1515, 55000, 9200, 5601)
 - [ ] Abschlussmeldung an Kunde gesendet (Versionen + kurzer Health-Status)
 - [ ] Change/Ticket sauber dokumentiert (Start/Ende, Findings, Abweichungen)
+
+**Dokumentation Check:**
+- [ ] Pre-Upgrade Health Snapshot im Ticket
+- [ ] Post-Upgrade Health Snapshot im Ticket
+- [ ] Backup/Snapshot-ID dokumentiert
+- [ ] Upgrade-Zeitstempel (Start und Ende) dokumentiert
+- [ ] Zielversion erreicht und dokumentiert
 
 ---
 
@@ -125,11 +139,46 @@ notes: ""
 - [ ] Auth/TLS/Index Security nicht funktionsfähig
 - [ ] Datenfluss bricht nachhaltig (keine Events, Filebeat Errors)
 - [ ] Dashboard nicht erreichbar / keine Anmeldung möglich
+- [ ] Kritische Services starten nicht nach mehreren Versuchen
+- [ ] Upgrade-Zeitfenster wird überschritten
+- [ ] Performance-Degradation ist inakzeptabel
 
-**Rollback durchgeführt via:**
-- [ ] Snapshot Restore (Standard)
-- [ ] Alternativ: Paket-Downgrade (nur wenn Snapshot nicht möglich, Risiko dokumentiert)
+**Rollback-Methode (eine auswählen):**
+- [ ] **VM/Volume-Snapshot Restore** (empfohlen, siehe Runbook Abschnitt 10.1)
+- [ ] **Paket-Downgrade** (nur wenn Snapshot nicht verfügbar, siehe Runbook Abschnitt 10.2)
 
-**Incident/Problem Record:**
-- [ ] Erstellt (Root Cause / Prevention / Lessons Learned)
+**Nach Rollback:**
+- [ ] Post-Rollback Health Snapshot erstellt und dokumentiert
+- [ ] Funktionalität bestätigt (Dashboard Login, Datenfluss)
+- [ ] Stakeholder über Rollback informiert
+- [ ] Grund für Rollback im Ticket dokumentiert
+
+**Post-Mortem und Follow-up:**
+- [ ] Incident-Report erstellt (Root Cause / Prevention / Lessons Learned)
 - [ ] Follow-up Tasks erfasst (Hardening, Monitoring, Automatisierung)
+- [ ] Neuer Upgrade-Versuch geplant (mit Lessons Learned)
+- [ ] Bei Bedarf: Test-Upgrade in Staging-Umgebung vor erneutem Produktions-Upgrade
+
+---
+
+## F) Troubleshooting-Referenz
+
+Falls Probleme während des Upgrades auftreten, konsultieren Sie:
+
+**Runbook Abschnitt 11: Troubleshooting Guide**
+
+Häufige Probleme mit Lösungen:
+- Indexer startet nicht nach Upgrade
+- Manager startet nicht nach Upgrade
+- Dashboard nicht erreichbar
+- Filebeat läuft, aber keine Events im Indexer
+- Cluster Health = RED
+- Login am Dashboard funktioniert nicht
+- Version Conflicts oder Compatibility Issues
+
+**Notfall-Kommandos:** Siehe Runbook Abschnitt 11 für kompletten Service-Neustart und Support-Log-Sammlung.
+
+---
+
+**Checklisten-Version:** 1.1 (aktualisiert Januar 2026)
+**Änderungen:** Erweiterte Validierungsschritte, detaillierte Rollback-Checks, Troubleshooting-Referenz
