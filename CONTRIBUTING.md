@@ -1,48 +1,78 @@
-# Contributing to Managed SIEM Runbooks & Checklists
+# Contributing to Ta-SIEMPlus
 
-We welcome contributions that improve the quality, accuracy, and usability of our runbooks and checklists.
+Thank you for contributing to the Managed SIEM (Wazuh) runbooks and checklists repository!
 
 ## How to Contribute
 
-1. **Submit via Pull Request**: All changes must be submitted through a Pull Request (PR)
-2. **Review Required**: Every PR requires at least one reviewer approval before merging
-3. **Clear Documentation**: Each change must include a brief explanation:
-   - **Why**: Reason for the change
-   - **Risk**: Any potential risks or impacts
-   - **Rollback**: How to revert if needed
+All changes must be submitted via Pull Request (PR). This ensures quality control and maintains consistency across the repository.
 
-## Guidelines
+### Pull Request Process
 
-### For Runbooks
-- Keep commands clear and copy-paste friendly
-- Include triage steps for common failure scenarios
-- Reference official documentation where applicable
-- Test commands in a safe environment before committing
+1. **Create a feature branch** from the main branch
+2. **Make your changes** following the guidelines below
+3. **Submit a Pull Request** with a clear description of what changed and why
+4. **Wait for review** - at least one reviewer must approve your PR
+5. **Address feedback** if any changes are requested
+6. **Merge** once approved
 
-### For Checklists
-- Maintain 1:1 mapping with runbook procedures
-- Use clear checkbox format
-- Avoid duplicating commands (reference runbooks instead)
-- Keep metadata fields up-to-date
+### Guidelines for Changes
 
-### For Templates
-- Ensure placeholders are clearly marked (e.g., `{{variable}}`)
-- Provide example values in comments
-- Keep consistent formatting across all templates
+#### When Modifying Runbooks
+- **Always include a reason** for the change (e.g., "Updated to reflect Wazuh 4.12.0 changes")
+- **Document any risks** introduced by the change
+- **Provide rollback instructions** if the change affects critical procedures
+- **Test commands** in a non-production environment before committing
+- **Update related checklists** if runbook steps change
 
-### For Documentation
-- Use clear, concise language
-- Update cross-references when changing file names or structure
-- Verify all links work correctly
-- Follow existing formatting conventions
+#### When Modifying Checklists
+- **Keep checklists and runbooks in sync** - if you change one, verify the other doesn't need updates
+- **Maintain the checkbox format** for easy tracking
+- **Don't duplicate commands** - reference the runbook instead
+- **Update version numbers** in metadata if applicable
 
-## Code of Conduct
+#### When Modifying Templates
+- **Preserve placeholder format** (e.g., `{{variable_name}}`)
+- **Document new fields** added to templates
+- **Ensure backward compatibility** where possible
 
-- Be respectful and professional
-- Focus on improving operational excellence
-- Share knowledge and learnings from real-world experience
-- Maintain security and privacy standards (no secrets in code)
+#### When Updating Customer Catalog
+- **Never commit secrets** - use references to your secret store (e.g., `vault://...`)
+- **Validate YAML syntax** before committing
+- **Use the provided template** for consistency
 
-## Questions?
+### File Naming Conventions
 
-If you're unsure about a contribution, open an issue for discussion before submitting a PR.
+- Runbooks: `RUNBOOK_<DESCRIPTION>_<PLATFORM>.md`
+- Checklists: `CHECKLIST_<DESCRIPTION>.md`
+- Templates: `<TYPE>_TEMPLATE.md`
+- Use UPPERCASE for file names
+- Use underscores to separate words
+
+### Commit Message Format
+
+Use clear, descriptive commit messages:
+```
+<type>: <short description>
+
+<optional longer description>
+<optional: why this change is needed>
+<optional: reference to related issue/ticket>
+```
+
+Examples:
+- `fix: Correct indexer startup command in upgrade runbook`
+- `docs: Add missing prerequisites to AIO checklist`
+- `feat: Add new runbook for agent upgrade`
+
+### Code Review Standards
+
+Reviewers should check for:
+- **Accuracy** - Are commands and procedures correct?
+- **Completeness** - Are all necessary steps documented?
+- **Clarity** - Is the documentation easy to follow?
+- **Safety** - Are there appropriate warnings and rollback procedures?
+- **Consistency** - Does it follow existing patterns and conventions?
+
+### Questions or Issues?
+
+If you're unsure about a change or have questions, please open an issue for discussion before submitting a PR.

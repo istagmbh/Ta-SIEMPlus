@@ -1,7 +1,31 @@
 # Kunden- & Infrastruktur-Katalog (Managed SIEM)
 
-Zweck: zentraler, versionierter Katalog für operative Details.  
-**Wichtig:** Keine Secrets in diesem File. Credentials nur als Referenz auf euren Secret-Store (z.B. Vault/1Password/Keepass/Passwordstate).
+**Purpose:** Central, version-controlled catalog for operational details.  
+**Scope:** All managed Wazuh installations for customers.  
+
+**IMPORTANT SECURITY NOTICE:**  
+⚠️ **NO SECRETS IN THIS FILE!** ⚠️  
+Credentials must only be referenced as paths to your secret store (e.g., Vault/1Password/Keepass/Passwordstate).
+
+## How to Use This File
+
+1. **Adding a New Customer/Infrastructure:**
+   - Copy the YAML template at the bottom of this file
+   - Fill in all fields with actual values
+   - Replace `UNSET` placeholders with real data
+   - For secrets, use references like `vault://path/to/secret`
+   - Submit changes via Pull Request for review
+
+2. **Updating Existing Entries:**
+   - Locate the customer's YAML block
+   - Make necessary changes
+   - Update any affected runbooks or checklists
+   - Submit via Pull Request
+
+3. **Reference During Operations:**
+   - Use this catalog to find URLs, hosts, and ports during maintenance
+   - Check `change_policy` before scheduling maintenance windows
+   - Reference `secrets_ref` paths when retrieving credentials
 
 ## Schema (pro Kunde/Infrastruktur)
 

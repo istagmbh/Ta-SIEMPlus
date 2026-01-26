@@ -18,6 +18,20 @@ notes: ""
 
 # Wazuh Upgrade Checkliste – Ubuntu AIO (Central Components)
 
+**Zweck:** 1:1 Checkliste für Change-Tickets bei Wazuh Upgrades.  
+**Verwendung:** Diese Checkliste ist direkt in Change-Tickets zu kopieren und Schritt für Schritt abzuarbeiten.  
+**Detaillierte Befehle:** Siehe referenziertes Runbook: `{{runbook_ref}}`
+
+> **WICHTIG:** Fülle zuerst die Metadaten oben aus, bevor du mit der Checkliste beginnst!
+
+## Anleitung
+
+1. **Vor Beginn:** Trage alle Stammdaten im Metadaten-Block (oben) ein
+2. **Während der Durchführung:** Hake jeden Punkt ab (`[x]`) sobald erledigt
+3. **Befehle:** Verwende das Runbook für genaue Befehle - diese Checkliste ist zur Nachverfolgung, nicht für Copy/Paste von Commands
+4. **Dokumentation:** Füge Pre- und Post-Health Snapshots dem Change-Ticket bei
+5. **Bei Problemen:** Siehe Abschnitt E für Rollback-Entscheidungen
+
 > Diese Checkliste ist 1:1 für Change/Ticket gedacht.  
 > Commands stehen im Runbook: `{{runbook_ref}}`
 

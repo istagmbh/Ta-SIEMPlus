@@ -1,17 +1,22 @@
 ---
+# Metadata - Fill these values before using this template
 change_ticket: "UNSET"
 operator: "UNSET"        # "David Dutler" | "Ivan Stricker"
 customer: "UNSET"
 infrastructure: "UNSET"
-window_start: "UNSET"    # Europe/Zurich
-window_end: "UNSET"      # Europe/Zurich
+window_start: "UNSET"    # Europe/Zurich (format: YYYY-MM-DD HH:MM)
+window_end: "UNSET"      # Europe/Zurich (format: YYYY-MM-DD HH:MM)
 current_version: "UNSET"
 target_version: "UNSET"
 snapshot_id: "UNSET"
-status: "planned|in_progress|done|rolled_back"
+status: "planned"        # planned|in_progress|done|rolled_back
 ---
 
 # Change-Notiz – Wazuh Upgrade (Central Components)
+
+**Purpose:** This template standardizes change documentation for Wazuh upgrades.  
+**Usage:** Copy this template, fill in the metadata above, and complete each section during the change.  
+**Audience:** Customer notification and internal change records.
 
 ## Kontext
 - Kunde: `{{customer}}`

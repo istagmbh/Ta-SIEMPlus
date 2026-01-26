@@ -6,6 +6,21 @@
 **Version:** 1.2  
 **Änderungen:** Nur via Pull Request (Review required)
 
+## Zweck und Anwendungsbereich
+
+Dieses Runbook beschreibt den vollständigen Upgrade-Prozess für Wazuh Central Components auf einer Ubuntu All-in-One Installation.
+
+**Wann zu verwenden:**
+- Upgrade von Wazuh Indexer, Manager, Dashboard und Filebeat
+- Für Ubuntu-basierte APT-Installationen
+- Bei geplanten Wartungsfenstern (nicht für Notfall-Patches)
+
+**Wichtige Hinweise:**
+- Dieses Runbook ist auf den offiziellen Wazuh Upgrade Guide abgestimmt
+- Alle Schritte sind in der vorgegebenen Reihenfolge auszuführen
+- Weichungen vom Guide müssen dokumentiert werden
+- Verwenden Sie die zugehörige Checkliste für die Ticket-Dokumentation
+
 ## Verbindliche Referenz (Guide)
 - https://documentation.wazuh.com/current/upgrade-guide/upgrading-central-components.html
 
