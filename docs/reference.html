@@ -615,6 +615,46 @@
                         </div>
                         <div class="command-code">sudo /var/ossec/bin/wazuh-control -U -u admin -p NEUES_PASSWORT</div>
                     </div>
+
+                    <div class="command-card" onclick="copyCommand(this)">
+                        <div class="command-label">
+                            <span><span class="category-badge">Admin</span>Default Benutzernamen finden</span>
+                            <button class="copy-btn">📋</button>
+                        </div>
+                        <div class="command-code">curl -sk https://127.0.0.1:9200/_security/user -u admin:admin 2>/dev/null | grep -o '"[^"]*":' | head -5</div>
+                    </div>
+
+                    <div class="command-card" onclick="copyCommand(this)">
+                        <div class="command-label">
+                            <span><span class="category-badge">Admin</span>Wazuh Config mit Credentials</span>
+                            <button class="copy-btn">📋</button>
+                        </div>
+                        <div class="command-code">grep -r "username\|password" /etc/wazuh/credentials.yml 2>/dev/null</div>
+                    </div>
+
+                    <div class="command-card" onclick="copyCommand(this)">
+                        <div class="command-label">
+                            <span><span class="category-badge">Admin</span>Indexer Security-Config</span>
+                            <button class="copy-btn">📋</button>
+                        </div>
+                        <div class="command-code">sudo grep -i "admin_user\|admin_password" /etc/wazuh-indexer/opensearch-security/internal_users.yml</div>
+                    </div>
+
+                    <div class="command-card" onclick="copyCommand(this)">
+                        <div class="command-label">
+                            <span><span class="category-badge">Admin</span>Dashboard Env-Variablen prüfen</span>
+                            <button class="copy-btn">📋</button>
+                        </div>
+                        <div class="command-code">sudo grep -E "WAZUH_API_USER|WAZUH_API_PASSWORD|OPENSEARCH_HOSTS" /etc/wazuh-dashboard/opensearch_dashboards.yml</div>
+                    </div>
+
+                    <div class="command-card" onclick="copyCommand(this)">
+                        <div class="command-label">
+                            <span><span class="category-badge">Admin</span>SSH-Key-Reset (Root-Zugriff)</span>
+                            <button class="copy-btn">📋</button>
+                        </div>
+                        <div class="command-code">sudo su - && /usr/share/wazuh-indexer/plugins/opensearch-security/tools/wazuh-password-tool.sh -a</div>
+                    </div>
                 </div>
             </div>
         </div>
