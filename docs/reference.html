@@ -563,6 +563,60 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ADMINISTRATION COMMANDS -->
+            <div class="section">
+                <h2 class="section-title">🔐 Administration & Passwort</h2>
+                <div class="command-grid">
+                    <div class="command-card" onclick="copyCommand(this)">
+                        <div class="command-label">
+                            <span><span class="category-badge">Admin</span>Admin-Passwort zurücksetzen</span>
+                            <button class="copy-btn">📋</button>
+                        </div>
+                        <div class="command-code">sudo /usr/share/wazuh-indexer/plugins/opensearch-security/tools/wazuh-password-tool.sh</div>
+                    </div>
+
+                    <div class="command-card" onclick="copyCommand(this)">
+                        <div class="command-label">
+                            <span><span class="category-badge">Admin</span>Alle Benutzer-Passwörter reset</span>
+                            <button class="copy-btn">📋</button>
+                        </div>
+                        <div class="command-code">sudo /usr/share/wazuh-indexer/plugins/opensearch-security/tools/wazuh-password-tool.sh -a</div>
+                    </div>
+
+                    <div class="command-card" onclick="copyCommand(this)">
+                        <div class="command-label">
+                            <span><span class="category-badge">Admin</span>Spezifischer Benutzer</span>
+                            <button class="copy-btn">📋</button>
+                        </div>
+                        <div class="command-code">sudo /usr/share/wazuh-indexer/plugins/opensearch-security/tools/wazuh-password-tool.sh -u admin</div>
+                    </div>
+
+                    <div class="command-card" onclick="copyCommand(this)">
+                        <div class="command-label">
+                            <span><span class="category-badge">Admin</span>Benutzer auflisten</span>
+                            <button class="copy-btn">📋</button>
+                        </div>
+                        <div class="command-code">sudo /usr/share/wazuh-indexer/plugins/opensearch-security/tools/wazuh-password-tool.sh -l</div>
+                    </div>
+
+                    <div class="command-card" onclick="copyCommand(this)">
+                        <div class="command-label">
+                            <span><span class="category-badge">Admin</span>Dashboard API-Credentials testen</span>
+                            <button class="copy-btn">📋</button>
+                        </div>
+                        <div class="command-code">curl -sk -u admin:admin https://127.0.0.1:5601/app/wazuh -w "\nStatus: %{http_code}\n"</div>
+                    </div>
+
+                    <div class="command-card" onclick="copyCommand(this)">
+                        <div class="command-label">
+                            <span><span class="category-badge">Admin</span>Manager API-User ändern</span>
+                            <button class="copy-btn">📋</button>
+                        </div>
+                        <div class="command-code">sudo /var/ossec/bin/wazuh-control -U -u admin -p NEUES_PASSWORT</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="footer">
