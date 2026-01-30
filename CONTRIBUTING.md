@@ -1,78 +1,78 @@
-# Contributing to Ta-SIEMPlus
+# Beitragen zu Ta-SIEMPlus
 
-Thank you for contributing to the Managed SIEM (Wazuh) runbooks and checklists repository!
+Danke, dass du zum Managed SIEM (Wazuh) Runbook & Checklisten Repository beitragen möchtest!
 
-## How to Contribute
+## Wie man beiträgt
 
-All changes must be submitted via Pull Request (PR). This ensures quality control and maintains consistency across the repository.
+Alle Änderungen müssen via Pull Request (PR) eingereicht werden. Dies sichert die Qualität und erhält die Konsistenz im Repository.
 
-### Pull Request Process
+### Pull-Request-Prozess
 
-1. **Create a feature branch** from the main branch
-2. **Make your changes** following the guidelines below
-3. **Submit a Pull Request** with a clear description of what changed and why
-4. **Wait for review** - at least one reviewer must approve your PR
-5. **Address feedback** if any changes are requested
-6. **Merge** once approved
+1. **Erstelle einen Feature-Branch** vom Main-Branch
+2. **Mache deine Änderungen** nach den unten stehenden Richtlinien
+3. **Reiche einen Pull Request ein** mit klarer Beschreibung (Was? Warum?)
+4. **Warte auf Review** - mindestens ein Reviewer muss zustimmen
+5. **Behebe Feedback** falls Änderungen gefordert sind
+6. **Merge** nach Approval
 
-### Guidelines for Changes
+### Richtlinien für Änderungen
 
-#### When Modifying Runbooks
-- **Always include a reason** for the change (e.g., "Updated to reflect Wazuh 4.12.0 changes")
-- **Document any risks** introduced by the change
-- **Provide rollback instructions** if the change affects critical procedures
-- **Test commands** in a non-production environment before committing
-- **Update related checklists** if runbook steps change
+#### Beim Ändern von Runbooks
+- **Begründe jede Änderung** (z.B. „Aktualisiert für Wazuh 4.12.0 Änderungen")
+- **Dokumentiere Risiken**, die durch die Änderung entstehen
+- **Bereitschaft Rollback-Anweisungen**, wenn es kritische Prozesse beeinflusst
+- **Teste Befehle** in Non-Production vor dem Commit
+- **Aktualisiere zugehörige Checklisten**, wenn Runbook-Schritte sich ändern
 
-#### When Modifying Checklists
-- **Keep checklists and runbooks in sync** - if you change one, verify the other doesn't need updates
-- **Maintain the checkbox format** for easy tracking
-- **Don't duplicate commands** - reference the runbook instead
-- **Update version numbers** in metadata if applicable
+#### Beim Ändern von Checklisten
+- **Halte Checklisten und Runbooks synchron** – wenn du einen änderst, überprüfe den anderen
+- **Behalte das Checkbox-Format** für einfaches Tracking
+- **Dupliziere keine Befehle** – referenziere das Runbook stattdessen
+- **Aktualisiere Versionsnummern** in Metadaten, falls nötig
 
-#### When Modifying Templates
-- **Preserve placeholder format** (e.g., `{{variable_name}}`)
-- **Document new fields** added to templates
-- **Ensure backward compatibility** where possible
+#### Beim Ändern von Templates
+- **Behalte Platzhalter-Format** (z.B. `{{variable_name}}`)
+- **Dokumentiere neue Felder**, die hinzugefügt werden
+- **Gewährleiste Rückwärts-Kompatibilität**, wo möglich
 
-#### When Updating Customer Catalog
-- **Never commit secrets** - use references to your secret store (e.g., `vault://...`)
-- **Validate YAML syntax** before committing
-- **Use the provided template** for consistency
+#### Beim Aktualisieren des Kunden-Katalogs
+- **Committe NIE Secrets direkt** – verwende Referenzen zu deinem Secret-Store (z.B. `vault://...`)
+- **Validiere YAML-Syntax** vor dem Commit
+- **Nutze das bereitgestellte Template** für Konsistenz
 
-### File Naming Conventions
+### Datei-Namenskonventionen
 
-- Runbooks: `RUNBOOK_<DESCRIPTION>_<PLATFORM>.md`
-- Checklists: `CHECKLIST_<DESCRIPTION>.md`
-- Templates: `<TYPE>_TEMPLATE.md`
-- Use UPPERCASE for file names
-- Use underscores to separate words
+- Runbooks: `RUNBOOK_<BESCHREIBUNG>_<PLATFORM>.md`
+- Checklisten: `CHECKLIST_<BESCHREIBUNG>.md`
+- Templates: `<TYP>_TEMPLATE.md`
+- Verwende GROSSBUCHSTABEN für Dateinamen
+- Verwende Unterstriche zum Trennen von Wörtern
 
-### Commit Message Format
+### Commit-Nachricht-Format
 
-Use clear, descriptive commit messages:
+Verwende klare, aussagekräftige Commit-Nachrichten:
 ```
 <type>: <short description>
 
-<optional longer description>
-<optional: why this change is needed>
-<optional: reference to related issue/ticket>
+<optionale längere Beschreibung>
+<optional: Warum diese Änderung nötig ist>
+<optional: Referenz zu zugehörigem Issue/Ticket>
 ```
 
-Examples:
-- `fix: Correct indexer startup command in upgrade runbook`
-- `docs: Add missing prerequisites to AIO checklist`
-- `feat: Add new runbook for agent upgrade`
+Beispiele:
+- `fix: Korrekte Indexer-Startbefehl im Upgrade-Runbook`
+- `docs: Fehlende Voraussetzungen zur AIO-Checkliste hinzufügen`
+- `feat: Neues Runbook für Agent-Upgrade`
 
-### Code Review Standards
+### Code-Review-Standards
 
-Reviewers should check for:
-- **Accuracy** - Are commands and procedures correct?
-- **Completeness** - Are all necessary steps documented?
-- **Clarity** - Is the documentation easy to follow?
-- **Safety** - Are there appropriate warnings and rollback procedures?
-- **Consistency** - Does it follow existing patterns and conventions?
+Reviewer sollten prüfen:
+- **Genauigkeit** – Sind Befehle und Prozesse korrekt?
+- **Vollständigkeit** – Sind alle notwendigen Schritte dokumentiert?
+- **Klarheit** – Ist die Dokumentation leicht zu verstehen?
+- **Sicherheit** – Gibt es angemessene Warnungen und Rollback-Prozeduren?
+- **Konsistenz** – Folgt es bestehenden Mustern und Konventionen?
 
-### Questions or Issues?
+### Fragen oder Probleme?
 
-If you're unsure about a change or have questions, please open an issue for discussion before submitting a PR.
+Wenn du dir über eine Änderung unsicher bist oder Fragen hast, öffne bitte ein Issue zur Diskussion, bevor du einen PR einreichst.

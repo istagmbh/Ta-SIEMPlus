@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wazuh SIEM Wartungsformular</title>
+    <title>t-alpha Managed SIEM</title>
     <script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     <style>
         * {
@@ -368,13 +368,263 @@
             cursor: pointer;
             font-weight: normal;
         }
+
+        /* Metadata Setup Panel */
+        .metadata-setup-panel {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-bottom: 3px solid #764ba2;
+        }
+
+        .metadata-setup-panel h2 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .metadata-setup-panel p {
+            font-size: 14px;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .metadata-input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .metadata-input-group label {
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metadata-input-group input,
+        .metadata-input-group select {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            padding: 10px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .metadata-input-group input:focus,
+        .metadata-input-group select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+
+        .metadata-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-save-metadata {
+            background: white;
+            color: #667eea;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-save-metadata:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-load-catalog {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 24px;
+            border: 2px solid white;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-load-catalog:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .metadata-saved-indicator {
+            display: none;
+            background: rgba(76, 175, 80, 0.2);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 13px;
+            margin-top: 15px;
+            border-left: 3px solid white;
+        }
+
+        .metadata-saved-indicator.show {
+            display: block;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .metadata-summary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .metadata-summary.show {
+            display: block;
+        }
+
+        .metadata-summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 13px;
+        }
+
+        .metadata-summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .metadata-summary-label {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .metadata-summary-value {
+            text-align: right;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
+    <!-- HEADER WITH NAVIGATION -->
+    <div style="background: white; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; padding: 0; gap: 20px;">
+            <a href="index.html" style="width: 45px; height: 45px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 20px; text-decoration: none; flex-shrink: 0; margin: 12px 0 12px 30px;">tα</a>
+            <div style="display: flex; flex-direction: column; line-height: 1.2;">
+                <a href="index.html" style="text-decoration: none; color: #2c3e50;">
+                    <div style="font-size: 14px; font-weight: 600; color: #667eea;">t-alpha</div>
+                    <div style="font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 1px;">Managed SIEM</div>
+                </a>
+            </div>
+            <ul style="display: flex; list-style: none; margin: 0; padding: 0; flex: 1;">
+                <li style="border-right: 1px solid #e0e0e0;"><a href="index.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">🏠 Übersicht</a></li>
+                <li style="border-right: 1px solid #e0e0e0;"><a href="catalog.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">📚 Katalog</a></li>
+                <li style="border-right: 1px solid #e0e0e0;"><a href="maintenance-form.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #9b59b6; font-weight: 500; font-size: 13px; border-bottom: 3px solid #9b59b6; background: #f8f9fa;">🔧 Formular</a></li>
+                <li style="border-right: 1px solid #e0e0e0;"><a href="runbook.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">📖 Runbook</a></li>
+                <li style="border-right: 1px solid #e0e0e0;"><a href="checklist.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">✅ Checkliste</a></li>
+                <li><a href="reference.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">⚡ Referenz</a></li>
+            </ul>
+        </div>
+    </div>
+
     <div class="container">
         <div class="header">
             <h1>🛡️ Wazuh SIEM Wartungsformular</h1>
             <p>Schritt-für-Schritt Wartungsprozess-Guide auf Basis von Wazuh Best Practices</p>
+        </div>
+
+        <!-- Metadata Setup Panel (NEW) -->
+        <div class="metadata-setup-panel">
+            <h2>🔧 Schritt 0: Basis-Konfiguration</h2>
+            <p>Erfassen Sie zunächst die grundlegenden Metadaten. Diese Felder werden automatisch in alle Schritte übernommen:</p>
+            
+            <div class="metadata-grid">
+                <div class="metadata-input-group">
+                    <label for="meta_customer">👤 Kunde</label>
+                    <input type="text" id="meta_customer" placeholder="z.B. DeepCloud AG" />
+                </div>
+                <div class="metadata-input-group">
+                    <label for="meta_infrastructure">🏗️ Infrastruktur</label>
+                    <input type="text" id="meta_infrastructure" placeholder="z.B. SingleNode-PROD-01" />
+                </div>
+                <div class="metadata-input-group">
+                    <label for="meta_ticket">🎫 Change/Ticket-ID</label>
+                    <input type="text" id="meta_ticket" placeholder="z.B. CHG-2026-00123" />
+                </div>
+                <div class="metadata-input-group">
+                    <label for="meta_current_version">📦 Ist-Version</label>
+                    <input type="text" id="meta_current_version" placeholder="z.B. 4.11.0" />
+                </div>
+                <div class="metadata-input-group">
+                    <label for="meta_target_version">⬆️ Zielversion</label>
+                    <input type="text" id="meta_target_version" placeholder="z.B. 4.12.0" />
+                </div>
+                <div class="metadata-input-group">
+                    <label for="meta_maintenance_start">⏰ Wartungsfenster Start</label>
+                    <input type="datetime-local" id="meta_maintenance_start" />
+                </div>
+                <div class="metadata-input-group">
+                    <label for="meta_maintenance_end">⏹️ Wartungsfenster Ende</label>
+                    <input type="datetime-local" id="meta_maintenance_end" />
+                </div>
+                <div class="metadata-input-group">
+                    <label for="meta_timezone">🌍 Zeitzone</label>
+                    <select id="meta_timezone">
+                        <option value="Europe/Zurich">Europe/Zurich (Standard)</option>
+                        <option value="Europe/Berlin">Europe/Berlin</option>
+                        <option value="UTC">UTC</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="metadata-actions">
+                <button type="button" class="btn-save-metadata" onclick="saveMetadata()">
+                    ✓ Speichern & Vorausfüllen
+                </button>
+                <button type="button" class="btn-load-catalog" onclick="showCatalogLoader()">
+                    📚 Aus Katalog laden
+                </button>
+            </div>
+
+            <div class="metadata-saved-indicator" id="metadataSavedIndicator">
+                ✓ Metadaten gespeichert! Sie werden automatisch in alle Schritte übernommen.
+            </div>
+
+            <div class="metadata-summary" id="metadataSummary">
+                <div class="metadata-summary-item">
+                    <span class="metadata-summary-label">👤 Kunde:</span>
+                    <span class="metadata-summary-value" id="summary_customer">-</span>
+                </div>
+                <div class="metadata-summary-item">
+                    <span class="metadata-summary-label">🏗️ Infrastruktur:</span>
+                    <span class="metadata-summary-value" id="summary_infrastructure">-</span>
+                </div>
+                <div class="metadata-summary-item">
+                    <span class="metadata-summary-label">🎫 Ticket:</span>
+                    <span class="metadata-summary-value" id="summary_ticket">-</span>
+                </div>
+                <div class="metadata-summary-item">
+                    <span class="metadata-summary-label">📦 Upgrade:</span>
+                    <span class="metadata-summary-value" id="summary_version">-</span>
+                </div>
+            </div>
         </div>
 
         <!-- Progress Indicator -->
@@ -422,9 +672,9 @@
                         <div class="link-box">
                             <h4>📚 Referenz-Dokumente</h4>
                             <p>
-                                <a href="../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md" target="_blank">→ Runbook: Wazuh Upgrade AIO Ubuntu</a><br>
-                                <a href="../checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md" target="_blank">→ Checkliste: Wazuh Upgrade AIO</a><br>
-                                <a href="../templates/CHANGE_NOTE_TEMPLATE.md" target="_blank">→ Vorlage: Change-Notiz</a>
+                                <a href="runbook.html">→ Runbook: Wazuh Upgrade AIO Ubuntu</a><br>
+                                <a href="checklist.html">→ Checkliste: Wazuh Upgrade AIO</a><br>
+                                <a href="reference.html">→ Schnell-Referenz: Copy-Paste Befehle</a>
                             </p>
                         </div>
                         
@@ -617,7 +867,7 @@
                             <h4>📖 Arbeitsanleitung</h4>
                             <p>
                                 Folgen Sie dem Runbook für detaillierte Befehle:<br>
-                                <a href="../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md" target="_blank">→ RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md</a>
+                                <a href="runbook.html">→ Runbook: Schritt-für-Schritt Anleitung</a>
                             </p>
                         </div>
 
@@ -838,6 +1088,9 @@
             // Set default approval date to current time
             document.getElementById('approvalDate').value = localDateTime;
 
+            // Load saved metadata if available
+            loadSavedMetadata();
+
             // Rollback executed listener
             document.getElementById('rollbackExecuted').addEventListener('change', function() {
                 const detailsGroup = document.getElementById('rollbackDetailsGroup');
@@ -893,6 +1146,112 @@
             nextBtn.style.display = currentStep === totalSteps ? 'none' : 'block';
             submitBtn.style.display = currentStep === totalSteps ? 'block' : 'none';
         }
+
+        // ============================================================
+        // METADATA MANAGEMENT FUNCTIONS (NEW)
+        // ============================================================
+
+        // Save metadata to localStorage
+        function saveMetadata() {
+            const metadata = {
+                customer: document.getElementById('meta_customer').value,
+                infrastructure: document.getElementById('meta_infrastructure').value,
+                ticket: document.getElementById('meta_ticket').value,
+                currentVersion: document.getElementById('meta_current_version').value,
+                targetVersion: document.getElementById('meta_target_version').value,
+                maintenanceStart: document.getElementById('meta_maintenance_start').value,
+                maintenanceEnd: document.getElementById('meta_maintenance_end').value,
+                timezone: document.getElementById('meta_timezone').value,
+                timestamp: new Date().toISOString()
+            };
+
+            // Validate required metadata fields
+            if (!metadata.customer || !metadata.infrastructure || !metadata.ticket || !metadata.targetVersion) {
+                alert('⚠️ Bitte füllen Sie mindestens aus: Kunde, Infrastruktur, Ticket-ID und Zielversion');
+                return;
+            }
+
+            // Save to localStorage
+            localStorage.setItem('wazuh_maintenance_metadata', JSON.stringify(metadata));
+
+            // Auto-fill form fields with metadata
+            applyMetadataToForm(metadata);
+
+            // Show success indicator
+            const indicator = document.getElementById('metadataSavedIndicator');
+            indicator.classList.add('show');
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 4000);
+
+            // Show summary
+            updateMetadataSummary(metadata);
+
+            // Scroll to confirm
+            setTimeout(() => {
+                document.querySelector('.progress-container').scrollIntoView({ behavior: 'smooth' });
+            }, 300);
+        }
+
+        // Apply metadata to form fields
+        function applyMetadataToForm(metadata) {
+            // Step 1: Stammdaten
+            document.getElementById('customer').value = metadata.customer;
+            document.getElementById('infrastructure').value = metadata.infrastructure;
+            document.getElementById('ticketId').value = metadata.ticket;
+            document.getElementById('currentVersion').value = metadata.currentVersion || '';
+            document.getElementById('targetVersion').value = metadata.targetVersion;
+            
+            if (metadata.maintenanceStart) {
+                document.getElementById('startDateTime').value = metadata.maintenanceStart;
+            }
+            if (metadata.maintenanceEnd) {
+                document.getElementById('endDateTime').value = metadata.maintenanceEnd;
+            }
+
+            console.log('✓ Metadaten in Formular übernommen:', metadata);
+        }
+
+        // Update metadata summary display
+        function updateMetadataSummary(metadata) {
+            const summary = document.getElementById('metadataSummary');
+            document.getElementById('summary_customer').textContent = metadata.customer || '-';
+            document.getElementById('summary_infrastructure').textContent = metadata.infrastructure || '-';
+            document.getElementById('summary_ticket').textContent = metadata.ticket || '-';
+            document.getElementById('summary_version').textContent = 
+                `${metadata.currentVersion || '?'} → ${metadata.targetVersion || '?'}`;
+            
+            summary.classList.add('show');
+        }
+
+        // Load metadata from localStorage on page load
+        function loadSavedMetadata() {
+            const saved = localStorage.getItem('wazuh_maintenance_metadata');
+            if (saved) {
+                const metadata = JSON.parse(saved);
+                applyMetadataToForm(metadata);
+                updateMetadataSummary(metadata);
+                
+                // Restore metadata panel values
+                document.getElementById('meta_customer').value = metadata.customer || '';
+                document.getElementById('meta_infrastructure').value = metadata.infrastructure || '';
+                document.getElementById('meta_ticket').value = metadata.ticket || '';
+                document.getElementById('meta_current_version').value = metadata.currentVersion || '';
+                document.getElementById('meta_target_version').value = metadata.targetVersion || '';
+                document.getElementById('meta_maintenance_start').value = metadata.maintenanceStart || '';
+                document.getElementById('meta_maintenance_end').value = metadata.maintenanceEnd || '';
+                document.getElementById('meta_timezone').value = metadata.timezone || 'Europe/Zurich';
+            }
+        }
+
+        // Show catalog loader (placeholder for future integration)
+        function showCatalogLoader() {
+            alert('📚 Katalog-Laderinktion:\n\n1. Öffnen Sie: ../Catalog/CUSTOMERS.md\n2. Kopieren Sie die gewünschten Kundendaten\n3. Fügen Sie die Werte manuell ein oder nutzen Sie den Auto-Fill-Mechanismus\n\nFuture: Diese Funktion wird automatisch Kundendaten aus dem Katalog laden.');
+        }
+
+        // ============================================================
+        // EXISTING VALIDATION & FORM FUNCTIONS
+        // ============================================================
 
         function validateStep(step) {
             let isValid = true;
@@ -1207,5 +1566,15 @@
             }
         }
     </script>
+
+    <!-- FOOTER -->
+    <div style="background: #f8f9fa; padding: 30px 40px; border-top: 1px solid #e0e0e0; text-align: center; font-size: 12px; color: #666; margin-top: 40px;">
+        <p><strong>t-alpha Managed SIEM Service</strong></p>
+        <p>&copy; 2026 t-alpha AG | Basierend auf Wazuh Best Practices und Betriebsstandards</p>
+        <p>
+            <a href="index.html" style="color: #667eea; text-decoration: none;">← Zurück zur Übersicht</a> | 
+            <a href="https://github.com" target="_blank" style="color: #667eea; text-decoration: none;">GitHub</a>
+        </p>
+    </div>
 </body>
 </html>

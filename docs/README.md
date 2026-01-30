@@ -1,10 +1,61 @@
-# Dokumentation und Werkzeuge
+# 📚 Dokumentation und Web-Werkzeuge
 
-Dieses Verzeichnis enthält ergänzende Dokumentation und Werkzeuge für den Managed SIEM Service (Wazuh).
+Dieses Verzeichnis enthält **ergänzende Web-Dokumentation und Werkzeuge** für den Managed SIEM Service (Wazuh).
 
-## Web-basiertes Wartungsformular
+---
 
-Die Datei `maintenance-form.html` bietet eine interaktive, browserbasierte Alternative zu den markdown-basierten Runbooks und Checklisten.
+## 🎯 WICHTIG: Dokumentations-Einstiegspunkte
+
+> **🚀 Neue Benutzer:**  
+> Starten Sie **NICHT hier**, sondern öffnen Sie:  
+> → [**GETTING_STARTED.md**](../GETTING_STARTED.md) im Root-Verzeichnis  
+> → Dann: [**QUICK_REFERENCE.md**](../QUICK_REFERENCE.md) für schnelle Befehle
+
+**Alle Markdown-Dokumentationen sind im Root:**
+```
+Ta-SIEMPlus/
+├── GETTING_STARTED.md          ← 🚀 EINSTIEG (neu!)
+├── QUICK_REFERENCE.md          ← ⚡ SCHNELLE BEFEHLE (neu!)
+├── CHECKLIST_HOWTO.md          ← 📋 CHECKLISTEN (neu!)
+├── CATALOG_HOWTO.md            ← 🏗️ KATALOG (neu!)
+├── NAVIGATION.md               ← 🗺️ NAVIGATION (neu!)
+├── README.md                   ← 📖 PROJEKT-ÜBERBLICK
+└── docs/                       ← 💻 WEB-FORMULARE (diese Datei)
+```
+
+---
+
+## 💻 Web-basiertes Wartungsformular
+
+Die Datei `maintenance-form.html` bietet eine **interaktive, browserbasierte Alternative** zu den markdown-basierten Checklisten.
+
+### 🆕 Schritt 0: Metadaten-Konfigurations-Panel
+
+Das Formular hat jetzt einen **dediziertem Setup-Bereich am Anfang**:
+
+```
+🔧 Schritt 0: Basis-Konfiguration
+─────────────────────────────────
+👤 Kunde:                  [_______________]
+🏗️ Infrastruktur:           [_______________]
+🎫 Change/Ticket-ID:        [_______________]
+📦 Ist-Version:             [_______________]
+⬆️ Zielversion:             [_______________]
+⏰ Wartungsfenster Start:    [_______________]
+⏹️ Wartungsfenster Ende:     [_______________]
+🌍 Zeitzone:                [Europe/Zurich ▼]
+
+[✓ Speichern & Vorausfüllen]  [📚 Aus Katalog laden]
+```
+
+**Was passiert beim Klick auf "Speichern & Vorausfüllen":**
+1. ✅ Validierung aller Pflichtfelder
+2. 💾 Speicherung im Browser-LocalStorage (persistent)
+3. 🔄 **Automatisches Ausfüllen** aller Formular-Felder (Schritt 1–5)
+4. 📊 Anzeige einer Zusammenfassung
+5. 🎯 Automatisches Scroll zu Schritt 1
+
+→ **Dokumentation:** [WEB_FORM_METADATA_INTEGRATION.md](../WEB_FORM_METADATA_INTEGRATION.md)
 
 ### Funktionen
 
@@ -52,21 +103,32 @@ Das Formular funktioniert in allen modernen Browsern:
 
 **Hinweis**: Das Formular verwendet die jsPDF-Bibliothek von CDN (unpkg.com) zur PDF-Generierung. Eine aktive Internetverbindung ist erforderlich, damit die PDF-Generierungsfunktion funktioniert. Die Bibliothek wird client-seitig geladen und benötigt keine serverseitigen Abhängigkeiten.
 
-### Integration mit Runbooks
+### Integration mit Runbooks & Checklisten
 
-Während dieses Formular einen praktischen digitalen Workflow bietet, ergänzt es die bestehenden Markdown-Runbooks und -Checklisten, anstatt sie zu ersetzen:
+Während dieses Formular einen praktischen **digitalen Workflow** bietet, ergänzt es die bestehenden Markdown-Runbooks und -Checklisten:
 
-- **Runbooks** (`../runbooks/`): Bieten detaillierte Schritt-für-Schritt-Anleitungen
-- **Checklisten** (`../checklists/`): Bieten Copy-Paste-Vorlagen für Change-Tickets
-- **Wartungsformular**: Bietet eine geführte digitale Oberfläche für Dokumentation und PDF-Export
+| Ansatz | Dateien | Für wen | Vorteile |
+|--------|---------|--------|----------|
+| **📋 Markdown Checklisten** | `../checklists/` | Ticket-basierte Prozesse | Versionskontrolle, Git-integration, Copy-Paste |
+| **💻 Web-Formular** | `maintenance-form.html` | Schnelle digitale Erfassung | Benutzerfreundlich, PDF-Export, Browser-basiert |
+| **📚 Runbooks** | `../runbooks/` | Detaillierte Anleitungen | Detailliert, Troubleshooting, Best Practices |
 
-Verwenden Sie den Ansatz, der am besten zu Ihrem Workflow und Ihren Change-Management-Anforderungen passt.
+**→ Wähle den Ansatz, der zu deinem Workflow passt:**
+- **Ticket-System?** → Nutze Markdown Checklisten
+- **Schnelle Erfassung?** → Nutze Web-Formular
+- **Detaillierte Anleitung?** → Nutze Runbook
+
+Siehe auch: [GETTING_STARTED.md](../GETTING_STARTED.md) für alle Optionen.
 
 ## Zukünftige Verbesserungen
 
 Mögliche zukünftige Verbesserungen:
-- Auto-Speicherung im Browser Local Storage
-- Import/Export von Formulardaten als JSON
-- Integration mit Ticketing-Systemen
+- ✅ **Metadaten-Auto-Ausfüllen** (implementiert!)
+- [ ] Auto-Speicherung im Browser Local Storage (implementiert!)
+- [ ] Katalog-Integration: Kundendaten automatisch laden
+- [ ] Import/Export von Formulardaten als JSON
+- [ ] Integration mit Ticketing-Systemen
+- [ ] Versions-Verlauf (frühere Wartungen)
+
 - Zusätzliche PDF-Styling-Optionen
 - Vorbefüllen aus Checklisten-Vorlagen

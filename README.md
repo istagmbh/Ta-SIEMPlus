@@ -1,70 +1,163 @@
-# Managed SIEM – Runbooks & Checklisten (Wazuh)
+# 📋 Managed SIEM – Runbooks & Checklisten (Wazuh)
 
-Diese Sammlung standardisiert Wartungsabläufe für den Managed SIEM Service (Wazuh) und ist für den täglichen Betrieb gedacht.
-Fokus: reproduzierbar, auditierbar, operator-freundlich.
+> **Operative documentation system** für standardisierte Wazuh SIEM Wartungsabläufe.  
+> Fokus: reproduzierbar, auditierbar, operator-freundlich.
 
-## Übersicht
+---
 
-Dieses Repository enthält alle notwendigen Dokumente für die Wartung und das Upgrade von Wazuh SIEM-Installationen:
-- **Runbooks** für detaillierte Schritt-für-Schritt-Anleitungen
-- **Checklisten** für strukturierte Ticket-/Change-Verwaltung
-- **Katalog** für Kunden- und Infrastruktur-Informationen
-- **Templates** für standardisierte Kommunikation
+## 🎉 GUTE NACHRICHTEN! Repo wurde neu strukturiert! 
 
-## Struktur
+**Dieses Projekt wurde am 30. Januar 2026 komplett reorganisiert für bessere Benutzerfreundlichkeit:**
 
-- `runbooks/` – Schritt-für-Schritt Runbooks (Befehle / Reihenfolge / Triage)
-- `checklists/` – Ticket-/Change-Checklisten (1:1 abhakbar, keine doppelten Commands)
-- `Catalog/` – Kunden-/Infrastruktur-Katalog (URLs/Hosts/Referenzen)
-- `templates/` – Vorlagen für Change-Notizen / Abschlussmeldungen
-- `docs/` – Web-basierte Tools und ergänzende Dokumentation (z.B. Maintenance Form)
+✅ 5 neue Einstiegsdateien (GETTING_STARTED, QUICK_REFERENCE, etc.)  
+✅ Schritt-für-Schritt Anleitungen für alle Szenarien  
+✅ Copy-Paste freundliche Befehls-Lookups  
+✅ Visuelle Navigationskarte durch alle Dateien  
+✅ Deutsch statt English/Deutsch Gemisch  
 
-## Standardprozess
+→ **[📊 Siehe Zusammenfassung der Änderungen](RESTRUCTURING_SUMMARY.md)**
 
-1. Change/Ticket eröffnen und **Checkliste** ausfüllen (`checklists/…`)
-2. Pre-Go Gates prüfen (No-Go Regeln)
-3. Runbook ausführen (`runbooks/…`)
-4. Post-Go Abnahme dokumentieren (Health Snapshot + Versionen + Datenfluss)
-5. Abschlussmeldung an Kunden
+---
 
-## Pflege / Governance
+## 🎯 Schnelleinstieg (5 Minuten)
 
-- Änderungen nur via Pull Request
-- Review erforderlich (mind. 1 Reviewer)
-- Jede Änderung mit kurzer Begründung (Warum / Risiko / Rollback)
+**Bist du neu hier?** → Lese: [**GETTING_STARTED.md**](GETTING_STARTED.md)  
+**Du brauchst einen Befehl?** → Siehe: [**QUICK_REFERENCE.md**](QUICK_REFERENCE.md)  
+**Du willst beitragen?** → Folge: [**CONTRIBUTING.md**](CONTRIBUTING.md)
 
-## Quickstart (Operator)
+---
 
-### Für ein Wazuh Upgrade:
+## 📁 Projektstruktur
 
-1. **Vorbereitung:**
-   - Öffne `checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md`
-   - Trage alle erforderlichen Metadaten ein: `operator`, `customer`, `infrastructure`, `change_ticket`, `maintenance_window_*`, `target_version`, `snapshot_id`
-   - Lies das Runbook vorab durch, insbesondere die Voraussetzungen und No-Go-Kriterien
-   
-2. **Durchführung:**
-   - Arbeite die Checkboxen in der Checkliste Schritt für Schritt ab
-   - Für detaillierte Befehle siehe das referenzierte Runbook: `runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md`
-   - Das Runbook enthält umfassende Validierungsschritte und Troubleshooting-Hilfen
-   
-3. **Dokumentation:**
-   - Verwende `templates/CHANGE_NOTE_TEMPLATE.md` für die Abschlussmeldung
-   - Dokumentiere alle Abweichungen und Findings
-   - Stelle sicher, dass Pre- und Post-Health Snapshots im Ticket hinterlegt sind
+```
+Ta-SIEMPlus/
+│
+├── 📘 README.md                       ← Projekt-Überblick (DU BIST HIER)
+├── 🚀 GETTING_STARTED.md              ← Erste Schritte & Workflows
+├── ⚡ QUICK_REFERENCE.md              ← Schnelle Befehls-Lookups
+├── 📝 CONTRIBUTING.md                 ← Governance & Änderungen
+│
+├── 📂 runbooks/                       ← Detaillierte Schritt-für-Schritt Anleitungen
+│   ├── RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md
+│   └── RUNBOOK-TEMPLATE.md
+│
+├── 📂 checklists/                     ← Ticket-/Change-Checklisten (zur Ticket-Dokumentation)
+│   ├── CHECKLIST_WAZUH_UPGRADE_AIO.md
+│   ├── CHECKLIST_WAZUH_UPGRADE_AIO_IMPROVED.md  ← NEUE: Bessere Metadaten
+│   └── CHECKLIST-TEMPLATE.md
+│
+├── 📂 Catalog/                        ← Kunden- & Infrastruktur-Registry (YAML)
+│   └── CUSTOMERS.md
+│
+├── 📂 templates/                      ← Vorlagen für Dokumente
+│   └── CHANGE_NOTE_TEMPLATE.md
+│
+├── 📂 docs/                           ← Web-Tools & Dokumentation
+│   ├── index.html                     ← Übersichtsseite
+│   ├── maintenance-form.html          ← Digitales Wartungsformular
+│   └── README.md                      ← Dokumentation der Tools
+│
+└── 📄 LICENSE                         ← MIT License
+```
 
-4. **Bei Problemen:**
-   - Konsultiere das Troubleshooting-Kapitel im Runbook (Abschnitt 11)
-   - Bei kritischen Problemen: Rollback-Verfahren in Abschnitt 10 befolgen
+---
 
-### Für neue Kunden/Infrastruktur:
+## 🎬 Standardprozess (Typischer Workflow)
 
-1. Öffne `Catalog/CUSTOMERS.md`
-2. Kopiere das YAML-Template am Ende der Datei
-3. Fülle alle Felder aus (WICHTIG: keine Secrets direkt eintragen!)
-4. Committe die Änderung via Pull Request
+```
+1️⃣ PLANUNG
+   ├─ Change-Ticket eröffnen (Ticket-Nummer notieren)
+   ├─ Kundendaten aus Catalog/CUSTOMERS.md abrufen
+   └─ Wartungsfenster mit Kunden absprechen
 
-## Wichtige Hinweise
+2️⃣ VORBEREITUNG  
+   ├─ Checkliste kopieren: checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md
+   ├─ Metadaten ausfüllen (Operator, Customer, Versions, Ticket, Snapshot-ID)
+   └─ Pre-Go Gates prüfen (No-Go Bedingungen überprüfen!)
 
-- **Secrets-Management:** Trage NIE Passwörter oder Secrets direkt in die Dateien ein. Verwende stattdessen Referenzen zu eurem Secret-Store (z.B. `vault://...`)
-- **Versionskontrolle:** Alle Änderungen müssen via Pull Request erfolgen und werden reviewed
-- **No-Go Gates:** Beachte unbedingt die No-Go-Kriterien in den Checklisten - sie sind nicht verhandelbar!
+3️⃣ DURCHFÜHRUNG
+   ├─ Runbook konsultieren: runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md
+   ├─ Befehle aus Runbook kopieren & auf Server ausführen
+   ├─ Jeden Punkt in Checkliste abhaken ([x])
+   └─ Health Snapshots dokumentieren (pre & post)
+
+4️⃣ ABNAHME & DOKUMENTATION
+   ├─ Post-Go Checks durchführen (Abschnitt D in Checkliste)
+   ├─ Alle Findings dokumentieren
+   ├─ Change-Notiz ausfüllen: templates/CHANGE_NOTE_TEMPLATE.md
+   └─ Kunden informieren (Abschluss oder Rollback)
+
+5️⃣ ARCHIVIERUNG
+   ├─ Change-Ticket schließen
+   ├─ Health Snapshots an Ticket anhängen
+   └─ Feedback zum Runbook bei Bedarf
+```
+
+---
+
+## � WICHTIGE ANLEITUNGEN (NEU!)
+
+Du bist neu oder brauchst Hilfe? Starte hier:
+
+| **Situation** | **Datei** | **Inhalt** |
+|---|---|---|
+| 🆕 **Ich bin völlig neu** | [GETTING_STARTED.md](GETTING_STARTED.md) | Schritt-für-Schritt Anleitung für 5 Haupt-Szenarien |
+| ⚡ **Ich brauchte schnell einen Befehl** | [QUICK_REFERENCE.md](QUICK_REFERENCE.md) | Copy-Paste Befehle, Health Checks, Troubleshooting |
+| 📋 **Ich muss eine Checkliste ausfüllen** | [CHECKLIST_HOWTO.md](CHECKLIST_HOWTO.md) | Detaillierte Anleitung mit Beispielen |
+| 👤 **Ich muss einen Kunden registrieren** | [CATALOG_HOWTO.md](CATALOG_HOWTO.md) | Schritt-für-Schritt Katalog-Verwaltung |
+| 🗺️ **Ich kenne mich nicht aus** | [NAVIGATION.md](NAVIGATION.md) | Visuelle Karte durch alle Dateien |
+| 📝 **Ich möchte etwas ändern** | [CONTRIBUTING.md](CONTRIBUTING.md) | Pull Request Prozess + Richtlinien |
+
+---
+
+---
+
+## 📋 Architektur-Prinzipien
+
+### ✅ Workflow-Synchronisation
+- **Checklisten** referenzieren Runbooks (nicht duplizieren!)
+- **Runbooks** enthalten detaillierte Befehle & Troubleshooting
+- Wenn du ein Runbook änderst → aktualisiere auch die Checkliste (und umgekehrt)
+
+### 🛑 No-Go Gates (Nicht verhandelbar!)
+Folgende Bedingungen sind **STOP-Kriterien**:
+- Disk-Belegung > 90%
+- Services nicht `active (running)`
+- Keine Backup/Snapshot vorhanden
+- Change nicht genehmigt
+- Außerhalb Wartungsfenster
+
+→ Siehe Abschnitt **B)** in jeder Checkliste
+
+### 📸 Health Snapshots (Audit-Trail)
+Vor und nach jeder Änderung:
+- Versions-Status
+- Disk & Memory
+- Service-Status
+- Cluster-Health
+- Journal-Fehler
+
+→ Diese **MÜSSEN** an die Change-Ticket angehängt werden!
+
+### 🔐 Secrets Management
+**NIEMALS** Passwörter direkt in Dateien eintragen!
+```yaml
+# ✅ Richtig:
+secrets_ref:
+  password: "vault://deepcloud/wazuh/admin_password"
+
+# ❌ FALSCH (nie!):
+secrets_ref:
+  password: "MySecretPassword123!"
+```
+
+---
+
+## 🚀 Governance
+
+- **Alle Änderungen via Pull Request** (kein direktes Mergen)
+- **Minimum 1 Reviewer** pro PR
+- **Commit-Message mit Begründung** (Warum / Risiko / Rollback)
+- **Tests in Non-Production** vor dem Commit
+
+Siehe: [CONTRIBUTING.md](CONTRIBUTING.md) für Details
