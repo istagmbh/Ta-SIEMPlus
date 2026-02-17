@@ -27,7 +27,7 @@
 | **Wazuh Manager muss laufen** | Der Manager-Service muss aktiv sein | `systemctl status wazuh-manager` |
 | **Backup vor Änderungen** | Vor größeren Gruppenänderungen Backup erstellen | `tar -czf /tmp/wazuh-groups-backup-$(date +%F).tar.gz /var/ossec/etc/shared/` |
 | **Keine gleichzeitigen Änderungen** | Nur ein Administrator darf Gruppen ändern | Koordination im Team |
-| **Gültige Gruppennamen** | Nur alphanumerische Zeichen und Unterstriche erlaubt | `[a-zA-Z0-9_-]+` |
+| **Gültige Gruppennamen** | Nur alphanumerische Zeichen, Unterstriche und Bindestriche erlaubt | `[a-zA-Z0-9_-]+` |
 
 ---
 
