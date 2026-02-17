@@ -2,44 +2,77 @@
 
 > **Operative documentation system** für standardisierte Wazuh SIEM Wartungsabläufe.  
 > Fokus: reproduzierbar, auditierbar, operator-freundlich.  
-> **Hauptzugriff über Web-Formulare (HTML)**
+> **Jetzt mit MkDocs-basierter Dokumentationsseite!**
 
 ---
 
-## 🌐 WEB-FORMULARE - Hauptzugriff
+## 📚 DOKUMENTATION - Hauptzugriff
 
-**NEU: Alle Werkzeuge sind über Web-Formulare zugänglich!**
+**NEU: MkDocs-basierte Dokumentationsseite mit Versionierung!**
 
-→ **[Öffne Web-Tools](webforms/index.html)** ← **STARTE HIER**
+### 🚀 Schnellstart
 
-Die Web-Formulare bieten:
-- ✅ Interaktive Formulare für alle Prozesse
-- ✅ Automatische Befehlsgenerierung
-- ✅ Copy-Paste freundlich
-- ✅ Keine Installation notwendig
-- ✅ PDF-Export für Dokumentation
+Die Dokumentation steht in zwei Formaten zur Verfügung:
 
-**Verfügbare Web-Tools:**
-- 📚 **[Kundenkatalog](webforms/catalog.html)** - Kunden und Infrastrukturen verwalten
-- 🔧 **[Wartungsformular](webforms/maintenance-form.html)** - Wartungsplanung mit PDF-Export
-- 📖 **[Runbook](webforms/runbook.html)** - Interaktives Runbook mit Befehlen
-- ✅ **[Checkliste](webforms/checklist.html)** - Upgrade-Checkliste digital
-- 👥 **[Agentengruppen](webforms/agent-groups.html)** - Agent-Gruppen verwalten (NEU!)
-- ⚡ **[Schnell-Referenz](webforms/reference.html)** - Alle wichtigen Befehle
+1. **MkDocs Site (Empfohlen)** - Vollständig durchsuchbare, versionierte Dokumentation
+2. **Markdown-Dateien** - Direkt im Repository verfügbar
+
+### Lokale Dokumentation starten
+
+```bash
+# Mit Docker (Empfohlen)
+docker-compose up -d
+# Zugriff auf http://localhost:8080
+
+# Mit Python/MkDocs
+pip install mkdocs mkdocs-material mike
+mkdocs serve
+# Zugriff auf http://localhost:8000
+```
+
+### 📖 Dokumentationsstruktur
+
+Die Dokumentation ist nach folgenden Bereichen organisiert:
+
+- 🎯 **[Overview](docs/overview/index.md)** - Architekturprinzipien und Workflows
+- 📖 **[Runbooks](docs/runbooks/index.md)** - Detaillierte Schritt-für-Schritt-Anleitungen
+- ✅ **[Checklists](docs/checklists/index.md)** - Ticket-Templates für Change Management
+- 🔄 **[Upgrade Guides](docs/upgrade-guides/index.md)** - Versionsspezifische Upgrade-Prozeduren
+- ⚡ **[Reference](docs/reference/index.md)** - Schnelle Befehls-Lookups
+- 👥 **[Catalog](docs/catalog/index.md)** - Kunden- und Infrastruktur-Registry
+- 📝 **[Templates](docs/templates/index.md)** - Dokumentationsvorlagen
+
+### 🔄 Versionierung
+
+Die Upgrade Guides werden mit **mike** versioniert:
+
+```bash
+# Version deployen
+mike deploy 4.12 latest --update-aliases
+
+# Versionen anzeigen
+mike list
+
+# Lokal testen
+mike serve
+```
+
+Siehe [Deployment Guide](docs/reference/deployment.md) für Details.
 
 ---
 
-## 🎉 GUTE NACHRICHTEN! Repo wurde neu strukturiert! 
+## 🎉 GUTE NACHRICHTEN! Dokumentation wurde modernisiert! 
 
-**Dieses Projekt wurde am 30. Januar 2026 komplett reorganisiert für bessere Benutzerfreundlichkeit:**
+**Dieses Projekt wurde im Februar 2026 mit MkDocs modernisiert:**
 
-✅ 5 neue Einstiegsdateien (GETTING_STARTED, QUICK_REFERENCE, etc.)  
-✅ Schritt-für-Schritt Anleitungen für alle Szenarien  
-✅ Copy-Paste freundliche Befehls-Lookups  
-✅ Visuelle Navigationskarte durch alle Dateien  
-✅ Deutsch statt English/Deutsch Gemisch  
+✅ MkDocs-basierte, durchsuchbare Dokumentationsseite  
+✅ Versionierung für Upgrade Guides (mike)  
+✅ Docker-basiertes Deployment mit Nginx  
+✅ Material Design Theme mit Dark Mode  
+✅ Strukturierte Navigation durch alle Bereiche  
+✅ Bestehende Runbooks und Checklists integriert  
 
-→ **[📊 Siehe Zusammenfassung der Änderungen](RESTRUCTURING_SUMMARY.md)**
+→ **[🐳 Siehe Deployment Guide](docs/reference/deployment.md)**
 
 ---
 
@@ -56,26 +89,28 @@ Die Web-Formulare bieten:
 ```
 Ta-SIEMPlus/
 │
-├── 🌐 webforms/                        ← WEB-FORMULARE (HAUPTZUGRIFF!)
-│   ├── index.html                      ← Zentrale Übersichtsseite
-│   ├── catalog.html                    ← Kundenkatalog-Verwaltung
-│   ├── maintenance-form.html           ← Wartungsformular mit PDF-Export
-│   ├── runbook.html                    ← Interaktives Runbook
-│   ├── checklist.html                  ← Digitale Checkliste
-│   ├── agent-groups.html               ← Agentengruppen-Verwaltung (NEU!)
-│   └── reference.html                  ← Schnell-Referenz
-│
 ├── 📘 README.md                        ← Projekt-Überblick (DU BIST HIER)
 ├── 🚀 GETTING_STARTED.md               ← Erste Schritte & Workflows
 ├── ⚡ QUICK_REFERENCE.md               ← Schnelle Befehls-Lookups
 ├── 📝 CONTRIBUTING.md                  ← Governance & Änderungen
 │
+├── 📂 docs/                            ← MkDocs-Dokumentation (NEU!)
+│   ├── index.md                        ← Dokumentations-Startseite
+│   ├── overview/                       ← Architektur & Prinzipien
+│   ├── runbooks/                       ← Runbook-Index
+│   ├── checklists/                     ← Checklist-Index
+│   ├── upgrade-guides/                 ← Versionierte Upgrade-Guides
+│   │   └── 4.12/                       ← Wazuh 4.12 Upgrade Guide
+│   ├── reference/                      ← Befehls-Referenzen & Deployment
+│   ├── catalog/                        ← Katalog-Dokumentation
+│   └── templates/                      ← Template-Dokumentation
+│
 ├── 📂 runbooks/                        ← Detaillierte Schritt-für-Schritt Anleitungen
 │   ├── RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md
-│   ├── RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md  ← NEU: Agentengruppen
+│   ├── RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md
 │   └── RUNBOOK-TEMPLATE.md
 │
-├── 📂 checklists/                      ← Ticket-/Change-Checklisten (zur Ticket-Dokumentation)
+├── 📂 checklists/                      ← Ticket-/Change-Checklisten
 │   ├── CHECKLIST_WAZUH_UPGRADE_AIO.md
 │   ├── CHECKLIST_WAZUH_UPGRADE_AIO_IMPROVED.md
 │   └── CHECKLIST-TEMPLATE.md
@@ -86,7 +121,10 @@ Ta-SIEMPlus/
 ├── 📂 templates/                       ← Vorlagen für Dokumente
 │   └── CHANGE_NOTE_TEMPLATE.md
 │
-├── 📂 docs/                            ← Legacy-Dokumentation (deprecated, nutze webforms/)
+├── 🐳 Dockerfile.mkdocs                ← Docker Build für Dokumentation
+├── 🐳 docker-compose.yml               ← Docker Compose Setup
+├── 📝 mkdocs.yml                       ← MkDocs Konfiguration
+├── 🌐 nginx.conf                       ← Nginx Webserver Config
 │
 └── 📄 LICENSE                          ← MIT License
 ```
@@ -97,18 +135,18 @@ Ta-SIEMPlus/
 
 ```
 1️⃣ PLANUNG
-   ├─ Web-Formular öffnen: webforms/index.html
    ├─ Change-Ticket eröffnen (Ticket-Nummer notieren)
-   ├─ Kundendaten aus Katalog abrufen (webforms/catalog.html)
+   ├─ Kundendaten aus Katalog abrufen (Catalog/CUSTOMERS.md)
    └─ Wartungsfenster mit Kunden absprechen
 
 2️⃣ VORBEREITUNG  
-   ├─ Wartungsformular nutzen: webforms/maintenance-form.html
+   ├─ Runbook konsultieren (runbooks/*.md oder docs/runbooks/)
+   ├─ Checklist auswählen (checklists/*.md)
    ├─ Metadaten ausfüllen (Operator, Customer, Versions, Ticket, Snapshot-ID)
    └─ Pre-Go Gates prüfen (No-Go Bedingungen überprüfen!)
 
 3️⃣ DURCHFÜHRUNG
-   ├─ Runbook konsultieren: webforms/runbook.html ODER runbooks/*.md
+   ├─ Runbook Schritt für Schritt folgen
    ├─ Befehle aus Runbook kopieren & auf Server ausführen
    ├─ Jeden Punkt in Checkliste abhaken ([x])
    └─ Health Snapshots dokumentieren (pre & post)

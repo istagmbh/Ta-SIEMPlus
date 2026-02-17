@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  # MkDocs documentation site
+  docs:
+    build:
+      context: .
+      dockerfile: Dockerfile.mkdocs
+    container_name: ta-siemplus-docs
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    labels:
+      - "com.ta-siemplus.service=docs"
+      - "com.ta-siemplus.description=Ta-SIEMPlus Documentation"
+    networks:
+      - docs-network
+
+networks:
+  docs-network:
+    driver: bridge

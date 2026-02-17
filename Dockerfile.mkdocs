@@ -1,0 +1,51 @@
+# Multi-stage Dockerfile for MkDocs documentation site
+# Stage 1: Build the documentation
+FROM python:3.11-slim AS builder
+
+# Set working directory
+WORKDIR /docs
+
+# Install MkDocs and required plugins
+RUN pip install --no-cache-dir \
+    mkdocs==1.5.3 \
+    mkdocs-material==9.5.3 \
+    mike==2.0.0 \
+    pymdown-extensions==10.7
+
+# Copy documentation source
+COPY mkdocs.yml ./
+COPY docs/ ./docs/
+COPY runbooks/ ./runbooks/
+COPY checklists/ ./checklists/
+COPY Catalog/ ./Catalog/
+COPY templates/ ./templates/
+COPY README.md ./
+COPY GETTING_STARTED.md ./
+COPY CONTRIBUTING.md ./
+
+# Build the static site
+RUN mkdocs build --site-dir /site
+
+# Stage 2: Serve with Nginx
+FROM nginx:alpine
+
+# Copy custom nginx configuration
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Copy built site from builder stage
+COPY --from=builder /site /usr/share/nginx/html
+
+# Add healthcheck
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD wget --quiet --tries=1 --spider http://localhost:80/ || exit 1
+
+# Expose port
+EXPOSE 80
+
+# Labels for metadata
+LABEL maintainer="Ta-SIEMPlus Team"
+LABEL description="Ta-SIEMPlus Documentation Site"
+LABEL version="1.0"
+
+# Run nginx
+CMD ["nginx", "-g", "daemon off;"]
