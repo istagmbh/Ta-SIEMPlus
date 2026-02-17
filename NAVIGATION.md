@@ -4,6 +4,28 @@ Eine visuelle Karte durch Ta-SIEMPlus – für alle Fälle.
 
 ---
 
+## 🌐 HAUPTZUGRIFF: Web-Formulare (NEU!)
+
+> **Alle Werkzeuge sind jetzt über Web-Formulare zugänglich!**
+
+### 🚀 Start hier: [webforms/index.html](webforms/index.html)
+
+**Verfügbare Tools:**
+- 📚 **[catalog.html](webforms/catalog.html)** - Kundenkatalog verwalten
+- 🔧 **[maintenance-form.html](webforms/maintenance-form.html)** - Wartungsplanung mit PDF-Export
+- 📖 **[runbook.html](webforms/runbook.html)** - Interaktives Runbook mit Befehlen
+- ✅ **[checklist.html](webforms/checklist.html)** - Upgrade-Checkliste digital
+- 👥 **[agent-groups.html](webforms/agent-groups.html)** - Agentengruppen-Verwaltung (NEU!)
+- ⚡ **[reference.html](webforms/reference.html)** - Schnell-Referenz
+
+**Vorteile:**
+- ✅ Keine Installation notwendig
+- ✅ Interaktive Befehlsgenerierung
+- ✅ Copy-to-Clipboard Buttons
+- ✅ PDF-Export für Dokumentation
+
+---
+
 ## 🎯 WAS BRAUCHST DU? (Entscheider)
 
 ```
@@ -17,37 +39,48 @@ Eine visuelle Karte durch Ta-SIEMPlus – für alle Fälle.
 ### 1️⃣ **ICH BIN VÖLLIG NEU HIER**
    → Datei: [**GETTING_STARTED.md**](GETTING_STARTED.md)
    - ✓ Schritt-für-Schritt geführt
-   - ✓ Alle 5 Haupt-Szenarien erklärt
+   - ✓ Alle Haupt-Szenarien erklärt
    - ✓ Für absolute Anfänger geeignet
 
 ### 2️⃣ **ICH MUSS EIN WAZUH-UPGRADE DURCHFÜHREN**
-   → Datei: [**CHECKLIST_HOWTO.md**](CHECKLIST_HOWTO.md)
+   → Web-Tool: [**webforms/maintenance-form.html**](webforms/maintenance-form.html)
+   → Oder Markdown: [**CHECKLIST_HOWTO.md**](CHECKLIST_HOWTO.md)
    - ✓ Checkliste ausfüllen (mit Beispielen)
    - ✓ Metadaten sammeln
    - ✓ Schritt-für-Schritt durcharbeiten
    - Dann: [**CHECKLIST_WAZUH_UPGRADE_AIO.md**](checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md)
 
-### 3️⃣ **ICH BRAUCHE SCHNELLE BEFEHLE**
+### 3️⃣ **ICH VERWALTE AGENTENGRUPPEN (NEU!)**
+   → Web-Tool: [**webforms/agent-groups.html**](webforms/agent-groups.html)
+   → Runbook: [**runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md**](runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md)
+   - ✓ merged.mg und ar.conf erklärt
+   - ✓ agent_groups CLI Befehle
+   - ✓ Interaktive Befehlsgenerierung
+   - ✓ Best Practices
+
+### 4️⃣ **ICH BRAUCHE SCHNELLE BEFEHLE**
    → Datei: [**QUICK_REFERENCE.md**](QUICK_REFERENCE.md)
+   → Web-Tool: [**webforms/reference.html**](webforms/reference.html)
    - ✓ Alle wichtigen Commands zum Copy-Paste
    - ✓ Health Checks
    - ✓ Troubleshooting
    - ✓ Pro-Tips
 
-### 4️⃣ **ICH REGISTRIERE EINEN NEUEN KUNDEN**
-   → Datei: [**CATALOG_HOWTO.md**](CATALOG_HOWTO.md)
+### 5️⃣ **ICH REGISTRIERE EINEN NEUEN KUNDEN**
+   → Web-Tool: [**webforms/catalog.html**](webforms/catalog.html)
+   → Oder: [**CATALOG_HOWTO.md**](CATALOG_HOWTO.md)
    - ✓ Daten sammeln
    - ✓ YAML-Eintrag erstellen
    - ✓ Pull Request einreichen
 
-### 5️⃣ **ICH MÖCHTE DAS PROJEKT ÄNDERN / BEITRAGEN**
+### 6️⃣ **ICH MÖCHTE DAS PROJEKT ÄNDERN / BEITRAGEN**
    → Datei: [**CONTRIBUTING.md**](CONTRIBUTING.md)
    - ✓ Pull Request Prozess
    - ✓ Richtlinien für Runbooks/Checklisten
    - ✓ Git Workflow
    - ✓ Review Standards
 
-### 6️⃣ **ICH BRAUCHE DETAILLIERTE BEFEHLE / TROUBLESHOOTING**
+### 7️⃣ **ICH BRAUCHE DETAILLIERTE BEFEHLE / TROUBLESHOOTING**
    → Datei: [**RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md**](runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md)
    - ✓ Alle Befehle mit Erklärungen
    - ✓ Voraussetzungen & No-Go Gates
