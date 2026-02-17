@@ -130,6 +130,128 @@ systemctl status wazuh-indexer wazuh-manager wazuh-dashboard filebeat
 
 ---
 
+## 👥 Agentengruppen-Verwaltung
+
+### Datei-Locations
+```
+Web-Formular:           webforms/agent-groups.html
+Runbook:                runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md
+```
+
+### Wichtige Dateien
+
+**merged.mg** - Konsolidierte Konfiguration  
+Pfad: `/var/ossec/etc/shared/<agent-id>/merged.mg`
+- Wird vom Wazuh-Manager generiert
+- Enthält konsolidierte Konfiguration aller Gruppen eines Agents
+- Bei jeder Änderung automatisch aktualisiert und an Agent gesendet
+- Über Dashboard einsehbar, aber nicht editierbar
+
+**ar.conf** - Active Response Befehle  
+Pfad: `/var/ossec/etc/shared/<group-name>/ar.conf`
+- Liste von Befehlen für Active Response
+- Skripte/Programme für Wartung und Problembehebung
+- Service-Neustart-Anweisungen (Wazuh, OSSEC)
+- Über Dashboard einsehbar, aber nicht editierbar
+
+### Grundlegende Befehle
+
+```bash
+# Gruppe erstellen
+/var/ossec/bin/agent_groups -a -g <group-name>
+
+# Alle Gruppen auflisten
+/var/ossec/bin/agent_groups -l
+
+# Spezifische Gruppe mit Details
+/var/ossec/bin/agent_groups -l -g <group-name>
+
+# Agent zu Gruppe(n) hinzufügen
+/var/ossec/bin/agent_groups -a -i <agent-id> -g <group-name>
+
+# Agent zu mehreren Gruppen hinzufügen
+/var/ossec/bin/agent_groups -a -i <agent-id> -g <group1>,<group2>,<group3>
+
+# Agent aus Gruppe entfernen
+/var/ossec/bin/agent_groups -r -i <agent-id> -g <group-name>
+
+# Agent aus allen Gruppen entfernen
+/var/ossec/bin/agent_groups -r -i <agent-id>
+
+# Alle Agenten mit Gruppenzugehörigkeit
+/var/ossec/bin/manage_agents -l
+```
+
+### Beispiele
+
+```bash
+# Linux-Server-Gruppe erstellen
+/var/ossec/bin/agent_groups -a -g linux-servers
+
+# Agent zu Gruppe hinzufügen
+/var/ossec/bin/agent_groups -a -i 001 -g linux-servers
+
+# Agent zu mehreren Gruppen (Multi-Gruppen)
+/var/ossec/bin/agent_groups -a -i 002 -g linux-servers,web-servers,prod
+
+# Gruppe löschen (3 Schritte)
+/var/ossec/bin/agent_groups -r -g old-servers
+rm -rf /var/ossec/etc/shared/old-servers
+systemctl restart wazuh-manager
+```
+
+### Gruppenkonfiguration
+
+```bash
+# agent.conf erstellen/bearbeiten
+vi /var/ossec/etc/shared/<group-name>/agent.conf
+
+# ar.conf erstellen/bearbeiten (optional)
+vi /var/ossec/etc/shared/<group-name>/ar.conf
+
+# Konfiguration validieren
+/var/ossec/bin/wazuh-logtest-config
+
+# Manager neu laden
+systemctl restart wazuh-manager
+```
+
+### Health Checks
+
+```bash
+# Gruppen-Verzeichnisse prüfen
+ls -la /var/ossec/etc/shared/
+
+# Konfigurationsdateien finden
+find /var/ossec/etc/shared/ -name "agent.conf" -o -name "ar.conf" -o -name "merged.mg"
+
+# Manager-Logs für Gruppen-Events
+grep -i "group" /var/ossec/logs/ossec.log | tail -n 50
+
+# Agent-Verbindungsstatus
+/var/ossec/bin/agent_control -l
+
+# Agent-Synchronisation erzwingen
+/var/ossec/bin/agent_control -R <agent-id>
+```
+
+### Best Practices
+
+```bash
+# Backup vor Änderungen
+tar -czf /backup/wazuh-groups-$(date +%F).tar.gz /var/ossec/etc/shared/
+
+# Namenskonvention
+# <umgebung>-<funktion>-<location>
+# Beispiel: prod-web-servers, dev-db-servers
+
+# Multi-Gruppen nutzen
+# Basis + Funktion + Umgebung
+/var/ossec/bin/agent_groups -a -i 001 -g linux-base,web-servers,prod
+```
+
+---
+
 ## 📁 Katalog-Einträge
 
 ### Neue Infra schnell finden
