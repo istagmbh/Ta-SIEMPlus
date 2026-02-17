@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wazuh Agentengruppen-Verwaltung | t-alpha Managed SIEM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --primary-light: #667eea;
+            --accent: #9b59b6;
+            --text-dark: #2c3e50;
+            --text-light: #666;
+            --border-light: #e0e0e0;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--primary-gradient);
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        .header-top {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            padding: 0;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 45px;
+            height: 45px;
+            background: var(--primary-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 20px;
+            text-decoration: none;
+            flex-shrink: 0;
+            margin: 12px 0 12px 30px;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .logo-text a {
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .logo-text .brand {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-light);
+        }
+
+        .logo-text .subtitle {
+            font-size: 11px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex: 1;
+        }
+
+        .nav-menu li {
+            border-right: 1px solid var(--border-light);
+        }
+
+        .nav-menu li:last-child {
+            border-right: none;
+        }
+
+        .nav-menu a {
+            display: block;
+            padding: 18px 16px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background: #f8f9fa;
+            border-bottom-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .page-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .page-header p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            font-size: 22px;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-light);
+        }
+
+        .section h3 {
+            font-size: 18px;
+            color: var(--text-dark);
+            margin: 20px 0 15px 0;
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: var(--text-light);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            color: var(--primary-light);
+        }
+
+        .tab.active {
+            color: var(--primary-light);
+            border-bottom-color: var(--primary-light);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* COMMAND BOX */
+        .command-box {
+            background: #2d3436;
+            color: #dfe6e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            position: relative;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .command-box pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .command-box .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary-light);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            transition: all 0.3s;
+        }
+
+        .command-box .copy-btn:hover {
+            background: var(--accent);
+        }
+
+        /* INPUT GROUPS */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-light);
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .input-group small {
+            display: block;
+            margin-top: 5px;
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        /* BUTTONS */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background: var(--primary-light);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #229954;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        /* CARDS */
+        .card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary-light);
+        }
+
+        .card h4 {
+            font-size: 16px;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        /* INFO BOXES */
+        .info-box {
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid;
+        }
+
+        .info-box.info {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #1565c0;
+        }
+
+        .info-box.warning {
+            background: #fff3cd;
+            border-color: var(--warning);
+            color: #856404;
+        }
+
+        .info-box.success {
+            background: #d4edda;
+            border-color: var(--success);
+            color: #155724;
+        }
+
+        .info-box.danger {
+            background: #f8d7da;
+            border-color: var(--danger);
+            color: #721c24;
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table th,
+        table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 13px;
+        }
+
+        table td {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        table tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* LIST */
+        .doc-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .doc-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .doc-list li strong {
+            color: var(--text-dark);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            border-top: 1px solid var(--border-light);
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .footer p {
+            margin: 5px 0;
+        }
+
+        .footer a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                padding: 0;
+            }
+
+            .logo {
+                margin: 12px 0 12px 20px;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .nav-menu li {
+                border-right: none;
+                border-bottom: 1px solid var(--border-light);
+            }
+
+            .nav-menu a {
+                padding: 14px 20px;
+                font-size: 12px;
+            }
+
+            .page-header {
+                padding: 30px 20px;
+            }
+
+            .page-header h1 {
+                font-size: 24px;
+            }
+
+            .content {
+                padding: 25px;
+            }
+
+            .tabs {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .tab {
+                border-bottom: 1px solid var(--border-light);
+                border-left: 3px solid transparent;
+            }
+
+            .tab.active {
+                border-left-color: var(--primary-light);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER WITH NAVIGATION -->
+    <div class="header-top">
+        <div class="header-content">
+            <a href="index.html" class="logo">tα</a>
+            <div class="logo-text">
+                <a href="index.html">
+                    <div class="brand">t-alpha</div>
+                    <div class="subtitle">Managed SIEM</div>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">🏠 Übersicht</a></li>
+                <li><a href="catalog.html">📚 Katalog</a></li>
+                <li><a href="maintenance-form.html">🔧 Formular</a></li>
+                <li><a href="runbook.html">📖 Runbook</a></li>
+                <li><a href="checklist.html">✅ Checkliste</a></li>
+                <li><a href="agent-groups.html" class="active">👥 Agentengruppen</a></li>
+                <li><a href="reference.html">⚡ Referenz</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+        <div class="page-header">
+            <h1>👥 Wazuh Agentengruppen-Verwaltung</h1>
+            <p>Zentrale Verwaltung von Agent-Konfigurationen und Gruppen</p>
+        </div>
+
+        <div class="content">
+            <!-- IMPORTANT FILES INFO -->
+            <div class="section">
+                <h2>📋 Wichtige Dateien</h2>
+                
+                <div class="card">
+                    <h4>📄 merged.mg - Konsolidierte Konfiguration</h4>
+                    <p><strong>Pfad:</strong> <code>/var/ossec/etc/shared/&lt;agent-id&gt;/merged.mg</code></p>
+                    <p>
+                        Die Datei <strong>merged.mg</strong> wird vom Wazuh-Manager generiert und enthält die 
+                        <strong>konsolidierte Konfiguration</strong> aller Gruppen, denen ein Agent angehört. 
+                        Diese Datei spielt eine zentrale Rolle bei der Agent-Konfiguration.
+                    </p>
+                    <ul style="margin-left: 20px; color: var(--text-light);">
+                        <li>Wird automatisch vom Manager erstellt und aktualisiert</li>
+                        <li>Enthält zusammengeführte Konfiguration aus allen Gruppen</li>
+                        <li>Wird bei jeder Änderung neu generiert und an Agenten gesendet</li>
+                        <li>Stellt sicher, dass Agenten stets aktuelle Konfiguration erhalten</li>
+                        <li>Unterstützt automatische Wiederzuordnung nach erneuter Registrierung</li>
+                        <li>Über Dashboard einsehbar, aber <strong>nicht editierbar</strong></li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>📄 ar.conf - Active Response Befehle</h4>
+                    <p><strong>Pfad:</strong> <code>/var/ossec/etc/shared/&lt;group-name&gt;/ar.conf</code></p>
+                    <p>
+                        Die Datei <strong>ar.conf</strong> wird genutzt, um eine <strong>Liste von Befehlen</strong> 
+                        bereitzustellen, die auf den Agents innerhalb der Gruppe ausgeführt werden können.
+                    </p>
+                    <ul style="margin-left: 20px; color: var(--text-light);">
+                        <li>Enthält Befehle für Active Response</li>
+                        <li>Skripte oder Programme für Wartungsaufgaben</li>
+                        <li>Befehle zur Problembehebung</li>
+                        <li>Service-Neustart-Anweisungen (Wazuh, OSSEC) für verschiedene Betriebssysteme</li>
+                        <li>Über Dashboard einsehbar, aber <strong>nicht editierbar</strong></li>
+                    </ul>
+
+                    <div class="info-box info">
+                        <strong>💡 Beispiel ar.conf Einträge:</strong>
+                        <div class="command-box" style="margin-top: 10px;">
+                            <pre># Neustart des Wazuh-Agents (Linux)
+restart-wazuh0 - restart-wazuh - 0
+
+# Neustart des Wazuh-Agents (Windows)
+restart-wazuh-windows - restart-wazuh.exe - 0
+
+# Neustart des OSSEC-Dienstes
+restart-ossec0 - restart-ossec - 0</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>📄 agent.conf - Gruppenkonfiguration</h4>
+                    <p><strong>Pfad:</strong> <code>/var/ossec/etc/shared/&lt;group-name&gt;/agent.conf</code></p>
+                    <p>
+                        Enthält die spezifische Konfiguration für alle Agenten in dieser Gruppe.
+                        Diese Datei wird vom Administrator bearbeitet und automatisch an Agenten verteilt.
+                    </p>
+                </div>
+            </div>
+
+            <!-- TABS FOR DIFFERENT OPERATIONS -->
+            <div class="section">
+                <h2>⚙️ Kommandozeilen-Verwaltung</h2>
+                
+                <div class="info-box warning">
+                    <strong>⚠️ Wichtig:</strong> In Wazuh können Agentengruppen mit dem Kommandozeilentool 
+                    <code>agent_groups</code> verwaltet werden. Dieses Tool ermöglicht es, Gruppen zu erstellen, 
+                    Agenten zu Gruppen hinzuzufügen oder aus Gruppen zu entfernen sowie Gruppen und ihre 
+                    Mitglieder aufzulisten.
+                </div>
+
+                <div class="tabs">
+                    <button class="tab active" onclick="openTab('create')">Gruppe erstellen</button>
+                    <button class="tab" onclick="openTab('assign')">Agenten zuweisen</button>
+                    <button class="tab" onclick="openTab('list')">Gruppen auflisten</button>
+                    <button class="tab" onclick="openTab('remove')">Entfernen</button>
+                    <button class="tab" onclick="openTab('config')">Konfigurieren</button>
+                </div>
+
+                <!-- TAB: CREATE GROUP -->
+                <div id="create" class="tab-content active">
+                    <h3>Neue Agentengruppe erstellen</h3>
+                    <p>So erstellen Sie eine neue Agentengruppe:</p>
+                    
+                    <div class="command-box">
+                        <button class="copy-btn" onclick="copyCommand(this)">Kopieren</button>
+                        <pre>/var/ossec/bin/agent_groups -a -g &lt;group-name&gt;</pre>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="create-group-name">Gruppenname:</label>
+                        <input type="text" id="create-group-name" placeholder="z.B. linux-servers" 
+                               oninput="updateCreateCommand()">
+                        <small>Verwenden Sie nur alphanumerische Zeichen, Bindestriche (-) und Unterstriche (_)</small>
+                    </div>
+
+                    <div class="command-box" id="create-command-output">
+                        <button class="copy-btn" onclick="copyCommand(this)">Kopieren</button>
+                        <pre>/var/ossec/bin/agent_groups -a -g linux-servers</pre>
+                    </div>
+
+                    <h3>Beispiele:</h3>
+                    <div class="command-box">
+                        <button class="copy-btn" onclick="copyCommand(this)">Kopieren</button>
+                        <pre># Linux-Server-Gruppe
+/var/ossec/bin/agent_groups -a -g linux-servers
+
+# Web-Server-Gruppe
+/var/ossec/bin/agent_groups -a -g web-servers
+
+# Datenbank-Server-Gruppe
+/var/ossec/bin/agent_groups -a -g db-servers
+
+# Entwicklungs-Umgebung
+/var/ossec/bin/agent_groups -a -g dev-environment
+
+# Produktions-Web-Server (mit Namenskonvention)
+/var/ossec/bin/agent_groups -a -g prod-web-servers</pre>
+                    </div>
+                </div>
+
+                <!-- TAB: ASSIGN AGENTS -->
+                <div id="assign" class="tab-content">
+                    <h3>Agent zu Gruppe(n) hinzufügen</h3>
+                    
+                    <div class="info-box info">
+                        <strong>💡 Multi-Gruppen:</strong> Ein Agent kann mehreren Gruppen gleichzeitig angehören. 
+                        Die Konfigurationen werden automatisch zusammengeführt.
+                    </div>
+
+                    <div class="input-group">
+                        <label for="assign-agent-id">Agent-ID:</label>
+                        <input type="text" id="assign-agent-id" placeholder="z.B. 001" 
+                               oninput="updateAssignCommand()">
+                        <small>Die eindeutige ID des Agenten (z.B. 001, 002, 003...)</small>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="assign-groups">Gruppen (kommasepariert):</label>
+                        <input type="text" id="assign-groups" placeholder="z.B. linux-servers,web-servers" 
+                               oninput="updateAssignCommand()">
+                        <small>Eine oder mehrere Gruppen, getrennt durch Kommas (ohne Leerzeichen)</small>
+                    </div>
+
+                    <h3>Generierter Befehl:</h3>
+                    <div class="command-box" id="assign-command-output">
+                        <button class="copy-btn" onclick="copyCommand(this)">Kopieren</button>
+                        <pre>/var/ossec/bin/agent_groups -a -i 001 -g linux-servers,web-servers</pre>
+                    </div>
+
+                    <h3>Beispiele:</h3>
+                    <div class="command-box">
+                        <button class="copy-btn" onclick="copyCommand(this)">Kopieren</button>
+                        <pre># Agent 001 zur Gruppe linux-servers hinzufügen
+/var/ossec/bin/agent_groups -a -i 001 -g linux-servers
+
+# Agent 002 zu mehreren Gruppen hinzufügen
+/var/ossec/bin/agent_groups -a -i 002 -g linux-servers,web-servers
+
+# Agent 003 zu mehreren Gruppen (inkl. Umgebung)
+/var/ossec/bin/agent_groups -a -i 003 -g linux-servers,db-servers,prod-environment</pre>
+                    </div>
+                </div>
+
+                <!-- TAB: LIST GROUPS -->
+                <div id="list" class="tab-content">
+                    <h3>Gruppen und Mitglieder auflisten</h3>
+                    
+                    <h4>Alle Gruppen anzeigen:</h4>
+                    <div class="command-box">
+                        <button class="copy-btn" onclick="copyCommand(this)">Kopieren</button>
+                        <pre>/var/ossec/bin/agent_groups -l</pre>
+                    </div>
+
+                    <h4>Spezifische Gruppe mit Details:</h4>
+                    <div class="input-group">
+                        <label for="list-group-name">Gruppenname:</label>
+                        <input type="text" id="list-group-name" placeholder="z.B. linux-servers" 
+                               oninput="updateListCommand()">
+                    </div>
+
+                    <div class="command-box" id="list-command-output">
+                        <button class="copy-btn" onclick="copyCommand(this)">Kopieren</button>
+                        <pre>/var/ossec/bin/agent_groups -l -g linux-servers</pre>
+                    </div>
+
+                    <h4>Alle Agenten mit Gruppenzugehörigkeit:</h4>
+                    <div class="command-box">
+                        <button class="copy-btn" onclick="copyCommand(this)">Kopieren</button>
+                        <pre>/var/ossec/bin/manage_agents -l</pre>
+                    </div>
+
+                    <div class="info-box success">
+                        <strong>📋 Beispiel-Ausgabe:</strong>
+                        <div class="command-box" style="margin-top: 10px; background: #fff;">
+                            <pre style="color: #333;">Available agents:
+   ID: 001, Name: web-server-01, IP: 10.0.1.10, Groups: linux-servers,web-servers
+   ID: 002, Name: db-server-01, IP: 10.0.1.20, Groups: linux-servers,db-servers
+   ID: 003, Name: app-server-01, IP: 10.0.1.30, Groups: linux-servers</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: REMOVE -->
+                <div id="remove" class="tab-content">
+                    <h3>Agent aus Gruppe(n) entfernen</h3>
+                    
+                    <div class="info-box warning">
+                        <strong>⚠️ Achtung:</strong> Wenn Sie einen Agenten aus allen Gruppen entfernen, 
+                        wird er automatisch der "default"-Gruppe zugeordnet.
+                    </div>
+
+                    <h4>Agent aus einer spezifischen Gruppe entfernen:</h4>
+                    <div class="input-group">
+                        <label for="remove-agent-id">Agent-ID:</label>
+                        <input type="text" id="remove-agent-id" placeholder="z.B. 001" 
+                               oninput="updateRemoveCommand()">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="remove-group">Gruppenname:</label>
+                        <input type="text" id="remove-group" placeholder="z.B. web-servers" 
+                               oninput="updateRemoveCommand()">
+                        <small>Leer lassen, um Agent aus ALLEN Gruppen zu entfernen</small>
+                    </div>
+
+                    <div class="command-box" id="remove-command-output">
+                        <button class="copy-btn" onclick="copyCommand(this)">Kopieren</button>
+                        <pre>/var/ossec/bin/agent_groups -r -i 001 -g web-servers</pre>
+                    </div>
+
+                    <h3>Beispiele:</h3>
+                    <div class="command-box">
+                        <button class="copy-btn" onclick="copyCommand(this)">Kopieren</button>
+                        <pre># Agent 001 aus web-servers entfernen
+/var/ossec/bin/agent_groups -r -i 001 -g web-servers
+
+# Agent 003 aus ALLEN Gruppen entfernen
+/var/ossec/bin/agent_groups -r -i 003</pre>
+                    </div>
+
+                    <h3>Gruppe komplett löschen:</h3>
+                    <div class="info-box danger">
+                        <strong>🚨 Kritisch:</strong> Vor dem Löschen einer Gruppe müssen alle Agenten 
+                        aus der Gruppe entfernt werden!
+                    </div>
+
+                    <div class="command-box">
+                        <button class="copy-btn" onclick="copyCommand(this)">Kopieren</button>
+                        <pre># Schritt 1: Alle Agenten aus der Gruppe entfernen
+/var/ossec/bin/agent_groups -r -g old-servers
+
+# Schritt 2: Gruppe löschen (Verzeichnis entfernen)
+rm -rf /var/ossec/etc/shared/old-servers
+
+# Schritt 3: Manager-Cache aktualisieren
+systemctl restart wazuh-manager</pre>
+                    </div>
+                </div>
+
+                <!-- TAB: CONFIGURE -->
+                <div id="config" class="tab-content">
+                    <h3>Gruppenkonfiguration erstellen</h3>
+                    
+                    <div class="info-box info">
+                        <strong>📝 Schritte:</strong> Nach dem Erstellen einer Gruppe müssen Sie die 
+                        Konfigurationsdateien manuell bearbeiten.
+                    </div>
+
+                    <h4>1. Konfigurationsdatei erstellen/bearbeiten:</h4>
+                    <div class="command-box">
+                        <button class="copy-btn" onclick="copyCommand(this)">Kopieren</button>
+                        <pre>vi /var/ossec/etc/shared/&lt;group-name&gt;/agent.conf</pre>
+                    </div>
+
+                    <h4>2. Beispiel-Konfiguration (agent.conf):</h4>
+                    <div class="command-box">
+                        <button class="copy-btn" onclick="copyCommand(this)">Kopieren</button>
+                        <pre>&lt;agent_config&gt;
+  &lt;!-- Logging-Konfiguration --&gt;
+  &lt;localfile&gt;
+    &lt;location&gt;/var/log/syslog&lt;/location&gt;
+    &lt;log_format&gt;syslog&lt;/log_format&gt;
+  &lt;/localfile&gt;
+
+  &lt;localfile&gt;
+    &lt;location&gt;/var/log/auth.log&lt;/location&gt;
+    &lt;log_format&gt;syslog&lt;/log_format&gt;
+  &lt;/localfile&gt;
+
+  &lt;!-- Rootcheck-Konfiguration --&gt;
+  &lt;rootcheck&gt;
+    &lt;frequency&gt;43200&lt;/frequency&gt;
+  &lt;/rootcheck&gt;
+
+  &lt;!-- SCA-Konfiguration --&gt;
+  &lt;sca&gt;
+    &lt;enabled&gt;yes&lt;/enabled&gt;
+    &lt;scan_on_start&gt;yes&lt;/scan_on_start&gt;
+    &lt;interval&gt;12h&lt;/interval&gt;
+  &lt;/sca&gt;
+&lt;/agent_config&gt;</pre>
+                    </div>
+
+                    <h4>3. Active Response Commands (ar.conf) - Optional:</h4>
+                    <div class="command-box">
+                        <button class="copy-btn" onclick="copyCommand(this)">Kopieren</button>
+                        <pre>vi /var/ossec/etc/shared/&lt;group-name&gt;/ar.conf</pre>
+                    </div>
+
+                    <div class="command-box">
+                        <button class="copy-btn" onclick="copyCommand(this)">Kopieren</button>
+                        <pre># Beispiel ar.conf Inhalt
+restart-wazuh0 - restart-wazuh - 0
+firewall-block - firewall-block.sh - default-firewall-drop
+host-deny - host-deny.sh - default-ossec-deny</pre>
+                    </div>
+
+                    <h4>4. Konfiguration validieren:</h4>
+                    <div class="command-box">
+                        <button class="copy-btn" onclick="copyCommand(this)">Kopieren</button>
+                        <pre>/var/ossec/bin/wazuh-logtest-config</pre>
+                    </div>
+
+                    <h4>5. Manager neu laden:</h4>
+                    <div class="command-box">
+                        <button class="copy-btn" onclick="copyCommand(this)">Kopieren</button>
+                        <pre>systemctl restart wazuh-manager</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BEST PRACTICES -->
+            <div class="section">
+                <h2>✅ Best Practices</h2>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Bereich</th>
+                            <th>Empfehlung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Namenskonvention</strong></td>
+                            <td><code>&lt;umgebung&gt;-&lt;funktion&gt;-&lt;location&gt;</code><br>
+                                Beispiel: <code>prod-web-servers</code>, <code>dev-db-servers</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Basis-Gruppen</strong></td>
+                            <td>Erstellen Sie Basis-Gruppen für OS-Typen:<br>
+                                <code>linux-base</code>, <code>windows-base</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Multi-Gruppen</strong></td>
+                            <td>Nutzen Sie mehrere Gruppen pro Agent:<br>
+                                <code>linux-base,web-servers,prod</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Backup</strong></td>
+                            <td>Backup vor Änderungen:<br>
+                                <code>tar -czf /backup/wazuh-groups-$(date +%F).tar.gz /var/ossec/etc/shared/</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Testing</strong></td>
+                            <td>Teste Konfigurationen erst in Test-Gruppe:<br>
+                                <code>test-config</code> vor Rollout</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dokumentation</strong></td>
+                            <td>Dokumentiere Zweck, Konfiguration und Verantwortliche für jede Gruppe</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- QUICK REFERENCE -->
+            <div class="section">
+                <h2>⚡ Schnell-Referenz</h2>
+                
+                <div class="command-box">
+                    <button class="copy-btn" onclick="copyCommand(this)">Kopieren</button>
+                    <pre># === GRUNDLEGENDE BEFEHLE ===
+
+# Gruppe erstellen
+/var/ossec/bin/agent_groups -a -g &lt;group-name&gt;
+
+# Alle Gruppen auflisten
+/var/ossec/bin/agent_groups -l
+
+# Agent zu Gruppe hinzufügen
+/var/ossec/bin/agent_groups -a -i &lt;agent-id&gt; -g &lt;group-name&gt;
+
+# Agent aus Gruppe entfernen
+/var/ossec/bin/agent_groups -r -i &lt;agent-id&gt; -g &lt;group-name&gt;
+
+# Alle Agenten mit Gruppen anzeigen
+/var/ossec/bin/manage_agents -l
+
+
+# === DATEIPFADE ===
+
+# Gruppenkonfiguration
+/var/ossec/etc/shared/&lt;group-name&gt;/agent.conf
+
+# Active Response Commands
+/var/ossec/etc/shared/&lt;group-name&gt;/ar.conf
+
+# Zusammengeführte Agent-Konfiguration
+/var/ossec/etc/shared/&lt;agent-id&gt;/merged.mg
+
+
+# === HEALTH CHECKS ===
+
+# Manager-Status
+systemctl status wazuh-manager
+
+# Gruppen-Verzeichnisse prüfen
+ls -la /var/ossec/etc/shared/
+
+# Konfigurationsdateien finden
+find /var/ossec/etc/shared/ -name "agent.conf" -o -name "ar.conf"
+
+# Manager-Logs für Gruppen-Events
+grep -i "group" /var/ossec/logs/ossec.log | tail -n 50
+
+
+# === BACKUP & RESTORE ===
+
+# Backup erstellen
+tar -czf /backup/wazuh-groups-$(date +%F).tar.gz /var/ossec/etc/shared/
+
+# Restore
+tar -xzf /backup/wazuh-groups-YYYY-MM-DD.tar.gz -C /</pre>
+                </div>
+            </div>
+
+            <!-- LINK TO FULL RUNBOOK -->
+            <div class="section">
+                <div class="info-box info">
+                    <strong>📖 Vollständiges Runbook:</strong> Für detaillierte Informationen, 
+                    Troubleshooting und erweiterte Szenarien siehe:
+                    <br><br>
+                    <a href="../runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md" 
+                       style="color: var(--primary-light); font-weight: 600;">
+                        → runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p><strong>t-alpha Managed SIEM Service</strong></p>
+            <p>&copy; 2026 t-alpha AG | Wazuh Agentengruppen-Verwaltung</p>
+            <p>
+                <a href="../">← Root-Dokumentation</a> | 
+                <a href="index.html">Übersicht</a> | 
+                <a href="https://documentation.wazuh.com/" target="_blank">Wazuh Docs</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function openTab(tabName) {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // Update create command
+        function updateCreateCommand() {
+            const groupName = document.getElementById('create-group-name').value || 'linux-servers';
+            const output = document.getElementById('create-command-output');
+            output.querySelector('pre').textContent = `/var/ossec/bin/agent_groups -a -g ${groupName}`;
+        }
+
+        // Update assign command
+        function updateAssignCommand() {
+            const agentId = document.getElementById('assign-agent-id').value || '001';
+            const groups = document.getElementById('assign-groups').value || 'linux-servers,web-servers';
+            const output = document.getElementById('assign-command-output');
+            output.querySelector('pre').textContent = `/var/ossec/bin/agent_groups -a -i ${agentId} -g ${groups}`;
+        }
+
+        // Update list command
+        function updateListCommand() {
+            const groupName = document.getElementById('list-group-name').value || 'linux-servers';
+            const output = document.getElementById('list-command-output');
+            output.querySelector('pre').textContent = `/var/ossec/bin/agent_groups -l -g ${groupName}`;
+        }
+
+        // Update remove command
+        function updateRemoveCommand() {
+            const agentId = document.getElementById('remove-agent-id').value || '001';
+            const groupName = document.getElementById('remove-group').value;
+            const output = document.getElementById('remove-command-output');
+            
+            if (groupName) {
+                output.querySelector('pre').textContent = `/var/ossec/bin/agent_groups -r -i ${agentId} -g ${groupName}`;
+            } else {
+                output.querySelector('pre').textContent = `/var/ossec/bin/agent_groups -r -i ${agentId}`;
+            }
+        }
+
+        // Copy command to clipboard
+        function copyCommand(button) {
+            const commandBox = button.parentElement;
+            const command = commandBox.querySelector('pre').textContent;
+            
+            navigator.clipboard.writeText(command).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✓ Kopiert!';
+                button.style.background = 'var(--success)';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = 'var(--primary-light)';
+                }, 2000);
+            });
+        }
+
+        // Set active navigation
+        function setActiveNav() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', setActiveNav);
+    </script>
+</body>
+</html>

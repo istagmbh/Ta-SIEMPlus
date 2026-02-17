@@ -1,7 +1,31 @@
 # 📋 Managed SIEM – Runbooks & Checklisten (Wazuh)
 
 > **Operative documentation system** für standardisierte Wazuh SIEM Wartungsabläufe.  
-> Fokus: reproduzierbar, auditierbar, operator-freundlich.
+> Fokus: reproduzierbar, auditierbar, operator-freundlich.  
+> **Hauptzugriff über Web-Formulare (HTML)**
+
+---
+
+## 🌐 WEB-FORMULARE - Hauptzugriff
+
+**NEU: Alle Werkzeuge sind über Web-Formulare zugänglich!**
+
+→ **[Öffne Web-Tools](webforms/index.html)** ← **STARTE HIER**
+
+Die Web-Formulare bieten:
+- ✅ Interaktive Formulare für alle Prozesse
+- ✅ Automatische Befehlsgenerierung
+- ✅ Copy-Paste freundlich
+- ✅ Keine Installation notwendig
+- ✅ PDF-Export für Dokumentation
+
+**Verfügbare Web-Tools:**
+- 📚 **[Kundenkatalog](webforms/catalog.html)** - Kunden und Infrastrukturen verwalten
+- 🔧 **[Wartungsformular](webforms/maintenance-form.html)** - Wartungsplanung mit PDF-Export
+- 📖 **[Runbook](webforms/runbook.html)** - Interaktives Runbook mit Befehlen
+- ✅ **[Checkliste](webforms/checklist.html)** - Upgrade-Checkliste digital
+- 👥 **[Agentengruppen](webforms/agent-groups.html)** - Agent-Gruppen verwalten (NEU!)
+- ⚡ **[Schnell-Referenz](webforms/reference.html)** - Alle wichtigen Befehle
 
 ---
 
@@ -32,32 +56,39 @@
 ```
 Ta-SIEMPlus/
 │
-├── 📘 README.md                       ← Projekt-Überblick (DU BIST HIER)
-├── 🚀 GETTING_STARTED.md              ← Erste Schritte & Workflows
-├── ⚡ QUICK_REFERENCE.md              ← Schnelle Befehls-Lookups
-├── 📝 CONTRIBUTING.md                 ← Governance & Änderungen
+├── 🌐 webforms/                        ← WEB-FORMULARE (HAUPTZUGRIFF!)
+│   ├── index.html                      ← Zentrale Übersichtsseite
+│   ├── catalog.html                    ← Kundenkatalog-Verwaltung
+│   ├── maintenance-form.html           ← Wartungsformular mit PDF-Export
+│   ├── runbook.html                    ← Interaktives Runbook
+│   ├── checklist.html                  ← Digitale Checkliste
+│   ├── agent-groups.html               ← Agentengruppen-Verwaltung (NEU!)
+│   └── reference.html                  ← Schnell-Referenz
 │
-├── 📂 runbooks/                       ← Detaillierte Schritt-für-Schritt Anleitungen
+├── 📘 README.md                        ← Projekt-Überblick (DU BIST HIER)
+├── 🚀 GETTING_STARTED.md               ← Erste Schritte & Workflows
+├── ⚡ QUICK_REFERENCE.md               ← Schnelle Befehls-Lookups
+├── 📝 CONTRIBUTING.md                  ← Governance & Änderungen
+│
+├── 📂 runbooks/                        ← Detaillierte Schritt-für-Schritt Anleitungen
 │   ├── RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md
+│   ├── RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md  ← NEU: Agentengruppen
 │   └── RUNBOOK-TEMPLATE.md
 │
-├── 📂 checklists/                     ← Ticket-/Change-Checklisten (zur Ticket-Dokumentation)
+├── 📂 checklists/                      ← Ticket-/Change-Checklisten (zur Ticket-Dokumentation)
 │   ├── CHECKLIST_WAZUH_UPGRADE_AIO.md
-│   ├── CHECKLIST_WAZUH_UPGRADE_AIO_IMPROVED.md  ← NEUE: Bessere Metadaten
+│   ├── CHECKLIST_WAZUH_UPGRADE_AIO_IMPROVED.md
 │   └── CHECKLIST-TEMPLATE.md
 │
-├── 📂 Catalog/                        ← Kunden- & Infrastruktur-Registry (YAML)
+├── 📂 Catalog/                         ← Kunden- & Infrastruktur-Registry (YAML)
 │   └── CUSTOMERS.md
 │
-├── 📂 templates/                      ← Vorlagen für Dokumente
+├── 📂 templates/                       ← Vorlagen für Dokumente
 │   └── CHANGE_NOTE_TEMPLATE.md
 │
-├── 📂 docs/                           ← Web-Tools & Dokumentation
-│   ├── index.html                     ← Übersichtsseite
-│   ├── maintenance-form.html          ← Digitales Wartungsformular
-│   └── README.md                      ← Dokumentation der Tools
+├── 📂 docs/                            ← Legacy-Dokumentation (deprecated, nutze webforms/)
 │
-└── 📄 LICENSE                         ← MIT License
+└── 📄 LICENSE                          ← MIT License
 ```
 
 ---
@@ -66,23 +97,24 @@ Ta-SIEMPlus/
 
 ```
 1️⃣ PLANUNG
+   ├─ Web-Formular öffnen: webforms/index.html
    ├─ Change-Ticket eröffnen (Ticket-Nummer notieren)
-   ├─ Kundendaten aus Catalog/CUSTOMERS.md abrufen
+   ├─ Kundendaten aus Katalog abrufen (webforms/catalog.html)
    └─ Wartungsfenster mit Kunden absprechen
 
 2️⃣ VORBEREITUNG  
-   ├─ Checkliste kopieren: checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md
+   ├─ Wartungsformular nutzen: webforms/maintenance-form.html
    ├─ Metadaten ausfüllen (Operator, Customer, Versions, Ticket, Snapshot-ID)
    └─ Pre-Go Gates prüfen (No-Go Bedingungen überprüfen!)
 
 3️⃣ DURCHFÜHRUNG
-   ├─ Runbook konsultieren: runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md
+   ├─ Runbook konsultieren: webforms/runbook.html ODER runbooks/*.md
    ├─ Befehle aus Runbook kopieren & auf Server ausführen
    ├─ Jeden Punkt in Checkliste abhaken ([x])
    └─ Health Snapshots dokumentieren (pre & post)
 
 4️⃣ ABNAHME & DOKUMENTATION
-   ├─ Post-Go Checks durchführen (Abschnitt D in Checkliste)
+   ├─ Post-Go Checks durchführen
    ├─ Alle Findings dokumentieren
    ├─ Change-Notiz ausfüllen: templates/CHANGE_NOTE_TEMPLATE.md
    └─ Kunden informieren (Abschluss oder Rollback)

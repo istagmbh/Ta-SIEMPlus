@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>t-alpha Managed SIEM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .nav-bar {
+            background: white;
+            padding: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 0;
+        }
+
+        .nav-bar a {
+            flex: 1;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #667eea;
+            border-bottom: 3px solid transparent;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-bar a:hover,
+        .nav-bar a.active {
+            background: #f8f9fa;
+            border-bottom-color: #667eea;
+            color: #764ba2;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .subsection {
+            margin-top: 25px;
+            margin-left: 20px;
+            padding-left: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .subsection h3 {
+            font-size: 18px;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .command-block {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .command-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #764ba2;
+            transform: scale(1.05);
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .danger {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .checklist {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .checklist li {
+            list-style: none;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .checklist input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .toc {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .toc h3 {
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .toc a {
+            display: block;
+            padding: 8px 0;
+            color: #667eea;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+        }
+
+        .toc a:hover {
+            color: #764ba2;
+            font-weight: 600;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: 600;
+            margin-right: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-bar {
+                flex-wrap: wrap;
+            }
+
+            .nav-bar a {
+                flex: 1 1 50%;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER WITH NAVIGATION -->
+    <div style="background: white; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; padding: 0; gap: 20px;">
+            <a href="index.html" style="width: 45px; height: 45px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 20px; text-decoration: none; flex-shrink: 0; margin: 12px 0 12px 30px;">tα</a>
+            <div style="display: flex; flex-direction: column; line-height: 1.2;">
+                <a href="index.html" style="text-decoration: none; color: #2c3e50;">
+                    <div style="font-size: 14px; font-weight: 600; color: #667eea;">t-alpha</div>
+                    <div style="font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 1px;">Managed SIEM</div>
+                </a>
+            </div>
+            <ul style="display: flex; list-style: none; margin: 0; padding: 0; flex: 1;">
+                <li style="border-right: 1px solid #e0e0e0;"><a href="index.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">🏠 Übersicht</a></li>
+                <li style="border-right: 1px solid #e0e0e0;"><a href="catalog.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">📚 Katalog</a></li>
+                <li style="border-right: 1px solid #e0e0e0;"><a href="maintenance-form.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">🔧 Formular</a></li>
+                <li style="border-right: 1px solid #e0e0e0;"><a href="runbook.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #9b59b6; font-weight: 500; font-size: 13px; border-bottom: 3px solid #9b59b6; background: #f8f9fa;">📖 Runbook</a></li>
+                <li style="border-right: 1px solid #e0e0e0;"><a href="checklist.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">✅ Checkliste</a></li>
+                <li><a href="reference.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">⚡ Referenz</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="header">
+        <h1>📖 Wazuh Upgrade Runbook</h1>
+        <p>Detaillierte Schritt-für-Schritt Anleitung für Wazuh AIO Ubuntu Upgrades</p>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <!-- Inhaltsverzeichnis -->
+            <div class="toc">
+                <h3>📑 Inhaltsverzeichnis</h3>
+                <a href="#section0">0) Nicht verhandelbare Regeln (No-Go Gates)</a>
+                <a href="#section1">1) Vorbereitung & Health Snapshot</a>
+                <a href="#section2">2) Wazuh-Indexer aktualisieren</a>
+                <a href="#section3">3) Wazuh-Manager aktualisieren</a>
+                <a href="#section4">4) Wazuh-Dashboard aktualisieren</a>
+                <a href="#section5">5) Filebeat aktualisieren</a>
+                <a href="#section6">6) Validierung & Post-Checks</a>
+                <a href="#section7">7) Bekannte Probleme & Lösungen</a>
+            </div>
+
+            <!-- Section 0 -->
+            <div class="section" id="section0">
+                <h2 class="section-title"><span class="step-number">0</span>Nicht verhandelbare Regeln (No-Go Gates)</h2>
+                
+                <div class="danger">
+                    ⚠️ STOPP! Diese Regeln MÜSSEN eingehalten werden:
+                </div>
+
+                <div class="checklist">
+                    <ul>
+                        <li><input type="checkbox"> <strong>Disk-Nutzung < 85%</strong> (No-Go wenn > 90%). Freuen Sie Speicherplatz: <code>df -h</code></li>
+                        <li><input type="checkbox"> <strong>Alle Services laufen</strong>: wazuh-indexer, wazuh-manager, wazuh-dashboard, filebeat alle <code>active (running)</code></li>
+                        <li><input type="checkbox"> <strong>Snapshot/Backup existiert</strong> und wurde verifiziert</li>
+                        <li><input type="checkbox"> <strong>Change-Ticket genehmigt</strong> (CHG-XXXX-XXXXX)</li>
+                        <li><input type="checkbox"> <strong>Manager-Version ≥ Agent-Versionen</strong> (Upgrade-Reihenfolge!)</li>
+                        <li><input type="checkbox"> <strong>Wartungsfenster kommuniziert</strong> an alle Stakeholder</li>
+                    </ul>
+                </div>
+
+                <div class="info">
+                    💡 Wenn EINE dieser Bedingung nicht erfüllt ist: <strong>UPGRADE VERSCHIEBEN!</strong>
+                </div>
+            </div>
+
+            <!-- Section 1 -->
+            <div class="section" id="section1">
+                <h2 class="section-title"><span class="step-number">1</span>Vorbereitung & Health Snapshot</h2>
+                
+                <div class="subsection">
+                    <h3>1.1 System-Informationen erfassen (Pre-Upgrade Snapshot)</h3>
+                    <p>Führe folgende Befehle aus und speichere die Ausgabe:</p>
+
+                    <div class="command-block">
+                        <div class="command-label">Datum & Uptime</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>date && uptime</code>
+                    </div>
+
+                    <div class="command-block">
+                        <div class="command-label">Disk & Memory Status</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>df -h && free -h</code>
+                    </div>
+
+                    <div class="command-block">
+                        <div class="command-label">Service Status (vor Upgrade)</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>systemctl status wazuh-indexer wazuh-manager wazuh-dashboard filebeat</code>
+                    </div>
+
+                    <div class="command-block">
+                        <div class="command-label">Package Versionen</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>dpkg -l | grep -E 'wazuh-(indexer|manager|dashboard)|filebeat'</code>
+                    </div>
+
+                    <div class="command-block">
+                        <div class="command-label">Cluster Health (Indexer)</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>curl -sk -u admin:admin https://127.0.0.1:9200/_cluster/health?pretty</code>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>1.2 Snapshot/Backup erstellen</h3>
+                    <p>Erstelle einen Snapshot vor dem Upgrade (für Rollback):</p>
+
+                    <div class="command-block">
+                        <div class="command-label">Snapshot-ID generieren</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>SNAPSHOT_ID="wazuh-upgrade-$(date +%Y%m%d-%H%M%S)" && echo "Snapshot: $SNAPSHOT_ID"</code>
+                    </div>
+
+                    <div class="note">
+                        📝 <strong>Notiz:</strong> Speichere die SNAPSHOT_ID: <input type="text" placeholder="z.B. wazuh-upgrade-20260130-140000" style="width: 250px; padding: 5px;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2 -->
+            <div class="section" id="section2">
+                <h2 class="section-title"><span class="step-number">2</span>Wazuh-Indexer aktualisieren</h2>
+                
+                <div class="subsection">
+                    <h3>2.1 Repository aktualisieren & Paket prüfen</h3>
+
+                    <div class="command-block">
+                        <div class="command-label">APT-Cache aktualisieren</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>sudo apt-get update</code>
+                    </div>
+
+                    <div class="command-block">
+                        <div class="command-label">Verfügbare Wazuh-Indexer Version prüfen</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>apt-cache policy wazuh-indexer</code>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>2.2 Upgrade durchführen</h3>
+
+                    <div class="command-block">
+                        <div class="command-label">Wazuh-Indexer upgraden (z.B. zu 4.12.0)</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>sudo apt-get install -y wazuh-indexer=4.12.0-1~focal</code>
+                    </div>
+
+                    <div class="info">
+                        💡 Ersetze <code>4.12.0</code> mit deiner Zielversion und <code>focal</code> mit deiner Ubuntu-Version (focal, jammy, etc.)
+                    </div>
+
+                    <div class="command-block">
+                        <div class="command-label">Service neu starten</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>sudo systemctl restart wazuh-indexer</code>
+                    </div>
+
+                    <div class="command-block">
+                        <div class="command-label">Service-Status prüfen</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>sudo systemctl status wazuh-indexer</code>
+                    </div>
+
+                    <div class="command-block">
+                        <div class="command-label">Cluster Health erneut prüfen (warten bis green)</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>curl -sk -u admin:admin https://127.0.0.1:9200/_cluster/health?pretty</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3 -->
+            <div class="section" id="section3">
+                <h2 class="section-title"><span class="step-number">3</span>Wazuh-Manager aktualisieren</h2>
+                
+                <div class="subsection">
+                    <h3>3.1 Manager-Upgrade</h3>
+
+                    <div class="command-block">
+                        <div class="command-label">Wazuh-Manager upgraden</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>sudo apt-get install -y wazuh-manager=4.12.0-1~focal</code>
+                    </div>
+
+                    <div class="command-block">
+                        <div class="command-label">Service neu starten</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>sudo systemctl restart wazuh-manager</code>
+                    </div>
+
+                    <div class="command-block">
+                        <div class="command-label">Status prüfen (mit Wartezeit)</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>sleep 30 && sudo systemctl status wazuh-manager</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4 -->
+            <div class="section" id="section4">
+                <h2 class="section-title"><span class="step-number">4</span>Wazuh-Dashboard aktualisieren</h2>
+                
+                <div class="command-block">
+                    <div class="command-label">Dashboard upgraden</div>
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                    <code>sudo apt-get install -y wazuh-dashboard=4.12.0-1~focal</code>
+                </div>
+
+                <div class="command-block">
+                    <div class="command-label">Service neu starten</div>
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                    <code>sudo systemctl restart wazuh-dashboard</code>
+                </div>
+
+                <div class="command-block">
+                    <div class="command-label">Warten & Status prüfen</div>
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                    <code>sleep 30 && curl -sk https://127.0.0.1:5601 -w "\nStatus: %{http_code}\n"</code>
+                </div>
+            </div>
+
+            <!-- Section 5 -->
+            <div class="section" id="section5">
+                <h2 class="section-title"><span class="step-number">5</span>Filebeat aktualisieren</h2>
+                
+                <div class="command-block">
+                    <div class="command-label">Filebeat upgraden</div>
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                    <code>sudo apt-get install -y filebeat=8.10.2-1~focal</code>
+                </div>
+
+                <div class="command-block">
+                    <div class="command-label">Service neu starten</div>
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                    <code>sudo systemctl restart filebeat</code>
+                </div>
+
+                <div class="command-block">
+                    <div class="command-label">Status prüfen</div>
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                    <code>sudo systemctl status filebeat</code>
+                </div>
+            </div>
+
+            <!-- Section 6 -->
+            <div class="section" id="section6">
+                <h2 class="section-title"><span class="step-number">6</span>Validierung & Post-Checks</h2>
+                
+                <div class="subsection">
+                    <h3>6.1 Alle Services prüfen</h3>
+
+                    <div class="command-block">
+                        <div class="command-label">Service-Status übersicht</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>systemctl status wazuh-indexer wazuh-manager wazuh-dashboard filebeat</code>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>6.2 Versionen prüfen</h3>
+
+                    <div class="command-block">
+                        <div class="command-label">Alle Paketversionen anzeigen</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>dpkg -l | grep -E 'wazuh-(indexer|manager|dashboard)|filebeat'</code>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>6.3 Cluster Health überprüfen</h3>
+
+                    <div class="command-block">
+                        <div class="command-label">Cluster Health Status</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>curl -sk -u admin:admin https://127.0.0.1:9200/_cluster/health?pretty</code>
+                    </div>
+
+                    <div class="info">
+                        ✅ Erwartet: <code>"status": "green"</code> und <code>"active_shards_percent_as_number": 100.0</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 7 -->
+            <div class="section" id="section7">
+                <h2 class="section-title"><span class="step-number">7</span>Bekannte Probleme & Lösungen</h2>
+                
+                <div class="subsection">
+                    <h3>Problem: Indexer bleibt "yellow" status</h3>
+                    <p><strong>Symptom:</strong> <code>"status": "yellow"</code> in Cluster Health</p>
+                    <p><strong>Lösung:</strong></p>
+                    <div class="command-block">
+                        <div class="command-label">Warten (indexer braucht Zeit)</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>sleep 60 && curl -sk -u admin:admin https://127.0.0.1:9200/_cluster/health?pretty</code>
+                    </div>
+                    <p>Falls immer noch yellow: Überprüfe Disk-Speicher (<code>df -h</code>)</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>Problem: Manager zeigt error logs</h3>
+                    <p><strong>Symptom:</strong> Fehler im systemd-journal</p>
+                    <p><strong>Lösung:</strong></p>
+                    <div class="command-block">
+                        <div class="command-label">Letzte 50 Fehler anzeigen</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>journalctl -u wazuh-manager -n 50 --no-pager -p err</code>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Problem: Filebeat kann sich nicht verbinden</h3>
+                    <p><strong>Symptom:</strong> Filebeat zeigt connection refused</p>
+                    <p><strong>Lösung:</strong></p>
+                    <div class="command-block">
+                        <div class="command-label">Manager-API prüfen</div>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Kopieren</button>
+                        <code>curl -sk https://127.0.0.1:55000 -w "\nStatus: %{http_code}\n" 2>&1 | head -1</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Abschluss -->
+            <div class="section">
+                <h2 class="section-title">✅ Upgrade Abgeschlossen!</h2>
+                <div class="info">
+                    <strong>Gratulation!</strong> Das Upgrade wurde erfolgreich abgeschlossen.
+                    <br><br>
+                    Nächste Schritte:
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>📝 Alle Snapshots speichern (Pre + Post Health Snapshot)</li>
+                        <li>🎫 Change-Ticket aktualisieren mit Ergebnissen</li>
+                        <li>📢 Kundenbenachrichtigung senden</li>
+                        <li>🔍 Agents prüfen (sollten auch upgraden, wenn notwendig)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div style="background: #f8f9fa; padding: 30px 40px; border-top: 1px solid #e0e0e0; text-align: center; font-size: 12px; color: #666;">
+                <p><strong>t-alpha Managed SIEM Service</strong></p>
+                <p>&copy; 2026 t-alpha AG | Basierend auf Wazuh Best Practices und Betriebsstandards</p>
+                <p>
+                    <a href="index.html" style="color: #667eea; text-decoration: none;">← Zurück zur Übersicht</a> | 
+                    <a href="https://github.com" target="_blank" style="color: #667eea; text-decoration: none;">GitHub</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(button) {
+            const commandBlock = button.closest('.command-block');
+            const code = commandBlock.querySelector('code');
+            const text = code.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✓ Kopiert!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            }).catch(() => {
+                alert('Fehler beim Kopieren');
+            });
+        }
+    </script>
+</body>
+</html>

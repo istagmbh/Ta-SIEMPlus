@@ -4,19 +4,36 @@
 
 ---
 
+## 🌐 Wichtig: Web-Formulare als Hauptzugriff
+
+**Alle Werkzeuge sind jetzt über Web-Formulare zugänglich!**
+
+→ **[Öffne Web-Tools](webforms/index.html)** ← **STARTE HIER**
+
+Die Web-Formulare bieten:
+- ✅ Interaktive Bedienung ohne Markdown-Kenntnisse
+- ✅ Automatische Befehlsgenerierung
+- ✅ Copy-Paste freundliche Kommandos
+- ✅ PDF-Export für Dokumentation
+- ✅ Keine Installation oder Setup notwendig
+
+---
+
 ## ❓ Was Brauchst Du?
 
 Klicke auf dein Szenario, um die richtige Anleitung zu finden:
 
 ### 1️⃣ **Ich führe ein Wazuh-Upgrade durch** → [👉 Upgrade-Prozess](#upgrade-durchführen)
 
-### 2️⃣ **Ich registriere einen neuen Kunden** → [👉 Kundeneintrag erstellen](#neuer-kunde)
+### 2️⃣ **Ich verwalte Agentengruppen** → [👉 Agentengruppen](#agentengruppen-verwalten)
 
-### 3️⃣ **Ich habe ein Problem beim Upgrade** → [👉 Troubleshooting](#troubleshooting)
+### 3️⃣ **Ich registriere einen neuen Kunden** → [👉 Kundeneintrag erstellen](#neuer-kunde)
 
-### 4️⃣ **Ich möchte ein Runbook/eine Checkliste ändern** → [👉 Beitragen](#contribution)
+### 4️⃣ **Ich habe ein Problem beim Upgrade** → [👉 Troubleshooting](#troubleshooting)
 
-### 5️⃣ **Ich bin neu und will das Projekt verstehen** → [👉 Überblick](#überblick)
+### 5️⃣ **Ich möchte ein Runbook/eine Checkliste ändern** → [👉 Beitragen](#contribution)
+
+### 6️⃣ **Ich bin neu und will das Projekt verstehen** → [👉 Überblick](#überblick)
 
 ---
 
@@ -26,19 +43,21 @@ Klicke auf dein Szenario, um die richtige Anleitung zu finden:
 
 Du kannst einen Upgrade **2 Wege** dokumentieren:
 
-#### **Weg A: Markdown Checkliste (Empfohlen für Ticket-Systeme)**
+#### **Weg A: Web-Formular (Empfohlen - Schnell & Digital)**
+- Öffne das interaktive Formular im Browser
+- Fülle Felder aus, generiere Befehle
+- Exportiere als PDF für Dokumentation
+- Keine Installation nötig
+- **Datei:** [webforms/maintenance-form.html](webforms/maintenance-form.html)
+- **Runbook:** [webforms/runbook.html](webforms/runbook.html)
+
+#### **Weg B: Markdown Checkliste (Für Ticket-Systeme)**
 - Kopiere die Checkliste direkt ins Change-Ticket
 - Arbeite Schritt-für-Schritt ab
 - Versionskontrolle via Git
-- **Datei:** [CHECKLIST_WAZUH_UPGRADE_AIO.md](checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md)
+- **Datei:** [checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md](checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md)
 
-#### **Weg B: Web-Formular (Schnelle digitale Erfassung)**
-- Öffne das interaktive Formular im Browser
-- Fülle Felder aus, generiere PDF
-- Keine Installation nötig
-- **Datei:** [docs/maintenance-form.html](docs/maintenance-form.html)
-
-→ **Wir empfehlen: Weg A** (Markdown) für bessere Nachverfolgung.
+→ **Wir empfehlen: Weg A** (Web-Formular) für schnellere Erfassung und bessere Bedienbarkeit.
 
 ---
 
@@ -141,6 +160,67 @@ Wenn etwas schiefgeht:
 2. Folge den Rollback-Anweisungen
 3. **Dokumentiere was schief ging** im Change-Ticket
 4. Erstelle ein Incident-Ticket
+
+---
+
+## 👥 AGENTENGRUPPEN-VERWALTEN
+
+### Was sind Agentengruppen?
+
+Wazuh Agentengruppen ermöglichen die **zentrale Verwaltung** von Agent-Konfigurationen. 
+Agenten können einer oder mehreren Gruppen zugeordnet werden und erhalten automatisch 
+die kombinierten Konfigurationen aller Gruppen.
+
+### Wichtige Dateien verstehen
+
+**merged.mg** - Die konsolidierte Konfiguration:
+- Wird automatisch vom Wazuh-Manager generiert
+- Enthält die zusammengeführte Konfiguration aller Gruppen eines Agents
+- Bei jeder Änderung automatisch aktualisiert und an den Agent gesendet
+- Über Dashboard einsehbar, aber **nicht editierbar**
+- Pfad: `/var/ossec/etc/shared/<agent-id>/merged.mg`
+
+**ar.conf** - Active Response Befehle:
+- Liste von Befehlen für Wartungsaufgaben und Problembehebung
+- Enthält Anweisungen für Service-Neustarts (Wazuh, OSSEC) auf verschiedenen OS
+- Über Dashboard einsehbar, aber **nicht editierbar**
+- Pfad: `/var/ossec/etc/shared/<group-name>/ar.conf`
+
+### Schnellstart
+
+**1. Web-Formular öffnen (Empfohlen):**
+```
+Öffne: webforms/agent-groups.html
+```
+
+Das Web-Formular bietet:
+- ✅ Interaktive Befehlsgenerierung
+- ✅ Copy-Paste freundliche Kommandos
+- ✅ Erklärungen zu merged.mg und ar.conf
+- ✅ Beispiele für alle gängigen Operationen
+
+**2. Oder nutze die Kommandozeile direkt:**
+
+```bash
+# Gruppe erstellen
+/var/ossec/bin/agent_groups -a -g linux-servers
+
+# Agent zu Gruppe hinzufügen
+/var/ossec/bin/agent_groups -a -i 001 -g linux-servers
+
+# Alle Gruppen auflisten
+/var/ossec/bin/agent_groups -l
+
+# Agent zu mehreren Gruppen (Multi-Gruppen)
+/var/ossec/bin/agent_groups -a -i 002 -g linux-servers,web-servers,prod
+```
+
+### Detaillierte Dokumentation
+
+**Für mehr Details:**
+- **Web-Tool:** [webforms/agent-groups.html](webforms/agent-groups.html) - Interaktives Formular
+- **Runbook:** [runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md](runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md) - Vollständige Dokumentation
+- **Quick Reference:** [QUICK_REFERENCE.md](QUICK_REFERENCE.md) - Alle Befehle auf einen Blick
 
 ---
 

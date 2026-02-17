@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>t-alpha Managed SIEM</title>
+    <script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Progress Indicator */
+        .progress-container {
+            background: #f8f9fa;
+            padding: 20px 40px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .progress-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .progress-step .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            color: #666;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .progress-step.active .step-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .progress-step.completed .step-number {
+            background: #27ae60;
+            color: white;
+        }
+
+        .progress-step .step-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .progress-step.active .step-label {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e0e0e0;
+            z-index: 1;
+        }
+
+        .form-content {
+            padding: 40px;
+        }
+
+        .step-content {
+            display: none;
+        }
+
+        .step-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .required::after {
+            content: " *";
+            color: #e74c3c;
+        }
+
+        .help-text {
+            display: block;
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        input[type="text"],
+        input[type="datetime-local"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="datetime-local"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .progress-step .step-label {
+                font-size: 10px;
+            }
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: space-between;
+        }
+
+        button {
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .btn-outline {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-outline:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .note {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #ffc107;
+            font-size: 13px;
+            color: #856404;
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #17a2b8;
+            font-size: 13px;
+            color: #0c5460;
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .validation-error {
+            border-color: #e74c3c !important;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .link-box {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #0066cc;
+            margin-bottom: 20px;
+        }
+
+        .link-box h4 {
+            color: #0066cc;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .link-box a {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .link-box a:hover {
+            text-decoration: underline;
+        }
+
+        .checkbox-group {
+            margin-top: 15px;
+        }
+
+        .checkbox-item {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 10px;
+            margin-top: 2px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            margin-bottom: 0;
+            cursor: pointer;
+            font-weight: normal;
+        }
+
+        /* Metadata Setup Panel */
+        .metadata-setup-panel {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-bottom: 3px solid #764ba2;
+        }
+
+        .metadata-setup-panel h2 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .metadata-setup-panel p {
+            font-size: 14px;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .metadata-input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .metadata-input-group label {
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metadata-input-group input,
+        .metadata-input-group select {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            padding: 10px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .metadata-input-group input:focus,
+        .metadata-input-group select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+
+        .metadata-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-save-metadata {
+            background: white;
+            color: #667eea;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-save-metadata:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-load-catalog {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 24px;
+            border: 2px solid white;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-load-catalog:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .metadata-saved-indicator {
+            display: none;
+            background: rgba(76, 175, 80, 0.2);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 13px;
+            margin-top: 15px;
+            border-left: 3px solid white;
+        }
+
+        .metadata-saved-indicator.show {
+            display: block;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .metadata-summary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .metadata-summary.show {
+            display: block;
+        }
+
+        .metadata-summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 13px;
+        }
+
+        .metadata-summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .metadata-summary-label {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .metadata-summary-value {
+            text-align: right;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER WITH NAVIGATION -->
+    <div style="background: white; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; padding: 0; gap: 20px;">
+            <a href="index.html" style="width: 45px; height: 45px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 20px; text-decoration: none; flex-shrink: 0; margin: 12px 0 12px 30px;">tα</a>
+            <div style="display: flex; flex-direction: column; line-height: 1.2;">
+                <a href="index.html" style="text-decoration: none; color: #2c3e50;">
+                    <div style="font-size: 14px; font-weight: 600; color: #667eea;">t-alpha</div>
+                    <div style="font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 1px;">Managed SIEM</div>
+                </a>
+            </div>
+            <ul style="display: flex; list-style: none; margin: 0; padding: 0; flex: 1;">
+                <li style="border-right: 1px solid #e0e0e0;"><a href="index.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">🏠 Übersicht</a></li>
+                <li style="border-right: 1px solid #e0e0e0;"><a href="catalog.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">📚 Katalog</a></li>
+                <li style="border-right: 1px solid #e0e0e0;"><a href="maintenance-form.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #9b59b6; font-weight: 500; font-size: 13px; border-bottom: 3px solid #9b59b6; background: #f8f9fa;">🔧 Formular</a></li>
+                <li style="border-right: 1px solid #e0e0e0;"><a href="runbook.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">📖 Runbook</a></li>
+                <li style="border-right: 1px solid #e0e0e0;"><a href="checklist.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">✅ Checkliste</a></li>
+                <li><a href="reference.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">⚡ Referenz</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ Wazuh SIEM Wartungsformular</h1>
+            <p>Schritt-für-Schritt Wartungsprozess-Guide auf Basis von Wazuh Best Practices</p>
+        </div>
+
+        <!-- Metadata Setup Panel (NEW) -->
+        <div class="metadata-setup-panel">
+            <h2>🔧 Schritt 0: Basis-Konfiguration</h2>
+            <p>Erfassen Sie zunächst die grundlegenden Metadaten. Diese Felder werden automatisch in alle Schritte übernommen:</p>
+            
+            <div class="metadata-grid">
+                <div class="metadata-input-group">
+                    <label for="meta_customer">👤 Kunde</label>
+                    <input type="text" id="meta_customer" placeholder="z.B. DeepCloud AG" />
+                </div>
+                <div class="metadata-input-group">
+                    <label for="meta_infrastructure">🏗️ Infrastruktur</label>
+                    <input type="text" id="meta_infrastructure" placeholder="z.B. SingleNode-PROD-01" />
+                </div>
+                <div class="metadata-input-group">
+                    <label for="meta_ticket">🎫 Change/Ticket-ID</label>
+                    <input type="text" id="meta_ticket" placeholder="z.B. CHG-2026-00123" />
+                </div>
+                <div class="metadata-input-group">
+                    <label for="meta_current_version">📦 Ist-Version</label>
+                    <input type="text" id="meta_current_version" placeholder="z.B. 4.11.0" />
+                </div>
+                <div class="metadata-input-group">
+                    <label for="meta_target_version">⬆️ Zielversion</label>
+                    <input type="text" id="meta_target_version" placeholder="z.B. 4.12.0" />
+                </div>
+                <div class="metadata-input-group">
+                    <label for="meta_maintenance_start">⏰ Wartungsfenster Start</label>
+                    <input type="datetime-local" id="meta_maintenance_start" />
+                </div>
+                <div class="metadata-input-group">
+                    <label for="meta_maintenance_end">⏹️ Wartungsfenster Ende</label>
+                    <input type="datetime-local" id="meta_maintenance_end" />
+                </div>
+                <div class="metadata-input-group">
+                    <label for="meta_timezone">🌍 Zeitzone</label>
+                    <select id="meta_timezone">
+                        <option value="Europe/Zurich">Europe/Zurich (Standard)</option>
+                        <option value="Europe/Berlin">Europe/Berlin</option>
+                        <option value="UTC">UTC</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="metadata-actions">
+                <button type="button" class="btn-save-metadata" onclick="saveMetadata()">
+                    ✓ Speichern & Vorausfüllen
+                </button>
+                <button type="button" class="btn-load-catalog" onclick="showCatalogLoader()">
+                    📚 Aus Katalog laden
+                </button>
+            </div>
+
+            <div class="metadata-saved-indicator" id="metadataSavedIndicator">
+                ✓ Metadaten gespeichert! Sie werden automatisch in alle Schritte übernommen.
+            </div>
+
+            <div class="metadata-summary" id="metadataSummary">
+                <div class="metadata-summary-item">
+                    <span class="metadata-summary-label">👤 Kunde:</span>
+                    <span class="metadata-summary-value" id="summary_customer">-</span>
+                </div>
+                <div class="metadata-summary-item">
+                    <span class="metadata-summary-label">🏗️ Infrastruktur:</span>
+                    <span class="metadata-summary-value" id="summary_infrastructure">-</span>
+                </div>
+                <div class="metadata-summary-item">
+                    <span class="metadata-summary-label">🎫 Ticket:</span>
+                    <span class="metadata-summary-value" id="summary_ticket">-</span>
+                </div>
+                <div class="metadata-summary-item">
+                    <span class="metadata-summary-label">📦 Upgrade:</span>
+                    <span class="metadata-summary-value" id="summary_version">-</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="progress-line"></div>
+                <div class="progress-step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Stammdaten</div>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Pre-Go</div>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Durchführung</div>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Post-Go</div>
+                </div>
+                <div class="progress-step" data-step="5">
+                    <div class="step-number">5</div>
+                    <div class="step-label">Abschluss</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-content">
+            <div class="success-message" id="successMessage">
+                Formular erfolgreich validiert! Ihr PDF wird erstellt...
+            </div>
+
+            <form id="maintenanceForm">
+                <!-- Step 1: Stammdaten -->
+                <div class="step-content active" data-step="1">
+                    <div class="section">
+                        <h2 class="section-title">Schritt 1: Stammdaten</h2>
+                        <div class="section-description">
+                            <strong>Zweck:</strong> Erfassung der grundlegenden Informationen zur Wartung.<br>
+                            Alle mit * markierten Felder sind erforderlich.
+                        </div>
+
+                        <div class="link-box">
+                            <h4>📚 Referenz-Dokumente</h4>
+                            <p>
+                                <a href="runbook.html">→ Runbook: Wazuh Upgrade AIO Ubuntu</a><br>
+                                <a href="checklist.html">→ Checkliste: Wazuh Upgrade AIO</a><br>
+                                <a href="reference.html">→ Schnell-Referenz: Copy-Paste Befehle</a>
+                            </p>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="systemName" class="required">System-/Asset-Name</label>
+                                <input type="text" id="systemName" name="systemName" 
+                                       placeholder="z.B. wazuh-prod-01">
+                                <span class="help-text">Name des zu wartenden Systems</span>
+                                <span class="error-message" id="systemNameError">Dieses Feld ist erforderlich</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="environment" class="required">Umgebung</label>
+                                <select id="environment" name="environment">
+                                    <option value="">Umgebung wählen</option>
+                                    <option value="Production">Produktion</option>
+                                    <option value="Test">Test</option>
+                                    <option value="Development">Entwicklung</option>
+                                </select>
+                                <span class="error-message" id="environmentError">Bitte wählen Sie eine Umgebung</span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="customer" class="required">Kunde</label>
+                                <input type="text" id="customer" name="customer" 
+                                       placeholder="z.B. DeepCloud AG">
+                                <span class="help-text">Name des Kunden</span>
+                                <span class="error-message" id="customerError">Dieses Feld ist erforderlich</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="infrastructure" class="required">Infrastruktur</label>
+                                <input type="text" id="infrastructure" name="infrastructure" 
+                                       placeholder="z.B. DeepInfra, SingleNode-PROD-01">
+                                <span class="help-text">Name der betroffenen Infrastruktur</span>
+                                <span class="error-message" id="infrastructureError">Dieses Feld ist erforderlich</span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="maintenanceType" class="required">Wartungstyp</label>
+                                <select id="maintenanceType" name="maintenanceType">
+                                    <option value="">Typ wählen</option>
+                                    <option value="Routine">Routine-Wartung</option>
+                                    <option value="Upgrade">Upgrade</option>
+                                    <option value="Patch">Patch/Update</option>
+                                    <option value="Emergency">Notfall-Wartung</option>
+                                </select>
+                                <span class="error-message" id="maintenanceTypeError">Bitte wählen Sie einen Wartungstyp</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ticketId" class="required">Change/Ticket-ID</label>
+                                <input type="text" id="ticketId" name="ticketId" 
+                                       placeholder="z.B. CHG-2026-00123">
+                                <span class="help-text">Referenz zum Change-Ticket</span>
+                                <span class="error-message" id="ticketIdError">Dieses Feld ist erforderlich</span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="currentVersion">Aktuelle Version</label>
+                                <input type="text" id="currentVersion" name="currentVersion" 
+                                       placeholder="z.B. 4.11.0">
+                                <span class="help-text">Aktuelle Wazuh-Version (optional)</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="targetVersion" class="required">Zielversion</label>
+                                <input type="text" id="targetVersion" name="targetVersion" 
+                                       placeholder="z.B. 4.12.0">
+                                <span class="help-text">Gewünschte Zielversion</span>
+                                <span class="error-message" id="targetVersionError">Dieses Feld ist erforderlich</span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="startDateTime" class="required">Wartungsfenster Start</label>
+                                <input type="datetime-local" id="startDateTime" name="startDateTime">
+                                <span class="help-text">Start-Zeitpunkt (Europe/Zurich)</span>
+                                <span class="error-message" id="startDateTimeError">Dieses Feld ist erforderlich</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="endDateTime" class="required">Wartungsfenster Ende</label>
+                                <input type="datetime-local" id="endDateTime" name="endDateTime">
+                                <span class="help-text">End-Zeitpunkt (Europe/Zurich)</span>
+                                <span class="error-message" id="endDateTimeError">Dieses Feld ist erforderlich</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="responsiblePerson" class="required">Verantwortlicher Techniker</label>
+                            <input type="text" id="responsiblePerson" name="responsiblePerson" 
+                                   placeholder="z.B. David Dutler oder Ivan Stricker">
+                            <span class="help-text">Name des durchführenden Operators</span>
+                            <span class="error-message" id="responsiblePersonError">Dieses Feld ist erforderlich</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Pre-Go -->
+                <div class="step-content" data-step="2">
+                    <div class="section">
+                        <h2 class="section-title">Schritt 2: Pre-Go Checkliste</h2>
+                        <div class="section-description">
+                            <strong>Zweck:</strong> Sicherstellung aller Voraussetzungen vor Start der Wartung.<br>
+                            <strong>Wichtig:</strong> Alle No-Go Gates müssen erfüllt sein!
+                        </div>
+
+                        <div class="note">
+                            <strong>⚠️ No-Go Gates:</strong> Wenn eines der unten aufgeführten Kriterien nicht erfüllt ist, 
+                            darf die Wartung NICHT durchgeführt werden. Dokumentieren Sie Abweichungen im Notizen-Feld.
+                        </div>
+
+                        <div class="checkbox-group">
+                            <h3 style="font-size: 16px; margin-bottom: 15px; color: #2c3e50;">No-Go Gate Prüfungen</h3>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="preGo1" name="preGo1">
+                                <label for="preGo1">Change freigegeben und genehmigt (Approved Status im Ticketsystem)</label>
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="preGo2" name="preGo2">
+                                <label for="preGo2">Kunde über Wartungsfenster und mögliche Auswirkungen informiert</label>
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="preGo3" name="preGo3">
+                                <label for="preGo3">Upgrade Guide gelesen und verstanden (Breaking Changes beachtet)</label>
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="preGo4" name="preGo4">
+                                <label for="preGo4">Candidate-Versionen sind identisch (Indexer/Manager/Dashboard inkl. Patchlevel)</label>
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="preGo5" name="preGo5">
+                                <label for="preGo5">Disk-Nutzung OK (< 85%, No-Go wenn > 90%)</label>
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="preGo6" name="preGo6">
+                                <label for="preGo6">Snapshot/Backup erstellt und dokumentiert</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 25px;">
+                            <label for="snapshotId" class="required">Snapshot/Backup-ID</label>
+                            <input type="text" id="snapshotId" name="snapshotId" 
+                                   placeholder="z.B. snapshot-20260126-1400">
+                            <span class="help-text">Referenz zum erstellten Snapshot/Backup</span>
+                            <span class="error-message" id="snapshotIdError">Dieses Feld ist erforderlich</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="preHealthSnapshot" class="required">Pre-Health Snapshot</label>
+                            <textarea id="preHealthSnapshot" name="preHealthSnapshot" 
+                                      placeholder="Führen Sie 'Runbook 0 - Health Snapshot' aus und fügen Sie die Ausgabe hier ein..."
+                                      rows="8"></textarea>
+                            <span class="help-text">Ausgabe des Health Snapshot vor der Wartung (siehe Runbook)</span>
+                            <span class="error-message" id="preHealthSnapshotError">Dieses Feld ist erforderlich</span>
+                        </div>
+
+                        <div class="info-box">
+                            <strong>💡 Tipp:</strong> Der Health Snapshot sollte folgende Informationen enthalten:
+                            Datum/Uptime, Disk/Memory, Service-Status, Ports, Package-Versionen und Recent Errors.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Durchführung -->
+                <div class="step-content" data-step="3">
+                    <div class="section">
+                        <h2 class="section-title">Schritt 3: Durchführung</h2>
+                        <div class="section-description">
+                            <strong>Zweck:</strong> Dokumentation der durchgeführten Wartungsschritte.<br>
+                            Folgen Sie dem Runbook Schritt für Schritt und dokumentieren Sie den Fortschritt.
+                        </div>
+
+                        <div class="link-box">
+                            <h4>📖 Arbeitsanleitung</h4>
+                            <p>
+                                Folgen Sie dem Runbook für detaillierte Befehle:<br>
+                                <a href="runbook.html">→ Runbook: Schritt-für-Schritt Anleitung</a>
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="executionChecklist" class="required">Durchgeführte Schritte (Checkliste)</label>
+                            <textarea id="executionChecklist" name="executionChecklist" 
+                                      placeholder="Dokumentieren Sie die durchgeführten Schritte:&#10;&#10;Beispiel:&#10;[x] C1) Controlled Stop&#10;  - filebeat gestoppt&#10;  - wazuh-dashboard gestoppt&#10;[x] C2) Indexer Pre-Actions&#10;  - Security-Konfig Backup erstellt&#10;  - Shard Allocation = primaries&#10;  - Flush ausgeführt&#10;  - wazuh-manager gestoppt&#10;[ ] C3) Indexer Upgrade&#10;  - ..."
+                                      rows="12"></textarea>
+                            <span class="help-text">Listen Sie alle durchgeführten Schritte gemäß Runbook/Checkliste auf</span>
+                            <span class="error-message" id="executionChecklistError">Dieses Feld ist erforderlich</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="deviations">Abweichungen vom Standard-Ablauf</label>
+                            <textarea id="deviations" name="deviations" 
+                                      placeholder="Dokumentieren Sie hier alle Abweichungen vom Standard-Runbook, unerwartete Ereignisse oder Besonderheiten..."
+                                      rows="5"></textarea>
+                            <span class="help-text">Optional: Nur ausfüllen bei Abweichungen</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="issuesEncountered">Aufgetretene Probleme</label>
+                            <textarea id="issuesEncountered" name="issuesEncountered" 
+                                      placeholder="Beschreiben Sie aufgetretene Probleme und wie diese gelöst wurden..."
+                                      rows="5"></textarea>
+                            <span class="help-text">Optional: Probleme und deren Lösungen dokumentieren</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Post-Go -->
+                <div class="step-content" data-step="4">
+                    <div class="section">
+                        <h2 class="section-title">Schritt 4: Post-Go Validierung</h2>
+                        <div class="section-description">
+                            <strong>Zweck:</strong> Überprüfung und Dokumentation des Wartungsergebnisses.<br>
+                            Führen Sie alle Validierungsschritte durch und dokumentieren Sie das Ergebnis.
+                        </div>
+
+                        <div class="form-group">
+                            <label for="resultStatus" class="required">Ergebnis/Status</label>
+                            <select id="resultStatus" name="resultStatus">
+                                <option value="">Status wählen</option>
+                                <option value="Success">Erfolgreich</option>
+                                <option value="Partial Success">Teilweise erfolgreich</option>
+                                <option value="Failure">Fehlgeschlagen</option>
+                                <option value="Rolled Back">Zurückgerollt</option>
+                            </select>
+                            <span class="error-message" id="resultStatusError">Bitte wählen Sie einen Status</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="postHealthSnapshot" class="required">Post-Health Snapshot</label>
+                            <textarea id="postHealthSnapshot" name="postHealthSnapshot" 
+                                      placeholder="Führen Sie erneut 'Runbook 0 - Health Snapshot' aus und fügen Sie die Ausgabe hier ein..."
+                                      rows="8"></textarea>
+                            <span class="help-text">Ausgabe des Health Snapshot nach der Wartung</span>
+                            <span class="error-message" id="postHealthSnapshotError">Dieses Feld ist erforderlich</span>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <h3 style="font-size: 16px; margin-bottom: 15px; color: #2c3e50;">Post-Wartungs-Validierung</h3>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="postGo1" name="postGo1">
+                                <label for="postGo1">Dashboard erreichbar und Login funktioniert</label>
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="postGo2" name="postGo2">
+                                <label for="postGo2">Alle Services laufen (wazuh-indexer, wazuh-manager, wazuh-dashboard, filebeat)</label>
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="postGo3" name="postGo3">
+                                <label for="postGo3">Datenfluss OK (Events werden empfangen und verarbeitet)</label>
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="postGo4" name="postGo4">
+                                <label for="postGo4">Versionen korrekt (alle Komponenten auf Zielversion)</label>
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="postGo5" name="postGo5">
+                                <label for="postGo5">Keine kritischen Fehler in Logs</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 25px;">
+                            <label for="validationNotes">Zusätzliche Validierungs-Notizen</label>
+                            <textarea id="validationNotes" name="validationNotes" 
+                                      placeholder="Weitere Beobachtungen zur Post-Wartungs-Validierung..."
+                                      rows="4"></textarea>
+                            <span class="help-text">Optional: Zusätzliche Validierungs-Details</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Abschluss & Rollback -->
+                <div class="step-content" data-step="5">
+                    <div class="section">
+                        <h2 class="section-title">Schritt 5: Abschluss & Rollback</h2>
+                        <div class="section-description">
+                            <strong>Zweck:</strong> Abschließende Dokumentation, Genehmigung und Rollback-Planung.
+                        </div>
+
+                        <div class="form-group">
+                            <label for="backoutPlan" class="required">Backout/Rollback-Plan</label>
+                            <textarea id="backoutPlan" name="backoutPlan" 
+                                      placeholder="Beschreiben Sie das Rollback-Verfahren:&#10;&#10;Beispiel:&#10;1. Snapshot wiederherstellen (ID: snapshot-20260126-1400)&#10;2. Services neu starten&#10;3. Validierung durchführen&#10;4. Downgrade-Schritte (falls erforderlich):&#10;   - ..."
+                                      rows="6"></textarea>
+                            <span class="help-text">Detaillierter Plan für Rollback bei Problemen</span>
+                            <span class="error-message" id="backoutPlanError">Dieses Feld ist erforderlich</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rollbackExecuted">Wurde ein Rollback durchgeführt?</label>
+                            <select id="rollbackExecuted" name="rollbackExecuted">
+                                <option value="Nein">Nein</option>
+                                <option value="Ja">Ja</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="rollbackDetailsGroup" style="display: none;">
+                            <label for="rollbackDetails">Rollback-Details</label>
+                            <textarea id="rollbackDetails" name="rollbackDetails" 
+                                      placeholder="Beschreiben Sie den durchgeführten Rollback:&#10;- Methode (Snapshot/Downgrade)&#10;- Begründung&#10;- Zeitpunkt&#10;- Ergebnis"
+                                      rows="5"></textarea>
+                            <span class="help-text">Details zum durchgeführten Rollback</span>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="approverName" class="required">Genehmiger/Reviewer Name</label>
+                                <input type="text" id="approverName" name="approverName" 
+                                       placeholder="z.B. Jane Smith">
+                                <span class="error-message" id="approverNameError">Dieses Feld ist erforderlich</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="approvalDate" class="required">Genehmigungs-Datum</label>
+                                <input type="datetime-local" id="approvalDate" name="approvalDate">
+                                <span class="error-message" id="approvalDateError">Dieses Feld ist erforderlich</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="customerNotification">Kunden-Benachrichtigung</label>
+                            <textarea id="customerNotification" name="customerNotification" 
+                                      placeholder="Entwurf der Abschlussmeldung an den Kunden..."
+                                      rows="6"></textarea>
+                            <span class="help-text">Optional: Verwenden Sie die Change-Notiz-Vorlage als Basis</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="affectedSystems">Betroffene Systeme/Logs</label>
+                            <textarea id="affectedSystems" name="affectedSystems" 
+                                      placeholder="Listen Sie alle betroffenen Systeme oder Log-Quellen auf..."
+                                      rows="3"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="notes">Zusätzliche Notizen/Anhänge</label>
+                            <textarea id="notes" name="notes" 
+                                      placeholder="Weitere Beobachtungen, Referenzen zu Anhängen, Lessons Learned..."
+                                      rows="4"></textarea>
+                        </div>
+
+                        <div class="note">
+                            <strong>📋 Nächste Schritte nach PDF-Erstellung:</strong><br>
+                            1. PDF dem Change-Ticket anhängen<br>
+                            2. Kunde über Abschluss informieren (Change-Notiz)<br>
+                            3. Ticket schließen und archivieren
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="button-container">
+                    <button type="button" class="btn-outline" id="prevBtn" onclick="changeStep(-1)" style="display: none;">
+                        ← Zurück
+                    </button>
+                    <button type="button" class="btn-secondary" onclick="resetForm()">
+                        Formular zurücksetzen
+                    </button>
+                    <button type="button" class="btn-primary" id="nextBtn" onclick="changeStep(1)">
+                        Weiter →
+                    </button>
+                    <button type="submit" class="btn-primary" id="submitBtn" style="display: none;">
+                        PDF generieren
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2026 Managed SIEM Service (Wazuh)</p>
+            <p>Basierend auf Wazuh Best Practices und Betriebsstandards</p>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 5;
+
+        // Initialize form
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default start time to current time
+            const now = new Date();
+            const localDateTime = formatDateTimeLocal(now);
+            document.getElementById('startDateTime').value = localDateTime;
+            
+            // Set default end time to 2 hours from now
+            const endTime = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+            document.getElementById('endDateTime').value = formatDateTimeLocal(endTime);
+            
+            // Set default approval date to current time
+            document.getElementById('approvalDate').value = localDateTime;
+
+            // Load saved metadata if available
+            loadSavedMetadata();
+
+            // Rollback executed listener
+            document.getElementById('rollbackExecuted').addEventListener('change', function() {
+                const detailsGroup = document.getElementById('rollbackDetailsGroup');
+                detailsGroup.style.display = this.value === 'Ja' ? 'block' : 'none';
+            });
+        });
+
+        function formatDateTimeLocal(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${year}-${month}-${day}T${hours}:${minutes}`;
+        }
+
+        function changeStep(direction) {
+            // Validate current step before moving forward
+            if (direction > 0 && !validateStep(currentStep)) {
+                return;
+            }
+
+            // Hide current step
+            document.querySelector(`.step-content[data-step="${currentStep}"]`).classList.remove('active');
+            document.querySelector(`.progress-step[data-step="${currentStep}"]`).classList.remove('active');
+            
+            if (direction < 0) {
+                document.querySelector(`.progress-step[data-step="${currentStep}"]`).classList.remove('completed');
+            } else {
+                document.querySelector(`.progress-step[data-step="${currentStep}"]`).classList.add('completed');
+            }
+
+            // Update step
+            currentStep += direction;
+
+            // Show new step
+            document.querySelector(`.step-content[data-step="${currentStep}"]`).classList.add('active');
+            document.querySelector(`.progress-step[data-step="${currentStep}"]`).classList.add('active');
+
+            // Update buttons
+            updateButtons();
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+
+            prevBtn.style.display = currentStep === 1 ? 'none' : 'block';
+            nextBtn.style.display = currentStep === totalSteps ? 'none' : 'block';
+            submitBtn.style.display = currentStep === totalSteps ? 'block' : 'none';
+        }
+
+        // ============================================================
+        // METADATA MANAGEMENT FUNCTIONS (NEW)
+        // ============================================================
+
+        // Save metadata to localStorage
+        function saveMetadata() {
+            const metadata = {
+                customer: document.getElementById('meta_customer').value,
+                infrastructure: document.getElementById('meta_infrastructure').value,
+                ticket: document.getElementById('meta_ticket').value,
+                currentVersion: document.getElementById('meta_current_version').value,
+                targetVersion: document.getElementById('meta_target_version').value,
+                maintenanceStart: document.getElementById('meta_maintenance_start').value,
+                maintenanceEnd: document.getElementById('meta_maintenance_end').value,
+                timezone: document.getElementById('meta_timezone').value,
+                timestamp: new Date().toISOString()
+            };
+
+            // Validate required metadata fields
+            if (!metadata.customer || !metadata.infrastructure || !metadata.ticket || !metadata.targetVersion) {
+                alert('⚠️ Bitte füllen Sie mindestens aus: Kunde, Infrastruktur, Ticket-ID und Zielversion');
+                return;
+            }
+
+            // Save to localStorage
+            localStorage.setItem('wazuh_maintenance_metadata', JSON.stringify(metadata));
+
+            // Auto-fill form fields with metadata
+            applyMetadataToForm(metadata);
+
+            // Show success indicator
+            const indicator = document.getElementById('metadataSavedIndicator');
+            indicator.classList.add('show');
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 4000);
+
+            // Show summary
+            updateMetadataSummary(metadata);
+
+            // Scroll to confirm
+            setTimeout(() => {
+                document.querySelector('.progress-container').scrollIntoView({ behavior: 'smooth' });
+            }, 300);
+        }
+
+        // Apply metadata to form fields
+        function applyMetadataToForm(metadata) {
+            // Step 1: Stammdaten
+            document.getElementById('customer').value = metadata.customer;
+            document.getElementById('infrastructure').value = metadata.infrastructure;
+            document.getElementById('ticketId').value = metadata.ticket;
+            document.getElementById('currentVersion').value = metadata.currentVersion || '';
+            document.getElementById('targetVersion').value = metadata.targetVersion;
+            
+            if (metadata.maintenanceStart) {
+                document.getElementById('startDateTime').value = metadata.maintenanceStart;
+            }
+            if (metadata.maintenanceEnd) {
+                document.getElementById('endDateTime').value = metadata.maintenanceEnd;
+            }
+
+            console.log('✓ Metadaten in Formular übernommen:', metadata);
+        }
+
+        // Update metadata summary display
+        function updateMetadataSummary(metadata) {
+            const summary = document.getElementById('metadataSummary');
+            document.getElementById('summary_customer').textContent = metadata.customer || '-';
+            document.getElementById('summary_infrastructure').textContent = metadata.infrastructure || '-';
+            document.getElementById('summary_ticket').textContent = metadata.ticket || '-';
+            document.getElementById('summary_version').textContent = 
+                `${metadata.currentVersion || '?'} → ${metadata.targetVersion || '?'}`;
+            
+            summary.classList.add('show');
+        }
+
+        // Load metadata from localStorage on page load
+        function loadSavedMetadata() {
+            const saved = localStorage.getItem('wazuh_maintenance_metadata');
+            if (saved) {
+                const metadata = JSON.parse(saved);
+                applyMetadataToForm(metadata);
+                updateMetadataSummary(metadata);
+                
+                // Restore metadata panel values
+                document.getElementById('meta_customer').value = metadata.customer || '';
+                document.getElementById('meta_infrastructure').value = metadata.infrastructure || '';
+                document.getElementById('meta_ticket').value = metadata.ticket || '';
+                document.getElementById('meta_current_version').value = metadata.currentVersion || '';
+                document.getElementById('meta_target_version').value = metadata.targetVersion || '';
+                document.getElementById('meta_maintenance_start').value = metadata.maintenanceStart || '';
+                document.getElementById('meta_maintenance_end').value = metadata.maintenanceEnd || '';
+                document.getElementById('meta_timezone').value = metadata.timezone || 'Europe/Zurich';
+            }
+        }
+
+        // Show catalog loader (placeholder for future integration)
+        function showCatalogLoader() {
+            alert('📚 Katalog-Laderinktion:\n\n1. Öffnen Sie: ../Catalog/CUSTOMERS.md\n2. Kopieren Sie die gewünschten Kundendaten\n3. Fügen Sie die Werte manuell ein oder nutzen Sie den Auto-Fill-Mechanismus\n\nFuture: Diese Funktion wird automatisch Kundendaten aus dem Katalog laden.');
+        }
+
+        // ============================================================
+        // EXISTING VALIDATION & FORM FUNCTIONS
+        // ============================================================
+
+        function validateStep(step) {
+            let isValid = true;
+            let requiredFields = [];
+
+            // Clear previous errors
+            document.querySelectorAll('.validation-error').forEach(el => {
+                el.classList.remove('validation-error');
+            });
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
+            });
+
+            // Define required fields for each step
+            switch(step) {
+                case 1: // Stammdaten
+                    requiredFields = ['systemName', 'environment', 'customer', 'infrastructure', 
+                                    'maintenanceType', 'ticketId', 'targetVersion', 
+                                    'startDateTime', 'endDateTime', 'responsiblePerson'];
+                    break;
+                case 2: // Pre-Go
+                    requiredFields = ['snapshotId', 'preHealthSnapshot'];
+                    // Check that all checkboxes are checked
+                    const preGoCheckboxes = ['preGo1', 'preGo2', 'preGo3', 'preGo4', 'preGo5', 'preGo6'];
+                    const allChecked = preGoCheckboxes.every(id => document.getElementById(id).checked);
+                    if (!allChecked) {
+                        alert('⚠️ Alle No-Go Gate Prüfungen müssen abgehakt sein, bevor Sie fortfahren können!');
+                        isValid = false;
+                    }
+                    break;
+                case 3: // Durchführung
+                    requiredFields = ['executionChecklist'];
+                    break;
+                case 4: // Post-Go
+                    requiredFields = ['resultStatus', 'postHealthSnapshot'];
+                    break;
+                case 5: // Abschluss
+                    requiredFields = ['backoutPlan', 'approverName', 'approvalDate'];
+                    break;
+            }
+
+            // Validate required fields
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                const errorMsg = document.getElementById(fieldId + 'Error');
+                
+                if (!field || !field.value.trim()) {
+                    if (field) field.classList.add('validation-error');
+                    if (errorMsg) errorMsg.style.display = 'block';
+                    isValid = false;
+                }
+            });
+
+            // Date validation for step 1
+            if (step === 1) {
+                const startDate = new Date(document.getElementById('startDateTime').value);
+                const endDate = new Date(document.getElementById('endDateTime').value);
+                
+                if (endDate <= startDate) {
+                    const endField = document.getElementById('endDateTime');
+                    endField.classList.add('validation-error');
+                    alert('End-Datum/-Zeit muss nach dem Start-Datum/-Zeit liegen');
+                    isValid = false;
+                }
+            }
+
+            return isValid;
+        }
+
+        // Generate PDF
+        async function generatePDF(formData) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            let yPos = 20;
+            const lineHeight = 7;
+            const margin = 20;
+            const maxWidth = 170;
+
+            // Title
+            doc.setFontSize(20);
+            doc.setFont(undefined, 'bold');
+            doc.text('Wazuh SIEM Wartungsbericht', margin, yPos);
+            yPos += 10;
+
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            doc.text('Erstellt: ' + new Date().toLocaleString('de-DE'), margin, yPos);
+            yPos += 15;
+
+            // Helper function to add section
+            function addSection(title, data) {
+                // Check if we need a new page
+                if (yPos > 250) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+
+                doc.setFontSize(14);
+                doc.setFont(undefined, 'bold');
+                doc.text(title, margin, yPos);
+                yPos += lineHeight + 2;
+
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'normal');
+
+                data.forEach(item => {
+                    if (yPos > 270) {
+                        doc.addPage();
+                        yPos = 20;
+                    }
+
+                    doc.setFont(undefined, 'bold');
+                    doc.text(item.label + ':', margin, yPos);
+                    doc.setFont(undefined, 'normal');
+                    
+                    // Handle multi-line text
+                    const lines = doc.splitTextToSize(item.value, maxWidth - 50);
+                    lines.forEach((line, index) => {
+                        if (index === 0) {
+                            doc.text(line, margin + 50, yPos);
+                        } else {
+                            yPos += lineHeight;
+                            if (yPos > 270) {
+                                doc.addPage();
+                                yPos = 20;
+                            }
+                            doc.text(line, margin + 50, yPos);
+                        }
+                    });
+                    yPos += lineHeight;
+                });
+                yPos += 5;
+            }
+
+            // 1. Stammdaten
+            addSection('1. Stammdaten', [
+                { label: 'System/Asset', value: formData.systemName },
+                { label: 'Umgebung', value: formData.environment },
+                { label: 'Kunde', value: formData.customer },
+                { label: 'Infrastruktur', value: formData.infrastructure },
+                { label: 'Wartungstyp', value: formData.maintenanceType },
+                { label: 'Change/Ticket-ID', value: formData.ticketId },
+                { label: 'Aktuelle Version', value: formData.currentVersion || 'N/A' },
+                { label: 'Zielversion', value: formData.targetVersion },
+                { label: 'Wartungsfenster Start', value: new Date(formData.startDateTime).toLocaleString('de-DE') },
+                { label: 'Wartungsfenster Ende', value: new Date(formData.endDateTime).toLocaleString('de-DE') },
+                { label: 'Verantwortlicher', value: formData.responsiblePerson }
+            ]);
+
+            // 2. Pre-Go
+            addSection('2. Pre-Go Checkliste', [
+                { label: 'Snapshot/Backup-ID', value: formData.snapshotId },
+                { label: 'Pre-Health Snapshot', value: formData.preHealthSnapshot }
+            ]);
+
+            // 3. Durchführung
+            const executionData = [
+                { label: 'Durchgeführte Schritte', value: formData.executionChecklist }
+            ];
+            if (formData.deviations) {
+                executionData.push({ label: 'Abweichungen', value: formData.deviations });
+            }
+            if (formData.issuesEncountered) {
+                executionData.push({ label: 'Aufgetretene Probleme', value: formData.issuesEncountered });
+            }
+            addSection('3. Durchführung', executionData);
+
+            // 4. Post-Go
+            const postGoData = [
+                { label: 'Ergebnis/Status', value: formData.resultStatus },
+                { label: 'Post-Health Snapshot', value: formData.postHealthSnapshot }
+            ];
+            if (formData.validationNotes) {
+                postGoData.push({ label: 'Validierungs-Notizen', value: formData.validationNotes });
+            }
+            addSection('4. Post-Go Validierung', postGoData);
+
+            // 5. Abschluss & Rollback
+            const conclusionData = [
+                { label: 'Backout/Rollback-Plan', value: formData.backoutPlan },
+                { label: 'Rollback durchgeführt', value: formData.rollbackExecuted }
+            ];
+            if (formData.rollbackExecuted === 'Ja' && formData.rollbackDetails) {
+                conclusionData.push({ label: 'Rollback-Details', value: formData.rollbackDetails });
+            }
+            conclusionData.push(
+                { label: 'Genehmiger', value: formData.approverName },
+                { label: 'Genehmigungs-Datum', value: new Date(formData.approvalDate).toLocaleString('de-DE') }
+            );
+            if (formData.customerNotification) {
+                conclusionData.push({ label: 'Kunden-Benachrichtigung', value: formData.customerNotification });
+            }
+            if (formData.affectedSystems) {
+                conclusionData.push({ label: 'Betroffene Systeme', value: formData.affectedSystems });
+            }
+            if (formData.notes) {
+                conclusionData.push({ label: 'Zusätzliche Notizen', value: formData.notes });
+            }
+            addSection('5. Abschluss & Rollback', conclusionData);
+
+            // Footer
+            const pageCount = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.setFontSize(8);
+                doc.setFont(undefined, 'normal');
+                doc.text(
+                    'Seite ' + i + ' von ' + pageCount,
+                    doc.internal.pageSize.getWidth() / 2,
+                    doc.internal.pageSize.getHeight() - 10,
+                    { align: 'center' }
+                );
+            }
+
+            // Save the PDF
+            const fileName = `wartungsbericht-${formData.ticketId}-${new Date().toISOString().slice(0, 10)}.pdf`;
+            doc.save(fileName);
+        }
+
+        // Form submission
+        document.getElementById('maintenanceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!validateStep(5)) {
+                return;
+            }
+
+            // Show success message
+            const successMsg = document.getElementById('successMessage');
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 3000);
+
+            // Collect form data
+            const formData = {
+                systemName: document.getElementById('systemName').value,
+                environment: document.getElementById('environment').value,
+                customer: document.getElementById('customer').value,
+                infrastructure: document.getElementById('infrastructure').value,
+                maintenanceType: document.getElementById('maintenanceType').value,
+                ticketId: document.getElementById('ticketId').value,
+                currentVersion: document.getElementById('currentVersion').value,
+                targetVersion: document.getElementById('targetVersion').value,
+                startDateTime: document.getElementById('startDateTime').value,
+                endDateTime: document.getElementById('endDateTime').value,
+                responsiblePerson: document.getElementById('responsiblePerson').value,
+                snapshotId: document.getElementById('snapshotId').value,
+                preHealthSnapshot: document.getElementById('preHealthSnapshot').value,
+                executionChecklist: document.getElementById('executionChecklist').value,
+                deviations: document.getElementById('deviations').value,
+                issuesEncountered: document.getElementById('issuesEncountered').value,
+                resultStatus: document.getElementById('resultStatus').value,
+                postHealthSnapshot: document.getElementById('postHealthSnapshot').value,
+                validationNotes: document.getElementById('validationNotes').value,
+                backoutPlan: document.getElementById('backoutPlan').value,
+                rollbackExecuted: document.getElementById('rollbackExecuted').value,
+                rollbackDetails: document.getElementById('rollbackDetails').value,
+                approverName: document.getElementById('approverName').value,
+                approvalDate: document.getElementById('approvalDate').value,
+                customerNotification: document.getElementById('customerNotification').value,
+                affectedSystems: document.getElementById('affectedSystems').value,
+                notes: document.getElementById('notes').value
+            };
+
+            // Generate PDF
+            generatePDF(formData);
+        });
+
+        // Reset form
+        function resetForm() {
+            if (confirm('Möchten Sie wirklich alle Formulardaten löschen?')) {
+                document.getElementById('maintenanceForm').reset();
+                
+                // Reset to step 1
+                document.querySelector(`.step-content[data-step="${currentStep}"]`).classList.remove('active');
+                document.querySelector(`.progress-step[data-step="${currentStep}"]`).classList.remove('active');
+                
+                // Remove all completed states
+                document.querySelectorAll('.progress-step').forEach(step => {
+                    step.classList.remove('completed');
+                });
+                
+                currentStep = 1;
+                document.querySelector(`.step-content[data-step="1"]`).classList.add('active');
+                document.querySelector(`.progress-step[data-step="1"]`).classList.add('active');
+                
+                updateButtons();
+                
+                // Reset date/time fields to defaults
+                const now = new Date();
+                const localDateTime = formatDateTimeLocal(now);
+                document.getElementById('startDateTime').value = localDateTime;
+                
+                const endTime = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+                document.getElementById('endDateTime').value = formatDateTimeLocal(endTime);
+                document.getElementById('approvalDate').value = localDateTime;
+                
+                // Clear validation errors
+                document.querySelectorAll('.validation-error').forEach(el => {
+                    el.classList.remove('validation-error');
+                });
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.style.display = 'none';
+                });
+
+                // Hide rollback details
+                document.getElementById('rollbackDetailsGroup').style.display = 'none';
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+    </script>
+
+    <!-- FOOTER -->
+    <div style="background: #f8f9fa; padding: 30px 40px; border-top: 1px solid #e0e0e0; text-align: center; font-size: 12px; color: #666; margin-top: 40px;">
+        <p><strong>t-alpha Managed SIEM Service</strong></p>
+        <p>&copy; 2026 t-alpha AG | Basierend auf Wazuh Best Practices und Betriebsstandards</p>
+        <p>
+            <a href="index.html" style="color: #667eea; text-decoration: none;">← Zurück zur Übersicht</a> | 
+            <a href="https://github.com" target="_blank" style="color: #667eea; text-decoration: none;">GitHub</a>
+        </p>
+    </div>
+</body>
+</html>

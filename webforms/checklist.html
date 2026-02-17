@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>t-alpha Managed SIEM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 3px solid #27ae60;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .nav-bar {
+            background: white;
+            padding: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 0;
+        }
+
+        .nav-bar a {
+            flex: 1;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #667eea;
+            border-bottom: 3px solid transparent;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-bar a:hover,
+        .nav-bar a.active {
+            background: #f8f9fa;
+            border-bottom-color: #27ae60;
+            color: #764ba2;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #27ae60;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-number {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .checklist-items {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .checklist-item:hover {
+            background: white;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .checklist-item input[type="checkbox"]:checked + label {
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        .checklist-item label {
+            cursor: pointer;
+            margin: 0;
+            flex: 1;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .danger {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .metadata-section {
+            background: #e7f3ff;
+            border: 2px dashed #0066cc;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metadata-section h3 {
+            color: #0066cc;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .metadata-row {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 15px;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+
+        .metadata-row label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .metadata-row input,
+        .metadata-row select,
+        .metadata-row textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .metadata-row textarea {
+            grid-column: 1 / -1;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #27ae60 0%, #2ecc71 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #229954;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        @media (max-width: 768px) {
+            .metadata-row {
+                grid-template-columns: 1fr;
+            }
+
+            .metadata-row textarea {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER WITH NAVIGATION -->
+    <div style="background: white; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; padding: 0; gap: 20px;">
+            <a href="index.html" style="width: 45px; height: 45px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 20px; text-decoration: none; flex-shrink: 0; margin: 12px 0 12px 30px;">tα</a>
+            <div style="display: flex; flex-direction: column; line-height: 1.2;">
+                <a href="index.html" style="text-decoration: none; color: #2c3e50;">
+                    <div style="font-size: 14px; font-weight: 600; color: #667eea;">t-alpha</div>
+                    <div style="font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 1px;">Managed SIEM</div>
+                </a>
+            </div>
+            <ul style="display: flex; list-style: none; margin: 0; padding: 0; flex: 1;">
+                <li style="border-right: 1px solid #e0e0e0;"><a href="index.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">🏠 Übersicht</a></li>
+                <li style="border-right: 1px solid #e0e0e0;"><a href="catalog.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">📚 Katalog</a></li>
+                <li style="border-right: 1px solid #e0e0e0;"><a href="maintenance-form.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">🔧 Formular</a></li>
+                <li style="border-right: 1px solid #e0e0e0;"><a href="runbook.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">📖 Runbook</a></li>
+                <li style="border-right: 1px solid #e0e0e0;"><a href="checklist.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #9b59b6; font-weight: 500; font-size: 13px; border-bottom: 3px solid #9b59b6; background: #f8f9fa;">✅ Checkliste</a></li>
+                <li><a href="reference.html" style="display: block; padding: 18px 16px; text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 13px; border-bottom: 3px solid transparent;">⚡ Referenz</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="header">
+        <h1>✅ Wazuh Upgrade Checkliste</h1>
+        <p>Interaktive Schritt-für-Schritt Checkliste für Wazuh AIO Ubuntu Upgrades</p>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <!-- Metadaten-Sektion -->
+            <div class="metadata-section">
+                <h3>📋 Upgrade-Metadaten</h3>
+                <div class="metadata-row">
+                    <label>👤 Operator/Durchführender:</label>
+                    <input type="text" id="operator" placeholder="z.B. David Dutler">
+                </div>
+                <div class="metadata-row">
+                    <label>🏢 Kunde:</label>
+                    <input type="text" id="customer" placeholder="z.B. DeepCloud AG">
+                </div>
+                <div class="metadata-row">
+                    <label>🏗️ Infrastruktur:</label>
+                    <input type="text" id="infrastructure" placeholder="z.B. SingleNode-PROD-01">
+                </div>
+                <div class="metadata-row">
+                    <label>🎫 Change-Ticket-ID:</label>
+                    <input type="text" id="ticket" placeholder="z.B. CHG-2026-00123">
+                </div>
+                <div class="metadata-row">
+                    <label>📦 Ist-Version → Zielversion:</label>
+                    <div style="display: grid; grid-template-columns: 1fr 30px 1fr; gap: 10px;">
+                        <input type="text" id="current_version" placeholder="z.B. 4.9.0">
+                        <span style="text-align: center; line-height: 40px;">→</span>
+                        <input type="text" id="target_version" placeholder="z.B. 4.12.0">
+                    </div>
+                </div>
+                <div class="metadata-row">
+                    <label>⏰ Wartungsfenster:</label>
+                    <div style="display: grid; grid-template-columns: 1fr 20px 1fr; gap: 10px;">
+                        <input type="datetime-local" id="start_time">
+                        <span style="text-align: center;">–</span>
+                        <input type="datetime-local" id="end_time">
+                    </div>
+                </div>
+                <div class="metadata-row">
+                    <label>🌍 Zeitzone:</label>
+                    <select id="timezone">
+                        <option value="Europe/Zurich">Europe/Zurich (Standard)</option>
+                        <option value="Europe/Berlin">Europe/Berlin</option>
+                        <option value="UTC">UTC</option>
+                    </select>
+                </div>
+                <div class="metadata-row">
+                    <label>💾 Snapshot/Backup-ID:</label>
+                    <input type="text" id="snapshot_id" placeholder="z.B. snap-20260130-140000">
+                </div>
+                <div class="button-group">
+                    <button class="btn-primary" onclick="saveMetadata()">💾 Metadaten speichern</button>
+                    <button class="btn-secondary" onclick="clearForm()">🔄 Formular leeren</button>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div style="margin-bottom: 30px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                    <strong>Fortschritt:</strong>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+
+            <!-- Section 0: Pre-Checks -->
+            <div class="section" id="section0">
+                <div class="section-title">
+                    <span class="section-number">0</span>
+                    Nicht verhandelbare Regeln (No-Go Gates)
+                </div>
+
+                <div class="danger">
+                    ⚠️ Diese Überprüfungen müssen ALLE erfolgen, bevor Sie fortfahren:
+                </div>
+
+                <div class="checklist-items">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check0_1" onchange="updateProgress()">
+                        <label for="check0_1">
+                            <strong>Disk-Nutzung prüfen</strong>
+                            <br><span style="color: #666; font-size: 13px;">Muss < 85% sein (STOPP wenn > 90%)</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check0_2" onchange="updateProgress()">
+                        <label for="check0_2">
+                            <strong>Alle Services laufen</strong>
+                            <br><span style="color: #666; font-size: 13px;">wazuh-indexer, wazuh-manager, wazuh-dashboard, filebeat alle "active (running)"</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check0_3" onchange="updateProgress()">
+                        <label for="check0_3">
+                            <strong>Snapshot/Backup existiert</strong>
+                            <br><span style="color: #666; font-size: 13px;">Und wurde erfolgreich getestet</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check0_4" onchange="updateProgress()">
+                        <label for="check0_4">
+                            <strong>Change-Ticket genehmigt</strong>
+                            <br><span style="color: #666; font-size: 13px;">CAB/Release Management hat approved</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check0_5" onchange="updateProgress()">
+                        <label for="check0_5">
+                            <strong>Rollback-Plan dokumentiert</strong>
+                            <br><span style="color: #666; font-size: 13px;">Plan B ist klar und getestet</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 1: Vorbereitung -->
+            <div class="section" id="section1">
+                <div class="section-title">
+                    <span class="section-number">1</span>
+                    Vorbereitung & Health Snapshot
+                </div>
+
+                <div class="checklist-items">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check1_1" onchange="updateProgress()">
+                        <label for="check1_1">
+                            <strong>Pre-Upgrade Health Snapshot erstellt</strong>
+                            <br><span style="color: #666; font-size: 13px;">Alle System-Informationen erfasst (Datum, Uptime, Disk, Services, Versions)</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check1_2" onchange="updateProgress()">
+                        <label for="check1_2">
+                            <strong>Backup/Snapshot erstellt</strong>
+                            <br><span style="color: #666; font-size: 13px;">Snapshot-ID dokumentiert im Ticket</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check1_3" onchange="updateProgress()">
+                        <label for="check1_3">
+                            <strong>Stakeholder benachrichtigt</strong>
+                            <br><span style="color: #666; font-size: 13px;">Team, Kunden, Betreiber informiert</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Indexer -->
+            <div class="section" id="section2">
+                <div class="section-title">
+                    <span class="section-number">2</span>
+                    Wazuh-Indexer aktualisieren
+                </div>
+
+                <div class="checklist-items">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check2_1" onchange="updateProgress()">
+                        <label for="check2_1">
+                            <strong>APT-Cache aktualisiert</strong>
+                            <br><span style="color: #666; font-size: 13px;">apt-get update erfolgreich</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check2_2" onchange="updateProgress()">
+                        <label for="check2_2">
+                            <strong>Paket-Version verfügbar</strong>
+                            <br><span style="color: #666; font-size: 13px;">Zielversion im Repository vorhanden</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check2_3" onchange="updateProgress()">
+                        <label for="check2_3">
+                            <strong>Wazuh-Indexer upgradet</strong>
+                            <br><span style="color: #666; font-size: 13px;">apt-get install wazuh-indexer erfolgreich</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check2_4" onchange="updateProgress()">
+                        <label for="check2_4">
+                            <strong>Service neu gestartet</strong>
+                            <br><span style="color: #666; font-size: 13px;">systemctl restart wazuh-indexer erfolgreich</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check2_5" onchange="updateProgress()">
+                        <label for="check2_5">
+                            <strong>Cluster Health grün</strong>
+                            <br><span style="color: #666; font-size: 13px;">Status: green, active_shards_percent: 100%</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Manager -->
+            <div class="section" id="section3">
+                <div class="section-title">
+                    <span class="section-number">3</span>
+                    Wazuh-Manager aktualisieren
+                </div>
+
+                <div class="checklist-items">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check3_1" onchange="updateProgress()">
+                        <label for="check3_1">
+                            <strong>Wazuh-Manager upgradet</strong>
+                            <br><span style="color: #666; font-size: 13px;">apt-get install wazuh-manager erfolgreich</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check3_2" onchange="updateProgress()">
+                        <label for="check3_2">
+                            <strong>Service neu gestartet</strong>
+                            <br><span style="color: #666; font-size: 13px;">systemctl restart wazuh-manager erfolgreich</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check3_3" onchange="updateProgress()">
+                        <label for="check3_3">
+                            <strong>Manager läuft stabil</strong>
+                            <br><span style="color: #666; font-size: 13px;">Service-Status: active (running), Keine kritischen Fehler</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Dashboard -->
+            <div class="section" id="section4">
+                <div class="section-title">
+                    <span class="section-number">4</span>
+                    Wazuh-Dashboard aktualisieren
+                </div>
+
+                <div class="checklist-items">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check4_1" onchange="updateProgress()">
+                        <label for="check4_1">
+                            <strong>Dashboard upgradet</strong>
+                            <br><span style="color: #666; font-size: 13px;">apt-get install wazuh-dashboard erfolgreich</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check4_2" onchange="updateProgress()">
+                        <label for="check4_2">
+                            <strong>Service neu gestartet</strong>
+                            <br><span style="color: #666; font-size: 13px;">systemctl restart wazuh-dashboard erfolgreich</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check4_3" onchange="updateProgress()">
+                        <label for="check4_3">
+                            <strong>Web-Interface erreichbar</strong>
+                            <br><span style="color: #666; font-size: 13px;">https://system:5601 antwortet mit 200 OK</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Filebeat -->
+            <div class="section" id="section5">
+                <div class="section-title">
+                    <span class="section-number">5</span>
+                    Filebeat aktualisieren
+                </div>
+
+                <div class="checklist-items">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check5_1" onchange="updateProgress()">
+                        <label for="check5_1">
+                            <strong>Filebeat upgradet</strong>
+                            <br><span style="color: #666; font-size: 13px;">apt-get install filebeat erfolgreich</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check5_2" onchange="updateProgress()">
+                        <label for="check5_2">
+                            <strong>Service neu gestartet</strong>
+                            <br><span style="color: #666; font-size: 13px;">systemctl restart filebeat erfolgreich</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check5_3" onchange="updateProgress()">
+                        <label for="check5_3">
+                            <strong>Filebeat aktiv</strong>
+                            <br><span style="color: #666; font-size: 13px;">Service-Status: active (running), Logs werden gesendet</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 6: Validierung -->
+            <div class="section" id="section6">
+                <div class="section-title">
+                    <span class="section-number">6</span>
+                    Validierung & Post-Checks
+                </div>
+
+                <div class="checklist-items">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check6_1" onchange="updateProgress()">
+                        <label for="check6_1">
+                            <strong>Alle Services laufen</strong>
+                            <br><span style="color: #666; font-size: 13px;">systemctl status zeigt alle "active (running)"</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check6_2" onchange="updateProgress()">
+                        <label for="check6_2">
+                            <strong>Versionen korrekt</strong>
+                            <br><span style="color: #666; font-size: 13px;">dpkg -l zeigt neue Versionen</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check6_3" onchange="updateProgress()">
+                        <label for="check6_3">
+                            <strong>Post-Upgrade Health Snapshot</strong>
+                            <br><span style="color: #666; font-size: 13px;">Vergleich mit Pre-Snapshot zeigt keine Regressionen</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check6_4" onchange="updateProgress()">
+                        <label for="check6_4">
+                            <strong>Agents kommunizieren</strong>
+                            <br><span style="color: #666; font-size: 13px;">Agents verbunden, Daten werden empfangen</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 7: Abschluss -->
+            <div class="section" id="section7">
+                <div class="section-title">
+                    <span class="section-number">7</span>
+                    Abschluss & Dokumentation
+                </div>
+
+                <div class="checklist-items">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check7_1" onchange="updateProgress()">
+                        <label for="check7_1">
+                            <strong>Change-Ticket aktualisiert</strong>
+                            <br><span style="color: #666; font-size: 13px;">Ergebnisse, Snapshots, Zeiten dokumentiert</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check7_2" onchange="updateProgress()">
+                        <label for="check7_2">
+                            <strong>Kundenbenachrichtigung gesendet</strong>
+                            <br><span style="color: #666; font-size: 13px;">Abschlussmeldung an alle Stakeholder</span>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check7_3" onchange="updateProgress()">
+                        <label for="check7_3">
+                            <strong>Runbook-Dokumentation aktualisiert</strong>
+                            <br><span style="color: #666; font-size: 13px;">Erfahrungen und Lessons Learned dokumentiert</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="info" style="margin-top: 20px;">
+                    ✅ <strong>Upgrade erfolgreich abgeschlossen!</strong><br>
+                    Alle Schritte sind dokumentiert und das System ist validiert.
+                </div>
+            </div>
+
+            <div class="button-group" style="margin-top: 30px;">
+                <button class="btn-primary" onclick="downloadChecklist()">📥 Checkliste herunterladen</button>
+                <button class="btn-secondary" onclick="clearForm()">🔄 Neu starten</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            Wazuh Upgrade Checkliste | Zuletzt aktualisiert: 30. Januar 2026<br>
+            <a href="maintenance-form.html">← Zurück zum Formular</a>
+        </div>
+    </div>
+
+    <script>
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const percentage = Math.round((checked / checkboxes.length) * 100);
+            
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = percentage + '%';
+        }
+
+        function saveMetadata() {
+            const metadata = {
+                operator: document.getElementById('operator').value,
+                customer: document.getElementById('customer').value,
+                infrastructure: document.getElementById('infrastructure').value,
+                ticket: document.getElementById('ticket').value,
+                current_version: document.getElementById('current_version').value,
+                target_version: document.getElementById('target_version').value,
+                start_time: document.getElementById('start_time').value,
+                end_time: document.getElementById('end_time').value,
+                timezone: document.getElementById('timezone').value,
+                snapshot_id: document.getElementById('snapshot_id').value,
+                timestamp: new Date().toISOString()
+            };
+
+            localStorage.setItem('wazuh_checklist_metadata', JSON.stringify(metadata));
+            alert('✓ Metadaten gespeichert! Sie können diese Seite neuladen und die Daten sind noch da.');
+        }
+
+        function clearForm() {
+            if (confirm('Wirklich alle Daten löschen?')) {
+                document.getElementById('operator').value = '';
+                document.getElementById('customer').value = '';
+                document.getElementById('infrastructure').value = '';
+                document.getElementById('ticket').value = '';
+                document.getElementById('current_version').value = '';
+                document.getElementById('target_version').value = '';
+                document.getElementById('start_time').value = '';
+                document.getElementById('end_time').value = '';
+                document.getElementById('snapshot_id').value = '';
+                
+                document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+                updateProgress();
+                
+                localStorage.removeItem('wazuh_checklist_metadata');
+            }
+        }
+
+        function downloadChecklist() {
+            const metadata = {
+                operator: document.getElementById('operator').value,
+                customer: document.getElementById('customer').value,
+                infrastructure: document.getElementById('infrastructure').value,
+                ticket: document.getElementById('ticket').value,
+                current_version: document.getElementById('current_version').value,
+                target_version: document.getElementById('target_version').value,
+                start_time: document.getElementById('start_time').value,
+                end_time: document.getElementById('end_time').value,
+                snapshot_id: document.getElementById('snapshot_id').value
+            };
+
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const completedItems = [];
+            const incompleteItems = [];
+
+            checkboxes.forEach((cb, index) => {
+                const label = cb.nextElementSibling.textContent;
+                if (cb.checked) {
+                    completedItems.push(label);
+                } else {
+                    incompleteItems.push(label);
+                }
+            });
+
+            let content = `WAZUH UPGRADE CHECKLISTE
+=====================================
+Datum: ${new Date().toLocaleString('de-DE')}
+
+METADATEN:
+──────────
+Operator: ${metadata.operator}
+Kunde: ${metadata.customer}
+Infrastruktur: ${metadata.infrastructure}
+Ticket: ${metadata.ticket}
+Version: ${metadata.current_version} → ${metadata.target_version}
+Wartungsfenster: ${metadata.start_time} bis ${metadata.end_time}
+Snapshot-ID: ${metadata.snapshot_id}
+
+ABGESCHLOSSENE ITEMS (${completedItems.length}):
+───────────────────────────
+${completedItems.map(item => `✓ ${item}`).join('\n')}
+
+NOCH OFFEN (${incompleteItems.length}):
+───────────
+${incompleteItems.map(item => `☐ ${item}`).join('\n')}
+
+FORTSCHRITT: ${Math.round((completedItems.length / (completedItems.length + incompleteItems.length)) * 100)}%
+`;
+
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `checkliste-${metadata.ticket || 'upgrade'}-${new Date().toISOString().split('T')[0]}.txt`;
+            a.click();
+        }
+
+        // Load metadata from localStorage on page load
+        window.addEventListener('load', function() {
+            const saved = localStorage.getItem('wazuh_checklist_metadata');
+            if (saved) {
+                const metadata = JSON.parse(saved);
+                document.getElementById('operator').value = metadata.operator || '';
+                document.getElementById('customer').value = metadata.customer || '';
+                document.getElementById('infrastructure').value = metadata.infrastructure || '';
+                document.getElementById('ticket').value = metadata.ticket || '';
+                document.getElementById('current_version').value = metadata.current_version || '';
+                document.getElementById('target_version').value = metadata.target_version || '';
+                document.getElementById('start_time').value = metadata.start_time || '';
+                document.getElementById('end_time').value = metadata.end_time || '';
+                document.getElementById('timezone').value = metadata.timezone || 'Europe/Zurich';
+                document.getElementById('snapshot_id').value = metadata.snapshot_id || '';
+            }
+        });
+    </script>
+</body>
+</html>
