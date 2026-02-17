@@ -139,6 +139,7 @@ nav:
   - Reference:
     - reference/index.md
     - Deployment Guide: reference/deployment.md
+    - Mike Versioning: reference/mike-versioning.md
   
   - Catalog:
     - catalog/index.md

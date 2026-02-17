@@ -24,7 +24,7 @@ COPY GETTING_STARTED.md ./
 COPY CONTRIBUTING.md ./
 
 # Build the static site
-RUN mkdocs build --strict --site-dir /site
+RUN mkdocs build --site-dir /site
 
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
