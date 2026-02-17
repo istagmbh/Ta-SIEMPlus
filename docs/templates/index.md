@@ -6,7 +6,7 @@ Standardized templates for change documentation, communication, and operational 
 
 ### Change Management
 
-#### [Change Note Template](../../templates/CHANGE_NOTE_TEMPLATE.md)
+#### [Change Note Template](CHANGE_NOTE_TEMPLATE.md)
 Standard template for documenting changes and maintenance activities.
 
 **Use for:**
@@ -26,7 +26,7 @@ Standard template for documenting changes and maintenance activities.
 
 ### Operational Procedures
 
-#### [Runbook Template](../../runbooks/RUNBOOK-TEMPLATE.md)
+#### [Runbook Template](../runbooks/RUNBOOK-TEMPLATE.md)
 Template for creating new operational runbooks.
 
 **Use for:**
@@ -45,7 +45,7 @@ Template for creating new operational runbooks.
 - Rollback procedure
 - Troubleshooting section
 
-#### [Checklist Template](../../checklists/CHECKLIST-TEMPLATE.md)
+#### [Checklist Template](../checklists/CHECKLIST-TEMPLATE.md)
 Template for creating operational checklists.
 
 **Use for:**
@@ -228,9 +228,9 @@ When using any template, verify:
 ## 🔗 Related Resources
 
 ### Templates
-- [Change Note Template](../../templates/CHANGE_NOTE_TEMPLATE.md)
-- [Runbook Template](../../runbooks/RUNBOOK-TEMPLATE.md)
-- [Checklist Template](../../checklists/CHECKLIST-TEMPLATE.md)
+- [Change Note Template](CHANGE_NOTE_TEMPLATE.md)
+- [Runbook Template](../runbooks/RUNBOOK-TEMPLATE.md)
+- [Checklist Template](../checklists/CHECKLIST-TEMPLATE.md)
 
 ### Documentation
 - [Runbooks](../runbooks/index.md) - Operational procedures

@@ -5,11 +5,11 @@ Checklists are **actionable ticket templates** for change management. They are s
 ## 📋 Available Checklists
 
 ### Wazuh Upgrades
-- **[Wazuh Upgrade AIO](../../checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md)** - Checklist for All-in-One Wazuh upgrades
-- **[Wazuh Upgrade AIO (Improved)](../../checklists/CHECKLIST_WAZUH_UPGRADE_AIO_IMPROVED.md)** - Enhanced version with additional validation steps
+- **[Wazuh Upgrade AIO](CHECKLIST_WAZUH_UPGRADE_AIO.md)** - Checklist for All-in-One Wazuh upgrades
+- **[Wazuh Upgrade AIO (Improved)](CHECKLIST_WAZUH_UPGRADE_AIO_IMPROVED.md)** - Enhanced version with additional validation steps
 
 ### Templates
-- **[Checklist Template](../../checklists/CHECKLIST-TEMPLATE.md)** - Standard template for creating new checklists
+- **[Checklist Template](CHECKLIST-TEMPLATE.md)** - Standard template for creating new checklists
 
 ## 🎯 How to Use Checklists
 
@@ -142,7 +142,7 @@ Every checklist includes mandatory no-go gates. **DO NOT PROCEED** if any check 
 
 When creating a new checklist:
 
-1. **Start with the template**: Use [CHECKLIST-TEMPLATE.md](../../checklists/CHECKLIST-TEMPLATE.md)
+1. **Start with the template**: Use [CHECKLIST-TEMPLATE.md](CHECKLIST-TEMPLATE.md)
 2. **Reference existing runbook**: Ensure a corresponding runbook exists
 3. **Include all metadata fields**: Don't skip the header section
 4. **Add appropriate no-go gates**: Based on the procedure's risks

@@ -22,7 +22,7 @@ The catalog serves as a **single source of truth** for:
 
 ## 📚 Available Catalog Resources
 
-### [Customer Registry](../../Catalog/CUSTOMERS.md)
+### [Customer Registry](CUSTOMERS.md)
 Complete registry of customers and their Wazuh infrastructure configurations.
 
 **Includes:**
@@ -33,7 +33,7 @@ Complete registry of customers and their Wazuh infrastructure configurations.
 - Maintenance windows
 - System specifications
 
-### [Catalog Documentation](../../Catalog/CATALOG.md)
+### [Catalog Documentation](CATALOG.md)
 Guidelines for maintaining and updating the catalog.
 
 ## 🔧 Using the Catalog
@@ -190,20 +190,20 @@ After each upgrade:
 
 ```bash
 # Search by customer name
-grep -A 20 "customer_name: \"Example\"" Catalog/CUSTOMERS.md
+grep -A 20 "customer_name: \"Example\"" CUSTOMERS.md
 
 # Find by infrastructure name
-grep -A 30 "name: \"wazuh-prod-01\"" Catalog/CUSTOMERS.md
+grep -A 30 "name: \"wazuh-prod-01\"" CUSTOMERS.md
 
 # List all customers
-grep "customer_name:" Catalog/CUSTOMERS.md
+grep "customer_name:" CUSTOMERS.md
 ```
 
 ### Verifying Current Versions
 
 ```bash
 # Extract version information for a customer
-grep -A 5 "wazuh_manager:" Catalog/CUSTOMERS.md | grep version
+grep -A 5 "wazuh_manager:" CUSTOMERS.md | grep version
 ```
 
 ## 📋 Integration with Workflows
@@ -229,14 +229,14 @@ Infrastructure: wazuh-prod-01
 
 ## 🔗 Related Resources
 
-- [Customer Registry (YAML)](../../Catalog/CUSTOMERS.md)
-- [Catalog Guidelines](../../Catalog/CATALOG.md)
+- [Customer Registry (YAML)](CUSTOMERS.md)
+- [Catalog Guidelines](CATALOG.md)
 - [Checklists](../checklists/index.md) - Using catalog data in checklists
 - [Templates](../templates/index.md) - Change documentation templates
 
 ## 📚 Additional Documentation
 
 For more details on managing the catalog:
-- See [CATALOG_HOWTO.md](../../CATALOG_HOWTO.md) for step-by-step guide
+- Review existing entries in [CUSTOMERS.md](CUSTOMERS.md) as examples
 - Review existing entries as examples
 - Follow the contributing guidelines for updates

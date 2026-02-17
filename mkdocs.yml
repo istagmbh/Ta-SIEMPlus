@@ -121,15 +121,15 @@ nav:
   
   - Runbooks:
     - runbooks/index.md
-    - Upgrade AIO Ubuntu: ../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md
-    - Agent Group Management: ../runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md
-    - Runbook Template: ../runbooks/RUNBOOK-TEMPLATE.md
+    - Upgrade AIO Ubuntu: runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md
+    - Agent Group Management: runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md
+    - Runbook Template: runbooks/RUNBOOK-TEMPLATE.md
   
   - Checklists:
     - checklists/index.md
-    - Upgrade AIO: ../checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md
-    - Upgrade AIO (Improved): ../checklists/CHECKLIST_WAZUH_UPGRADE_AIO_IMPROVED.md
-    - Checklist Template: ../checklists/CHECKLIST-TEMPLATE.md
+    - Upgrade AIO: checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md
+    - Upgrade AIO (Improved): checklists/CHECKLIST_WAZUH_UPGRADE_AIO_IMPROVED.md
+    - Checklist Template: checklists/CHECKLIST-TEMPLATE.md
   
   - Upgrade Guides:
     - upgrade-guides/index.md
@@ -138,15 +138,16 @@ nav:
   
   - Reference:
     - reference/index.md
+    - Deployment Guide: reference/deployment.md
   
   - Catalog:
     - catalog/index.md
-    - Customers: ../Catalog/CUSTOMERS.md
-    - Catalog Info: ../Catalog/CATALOG.md
+    - Customers: catalog/CUSTOMERS.md
+    - Catalog Info: catalog/CATALOG.md
   
   - Templates:
     - templates/index.md
-    - Change Note Template: ../templates/CHANGE_NOTE_TEMPLATE.md
+    - Change Note Template: templates/CHANGE_NOTE_TEMPLATE.md
 
 # Extra Configuration
 extra:

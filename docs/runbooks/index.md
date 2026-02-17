@@ -11,13 +11,13 @@ Runbooks are **detailed step-by-step operational procedures** for Wazuh SIEM mai
 ## 📖 Available Runbooks
 
 ### Wazuh Upgrades
-- **[Wazuh Upgrade AIO Ubuntu](../../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md)** - Complete upgrade procedure for Wazuh All-in-One installations on Ubuntu using APT
+- **[Wazuh Upgrade AIO Ubuntu](RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md)** - Complete upgrade procedure for Wazuh All-in-One installations on Ubuntu using APT
 
 ### Agent Management
-- **[Wazuh Agent Group Management](../../runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md)** - Managing agent groups, configurations, and deployments
+- **[Wazuh Agent Group Management](RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md)** - Managing agent groups, configurations, and deployments
 
 ### Templates
-- **[Runbook Template](../../runbooks/RUNBOOK-TEMPLATE.md)** - Standard template for creating new runbooks
+- **[Runbook Template](RUNBOOK-TEMPLATE.md)** - Standard template for creating new runbooks
 
 ## 🎯 How to Use Runbooks
 
@@ -109,7 +109,7 @@ curl -k -u <user>:<password> https://localhost:55000/
 
 When creating a new runbook:
 
-1. Use the [Runbook Template](../../runbooks/RUNBOOK-TEMPLATE.md)
+1. Use the [Runbook Template](RUNBOOK-TEMPLATE.md)
 2. Include all required sections:
    - Purpose and scope
    - Prerequisites
