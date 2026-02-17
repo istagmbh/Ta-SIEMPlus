@@ -1,0 +1,183 @@
+# Ta-SIEMPlus Documentation Configuration
+site_name: Ta-SIEMPlus
+site_description: Operational documentation system for managing Wazuh SIEM installations
+site_author: Ta-SIEMPlus Team
+site_url: https://docs.ta-siemplus.local
+
+# Repository
+repo_name: istagmbh/Ta-SIEMPlus
+repo_url: https://github.com/istagmbh/Ta-SIEMPlus
+edit_uri: edit/main/docs/
+
+# Copyright
+copyright: Copyright &copy; 2026 Ta-SIEMPlus Team
+
+# Theme Configuration
+theme:
+  name: material
+  language: en
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  
+  font:
+    text: Roboto
+    code: Roboto Mono
+  
+  icon:
+    repo: fontawesome/brands/github
+    logo: material/shield-check
+  
+  features:
+    - navigation.instant      # Instant loading
+    - navigation.tracking     # URL updates with scroll
+    - navigation.tabs         # Top-level sections in tabs
+    - navigation.tabs.sticky  # Sticky tabs
+    - navigation.sections     # Section headers in navigation
+    - navigation.expand       # Expand all sections by default
+    - navigation.indexes      # Section index pages
+    - navigation.top          # Back to top button
+    - search.suggest          # Search suggestions
+    - search.highlight        # Highlight search terms
+    - search.share           # Share search results
+    - content.code.copy      # Copy button for code blocks
+    - content.action.edit    # Edit button
+    - content.action.view    # View source button
+
+# Plugins
+plugins:
+  - search:
+      lang: en
+      separator: '[\s\-\.]+'
+  - mike:
+      version_selector: true
+      css_dir: css
+      javascript_dir: js
+      canonical_version: latest
+
+# Extensions
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+  
+  # Python Markdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Navigation Structure
+nav:
+  - Home: index.md
+  
+  - Overview:
+    - overview/index.md
+  
+  - Runbooks:
+    - runbooks/index.md
+    - Upgrade AIO Ubuntu: ../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md
+    - Agent Group Management: ../runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md
+    - Runbook Template: ../runbooks/RUNBOOK-TEMPLATE.md
+  
+  - Checklists:
+    - checklists/index.md
+    - Upgrade AIO: ../checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md
+    - Upgrade AIO (Improved): ../checklists/CHECKLIST_WAZUH_UPGRADE_AIO_IMPROVED.md
+    - Checklist Template: ../checklists/CHECKLIST-TEMPLATE.md
+  
+  - Upgrade Guides:
+    - upgrade-guides/index.md
+    - Wazuh 4.12:
+      - upgrade-guides/4.12/index.md
+  
+  - Reference:
+    - reference/index.md
+  
+  - Catalog:
+    - catalog/index.md
+    - Customers: ../Catalog/CUSTOMERS.md
+    - Catalog Info: ../Catalog/CATALOG.md
+  
+  - Templates:
+    - templates/index.md
+    - Change Note Template: ../templates/CHANGE_NOTE_TEMPLATE.md
+
+# Extra Configuration
+extra:
+  version:
+    provider: mike
+    default: latest
+  
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/istagmbh/Ta-SIEMPlus
+      name: Ta-SIEMPlus on GitHub
+  
+  analytics:
+    feedback:
+      title: Was this page helpful?
+      ratings:
+        - icon: material/thumb-up-outline
+          name: This page was helpful
+          data: 1
+          note: >-
+            Thanks for your feedback!
+        - icon: material/thumb-down-outline
+          name: This page could be improved
+          data: 0
+          note: >-
+            Thanks for your feedback! Help us improve by opening an issue.
+
+# Additional CSS
+extra_css:
+  - stylesheets/extra.css
+
+# Additional JavaScript
+extra_javascript:
+  - javascripts/extra.js

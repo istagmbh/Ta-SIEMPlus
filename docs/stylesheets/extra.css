@@ -1,0 +1,80 @@
+/* Custom styles for Ta-SIEMPlus documentation */
+
+/* Enhanced code blocks */
+.highlight {
+  border-radius: 4px;
+}
+
+/* Custom admonitions */
+.admonition.no-go-gate {
+  border-left-color: #f44336;
+}
+
+.admonition.no-go-gate > .admonition-title {
+  background-color: rgba(244, 67, 54, 0.1);
+}
+
+/* Version badges */
+.version-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background-color: #2196F3;
+  color: white;
+  font-size: 0.85em;
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+/* Status indicators */
+.status-active {
+  color: #4caf50;
+}
+
+.status-deprecated {
+  color: #ff9800;
+}
+
+.status-inactive {
+  color: #f44336;
+}
+
+/* Enhanced tables */
+.md-typeset table:not([class]) {
+  font-size: 0.9em;
+}
+
+.md-typeset table:not([class]) th {
+  min-width: 100px;
+}
+
+/* Command blocks with better visibility */
+.md-typeset pre > code {
+  padding: 1em;
+}
+
+/* Custom navigation tweaks */
+.md-nav__title {
+  font-weight: 600;
+}
+
+/* Better mobile responsiveness */
+@media screen and (max-width: 76.1875em) {
+  .md-nav--primary .md-nav__title {
+    background-color: var(--md-primary-fg-color);
+  }
+}
+
+/* Print styles */
+@media print {
+  .md-header,
+  .md-tabs,
+  .md-sidebar,
+  .md-footer {
+    display: none;
+  }
+  
+  .md-content {
+    max-width: 100%;
+  }
+}
