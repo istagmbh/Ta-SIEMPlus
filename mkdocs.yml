@@ -1,7 +1,7 @@
 # Ta-SIEMPlus Documentation Configuration
 site_name: Ta-SIEMPlus
 site_description: Operational documentation system for managing Wazuh SIEM installations
-site_author: Ta-SIEMPlus Team
+site_author: T-Alpha GmbH
 site_url: https://docs.ta-siemplus.local
 
 # Repository
@@ -10,58 +10,65 @@ repo_url: https://github.com/istagmbh/Ta-SIEMPlus
 edit_uri: edit/main/docs/
 
 # Copyright
-copyright: Copyright &copy; 2026 Ta-SIEMPlus Team
+copyright: "Copyright &copy; 2026 <a href='https://www.t-alpha.ch' target='_blank'>T-Alpha GmbH</a> &middot; IT Security"
 
 # Theme Configuration
 theme:
   name: material
-  language: en
+  language: de
+  custom_dir: docs/overrides
   palette:
     # Light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
-      accent: indigo
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-7
-        name: Switch to dark mode
+        name: Auf Dunkelmodus wechseln
     # Dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: indigo
-      accent: indigo
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-4
-        name: Switch to light mode
-  
+        name: Auf Hellmodus wechseln
+
   font:
-    text: Roboto
-    code: Roboto Mono
-  
+    text: Inter
+    code: JetBrains Mono
+
+  logo: assets/images/ta-alpha-logo.svg
+  favicon: assets/images/ta-alpha-logo.svg
+
   icon:
     repo: fontawesome/brands/github
-    logo: material/shield-check
-  
+
   features:
-    - navigation.instant      # Instant loading
-    - navigation.tracking     # URL updates with scroll
-    - navigation.tabs         # Top-level sections in tabs
-    - navigation.tabs.sticky  # Sticky tabs
-    - navigation.sections     # Section headers in navigation
-    - navigation.expand       # Expand all sections by default
-    - navigation.indexes      # Section index pages
-    - navigation.top          # Back to top button
-    - search.suggest          # Search suggestions
-    - search.highlight        # Highlight search terms
-    - search.share           # Share search results
-    - content.code.copy      # Copy button for code blocks
-    - content.action.edit    # Edit button
-    - content.action.view    # View source button
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.action.edit
+    - content.action.view
+
+# Extra CSS
+extra_css:
+  - stylesheets/ta-alpha-brand.css
 
 # Plugins
 plugins:
   - search:
-      lang: en
+      lang: de
       separator: '[\s\-\.]+'
   - mike:
       version_selector: true
@@ -150,36 +157,12 @@ nav:
     - templates/index.md
     - Change Note Template: templates/CHANGE_NOTE_TEMPLATE.md
 
-# Extra Configuration
+# Extra
 extra:
-  version:
-    provider: mike
-    default: latest
-  
   social:
+    - icon: fontawesome/solid/globe
+      link: https://www.t-alpha.ch
+      name: T-Alpha GmbH Website
     - icon: fontawesome/brands/github
       link: https://github.com/istagmbh/Ta-SIEMPlus
-      name: Ta-SIEMPlus on GitHub
-  
-  analytics:
-    feedback:
-      title: Was this page helpful?
-      ratings:
-        - icon: material/thumb-up-outline
-          name: This page was helpful
-          data: 1
-          note: >-
-            Thanks for your feedback!
-        - icon: material/thumb-down-outline
-          name: This page could be improved
-          data: 0
-          note: >-
-            Thanks for your feedback! Help us improve by opening an issue.
-
-# Additional CSS
-extra_css:
-  - stylesheets/extra.css
-
-# Additional JavaScript
-extra_javascript:
-  - javascripts/extra.js
+      name: GitHub Repository
