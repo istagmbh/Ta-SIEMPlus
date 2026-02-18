@@ -12,6 +12,12 @@ snapshot_id: "UNSET"
 status: "planned"        # planned|in_progress|done|rolled_back
 ---
 
+<!-- T-Alpha GmbH Corporate Header -->
+<div style="background: linear-gradient(135deg, #3b3e90, #2d3070); color: white; padding: 20px 28px; border-radius: 6px; margin-bottom: 20px; font-family: Inter, Segoe UI, sans-serif;">
+  <h2 style="margin: 0 0 4px 0; color: white; font-size: 1.3em;">Change-Notiz – Wazuh Upgrade</h2>
+  <p style="margin: 0; opacity: 0.85; font-size: 0.85em;">T-Alpha GmbH &middot; IT Security &middot; www.t-alpha.ch</p>
+</div>
+
 # Change-Notiz – Wazuh Upgrade (Central Components)
 
 **Purpose:** This template standardizes change documentation for Wazuh upgrades.  

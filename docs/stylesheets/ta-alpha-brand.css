@@ -1,0 +1,109 @@
+/* T-Alpha GmbH Corporate Design – MkDocs Material Theme Override */
+
+/* Primary color override for light mode */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #3b3e90;
+  --md-primary-fg-color--light: #5558b0;
+  --md-primary-fg-color--dark: #2d3070;
+  --md-primary-bg-color: #ffffff;
+  --md-accent-fg-color: #3b3e90;
+  --md-accent-fg-color--transparent: rgba(59, 62, 144, 0.1);
+  --md-typeset-a-color: #3b3e90;
+}
+
+/* Primary color override for dark/slate mode */
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #5558b0;
+  --md-primary-fg-color--light: #7779c8;
+  --md-primary-fg-color--dark: #3b3e90;
+  --md-accent-fg-color: #7779c8;
+  --md-typeset-a-color: #7779c8;
+}
+
+/* Header gradient */
+.md-header {
+  background: linear-gradient(135deg, #3b3e90 0%, #2d3070 100%) !important;
+  box-shadow: 0 2px 12px rgba(59,62,144,0.25);
+}
+
+/* Navigation tabs */
+.md-tabs {
+  background: #2d3070 !important;
+}
+.md-tabs__link--active,
+.md-tabs__link:hover {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+/* Sidebar navigation */
+.md-nav__link--active {
+  color: #3b3e90 !important;
+  font-weight: 600;
+}
+.md-nav__link:hover {
+  color: #3b3e90 !important;
+}
+
+/* Search highlight */
+.md-search__input:focus {
+  border-bottom: 2px solid #3b3e90;
+}
+
+/* Admonition colors */
+.md-typeset .admonition,
+.md-typeset details {
+  border-left-color: #3b3e90;
+}
+.md-typeset .admonition.note,
+.md-typeset details.note {
+  border-left-color: #3b3e90;
+}
+
+/* Code copy button */
+.md-clipboard:hover { color: #3b3e90; }
+.md-clipboard:focus { color: #3b3e90; }
+
+/* Footer */
+.md-footer {
+  background: #2d3070;
+}
+.md-footer-meta {
+  background: #1e2060;
+}
+.md-footer__link:hover .md-footer__title {
+  color: #c8caff;
+}
+
+/* Logo sizing in header */
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  height: 32px;
+  width: auto;
+}
+
+/* Back-to-top button */
+.md-top {
+  background: #3b3e90;
+  color: #fff;
+}
+.md-top:hover {
+  background: #2d3070;
+}
+
+/* Table header */
+.md-typeset table:not([class]) th {
+  background: #3b3e90;
+  color: #fff;
+}
+
+/* Highlighted text */
+.md-typeset mark {
+  background: rgba(59,62,144,0.15);
+}
+
+/* T-Alpha brand footer note */
+.md-footer-meta__inner:after {
+  content: " · T-Alpha GmbH · www.t-alpha.ch";
+  opacity: 0.7;
+}
