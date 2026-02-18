@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wartungsprotokoll - Ta-SIEMPlus</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 1.5em;
+            transition: transform 0.3s;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 25px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .section h3 {
+            color: #555;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="datetime-local"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .time-tracker {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .time-display {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+            text-align: center;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .problem-entry {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .problem-entry h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .problem-entry .timestamp {
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .problem-entry .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            border-color: #17a2b8;
+            color: #0c5460;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+
+        .status-planned {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-in-progress {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .timer-controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="back-link">←</a>
+            <h1>📋 Wartungsprotokoll</h1>
+            <p>Strukturierte Dokumentation von Wartungsarbeiten</p>
+        </header>
+
+        <div class="content">
+            <!-- Basic Information -->
+            <div class="section">
+                <h2>📝 Grundinformationen</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Operator</label>
+                        <input type="text" id="operator" placeholder="Max Mustermann">
+                    </div>
+                    <div class="form-group">
+                        <label>Kunde</label>
+                        <input type="text" id="customer" placeholder="Beispiel AG">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Infrastruktur</label>
+                        <input type="text" id="infrastructure" placeholder="wazuh-prod-01">
+                    </div>
+                    <div class="form-group">
+                        <label>Change Ticket ID</label>
+                        <input type="text" id="changeTicket" placeholder="CHG0012345">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Wartungstyp</label>
+                    <select id="maintenanceType">
+                        <option value="upgrade">Upgrade</option>
+                        <option value="incident">Incident Response</option>
+                        <option value="configuration">Konfigurationsänderung</option>
+                        <option value="troubleshooting">Troubleshooting</option>
+                        <option value="backup">Backup/Restore</option>
+                        <option value="monitoring">Monitoring-Anpassung</option>
+                        <option value="other">Sonstiges</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Wartungsbeschreibung</label>
+                    <textarea id="description" rows="3" placeholder="Kurze Beschreibung der durchzuführenden Arbeiten..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Geplanter Start</label>
+                        <input type="datetime-local" id="plannedStart">
+                    </div>
+                    <div class="form-group">
+                        <label>Geplantes Ende</label>
+                        <input type="datetime-local" id="plannedEnd">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Status
+                        <span class="status-badge status-planned" id="statusBadge">Geplant</span>
+                    </label>
+                    <select id="status" onchange="updateStatusBadge()">
+                        <option value="planned">Geplant</option>
+                        <option value="in-progress">In Bearbeitung</option>
+                        <option value="completed">Abgeschlossen</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Time Tracking -->
+            <div class="section">
+                <h2>⏱️ Zeiterfassung</h2>
+                
+                <div class="time-tracker">
+                    <div class="time-display" id="timeDisplay">00:00:00</div>
+                    
+                    <div class="timer-controls">
+                        <button class="btn-success" id="startBtn" onclick="startTimer()">▶️ Start</button>
+                        <button class="btn-warning" id="pauseBtn" onclick="pauseTimer()" disabled>⏸️ Pause</button>
+                        <button class="btn-danger" id="stopBtn" onclick="stopTimer()" disabled>⏹️ Stop</button>
+                        <button class="btn-secondary" onclick="resetTimer()">🔄 Reset</button>
+                    </div>
+
+                    <div class="form-row" style="margin-top: 20px;">
+                        <div class="form-group">
+                            <label>Tatsächlicher Start</label>
+                            <input type="datetime-local" id="actualStart" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Tatsächliches Ende</label>
+                            <input type="datetime-local" id="actualEnd" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Gesamtdauer (Minuten)</label>
+                        <input type="number" id="totalDuration" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pre-Maintenance -->
+            <div class="section">
+                <h2>🔍 Vor der Wartung</h2>
+                
+                <div class="alert alert-info">
+                    <strong>📋 Checkliste:</strong> Dokumentieren Sie den Zustand vor Beginn der Arbeiten.
+                </div>
+
+                <div class="form-group">
+                    <label>System-Status (PRE)</label>
+                    <textarea id="preSystemStatus" rows="4" placeholder="Dokumentieren Sie den aktuellen Systemzustand: Service-Status, Versionen, Cluster Health, etc."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Backup/Snapshot ID</label>
+                    <input type="text" id="backupId" placeholder="snapshot-2024-01-15-pre-maintenance">
+                </div>
+
+                <div class="form-group">
+                    <label>Risikoeinschätzung</label>
+                    <select id="riskLevel">
+                        <option value="low">Niedrig - Routine-Wartung</option>
+                        <option value="medium">Mittel - Konfigurationsänderungen</option>
+                        <option value="high">Hoch - Major Upgrade oder kritische Änderungen</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Rollback-Plan</label>
+                    <textarea id="rollbackPlan" rows="3" placeholder="Beschreiben Sie die Rollback-Strategie falls etwas schief geht..."></textarea>
+                </div>
+            </div>
+
+            <!-- During Maintenance -->
+            <div class="section">
+                <h2>⚙️ Während der Wartung</h2>
+
+                <div class="form-group">
+                    <label>Durchgeführte Schritte</label>
+                    <textarea id="executedSteps" rows="6" placeholder="Dokumentieren Sie chronologisch alle durchgeführten Schritte:
+1. Service gestoppt um 14:00
+2. Paket aktualisiert um 14:05
+3. Service gestartet um 14:10
+..."></textarea>
+                </div>
+
+                <h3>🚨 Probleme & Lösungen</h3>
+                <div id="problemsList">
+                    <!-- Problems will be dynamically added here -->
+                </div>
+
+                <button class="btn-primary" onclick="addProblem()">+ Problem dokumentieren</button>
+            </div>
+
+            <!-- Post-Maintenance -->
+            <div class="section">
+                <h2>✅ Nach der Wartung</h2>
+
+                <div class="form-group">
+                    <label>System-Status (POST)</label>
+                    <textarea id="postSystemStatus" rows="4" placeholder="Dokumentieren Sie den Systemzustand nach den Arbeiten: Service-Status, Versionen, Cluster Health, etc."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Verifikation</label>
+                    <textarea id="verification" rows="4" placeholder="Bestätigen Sie, dass alle Funktionen korrekt arbeiten:
+- Alle Services aktiv
+- Cluster Health: GREEN
+- Dashboards erreichbar
+- Agents connected
+..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Erfolg</label>
+                    <select id="success">
+                        <option value="full">Vollständig erfolgreich</option>
+                        <option value="partial">Teilweise erfolgreich (mit Einschränkungen)</option>
+                        <option value="failed">Fehlgeschlagen (Rollback durchgeführt)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Lessons Learned</label>
+                    <textarea id="lessonsLearned" rows="3" placeholder="Was haben wir gelernt? Was sollte beim nächsten Mal besser gemacht werden?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Follow-Up Aktionen</label>
+                    <textarea id="followUp" rows="3" placeholder="Gibt es offene Punkte oder notwendige Folgeaktionen?"></textarea>
+                </div>
+            </div>
+
+            <!-- Export -->
+            <div class="section">
+                <h2>💾 Export & Archivierung</h2>
+                
+                <div class="alert alert-success">
+                    <strong>✅ Fertig:</strong> Exportieren Sie das Protokoll als PDF zur Archivierung.
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-success" onclick="generatePDF()">📄 Als PDF exportieren</button>
+                    <button class="btn-primary" onclick="saveToLocalStorage()">💾 Zwischenspeichern</button>
+                    <button class="btn-secondary" onclick="loadFromLocalStorage()">📂 Laden</button>
+                    <button class="btn-danger" onclick="clearAll()">🗑️ Alles löschen</button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>
+                <strong>Ta-SIEMPlus</strong> - Wazuh SIEM Management<br>
+                Strukturierte Wartungsdokumentation für Audit & Compliance
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        let timerInterval = null;
+        let elapsedSeconds = 0;
+        let timerRunning = false;
+        let problems = [];
+
+        // Timer functions
+        function startTimer() {
+            if (timerRunning) return;
+            
+            timerRunning = true;
+            const now = new Date().toISOString().slice(0, 16);
+            if (!document.getElementById('actualStart').value) {
+                document.getElementById('actualStart').value = now;
+            }
+            
+            timerInterval = setInterval(() => {
+                elapsedSeconds++;
+                updateTimeDisplay();
+            }, 1000);
+            
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('pauseBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = false;
+            
+            updateStatus('in-progress');
+        }
+
+        function pauseTimer() {
+            if (!timerRunning) return;
+            
+            timerRunning = false;
+            clearInterval(timerInterval);
+            
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('pauseBtn').disabled = true;
+        }
+
+        function stopTimer() {
+            timerRunning = false;
+            clearInterval(timerInterval);
+            
+            const now = new Date().toISOString().slice(0, 16);
+            document.getElementById('actualEnd').value = now;
+            document.getElementById('totalDuration').value = Math.floor(elapsedSeconds / 60);
+            
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('pauseBtn').disabled = true;
+            document.getElementById('stopBtn').disabled = true;
+            
+            updateStatus('completed');
+        }
+
+        function resetTimer() {
+            if (confirm('Timer wirklich zurücksetzen? Alle Zeitdaten gehen verloren.')) {
+                timerRunning = false;
+                clearInterval(timerInterval);
+                elapsedSeconds = 0;
+                updateTimeDisplay();
+                
+                document.getElementById('actualStart').value = '';
+                document.getElementById('actualEnd').value = '';
+                document.getElementById('totalDuration').value = '';
+                
+                document.getElementById('startBtn').disabled = false;
+                document.getElementById('pauseBtn').disabled = true;
+                document.getElementById('stopBtn').disabled = true;
+            }
+        }
+
+        function updateTimeDisplay() {
+            const hours = Math.floor(elapsedSeconds / 3600);
+            const minutes = Math.floor((elapsedSeconds % 3600) / 60);
+            const seconds = elapsedSeconds % 60;
+            
+            const display = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('timeDisplay').textContent = display;
+        }
+
+        function updateStatus(status) {
+            document.getElementById('status').value = status;
+            updateStatusBadge();
+        }
+
+        function updateStatusBadge() {
+            const status = document.getElementById('status').value;
+            const badge = document.getElementById('statusBadge');
+            
+            badge.className = 'status-badge';
+            
+            switch(status) {
+                case 'planned':
+                    badge.classList.add('status-planned');
+                    badge.textContent = 'Geplant';
+                    break;
+                case 'in-progress':
+                    badge.classList.add('status-in-progress');
+                    badge.textContent = 'In Bearbeitung';
+                    break;
+                case 'completed':
+                    badge.classList.add('status-completed');
+                    badge.textContent = 'Abgeschlossen';
+                    break;
+            }
+        }
+
+        // Problem management
+        function addProblem() {
+            const problem = {
+                id: Date.now(),
+                timestamp: new Date().toLocaleString('de-DE'),
+                description: '',
+                resolution: '',
+                resolved: false
+            };
+            
+            problems.push(problem);
+            renderProblems();
+        }
+
+        function updateProblem(id, field, value) {
+            const problem = problems.find(p => p.id === id);
+            if (problem) {
+                problem[field] = value;
+            }
+        }
+
+        function toggleResolved(id) {
+            const problem = problems.find(p => p.id === id);
+            if (problem) {
+                problem.resolved = !problem.resolved;
+                renderProblems();
+            }
+        }
+
+        function removeProblem(id) {
+            if (confirm('Problem wirklich löschen?')) {
+                problems = problems.filter(p => p.id !== id);
+                renderProblems();
+            }
+        }
+
+        function renderProblems() {
+            const container = document.getElementById('problemsList');
+            
+            if (problems.length === 0) {
+                container.innerHTML = '<p style="color: #999; font-style: italic;">Keine Probleme dokumentiert (das ist gut! 🎉)</p>';
+                return;
+            }
+            
+            container.innerHTML = problems.map(problem => `
+                <div class="problem-entry" style="${problem.resolved ? 'opacity: 0.7; border-color: #28a745;' : ''}">
+                    <h4>${problem.resolved ? '✅' : '⚠️'} Problem #${problem.id}</h4>
+                    <div class="timestamp">Erfasst: ${problem.timestamp}</div>
+                    <div class="form-group">
+                        <label>Problembeschreibung</label>
+                        <textarea rows="2" placeholder="Was ist passiert?" 
+                                  onchange="updateProblem(${problem.id}, 'description', this.value)">${problem.description}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Lösung</label>
+                        <textarea rows="2" placeholder="Wie wurde es gelöst?" 
+                                  onchange="updateProblem(${problem.id}, 'resolution', this.value)">${problem.resolution}</textarea>
+                    </div>
+                    <div class="actions">
+                        <button class="btn-${problem.resolved ? 'secondary' : 'success'} btn-small" 
+                                onclick="toggleResolved(${problem.id})">
+                            ${problem.resolved ? '↩️ Als offen markieren' : '✅ Als gelöst markieren'}
+                        </button>
+                        <button class="btn-danger btn-small" onclick="removeProblem(${problem.id})">
+                            🗑️ Löschen
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Storage functions
+        function saveToLocalStorage() {
+            const data = {
+                operator: document.getElementById('operator').value,
+                customer: document.getElementById('customer').value,
+                infrastructure: document.getElementById('infrastructure').value,
+                changeTicket: document.getElementById('changeTicket').value,
+                maintenanceType: document.getElementById('maintenanceType').value,
+                description: document.getElementById('description').value,
+                plannedStart: document.getElementById('plannedStart').value,
+                plannedEnd: document.getElementById('plannedEnd').value,
+                status: document.getElementById('status').value,
+                actualStart: document.getElementById('actualStart').value,
+                actualEnd: document.getElementById('actualEnd').value,
+                totalDuration: document.getElementById('totalDuration').value,
+                preSystemStatus: document.getElementById('preSystemStatus').value,
+                backupId: document.getElementById('backupId').value,
+                riskLevel: document.getElementById('riskLevel').value,
+                rollbackPlan: document.getElementById('rollbackPlan').value,
+                executedSteps: document.getElementById('executedSteps').value,
+                postSystemStatus: document.getElementById('postSystemStatus').value,
+                verification: document.getElementById('verification').value,
+                success: document.getElementById('success').value,
+                lessonsLearned: document.getElementById('lessonsLearned').value,
+                followUp: document.getElementById('followUp').value,
+                problems: problems,
+                elapsedSeconds: elapsedSeconds
+            };
+            
+            localStorage.setItem('maintenance_protocol', JSON.stringify(data));
+            alert('✅ Daten wurden lokal gespeichert!');
+        }
+
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem('maintenance_protocol');
+            if (!saved) {
+                alert('Keine gespeicherten Daten gefunden.');
+                return;
+            }
+            
+            const data = JSON.parse(saved);
+            
+            document.getElementById('operator').value = data.operator || '';
+            document.getElementById('customer').value = data.customer || '';
+            document.getElementById('infrastructure').value = data.infrastructure || '';
+            document.getElementById('changeTicket').value = data.changeTicket || '';
+            document.getElementById('maintenanceType').value = data.maintenanceType || 'upgrade';
+            document.getElementById('description').value = data.description || '';
+            document.getElementById('plannedStart').value = data.plannedStart || '';
+            document.getElementById('plannedEnd').value = data.plannedEnd || '';
+            document.getElementById('status').value = data.status || 'planned';
+            document.getElementById('actualStart').value = data.actualStart || '';
+            document.getElementById('actualEnd').value = data.actualEnd || '';
+            document.getElementById('totalDuration').value = data.totalDuration || '';
+            document.getElementById('preSystemStatus').value = data.preSystemStatus || '';
+            document.getElementById('backupId').value = data.backupId || '';
+            document.getElementById('riskLevel').value = data.riskLevel || 'low';
+            document.getElementById('rollbackPlan').value = data.rollbackPlan || '';
+            document.getElementById('executedSteps').value = data.executedSteps || '';
+            document.getElementById('postSystemStatus').value = data.postSystemStatus || '';
+            document.getElementById('verification').value = data.verification || '';
+            document.getElementById('success').value = data.success || 'full';
+            document.getElementById('lessonsLearned').value = data.lessonsLearned || '';
+            document.getElementById('followUp').value = data.followUp || '';
+            
+            problems = data.problems || [];
+            elapsedSeconds = data.elapsedSeconds || 0;
+            
+            updateTimeDisplay();
+            updateStatusBadge();
+            renderProblems();
+            
+            alert('✅ Daten wurden geladen!');
+        }
+
+        function clearAll() {
+            if (!confirm('Wirklich alle Daten löschen? Diese Aktion kann nicht rückgängig gemacht werden!')) {
+                return;
+            }
+            
+            localStorage.removeItem('maintenance_protocol');
+            location.reload();
+        }
+
+        // PDF Export
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            const leftMargin = 15;
+            let yPos = 20;
+            const lineHeight = 7;
+            const pageHeight = doc.internal.pageSize.height;
+            
+            function checkNewPage() {
+                if (yPos > pageHeight - 30) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+            }
+            
+            // Title
+            doc.setFontSize(18);
+            doc.setFont(undefined, 'bold');
+            doc.text('Wartungsprotokoll', leftMargin, yPos);
+            yPos += 15;
+            
+            // Basic Info
+            doc.setFontSize(14);
+            doc.text('Grundinformationen', leftMargin, yPos);
+            yPos += 10;
+            
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            
+            const basicInfo = [
+                ['Operator:', document.getElementById('operator').value],
+                ['Kunde:', document.getElementById('customer').value],
+                ['Infrastruktur:', document.getElementById('infrastructure').value],
+                ['Change Ticket:', document.getElementById('changeTicket').value],
+                ['Wartungstyp:', document.getElementById('maintenanceType').value],
+                ['Status:', document.getElementById('status').value],
+                ['Erstellt am:', new Date().toLocaleString('de-DE')]
+            ];
+            
+            basicInfo.forEach(([label, value]) => {
+                checkNewPage();
+                doc.text(`${label} ${value || 'N/A'}`, leftMargin, yPos);
+                yPos += lineHeight;
+            });
+            
+            yPos += 5;
+            
+            // Description
+            const description = document.getElementById('description').value;
+            if (description) {
+                checkNewPage();
+                doc.setFont(undefined, 'bold');
+                doc.text('Beschreibung:', leftMargin, yPos);
+                yPos += lineHeight;
+                doc.setFont(undefined, 'normal');
+                const descLines = doc.splitTextToSize(description, 180);
+                descLines.forEach(line => {
+                    checkNewPage();
+                    doc.text(line, leftMargin, yPos);
+                    yPos += lineHeight;
+                });
+            }
+            
+            yPos += 10;
+            
+            // Timing
+            doc.setFontSize(14);
+            doc.setFont(undefined, 'bold');
+            checkNewPage();
+            doc.text('Zeiterfassung', leftMargin, yPos);
+            yPos += 10;
+            
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            
+            const timing = [
+                ['Geplant Start:', document.getElementById('plannedStart').value],
+                ['Geplant Ende:', document.getElementById('plannedEnd').value],
+                ['Tatsächlich Start:', document.getElementById('actualStart').value],
+                ['Tatsächlich Ende:', document.getElementById('actualEnd').value],
+                ['Dauer (Minuten):', document.getElementById('totalDuration').value]
+            ];
+            
+            timing.forEach(([label, value]) => {
+                checkNewPage();
+                doc.text(`${label} ${value || 'N/A'}`, leftMargin, yPos);
+                yPos += lineHeight;
+            });
+            
+            // Add new page for problems and details
+            doc.addPage();
+            yPos = 20;
+            
+            doc.setFontSize(14);
+            doc.setFont(undefined, 'bold');
+            doc.text('Probleme & Lösungen', leftMargin, yPos);
+            yPos += 10;
+            
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            
+            if (problems.length === 0) {
+                doc.text('Keine Probleme aufgetreten', leftMargin, yPos);
+                yPos += lineHeight;
+            } else {
+                problems.forEach((problem, index) => {
+                    checkNewPage();
+                    doc.setFont(undefined, 'bold');
+                    doc.text(`Problem ${index + 1} ${problem.resolved ? '[GELÖST]' : '[OFFEN]'}`, leftMargin, yPos);
+                    yPos += lineHeight;
+                    doc.setFont(undefined, 'normal');
+                    doc.text(`Zeitpunkt: ${problem.timestamp}`, leftMargin + 5, yPos);
+                    yPos += lineHeight;
+                    
+                    if (problem.description) {
+                        const descLines = doc.splitTextToSize(`Beschreibung: ${problem.description}`, 170);
+                        descLines.forEach(line => {
+                            checkNewPage();
+                            doc.text(line, leftMargin + 5, yPos);
+                            yPos += lineHeight;
+                        });
+                    }
+                    
+                    if (problem.resolution) {
+                        const resLines = doc.splitTextToSize(`Lösung: ${problem.resolution}`, 170);
+                        resLines.forEach(line => {
+                            checkNewPage();
+                            doc.text(line, leftMargin + 5, yPos);
+                            yPos += lineHeight;
+                        });
+                    }
+                    
+                    yPos += 3;
+                });
+            }
+            
+            // Completion
+            yPos += 10;
+            checkNewPage();
+            doc.setFontSize(14);
+            doc.setFont(undefined, 'bold');
+            doc.text('Abschluss', leftMargin, yPos);
+            yPos += 10;
+            
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            doc.text(`Erfolg: ${document.getElementById('success').value}`, leftMargin, yPos);
+            yPos += lineHeight * 2;
+            
+            const verification = document.getElementById('verification').value;
+            if (verification) {
+                checkNewPage();
+                doc.text('Verifikation:', leftMargin, yPos);
+                yPos += lineHeight;
+                const verLines = doc.splitTextToSize(verification, 180);
+                verLines.forEach(line => {
+                    checkNewPage();
+                    doc.text(line, leftMargin, yPos);
+                    yPos += lineHeight;
+                });
+            }
+            
+            // Add page numbers
+            const pageCount = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.setFontSize(8);
+                doc.text(`Seite ${i} von ${pageCount}`, 
+                    doc.internal.pageSize.width / 2, 
+                    doc.internal.pageSize.height - 10, 
+                    { align: 'center' });
+            }
+            
+            const filename = `Wartungsprotokoll_${document.getElementById('customer').value.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+            doc.save(filename);
+            
+            alert('✅ PDF wurde erfolgreich erstellt!');
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            updateStatusBadge();
+            renderProblems();
+        });
+    </script>
+</body>
+</html>
