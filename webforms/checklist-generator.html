@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklisten Generator - Ta-SIEMPlus</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 1.5em;
+            transition: transform 0.3s;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 25px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .form-group input[type="text"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .template-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .template-card {
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .template-card:hover {
+            border-color: #667eea;
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        .template-card.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .template-card .icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .task-list {
+            margin-top: 20px;
+        }
+
+        .task-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: start;
+        }
+
+        .task-item input[type="text"] {
+            flex: 1;
+        }
+
+        .task-item textarea {
+            flex: 1;
+            resize: vertical;
+        }
+
+        .task-item button {
+            padding: 8px 12px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .task-item button:hover {
+            background: #c82333;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-add {
+            background: #17a2b8;
+            color: white;
+            margin-top: 10px;
+        }
+
+        .btn-add:hover {
+            background: #138496;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .preview {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            border-color: #17a2b8;
+            color: #0c5460;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="back-link">←</a>
+            <h1>✅ Checklisten Generator</h1>
+            <p>Erstellen Sie anpassbare Wartungs-Checklisten</p>
+        </header>
+
+        <div class="content">
+            <!-- Template Selection -->
+            <div class="section">
+                <h2>1. Template auswählen</h2>
+                <div class="template-selector">
+                    <div class="template-card active" onclick="selectTemplate('upgrade')">
+                        <div class="icon">🔄</div>
+                        <h3>Upgrade</h3>
+                        <p>Wazuh Upgrade Checkliste</p>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate('agent')">
+                        <div class="icon">👥</div>
+                        <h3>Agent Management</h3>
+                        <p>Agent-Verwaltung</p>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate('incident')">
+                        <div class="icon">🚨</div>
+                        <h3>Incident Response</h3>
+                        <p>Incident-Bearbeitung</p>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate('custom')">
+                        <div class="icon">✏️</div>
+                        <h3>Benutzerdefiniert</h3>
+                        <p>Leere Checkliste</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metadata -->
+            <div class="section">
+                <h2>2. Metadaten</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Operator</label>
+                        <input type="text" id="operator" placeholder="Max Mustermann">
+                    </div>
+                    <div class="form-group">
+                        <label>Kunde</label>
+                        <input type="text" id="customer" placeholder="Beispiel AG">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Infrastruktur</label>
+                        <input type="text" id="infrastructure" placeholder="wazuh-prod-01">
+                    </div>
+                    <div class="form-group">
+                        <label>Change Ticket ID</label>
+                        <input type="text" id="changeTicket" placeholder="CHG0012345">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Checklisten-Titel</label>
+                    <input type="text" id="checklistTitle" placeholder="z.B. Wazuh 4.7.0 → 4.7.3 Upgrade">
+                </div>
+
+                <div class="form-group">
+                    <label>Runbook-Referenz (optional)</label>
+                    <input type="text" id="runbookRef" placeholder="RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md">
+                </div>
+            </div>
+
+            <!-- Tasks -->
+            <div class="section">
+                <h2>3. Aufgaben definieren</h2>
+                <div class="alert alert-info">
+                    <strong>💡 Tipp:</strong> Verwenden Sie klare, umsetzbare Aufgabenbeschreibungen. Verweisen Sie bei komplexen Schritten auf das Runbook.
+                </div>
+
+                <div id="taskList" class="task-list">
+                    <!-- Tasks will be dynamically added here -->
+                </div>
+
+                <button class="btn-add" onclick="addTask()">+ Aufgabe hinzufügen</button>
+            </div>
+
+            <!-- Preview & Export -->
+            <div class="section">
+                <h2>4. Vorschau & Export</h2>
+                <div class="button-group">
+                    <button class="btn-primary" onclick="generatePreview()">🔍 Vorschau aktualisieren</button>
+                    <button class="btn-success" onclick="exportMarkdown()">📄 Als Markdown exportieren</button>
+                    <button class="btn-success" onclick="copyToClipboard()">📋 In Zwischenablage kopieren</button>
+                    <button class="btn-secondary" onclick="clearAll()">🔄 Zurücksetzen</button>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <div class="preview" id="preview"># Keine Vorschau verfügbar
+                    
+Bitte füllen Sie die Metadaten aus und klicken Sie auf "Vorschau aktualisieren".</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>
+                <strong>Ta-SIEMPlus</strong> - Wazuh SIEM Management<br>
+                Referenz: <a href="../checklists/CHECKLIST-TEMPLATE.md" style="color: #667eea;">Checklist Template</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        let currentTemplate = 'upgrade';
+        let tasks = [];
+
+        const templates = {
+            upgrade: [
+                { text: 'Pre-Flight Check: Disk Usage < 90%', description: 'Prüfen Sie df -h auf allen Partitionen' },
+                { text: 'Pre-Flight Check: Alle Services aktiv', description: 'systemctl status wazuh-*' },
+                { text: 'Pre-Flight Check: Cluster Health GREEN', description: 'curl -sk https://127.0.0.1:9200/_cluster/health' },
+                { text: 'Snapshot erstellt und verifiziert', description: 'Backup-ID dokumentieren' },
+                { text: 'Change Ticket genehmigt', description: 'Ticket-Status prüfen' },
+                { text: 'PRE-Upgrade Health Snapshot erfasst', description: 'Versionen, Status, Cluster-Health' },
+                { text: 'Indexer Upgrade durchgeführt', description: 'Referenz: Runbook Sektion 2' },
+                { text: 'Manager Upgrade durchgeführt', description: 'Referenz: Runbook Sektion 3' },
+                { text: 'Filebeat Upgrade durchgeführt', description: 'Referenz: Runbook Sektion 4' },
+                { text: 'Dashboard Upgrade durchgeführt', description: 'Referenz: Runbook Sektion 5' },
+                { text: 'POST-Upgrade Health Snapshot erfasst', description: 'Vergleich mit PRE-Snapshot' },
+                { text: 'Alle Services verifiziert (active running)', description: 'Finale Statusprüfung' },
+                { text: 'Change Ticket aktualisiert', description: 'Upgrade-Status dokumentieren' }
+            ],
+            agent: [
+                { text: 'Agent-Gruppe erstellen', description: 'Referenz: Runbook Sektion 2' },
+                { text: 'Konfigurationsdatei bereitstellen', description: 'agent.conf im group-Verzeichnis' },
+                { text: 'Agenten der Gruppe zuweisen', description: 'agent_groups mit CLI-Tool' },
+                { text: 'Gruppenzuweisung verifizieren', description: 'agent_groups -l -g <group>' },
+                { text: 'Konfiguration auf Agenten prüfen', description: 'Logs und Status' },
+                { text: 'Dokumentation aktualisieren', description: 'Katalog und Ticket' }
+            ],
+            incident: [
+                { text: 'Incident erfassen und kategorisieren', description: 'Severity, Scope, Impact' },
+                { text: 'Stakeholder benachrichtigen', description: 'Kunde, Team, Management' },
+                { text: 'Logs und Alerts sammeln', description: 'Wazuh Dashboard, Indexer' },
+                { text: 'Root Cause analysieren', description: 'Korrelation, Timeline' },
+                { text: 'Containment-Maßnahmen umsetzen', description: 'Isolierung, Blockierung' },
+                { text: 'Remediation durchführen', description: 'Patches, Konfiguration' },
+                { text: 'Verifikation', description: 'Problem behoben?' },
+                { text: 'Post-Incident Report erstellen', description: 'Timeline, RCA, Lessons Learned' },
+                { text: 'Incident schließen', description: 'Ticket-Status aktualisieren' }
+            ],
+            custom: []
+        };
+
+        function selectTemplate(templateName) {
+            currentTemplate = templateName;
+            
+            document.querySelectorAll('.template-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.target.closest('.template-card').classList.add('active');
+            
+            tasks = JSON.parse(JSON.stringify(templates[templateName]));
+            renderTasks();
+        }
+
+        function renderTasks() {
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = '';
+            
+            tasks.forEach((task, index) => {
+                const taskItem = document.createElement('div');
+                taskItem.className = 'task-item';
+                taskItem.innerHTML = `
+                    <div style="flex: 1;">
+                        <input type="text" 
+                               placeholder="Aufgabe ${index + 1}" 
+                               value="${task.text}" 
+                               onchange="updateTask(${index}, 'text', this.value)">
+                        <textarea 
+                            placeholder="Beschreibung oder Runbook-Referenz (optional)" 
+                            rows="2" 
+                            style="margin-top: 5px;"
+                            onchange="updateTask(${index}, 'description', this.value)">${task.description || ''}</textarea>
+                    </div>
+                    <button onclick="removeTask(${index})">🗑️</button>
+                `;
+                taskList.appendChild(taskItem);
+            });
+        }
+
+        function addTask() {
+            tasks.push({ text: '', description: '' });
+            renderTasks();
+        }
+
+        function removeTask(index) {
+            tasks.splice(index, 1);
+            renderTasks();
+        }
+
+        function updateTask(index, field, value) {
+            tasks[index][field] = value;
+        }
+
+        function generatePreview() {
+            const operator = document.getElementById('operator').value || 'N/A';
+            const customer = document.getElementById('customer').value || 'N/A';
+            const infrastructure = document.getElementById('infrastructure').value || 'N/A';
+            const changeTicket = document.getElementById('changeTicket').value || 'N/A';
+            const title = document.getElementById('checklistTitle').value || 'Wartungs-Checkliste';
+            const runbookRef = document.getElementById('runbookRef').value || 'N/A';
+            
+            let markdown = `# ${title}\n\n`;
+            markdown += `## Metadaten\n\n`;
+            markdown += `- **Operator:** ${operator}\n`;
+            markdown += `- **Kunde:** ${customer}\n`;
+            markdown += `- **Infrastruktur:** ${infrastructure}\n`;
+            markdown += `- **Change Ticket:** ${changeTicket}\n`;
+            markdown += `- **Runbook-Referenz:** ${runbookRef}\n`;
+            markdown += `- **Erstellt am:** ${new Date().toLocaleString('de-DE')}\n\n`;
+            
+            markdown += `---\n\n`;
+            markdown += `## Checkliste\n\n`;
+            
+            if (tasks.length === 0) {
+                markdown += `_Keine Aufgaben definiert. Fügen Sie Aufgaben über "Aufgabe hinzufügen" hinzu._\n`;
+            } else {
+                tasks.forEach((task, index) => {
+                    markdown += `### ${index + 1}. ${task.text || 'Unbenannte Aufgabe'}\n\n`;
+                    markdown += `- [ ] **Aufgabe durchgeführt**\n`;
+                    if (task.description) {
+                        markdown += `- **Details:** ${task.description}\n`;
+                    }
+                    markdown += `- **Verifiziert am:** ___________\n`;
+                    markdown += `- **Bemerkungen:** _________________________\n\n`;
+                });
+            }
+            
+            markdown += `---\n\n`;
+            markdown += `## Abschluss\n\n`;
+            markdown += `- [ ] Alle Aufgaben abgeschlossen\n`;
+            markdown += `- [ ] Change Ticket aktualisiert\n`;
+            markdown += `- [ ] Dokumentation archiviert\n\n`;
+            markdown += `**Abgeschlossen von:** ___________  \n`;
+            markdown += `**Datum:** ___________  \n`;
+            markdown += `**Unterschrift:** ___________\n`;
+            
+            document.getElementById('preview').textContent = markdown;
+        }
+
+        function exportMarkdown() {
+            generatePreview();
+            const markdown = document.getElementById('preview').textContent;
+            const blob = new Blob([markdown], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const title = document.getElementById('checklistTitle').value || 'checklist';
+            const filename = `CHECKLIST_${title.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '')}_${new Date().toISOString().split('T')[0]}.md`;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function copyToClipboard() {
+            generatePreview();
+            const markdown = document.getElementById('preview').textContent;
+            navigator.clipboard.writeText(markdown).then(() => {
+                const originalText = event.target.textContent;
+                event.target.textContent = '✅ Kopiert!';
+                event.target.style.background = '#28a745';
+                setTimeout(() => {
+                    event.target.textContent = originalText;
+                    event.target.style.background = '';
+                }, 2000);
+            }).catch(err => {
+                alert('Fehler beim Kopieren: ' + err);
+            });
+        }
+
+        function clearAll() {
+            if (!confirm('Möchten Sie wirklich alle Eingaben zurücksetzen?')) {
+                return;
+            }
+            
+            document.getElementById('operator').value = '';
+            document.getElementById('customer').value = '';
+            document.getElementById('infrastructure').value = '';
+            document.getElementById('changeTicket').value = '';
+            document.getElementById('checklistTitle').value = '';
+            document.getElementById('runbookRef').value = '';
+            
+            selectTemplate(currentTemplate);
+        }
+
+        // Initialize with upgrade template
+        window.addEventListener('DOMContentLoaded', () => {
+            selectTemplate('upgrade');
+        });
+    </script>
+</body>
+</html>

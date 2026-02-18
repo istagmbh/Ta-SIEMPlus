@@ -4,18 +4,45 @@
 
 ---
 
-## 🌐 Wichtig: Web-Formulare als Hauptzugriff
+## 🌐 Hauptzugriff: Web-Formulare (NEU!)
 
-**Alle Werkzeuge sind jetzt über Web-Formulare zugänglich!**
+**✨ Alle Werkzeuge sind jetzt über interaktive Web-Formulare zugänglich!**
 
-→ **[Öffne Web-Tools](webforms/index.html)** ← **STARTE HIER**
+### Schnellstart (2 Minuten)
 
-Die Web-Formulare bieten:
-- ✅ Interaktive Bedienung ohne Markdown-Kenntnisse
-- ✅ Automatische Befehlsgenerierung
-- ✅ Copy-Paste freundliche Kommandos
-- ✅ PDF-Export für Dokumentation
+```bash
+# 1. Repository klonen (falls noch nicht geschehen)
+git clone https://github.com/istagmbh/Ta-SIEMPlus.git
+cd Ta-SIEMPlus
+
+# 2. Web-Formulare öffnen
+open webforms/index.html  # Mac
+xdg-open webforms/index.html  # Linux
+start webforms\index.html  # Windows
+```
+
+### Verfügbare Web-Tools
+
+- 🔄 **[Upgrade-Formular](webforms/upgrade-form.html)** - Wazuh AIO Upgrades mit PDF-Export
+- ✅ **[Checklisten-Generator](webforms/checklist-generator.html)** - Individuelle Checklisten
+- 👥 **[Agent-Verwaltung](webforms/agent-management.html)** - Befehls-Generator für Agenten
+- 📋 **[Wartungsprotokoll](webforms/maintenance-protocol.html)** - Strukturierte Dokumentation
+
+**Vorteile der Web-Formulare:**
 - ✅ Keine Installation oder Setup notwendig
+- ✅ Funktioniert offline im Browser
+- ✅ Automatische Befehlsgenerierung
+- ✅ PDF-Export für Dokumentation
+- ✅ Copy-Paste freundliche Kommandos
+- ✅ Persistente Datenspeicherung (LocalStorage)
+
+---
+
+## 📦 Neu hier? Installationsanleitung
+
+Falls du Ta-SIEMPlus zum ersten Mal einrichtest:
+
+→ **[📦 Siehe INSTALLATION.md](INSTALLATION.md)** für eine komplette Setup-Anleitung
 
 ---
 
@@ -41,23 +68,35 @@ Klicke auf dein Szenario, um die richtige Anleitung zu finden:
 
 ### Schritt 1: Wähle deinen Ansatz
 
-Du kannst einen Upgrade **2 Wege** dokumentieren:
+Du kannst einen Upgrade **3 Wege** dokumentieren:
 
-#### **Weg A: Web-Formular (Empfohlen - Schnell & Digital)**
-- Öffne das interaktive Formular im Browser
-- Fülle Felder aus, generiere Befehle
-- Exportiere als PDF für Dokumentation
-- Keine Installation nötig
-- **Datei:** [webforms/maintenance-form.html](webforms/maintenance-form.html)
-- **Runbook:** [webforms/runbook.html](webforms/runbook.html)
+#### **Weg A: Web-Formular (Empfohlen - Schnell & Modern)**
+- ✅ Öffne das interaktive Formular: **[webforms/upgrade-form.html](webforms/upgrade-form.html)**
+- ✅ Fülle Felder aus, generiere Befehle automatisch
+- ✅ Exportiere als PDF für Dokumentation
+- ✅ Keine Installation nötig, funktioniert offline
+- ✅ Persistente Speicherung im Browser
+
+**Workflow:**
+1. Öffne `webforms/upgrade-form.html` im Browser
+2. Fülle Metadaten aus (Kunde, Infrastruktur, Versionen, etc.)
+3. Folge den 5 Schritten mit automatischer Befehlsgenerierung
+4. Führe Health Checks durch
+5. Exportiere PDF für Ticket-Dokumentation
 
 #### **Weg B: Markdown Checkliste (Für Ticket-Systeme)**
 - Kopiere die Checkliste direkt ins Change-Ticket
-- Arbeite Schritt-für-Schritt ab
+- Arbeite Schritt-für-Schritt ab mit Runbook-Referenzen
 - Versionskontrolle via Git
 - **Datei:** [checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md](checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md)
 
-→ **Wir empfehlen: Weg A** (Web-Formular) für schnellere Erfassung und bessere Bedienbarkeit.
+#### **Weg C: MkDocs Dokumentation (Für Teams)**
+- Vollständige, durchsuchbare Dokumentation
+- Docker-basiertes Deployment
+- Versionierung und Navigation
+- **Start:** `docker-compose up -d` → http://localhost:8080
+
+→ **Wir empfehlen: Weg A** (Web-Formular) für neue Nutzer und schnelle Erfassung.
 
 ---
 
@@ -78,19 +117,35 @@ Snapshot/Backup-ID:    z.B. snap-0123456789abcdef0
 
 💡 **Tipp:** Diese Infos findest du in `Catalog/CUSTOMERS.md`
 
-#### 💫 **NEU: Automatisches Ausfüllen im Web-Formular**
-Das Web-Formular hat jetzt einen **"Schritt 0: Basis-Konfiguration"**-Panel:
-- Trage die Metadaten oben ein
-- Klick auf **"✓ Speichern & Vorausfüllen"**
-- Alle Felder in Schritt 1–5 werden **automatisch ausgefüllt**
-- Die Daten werden im Browser gespeichert (auch bei Neuladen!)
+#### 💫 **Automatisches Ausfüllen im Web-Formular**
+Das Web-Formular bietet **automatische Metadaten-Verwaltung**:
+- Trage die Metadaten im ersten Schritt ein
+- Das Formular speichert die Daten automatisch im Browser (LocalStorage)
+- Alle Schritte werden automatisch vorausgefüllt
+- Die Daten bleiben auch nach Browser-Neustart erhalten
+- PDF-Export enthält alle Metadaten automatisch
 
 
 ---
 
-### Schritt 3: Checkliste kopieren & ausfüllen (oder Web-Formular nutzen)
+### Schritt 3: Formular ausfüllen & Befehle ausführen
 
-#### **OPTION A: Markdown Checkliste (empfohlen)**
+#### **OPTION A: Web-Formular (empfohlen)**
+1. Öffne im Browser:
+   ```
+   webforms/upgrade-form.html
+   ```
+2. Fülle das Formular Schritt für Schritt aus:
+   - **Schritt 1:** Metadaten & Pre-Flight Checks
+   - **Schritt 2:** Service-Stop & Backup
+   - **Schritt 3:** Package-Upgrade
+   - **Schritt 4:** Service-Start & Validation
+   - **Schritt 5:** Post-Checks & Documentation
+3. Kopiere die generierten Befehle
+4. Führe sie auf dem Server aus
+5. Klicke "PDF generieren" für die Dokumentation
+
+#### **OPTION B: Markdown Checkliste**
 1. Öffne die Datei:
    ```
    checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md
@@ -98,68 +153,74 @@ Das Web-Formular hat jetzt einen **"Schritt 0: Basis-Konfiguration"**-Panel:
 2. **Kopiere den kompletten Inhalt** (⌘C oder Strg+C)
 3. **Füge ihn in dein Change-Ticket ein**
 4. Trage alle Metadaten-Felder ein (siehe Schritt 2)
-
-#### **OPTION B: Web-Formular (schnell & digital)**
-1. Öffne im Browser:
-   ```
-   docs/maintenance-form.html
-   ```
-2. Fülle das Formular aus
-3. Klicke "PDF generieren"
-4. PDF wird automatisch heruntergeladen
-5. Füge PDF im Ticket an
+5. Arbeite die Checkliste Punkt für Punkt ab
 
 **→ Welche Option passt zu dir?**
-- Ticket-System mit Markdown? → **Option A** ✅
-- Schnelle digitale Erfassung? → **Option B** ✅
+- Web-Formular: Schnell, modern, PDF-Export ✅
+- Markdown-Checkliste: Git-Versioniert, Ticket-System-freundlich ✅
 
 ---
 
-### Schritt 3: Pre-Go Checken (Kritisch!)
+### Schritt 4: Pre-Go Checken (Kritisch!)
 
-Arbeite **Abschnitt B)** ab (No-Go Gates). Wenn auch nur EINE Box nicht ✓ ist:
+Arbeite **die Pre-Flight Checks** ab (in Schritt 1 des Web-Formulars oder Abschnitt B der Checkliste). 
+
+Wenn auch nur EINE Box nicht ✓ ist:
 
 ⛔ **STOPP – Upgrade verschieben!**
 
----
-
-### Schritt 4: Befehle ausführen
-
-Für jeden Punkt in der Checkliste:
-
-1. **Lies die Checklisten-Box** (z.B. "Filebeat gestoppt")
-2. **Schau ins Runbook** für die genauen Befehle:
-   ```
-   runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md
-   ```
-3. **Kopiere den Befehl** (grau hinterlegtes Feld)
-4. **Führe ihn auf dem Server aus**
-5. **Hake die Box in der Checkliste ab** (`[x]`)
+**Kritische No-Go Gates:**
+- ❌ Disk-Belegung > 90%
+- ❌ Services nicht `active (running)`
+- ❌ Kein Backup/Snapshot vorhanden
+- ❌ Change nicht genehmigt
+- ❌ Außerhalb Wartungsfenster
 
 ---
 
-### Schritt 5: Health Snapshots dokumentieren
+### Schritt 5: Befehle ausführen
 
-**Vor dem Upgrade (Abschnitt 1 des Runbooks):**
+Für jeden Punkt:
+
+1. **Lies die Anweisung** (im Web-Formular oder in der Checkliste)
+2. **Kopiere den Befehl** (automatisch generiert im Web-Formular, oder aus Runbook)
+3. **Führe ihn auf dem Server aus**
+4. **Validiere das Ergebnis**
+5. **Hake die Box ab** (im Formular oder `[x]` in Checkliste)
+
+💡 **Tipp:** Nutze das **[Upgrade Runbook](runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md)** parallel für detaillierte Befehle und Troubleshooting.
+
+---
+
+### Schritt 6: Health Snapshots dokumentieren
+
+**Vor dem Upgrade:**
+- Im **Web-Formular:** Fülle "Pre-Upgrade Health Check" in Schritt 1 aus
+- In **Markdown:** Führe die Befehle aus Abschnitt 1 des Runbooks aus
+
 ```bash
 # Kopiere diesen Befehl:
 date -Is && systemctl status wazuh-indexer wazuh-manager wazuh-dashboard filebeat && dpkg -l | grep -E 'wazuh|filebeat'
 ```
-→ **Speichere die Ausgabe im Change-Ticket**
+→ **Speichere die Ausgabe** (im Formular-Feld oder im Change-Ticket)
 
 **Nach dem Upgrade:**
-→ **Führe denselben Befehl nochmal aus** und vergleiche
+- Im **Web-Formular:** Fülle "Post-Upgrade Health Check" in Schritt 5 aus
+- In **Markdown:** Führe denselben Befehl nochmal aus
+→ **Vergleiche die Ausgaben**
 
 ---
 
-### Schritt 6: Bei Problemen → Rollback
+### Schritt 7: Bei Problemen → Rollback
 
 Wenn etwas schiefgeht:
 
-1. Gehe zu Abschnitt **E)** der Checkliste: "Rollback (If Needed)"
+1. Gehe zu **"Rollback"**-Abschnitt (im Web-Formular oder Abschnitt E der Checkliste)
 2. Folge den Rollback-Anweisungen
 3. **Dokumentiere was schief ging** im Change-Ticket
 4. Erstelle ein Incident-Ticket
+
+💡 **Siehe auch:** [Runbook Abschnitt 10 - Rollback](runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md#10-rollback--notfall)
 
 ---
 
@@ -171,33 +232,28 @@ Wazuh Agentengruppen ermöglichen die **zentrale Verwaltung** von Agent-Konfigur
 Agenten können einer oder mehreren Gruppen zugeordnet werden und erhalten automatisch 
 die kombinierten Konfigurationen aller Gruppen.
 
-### Wichtige Dateien verstehen
-
-**merged.mg** - Die konsolidierte Konfiguration:
-- Wird automatisch vom Wazuh-Manager generiert
-- Enthält die zusammengeführte Konfiguration aller Gruppen eines Agents
-- Bei jeder Änderung automatisch aktualisiert und an den Agent gesendet
-- Über Dashboard einsehbar, aber **nicht editierbar**
-- Pfad: `/var/ossec/etc/shared/<agent-id>/merged.mg`
-
-**ar.conf** - Active Response Befehle:
-- Liste von Befehlen für Wartungsaufgaben und Problembehebung
-- Enthält Anweisungen für Service-Neustarts (Wazuh, OSSEC) auf verschiedenen OS
-- Über Dashboard einsehbar, aber **nicht editierbar**
-- Pfad: `/var/ossec/etc/shared/<group-name>/ar.conf`
-
 ### Schnellstart
 
 **1. Web-Formular öffnen (Empfohlen):**
 ```
-Öffne: webforms/agent-groups.html
+Öffne: webforms/agent-management.html
 ```
 
 Das Web-Formular bietet:
-- ✅ Interaktive Befehlsgenerierung
-- ✅ Copy-Paste freundliche Kommandos
+- ✅ Interaktive Befehlsgenerierung für alle Operationen
+- ✅ 7 vordefinierte Beispiele zum Kopieren
 - ✅ Erklärungen zu merged.mg und ar.conf
-- ✅ Beispiele für alle gängigen Operationen
+- ✅ Copy-Paste freundliche Kommandos
+- ✅ Keine Installation nötig
+
+**Verfügbare Operationen:**
+1. Gruppe erstellen
+2. Agent zu Gruppe hinzufügen
+3. Agent aus Gruppe entfernen
+4. Gruppen auflisten
+5. Agenten einer Gruppe anzeigen
+6. Multi-Gruppen Zuweisung
+7. Gruppen-Konfiguration anzeigen
 
 **2. Oder nutze die Kommandozeile direkt:**
 
@@ -218,9 +274,9 @@ Das Web-Formular bietet:
 ### Detaillierte Dokumentation
 
 **Für mehr Details:**
-- **Web-Tool:** [webforms/agent-groups.html](webforms/agent-groups.html) - Interaktives Formular
-- **Runbook:** [runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md](runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md) - Vollständige Dokumentation
-- **Quick Reference:** [QUICK_REFERENCE.md](QUICK_REFERENCE.md) - Alle Befehle auf einen Blick
+- **🌐 Web-Tool:** [webforms/agent-management.html](webforms/agent-management.html) - Interaktives Formular (NEU!)
+- **📘 Runbook:** [runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md](runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md) - Vollständige Dokumentation
+- **⚡ Quick Reference:** [QUICK_REFERENCE.md](QUICK_REFERENCE.md) - Alle Befehle auf einen Blick
 
 ---
 

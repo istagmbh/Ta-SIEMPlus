@@ -6,25 +6,37 @@
 
 ---
 
-## 📚 DOKUMENTATION - Hauptzugriff
+## 🌐 HAUPTZUGRIFF - Web-Formulare (NEU!)
 
-**NEU: MkDocs-basierte Dokumentationsseite mit Versionierung!**
+**✨ Neu: Interaktive Web-Formulare für alle Workflows!**
 
 ### 🚀 Schnellstart
 
-Die Dokumentation steht in zwei Formaten zur Verfügung:
+```bash
+# 1. Repository klonen
+git clone https://github.com/istagmbh/Ta-SIEMPlus.git
+cd Ta-SIEMPlus
 
-1. **MkDocs Site (Empfohlen)** - Vollständig durchsuchbare, versionierte Dokumentation
-2. **Markdown-Dateien** - Direkt im Repository verfügbar
+# 2. Web-Formulare öffnen
+open webforms/index.html  # Mac
+xdg-open webforms/index.html  # Linux
+start webforms\index.html  # Windows
+```
 
-### Lokale Dokumentation starten
+**Verfügbare Web-Tools:**
+- 🔄 **Upgrade-Formular** - Interaktive Wazuh Upgrades mit PDF-Export
+- ✅ **Checklisten-Generator** - Individuelle Checklisten erstellen
+- 👥 **Agent-Verwaltung** - Befehls-Generator für Agentengruppen
+- 📋 **Wartungsprotokoll** - Strukturierte Dokumentation
+
+### 📚 Alternative: MkDocs-Dokumentation
 
 ```bash
-# Mit Docker (Empfohlen)
+# Mit Docker (Empfohlen für Teams)
 docker-compose up -d
 # Zugriff auf http://localhost:8080
 
-# Mit Python/MkDocs
+# Mit Python/MkDocs (für Entwickler)
 pip install mkdocs mkdocs-material mike
 mkdocs serve
 # Zugriff auf http://localhost:8000
@@ -61,26 +73,30 @@ Siehe [Deployment Guide](docs/reference/deployment.md) für Details.
 
 ---
 
-## 🎉 GUTE NACHRICHTEN! Dokumentation wurde modernisiert! 
+## 🎉 PROJEKT FINALISIERT - Februar 2026
 
-**Dieses Projekt wurde im Februar 2026 mit MkDocs modernisiert:**
+**Ta-SIEMPlus ist jetzt production-ready mit:**
 
+✅ **Web-Formulare** - Interaktive Tools für alle Workflows (NEU!)  
+✅ **Installation Guide** - Schritt-für-Schritt Setup-Anleitung  
 ✅ MkDocs-basierte, durchsuchbare Dokumentationsseite  
 ✅ Versionierung für Upgrade Guides (mike)  
 ✅ Docker-basiertes Deployment mit Nginx  
 ✅ Material Design Theme mit Dark Mode  
 ✅ Strukturierte Navigation durch alle Bereiche  
-✅ Bestehende Runbooks und Checklists integriert  
+✅ Vollständige Runbooks und Checklists  
 
-→ **[🐳 Siehe Deployment Guide](docs/reference/deployment.md)**
+→ **[📦 Installation Guide](INSTALLATION.md)** | **[🌐 Web-Formulare](webforms/index.html)**
 
 ---
 
 ## 🎯 Schnelleinstieg (5 Minuten)
 
-**Bist du neu hier?** → Lese: [**GETTING_STARTED.md**](GETTING_STARTED.md)  
-**Du brauchst einen Befehl?** → Siehe: [**QUICK_REFERENCE.md**](QUICK_REFERENCE.md)  
-**Du willst beitragen?** → Folge: [**CONTRIBUTING.md**](CONTRIBUTING.md)
+**Bist du neu hier?** → Lese: [**INSTALLATION.md**](INSTALLATION.md) (NEU!)  
+**Web-Tools nutzen?** → Öffne: [**webforms/index.html**](webforms/index.html) (NEU!)  
+**Erste Schritte?** → Lese: [**GETTING_STARTED.md**](GETTING_STARTED.md)  
+**Schnelle Befehle?** → Siehe: [**QUICK_REFERENCE.md**](QUICK_REFERENCE.md)  
+**Beitragen?** → Folge: [**CONTRIBUTING.md**](CONTRIBUTING.md)
 
 ---
 
@@ -90,11 +106,19 @@ Siehe [Deployment Guide](docs/reference/deployment.md) für Details.
 Ta-SIEMPlus/
 │
 ├── 📘 README.md                        ← Projekt-Überblick (DU BIST HIER)
+├── 📦 INSTALLATION.md                  ← Installation & Setup Guide (NEU!)
 ├── 🚀 GETTING_STARTED.md               ← Erste Schritte & Workflows
 ├── ⚡ QUICK_REFERENCE.md               ← Schnelle Befehls-Lookups
 ├── 📝 CONTRIBUTING.md                  ← Governance & Änderungen
 │
-├── 📂 docs/                            ← MkDocs-Dokumentation (NEU!)
+├── 📂 webforms/                        ← Web-Formulare (NEU!)
+│   ├── index.html                      ← Übersicht aller Tools
+│   ├── upgrade-form.html               ← Upgrade-Formular
+│   ├── checklist-generator.html        ← Checklisten-Generator
+│   ├── agent-management.html           ← Agent-Verwaltung
+│   └── maintenance-protocol.html       ← Wartungsprotokoll
+│
+├── 📂 docs/                            ← MkDocs-Dokumentation
 │   ├── index.md                        ← Dokumentations-Startseite
 │   ├── overview/                       ← Architektur & Prinzipien
 │   ├── runbooks/                       ← Runbook-Index
