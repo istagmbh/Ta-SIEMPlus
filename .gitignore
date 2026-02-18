@@ -58,3 +58,9 @@ docs-old-html/
 
 # Logs
 *.log
+
+# Development artifacts and archives
+archive/
+*_SUMMARY.md
+*_REPORT.md
+managed-siem-runbooks.zip
