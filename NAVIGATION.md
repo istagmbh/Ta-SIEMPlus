@@ -6,23 +6,24 @@ Eine visuelle Karte durch Ta-SIEMPlus – für alle Fälle.
 
 ## 🌐 HAUPTZUGRIFF: Web-Formulare (NEU!)
 
-> **Alle Werkzeuge sind jetzt über Web-Formulare zugänglich!**
+> **Alle Werkzeuge sind jetzt über interaktive Web-Formulare zugänglich!**
 
 ### 🚀 Start hier: [webforms/index.html](webforms/index.html)
 
 **Verfügbare Tools:**
-- 📚 **[catalog.html](webforms/catalog.html)** - Kundenkatalog verwalten
-- 🔧 **[maintenance-form.html](webforms/maintenance-form.html)** - Wartungsplanung mit PDF-Export
-- 📖 **[runbook.html](webforms/runbook.html)** - Interaktives Runbook mit Befehlen
-- ✅ **[checklist.html](webforms/checklist.html)** - Upgrade-Checkliste digital
-- 👥 **[agent-groups.html](webforms/agent-groups.html)** - Agentengruppen-Verwaltung (NEU!)
-- ⚡ **[reference.html](webforms/reference.html)** - Schnell-Referenz
+- 🔄 **[upgrade-form.html](webforms/upgrade-form.html)** - Wazuh Upgrade Wizard mit 5-Schritt-Prozess
+- ✅ **[checklist-generator.html](webforms/checklist-generator.html)** - Dynamischer Checklisten-Generator
+- 👥 **[agent-management.html](webforms/agent-management.html)** - Agentengruppen-Verwaltung mit Befehlsgenerator
+- 📋 **[maintenance-protocol.html](webforms/maintenance-protocol.html)** - Wartungsdokumentation mit Timer
+- 📚 **[README.md](webforms/README.md)** - Webforms-Dokumentation
 
 **Vorteile:**
 - ✅ Keine Installation notwendig
-- ✅ Interaktive Befehlsgenerierung
-- ✅ Copy-to-Clipboard Buttons
+- ✅ Funktioniert offline im Browser
+- ✅ Automatische Befehlsgenerierung
 - ✅ PDF-Export für Dokumentation
+- ✅ LocalStorage Persistenz
+- ✅ Mobile-responsive Design
 
 ---
 
@@ -37,43 +38,53 @@ Eine visuelle Karte durch Ta-SIEMPlus – für alle Fälle.
 ```
 
 ### 1️⃣ **ICH BIN VÖLLIG NEU HIER**
-   → Datei: [**GETTING_STARTED.md**](GETTING_STARTED.md)
-   - ✓ Schritt-für-Schritt geführt
+   → Installation: [**INSTALLATION.md**](INSTALLATION.md) (NEU!)
+   → Erste Schritte: [**GETTING_STARTED.md**](GETTING_STARTED.md)
+   - ✓ Komplette Setup-Anleitung
+   - ✓ 3 Installations-Optionen
    - ✓ Alle Haupt-Szenarien erklärt
    - ✓ Für absolute Anfänger geeignet
 
 ### 2️⃣ **ICH MUSS EIN WAZUH-UPGRADE DURCHFÜHREN**
-   → Web-Tool: [**webforms/maintenance-form.html**](webforms/maintenance-form.html)
-   → Oder Markdown: [**CHECKLIST_HOWTO.md**](CHECKLIST_HOWTO.md)
-   - ✓ Checkliste ausfüllen (mit Beispielen)
-   - ✓ Metadaten sammeln
-   - ✓ Schritt-für-Schritt durcharbeiten
+   → Web-Tool: [**webforms/upgrade-form.html**](webforms/upgrade-form.html) (NEU!)
+   → Oder Anleitung: [**CHECKLIST_HOWTO.md**](CHECKLIST_HOWTO.md)
+   - ✓ Interaktiver 5-Schritt-Wizard
+   - ✓ Automatische Befehlsgenerierung
+   - ✓ PDF-Export für Dokumentation
+   - ✓ Oder: Markdown-Checkliste für Tickets
    - Dann: [**CHECKLIST_WAZUH_UPGRADE_AIO.md**](checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md)
 
-### 3️⃣ **ICH VERWALTE AGENTENGRUPPEN (NEU!)**
-   → Web-Tool: [**webforms/agent-groups.html**](webforms/agent-groups.html)
+### 3️⃣ **ICH VERWALTE AGENTENGRUPPEN**
+   → Web-Tool: [**webforms/agent-management.html**](webforms/agent-management.html) (NEU!)
    → Runbook: [**runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md**](runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md)
+   - ✓ Befehls-Generator für 7 Operationen
+   - ✓ 7 vordefinierte Beispiele
    - ✓ merged.mg und ar.conf erklärt
    - ✓ agent_groups CLI Befehle
-   - ✓ Interaktive Befehlsgenerierung
    - ✓ Best Practices
 
 ### 4️⃣ **ICH BRAUCHE SCHNELLE BEFEHLE**
    → Datei: [**QUICK_REFERENCE.md**](QUICK_REFERENCE.md)
-   → Web-Tool: [**webforms/reference.html**](webforms/reference.html)
    - ✓ Alle wichtigen Commands zum Copy-Paste
    - ✓ Health Checks
    - ✓ Troubleshooting
    - ✓ Pro-Tips
 
 ### 5️⃣ **ICH REGISTRIERE EINEN NEUEN KUNDEN**
-   → Web-Tool: [**webforms/catalog.html**](webforms/catalog.html)
-   → Oder: [**CATALOG_HOWTO.md**](CATALOG_HOWTO.md)
+   → Anleitung: [**CATALOG_HOWTO.md**](CATALOG_HOWTO.md)
+   → Katalog: [**Catalog/CUSTOMERS.md**](Catalog/CUSTOMERS.md)
    - ✓ Daten sammeln
    - ✓ YAML-Eintrag erstellen
    - ✓ Pull Request einreichen
 
-### 6️⃣ **ICH MÖCHTE DAS PROJEKT ÄNDERN / BEITRAGEN**
+### 6️⃣ **ICH MÖCHTE EIN WARTUNGSPROTOKOLL ERSTELLEN**
+   → Web-Tool: [**webforms/maintenance-protocol.html**](webforms/maintenance-protocol.html) (NEU!)
+   - ✓ Strukturierte Erfassung
+   - ✓ Integrierter Timer
+   - ✓ Problem-Tracking
+   - ✓ PDF-Export
+
+### 7️⃣ **ICH MÖCHTE DAS PROJEKT ÄNDERN / BEITRAGEN**
    → Datei: [**CONTRIBUTING.md**](CONTRIBUTING.md)
    - ✓ Pull Request Prozess
    - ✓ Richtlinien für Runbooks/Checklisten
@@ -131,12 +142,13 @@ ALTERNATIVE (Experten):
 ### 🟢 NEUE DATEIEN (für bessere UX)
 | Datei | Zweck | Für wen |
 |-------|-------|---------|
-| [GETTING_STARTED.md](GETTING_STARTED.md) | Einstieg in 5 Szenarien | Anfänger + Neue User |
+| [INSTALLATION.md](INSTALLATION.md) | Setup-Anleitung (3 Optionen) | Neue Benutzer |
+| [GETTING_STARTED.md](GETTING_STARTED.md) | Einstieg in Hauptszenarien | Anfänger + Neue User |
 | [QUICK_REFERENCE.md](QUICK_REFERENCE.md) | Schnelle Befehls-Lookups | Erfahrene Operatoren |
 | [CHECKLIST_HOWTO.md](CHECKLIST_HOWTO.md) | Checkliste richtig ausfüllen | Alle Operatoren |
 | [CATALOG_HOWTO.md](CATALOG_HOWTO.md) | Kunde hinzufügen | Admin + DevOps |
-| [WEB_TOOLS_INTEGRATION.md](WEB_TOOLS_INTEGRATION.md) | Web-Formulare Erklärung | Alle (Tool-Nutzer) |
-| [WEB_FORM_METADATA_INTEGRATION.md](WEB_FORM_METADATA_INTEGRATION.md) | 🆕 Metadaten-Auto-Ausfüllen | Alle (Web-Formular-Nutzer) |
+| [PROJECT_COMPLETION.md](PROJECT_COMPLETION.md) | Projekt-Finalisierung Status | Contributors |
+| [webforms/](webforms/) | 🆕 Interaktive Web-Tools | Alle (Web-Nutzer) |
 | **README.md** (überarbeitet) | Projekt-Überblick | Alle |
 
 ### 🔵 KERNDATE (bereits vorhanden)
