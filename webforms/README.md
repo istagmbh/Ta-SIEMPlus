@@ -82,6 +82,24 @@ Structured form for documenting maintenance work.
 
 ---
 
+### 5. **warum-siem.html** - Warum ganzheitliches SIEM?
+Informational page (German) explaining why holistic SIEM monitoring with Wazuh is essential.
+
+**Sections:**
+- Ganzheitliche Sicherheitsüberwachung (5 pillars: telemetry, correlation, context, detection+response, compliance)
+- Antivirus vs. SIEM comparison (limitations of signature-based tools)
+- Paradigm shift: from tool silo to security operations, from prevention-only to detection+response
+- "Warum seit 40 Jahren" – structural root causes of recurring security failures
+- Wazuh SIEM advantages (open source, agent telemetry, rules, dashboards, integrations)
+- Next Steps checklist with prioritised recommended actions
+
+**Use Cases:**
+- Customer education and onboarding conversations
+- Internal awareness and justification material
+- Reference for proposing a SIEM project to management
+
+---
+
 ## 🚀 Getting Started
 
 ### Opening the Forms
