@@ -114,68 +114,60 @@ markdown_extensions:
 
 # Navigation Structure
 nav:
-  - Home: index.md
-
-  - Einstieg:
-    - Erste Schritte: getting-started.md
-    - Schnellreferenz: quick-reference.md
-    - Projektübersicht: navigation.md
+  - Start: index.md
 
   - Web-Tools:
     - tools/index.md
 
-  - Overview:
-    - overview/index.md
+  - Betrieb:
+    - Übersicht: overview/index.md
+    - Upgrade Guides:
+      - upgrade-guides/index.md
+      - Wazuh 4.12: upgrade-guides/4.12/index.md
+    - Runbooks:
+      - runbooks/index.md
+      - Upgrade AIO Ubuntu: runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md
+      - Agent Group Management: runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md
+      - Runbook-Vorlage: runbooks/RUNBOOK-TEMPLATE.md
+    - Checklisten:
+      - checklists/index.md
+      - Upgrade AIO: checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md
+      - Upgrade AIO+: checklists/CHECKLIST_WAZUH_UPGRADE_AIO_IMPROVED.md
+      - Checklisten-Vorlage: checklists/CHECKLIST-TEMPLATE.md
+    - Katalog:
+      - catalog/index.md
+      - Kunden: catalog/CUSTOMERS.md
+      - Katalog-Info: catalog/CATALOG.md
 
-  - Runbooks:
-    - runbooks/index.md
-    - Upgrade AIO Ubuntu: runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md
-    - Agent Group Management: runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md
-    - Runbook Template: runbooks/RUNBOOK-TEMPLATE.md
-
-  - Checklists:
-    - checklists/index.md
-    - Upgrade AIO: checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md
-    - Upgrade AIO (Verbessert): checklists/CHECKLIST_WAZUH_UPGRADE_AIO_IMPROVED.md
-    - Checklist Template: checklists/CHECKLIST-TEMPLATE.md
-
-  - Upgrade Guides:
-    - upgrade-guides/index.md
-    - Wazuh 4.12:
-      - upgrade-guides/4.12/index.md
-
-  - Anleitungen:
-    - guides/index.md
-    - Checklisten-Anleitung: guides/checklist-howto.md
-    - Katalog-Verwaltung: guides/catalog-howto.md
-
-  - Referenz:
-    - reference/index.md
-    - Deployment Guide: reference/deployment.md
-    - Mike Versioning: reference/mike-versioning.md
-
-  - Katalog:
-    - catalog/index.md
-    - Kunden: catalog/CUSTOMERS.md
-    - Katalog-Info: catalog/CATALOG.md
-
-  - Templates:
-    - templates/index.md
-    - Change Note Template: templates/CHANGE_NOTE_TEMPLATE.md
-
-  - Config Templates:
+  - Konfiguration:
     - config-templates/index.md
     - Variablenreferenz: config-templates/VARIABLES.md
     - Manager:
-      - ossec.conf (Manager AIO): config-templates/manager/ossec-manager.md
-      - Agent Group – Linux Server: config-templates/manager/linux-servers.md
-      - Agent Group – Windows Endpoints: config-templates/manager/windows-endpoints.md
+      - ossec.conf (AIO): config-templates/manager/ossec-manager.md
+      - Linux Server Gruppe: config-templates/manager/linux-servers.md
+      - Windows Endpoints Gruppe: config-templates/manager/windows-endpoints.md
     - Agent:
-      - ossec.conf (Agent Linux): config-templates/agent/ossec-agent.md
+      - ossec.conf (Linux): config-templates/agent/ossec-agent.md
     - Indexer:
       - opensearch.yml: config-templates/indexer/opensearch.md
     - Filebeat:
       - filebeat.yml: config-templates/filebeat/filebeat.md
+
+  - Referenz:
+    - Schnellreferenz: quick-reference.md
+    - Erste Schritte: getting-started.md
+    - Projektübersicht: navigation.md
+    - Anleitungen:
+      - guides/index.md
+      - Checklisten-Anleitung: guides/checklist-howto.md
+      - Katalog-Verwaltung: guides/catalog-howto.md
+    - Templates:
+      - templates/index.md
+      - Change Note: templates/CHANGE_NOTE_TEMPLATE.md
+    - Deployment:
+      - reference/index.md
+      - Deployment Guide: reference/deployment.md
+      - Versionierung: reference/mike-versioning.md
 
 # Extra
 extra:

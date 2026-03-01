@@ -1,48 +1,74 @@
-# Ta-SIEMPlus Dokumentation
+---
+hide:
+  - toc
+---
+
+# Ta-SIEMPlus
 
 **Operative Dokumentation für standardisierte Wazuh SIEM Wartungsabläufe.**
-Reproduzierbar · Auditierbar · Operator-freundlich
+Entwickelt und gepflegt von [T-Alpha GmbH](https://www.t-alpha.ch).
 
 ---
 
-## Einstieg
+<div class="grid cards" markdown>
 
-| | Beschreibung |
-|---|---|
-| [Erste Schritte](getting-started.md) | Dokumentations-URL, Web-Tools, lokale Entwicklung |
-| [Schnellreferenz](quick-reference.md) | Copy-Paste Befehle & Health Checks |
-| [Web-Tools](tools/index.md) | Interaktive Browser-Tools (Upgrade, Checklisten, Agent-Verwaltung) |
-| [Projektübersicht](navigation.md) | Visuelle Karte durch alle Ressourcen |
+-   :material-tools:{ .lg .middle } **Web-Tools**
 
-## Inhalte
+    ---
 
-| Bereich | Beschreibung |
-|---|---|
-| [Overview](overview/index.md) | Architekturprinzipien & Workflow-Übersicht |
-| [Runbooks](runbooks/index.md) | Detaillierte SOPs (Upgrade, Agent Groups) |
-| [Checklists](checklists/index.md) | Change-Management-Checklisten |
-| [Upgrade Guides](upgrade-guides/index.md) | Versionsspezifische Upgrade-Prozeduren |
-| [Anleitungen](guides/index.md) | How-To für Checklisten & Katalog |
-| [Referenz](reference/index.md) | Deployment & Versioning |
-| [Katalog](catalog/index.md) | Kunden- & Infrastruktur-Registry |
-| [Templates](templates/index.md) | Dokumentationsvorlagen |
-| [Config Templates](config-templates/index.md) | Befüllbare Konfigurationsvorlagen mit `{{ VARIABLE }}`-Syntax |
+    Browser-basierte Tools für Upgrades, Checklisten, Agent-Verwaltung und Wartungsprotokoll.
+    Kein Server, keine Installation erforderlich.
+
+    [:octicons-arrow-right-24: Web-Tools öffnen](tools/index.md)
+
+-   :material-wrench:{ .lg .middle } **Betrieb**
+
+    ---
+
+    Upgrade Guides, Runbooks und Checklisten für den täglichen Wazuh AIO Betrieb –
+    von der Planung bis zum Abschluss.
+
+    [:octicons-arrow-right-24: Betriebsdokumentation](overview/index.md)
+
+-   :material-file-code:{ .lg .middle } **Konfiguration**
+
+    ---
+
+    Vorgefertigte Konfigurationsvorlagen für Manager, Agent, Indexer und Filebeat
+    mit vollständiger Variablenreferenz.
+
+    [:octicons-arrow-right-24: Konfigurationsvorlagen](config-templates/index.md)
+
+-   :material-lightning-bolt:{ .lg .middle } **Schnellreferenz**
+
+    ---
+
+    Copy-Paste Befehle für Health Checks, Upgrades und Diagnose –
+    für den täglichen Einsatz im Terminal.
+
+    [:octicons-arrow-right-24: Schnellreferenz](quick-reference.md)
+
+</div>
+
+---
+
+## Workflow auf einen Blick
+
+| Schritt | Aufgabe | Tool |
+|---|---|---|
+| **1 · Vorbereitung** | Kundendaten nachschlagen | [Katalog](catalog/CUSTOMERS.md) |
+| **2 · Planung** | Upgrade-Formular ausfüllen | [Web-Tools](tools/index.md) |
+| **3 · Durchführung** | Runbook ausführen | [Runbook AIO Ubuntu](runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md) |
+| **4 · Dokumentation** | Health Snapshot erfassen | [Schnellreferenz](quick-reference.md) |
+| **5 · Abschluss** | Change Note abschliessen | [Change Note Template](templates/CHANGE_NOTE_TEMPLATE.md) |
 
 ---
 
 ## Kernprinzipien
 
-**No-Go Gates** – Obligatorische Stopkriterien:
-
-- Disk-Belegung > 90% → **STOP**
-- Services nicht `active (running)` → **STOP**
-- Kein Backup/Snapshot → **STOP**
-- Change nicht genehmigt → **STOP**
-
-**Health Snapshots** – Systemzustand vor und nach jeder Änderung dokumentieren.
-
-**Secrets** – Niemals direkt im Repository. Immer `vault://pfad/zum/secret` verwenden.
-
----
-
-**Lizenz:** MIT | **Repository:** [istagmbh/Ta-SIEMPlus](https://github.com/istagmbh/Ta-SIEMPlus)
+| Prinzip | Beschreibung |
+|---|---|
+| **No-Go Gates** | Harte Stopppunkte: Disk > 90%, Services nicht aktiv, fehlendes Backup → kein Upgrade |
+| **Health Snapshots** | Systemzustand vor und nach jeder Änderung vollständig dokumentieren |
+| **Workflow-Sync** | Checkliste und Runbook immer synchron halten |
+| **Secrets** | Niemals Klartext – immer `vault://pfad/zum/secret` im Katalog referenzieren |
