@@ -132,12 +132,76 @@
         .header-actions a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.82em; font-weight: 500; padding: 5px 12px; border: 1.5px solid rgba(255,255,255,0.4); border-radius: 20px; transition: all 0.2s; }
         .header-actions a:hover { color: #fff; border-color: #fff; background: rgba(255,255,255,0.1); }
 
+        /* ── Fade-in on scroll ───────────────────────────────── */
+        .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+        .fade-in.visible { opacity: 1; transform: none; }
+
+        /* ── Scenario toggle (AV vs SIEM) ───────────────────── */
+        .scenario-toggle { background: var(--ta-gray-light); border-radius: var(--ta-border-radius); padding: 22px; margin: 0 0 28px; border: 1.5px solid var(--ta-gray-mid); }
+        .scenario-toggle > p { font-size: 0.9em; color: #555; margin-bottom: 14px; }
+        .scenario-tabs { display: inline-flex; border-radius: 6px; overflow: hidden; border: 2px solid var(--ta-gray-mid); margin-bottom: 18px; }
+        .stab { padding: 8px 22px; border: none; background: #fff; font-size: 0.88em; font-weight: 600; cursor: pointer; color: #555; font-family: inherit; transition: all 0.2s; }
+        .stab.active { background: var(--ta-blue); color: #fff; }
+        .stab:not(.active):hover { background: var(--ta-blue-pale); color: var(--ta-blue); }
+        .scenario-panel { display: flex; gap: 16px; align-items: flex-start; }
+        .scenario-panel.hidden { display: none; }
+        .scenario-icon { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3em; font-weight: bold; flex-shrink: 0; margin-top: 2px; }
+        .scenario-icon.bad  { background: #ffeaea; color: #c0392b; }
+        .scenario-icon.good { background: #eafaf1; color: #27ae60; }
+        .scenario-content h4 { font-size: 0.98em; margin-bottom: 8px; }
+        .scenario-content ul { list-style: none; padding: 0; margin: 0 0 10px; }
+        .scenario-content ul li { padding: 4px 0; font-size: 0.89em; color: #444; }
+        .scenario-content ul li::before { content: "→ "; color: var(--ta-blue); font-weight: 700; }
+        .scenario-result { border-radius: 6px; padding: 10px 14px; font-size: 0.87em; }
+        .scenario-result.bad  { background: #ffeaea; border: 1px solid #c0392b; }
+        .scenario-result.good { background: #eafaf1; border: 1px solid #27ae60; }
+
+        /* ── MTTD Chart ──────────────────────────────────────── */
+        .mttd-chart { margin: 24px 0 28px; }
+        .mttd-title { font-size: 1em; font-weight: 700; color: var(--ta-blue); margin-bottom: 14px; }
+        .mttd-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .mttd-row-label { width: 150px; font-size: 0.87em; font-weight: 600; color: #333; flex-shrink: 0; }
+        .mttd-bar-wrap { flex: 1; background: #e8e9f5; border-radius: 6px; height: 30px; overflow: visible; position: relative; }
+        .mttd-bar { height: 100%; border-radius: 6px; width: 0; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); display: flex; align-items: center; padding-right: 10px; justify-content: flex-end; }
+        .mttd-bar.mttd-bad  { background: linear-gradient(90deg, #e74c3c, #c0392b); }
+        .mttd-bar.mttd-good { background: linear-gradient(90deg, #2ecc71, #27ae60); min-width: 60px; }
+        .mttd-bar span { color: #fff; font-size: 0.8em; font-weight: 700; white-space: nowrap; }
+        .mttd-val { width: 80px; font-size: 0.87em; font-weight: 700; flex-shrink: 0; text-align: right; }
+        .mttd-val.bad  { color: #c0392b; }
+        .mttd-val.good { color: #27ae60; }
+        .mttd-note { font-size: 0.77em; color: #999; text-align: center; margin-top: 6px; font-style: italic; }
+
+        /* ── Readiness Checklist ─────────────────────────────── */
+        .readiness-checklist { background: var(--ta-gray-light); border-radius: var(--ta-border-radius); padding: 24px; margin: 20px 0; border: 1.5px solid var(--ta-gray-mid); }
+        .readiness-progress-wrap { background: #dde0f0; border-radius: 8px; height: 10px; overflow: hidden; margin-bottom: 6px; }
+        .readiness-progress-bar { height: 100%; background: var(--ta-blue); border-radius: 8px; width: 0; transition: width 0.5s ease; }
+        .readiness-progress-label { font-size: 0.84em; color: #666; margin-bottom: 18px; }
+        .readiness-items { list-style: none; padding: 0; margin: 0; }
+        .readiness-item { display: flex; align-items: flex-start; gap: 10px; padding: 11px 6px; border-bottom: 1px solid var(--ta-gray-mid); cursor: pointer; border-radius: 4px; transition: background 0.15s; }
+        .readiness-item:last-child { border-bottom: none; }
+        .readiness-item:hover { background: var(--ta-blue-pale); }
+        .readiness-item.done .ri-text strong { text-decoration: line-through; color: #aaa; }
+        .readiness-item.done .ri-text span { color: #bbb; }
+        .ri-check { width: 20px; height: 20px; border: 2px solid var(--ta-gray-mid); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.85em; transition: all 0.2s; margin-top: 2px; color: transparent; }
+        .readiness-item.done .ri-check { background: var(--ta-blue); border-color: var(--ta-blue); color: #fff; }
+        .ri-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: var(--ta-blue); color: #fff; border-radius: 50%; font-size: 0.78em; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+        .ri-text { font-size: 0.92em; flex: 1; }
+        .ri-text strong { color: #222; display: block; margin-bottom: 2px; }
+        .ri-text span { color: #666; font-size: 0.87em; }
+        .readiness-done-banner { display: none; background: #eafaf1; border: 2px solid #27ae60; border-radius: var(--ta-border-radius); padding: 16px 20px; text-align: center; margin-top: 16px; }
+        .readiness-done-banner.show { display: block; }
+        .readiness-done-banner h4 { color: #27ae60; margin-bottom: 4px; }
+        .readiness-done-banner p { font-size: 0.9em; color: #555; }
+        .readiness-reset { margin-top: 12px; font-size: 0.83em; color: #999; cursor: pointer; text-decoration: underline; background: none; border: none; font-family: inherit; padding: 0; display: block; }
+
         @media (max-width: 768px) {
             .comparison-grid { grid-template-columns: 1fr; }
             .stats-banner { grid-template-columns: 1fr 1fr; }
             .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.15); }
             .header-actions { display: none; }
             .page-nav { padding: 0 12px; }
+            .mttd-row-label { width: 110px; }
+            .scenario-panel { flex-direction: column; }
         }
         @media (max-width: 480px) { .stats-banner { grid-template-columns: 1fr; } }
     </style>
@@ -213,6 +277,43 @@
         <div class="section" id="section-av">
             <h2>2 &middot; Warum traditionelles Antivirus allein versagt</h2>
             <p style="margin-bottom: 20px; color: #555;">Antivirus-Produkte wurden in den 1980er-Jahren fuer eine andere Bedrohungslandschaft entwickelt. Ihr Designprinzip ist gegen moderne Angriffstechniken strukturell unterlegen.</p>
+
+            <!-- Scenario Toggle -->
+            <div class="scenario-toggle">
+                <h3 style="margin: 0 0 10px; color: #333; font-size: 1em;">&#127911; Praxisbeispiel: Mimikatz-Angriff</h3>
+                <p>Ein Angreifer hat via Phishing Zugang erlangt und fuehrt Mimikatz aus, um Passwort-Hashes zu stehlen. Was passiert &ndash; mit und ohne SIEM?</p>
+                <div class="scenario-tabs">
+                    <button class="stab active" onclick="showScenario('av')">Nur Antivirus</button>
+                    <button class="stab" onclick="showScenario('siem')">Mit Wazuh SIEM</button>
+                </div>
+                <div class="scenario-panel" id="scenario-av">
+                    <div class="scenario-icon bad">&#10007;</div>
+                    <div class="scenario-content">
+                        <h4 style="color: #c0392b;">Antivirus reagiert nicht</h4>
+                        <ul>
+                            <li>Mimikatz laeuft direkt im Arbeitsspeicher &ndash; keine Datei auf Disk</li>
+                            <li>PowerShell ist signiert und vertrauenswuerdig &ndash; kein Alert</li>
+                            <li>Kein zentrales Logging &ndash; keine Rekonstruktion moeglich</li>
+                            <li>Angreifer exfiltriert Passwort-Hashes unbemerkt</li>
+                        </ul>
+                        <div class="scenario-result bad"><strong>Resultat:</strong> Angreifer verweilt &Oslash; 280 Tage unentdeckt im Netzwerk.</div>
+                    </div>
+                </div>
+                <div class="scenario-panel hidden" id="scenario-siem">
+                    <div class="scenario-icon good">&#10003;</div>
+                    <div class="scenario-content">
+                        <h4 style="color: #27ae60;">Wazuh SIEM erkennt den Angriff</h4>
+                        <ul>
+                            <li>Prozess-Telemetrie: <code>lsass.exe</code>-Zugriff von unbekanntem Prozess &rarr; Alert Level 12</li>
+                            <li>Command-Line-Monitoring: <code>sekurlsa::logonpasswords</code>-Pattern erkannt</li>
+                            <li>MITRE ATT&amp;CK T1003.001 (OS Credential Dumping) automatisch getaggt</li>
+                            <li>Active Response: Prozess terminiert, Admin-Benachrichtigung gesendet</li>
+                        </ul>
+                        <div class="scenario-result good"><strong>Resultat:</strong> Alert in &lt;60 Sekunden. Vollstaendiger Audit-Trail fuer Forensik und Compliance.</div>
+                    </div>
+                </div>
+            </div>
+
             <div class="comparison-grid">
                 <div class="comparison-card bad">
                     <h3>Klassisches Antivirus</h3>
@@ -273,6 +374,27 @@
                 <tr><td>Reaktion</td><td>Manuell, reaktiv, nach Eskalation</td><td>Automatisiert, proaktiv, mit definierten Playbooks</td></tr>
             </table>
             <div class="callout callout-blue"><h3>&#128260; Assume Breach</h3><p>Das moderne Sicherheitsmodell geht davon aus, dass Angreifer bereits im Netzwerk sind. Nicht <em>ob</em> ein Angriff stattfindet, sondern <em>wann</em> wir ihn erkennen, ist die entscheidende Kennzahl: die <strong>Mean Time to Detect (MTTD)</strong>. Ein SIEM reduziert diese von Monaten auf Minuten.</p></div>
+
+            <!-- MTTD Chart -->
+            <div class="mttd-chart" id="mttdChart">
+                <div class="mttd-title">&#128200; Mean Time to Detect (MTTD) &ndash; Vergleich</div>
+                <div class="mttd-row">
+                    <div class="mttd-row-label">Ohne SIEM (AV only)</div>
+                    <div class="mttd-bar-wrap">
+                        <div class="mttd-bar mttd-bad" data-width="100"><span>~280 Tage</span></div>
+                    </div>
+                    <div class="mttd-val bad">280 Tage</div>
+                </div>
+                <div class="mttd-row">
+                    <div class="mttd-row-label">Mit Wazuh SIEM</div>
+                    <div class="mttd-bar-wrap">
+                        <div class="mttd-bar mttd-good" data-width="6"><span>&lt; 1 Stunde</span></div>
+                    </div>
+                    <div class="mttd-val good">Minuten</div>
+                </div>
+                <p class="mttd-note">&#9432; Balkenbreite nicht linear skaliert (Faktor 1:400). Quelle: IBM Cost of Data Breach Report 2023.</p>
+            </div>
+
             <h3 style="margin-top: 28px; color: var(--ta-blue);">Warum haben wir seit 40 Jahren dieselben Probleme?</h3>
             <p style="margin-bottom: 16px; color: #555;">Die Sicherheitsprobleme sind bekannt, die Loesungen existieren – und trotzdem wiederholen sich dieselben Angriffsmuster seit Jahrzehnten:</p>
             <div class="reason-cards">
@@ -375,16 +497,20 @@
         </div>
 
         <div class="section" id="section-steps">
-            <h2>7 &middot; Naechste Schritte &#8211; Empfehlungen</h2>
-            <ul class="next-steps-list">
-                <li><span class="step-num">1</span><div><strong>Bestandsaufnahme &amp; Asset-Inventar</strong><br><span style="color:#666;">Alle Systeme erfassen: Server, Workstations, Netzwerkgeraete.</span></div></li>
-                <li><span class="step-num">2</span><div><strong>Wazuh Server aufsetzen (AIO oder Cluster)</strong><br><span style="color:#666;">Wazuh All-in-One auf Ubuntu 22.04 LTS. Referenz: <a href="../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU/" style="color: var(--ta-blue);">Upgrade Runbook</a>.</span></div></li>
-                <li><span class="step-num">3</span><div><strong>Agenten auf allen kritischen Systemen ausrollen</strong><br><span style="color:#666;">Server und kritische Workstations zuerst. Gruppen fuer unterschiedliche Konfigurationen nutzen.</span></div></li>
-                <li><span class="step-num">4</span><div><strong>Baseline ermitteln &amp; False Positives reduzieren</strong><br><span style="color:#666;">In den ersten 2&#8211;4 Wochen normales Verhalten beobachten, Regeln anpassen.</span></div></li>
-                <li><span class="step-num">5</span><div><strong>Alerting-Kanaele konfigurieren</strong><br><span style="color:#666;">E-Mail, Slack oder Ticketsystem anbinden. Kritische Alerts (Level 12+) immer sofort eskalieren.</span></div></li>
-                <li><span class="step-num">6</span><div><strong>Response-Playbooks definieren</strong><br><span style="color:#666;">Fuer die haeufigsten Alert-Typen klare Reaktionsplaene erstellen und im Team kommunizieren.</span></div></li>
-                <li><span class="step-num">7</span><div><strong>Regelmaessige Ueberpruefung &amp; Weiterentwicklung</strong><br><span style="color:#666;">Monatliche Review-Meetings: neue Bedrohungen, Regelanpassungen, Compliance-Reports auswerten.</span></div></li>
-            </ul>
+            <h2>7 &middot; Naechste Schritte &#8211; Ihre persoenliche Checkliste</h2>
+            <p style="margin-bottom: 16px; color: #555;">Klicken Sie auf einen Schritt, um ihn als erledigt zu markieren. Ihr Fortschritt wird im Browser gespeichert.</p>
+            <div class="readiness-checklist" id="readinessChecklist">
+                <div class="readiness-progress-wrap">
+                    <div class="readiness-progress-bar" id="readinessBar"></div>
+                </div>
+                <div class="readiness-progress-label" id="readinessLabel">0 von 7 Schritten abgeschlossen</div>
+                <ul class="readiness-items" id="readinessList"></ul>
+                <div class="readiness-done-banner" id="readinessDone">
+                    <h4>&#127881; Alle Schritte abgeschlossen!</h4>
+                    <p>Sie haben alle Schritte fuer einen erfolgreichen Wazuh-Start absolviert. Das <a href="upgrade-form.html" style="color: var(--ta-blue);">Upgrade Formular</a> und der <a href="checklist-generator.html" style="color: var(--ta-blue);">Checklisten-Generator</a> unterstuetzen Sie bei der laufenden Wartung.</p>
+                </div>
+                <button class="readiness-reset" onclick="resetReadiness()">&#8634; Fortschritt zuruecksetzen</button>
+            </div>
             <div class="callout callout-blue" style="margin-top: 24px;">
                 <h3>&#128640; Jetzt starten</h3>
                 <p>Das <a href="upgrade-form.html" style="color: var(--ta-blue); font-weight: 600;">Wazuh Upgrade Formular</a> fuehrt Sie Schritt fuer Schritt durch Installation oder Upgrade, und der <a href="checklist-generator.html" style="color: var(--ta-blue); font-weight: 600;">Checklisten Generator</a> hilft beim strukturierten Vorgehen.</p>
@@ -512,10 +638,108 @@ function updateNavActive() {
     navLinks.forEach(function(a) { a.classList.toggle("active", a.getAttribute("href") === "#" + active); });
 }
 
+// ── Scenario toggle ──────────────────────────────────────────
+function showScenario(which) {
+    document.querySelectorAll(".stab").forEach(function(b) {
+        b.classList.toggle("active", b.textContent.includes(which === "av" ? "Antivirus" : "SIEM"));
+    });
+    document.querySelectorAll(".scenario-panel").forEach(function(p) { p.classList.add("hidden"); });
+    document.getElementById("scenario-" + which).classList.remove("hidden");
+}
+
+// ── MTTD bar animation ───────────────────────────────────────
+var mttdObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+        if (e.isIntersecting) {
+            e.target.querySelectorAll(".mttd-bar").forEach(function(bar) {
+                bar.style.width = bar.getAttribute("data-width") + "%";
+            });
+            mttdObserver.disconnect();
+        }
+    });
+}, { threshold: 0.4 });
+
+// ── Fade-in on scroll ────────────────────────────────────────
+var fadeObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add("visible"); });
+}, { threshold: 0.08 });
+
+// ── Readiness checklist ──────────────────────────────────────
+var readinessSteps = [
+    { text: "Bestandsaufnahme &amp; Asset-Inventar",         sub: "Alle Systeme erfassen: Server, Workstations, Netzwerkgeraete." },
+    { text: "Wazuh Server aufsetzen (AIO oder Cluster)",     sub: "Wazuh All-in-One auf Ubuntu 22.04 LTS. Referenz: Upgrade Runbook." },
+    { text: "Agenten auf kritischen Systemen ausrollen",     sub: "Server und kritische Workstations zuerst, dann Gruppen konfigurieren." },
+    { text: "Baseline ermitteln &amp; False Positives reduzieren", sub: "2&ndash;4 Wochen beobachten, Regeln anpassen." },
+    { text: "Alerting-Kanaele konfigurieren",                sub: "E-Mail, Slack oder Ticketsystem. Kritische Alerts (Level 12+) sofort eskalieren." },
+    { text: "Response-Playbooks definieren",                 sub: "Klare Reaktionsplaene fuer die haeufigsten Alert-Typen erstellen." },
+    { text: "Regelmaessige Ueberpruefung &amp; Weiterentwicklung", sub: "Monatliche Reviews: Bedrohungen, Regelanpassungen, Compliance-Reports." }
+];
+var rchecked = JSON.parse(localStorage.getItem("siem-readiness") || "[]");
+
+function buildReadiness() {
+    var list = document.getElementById("readinessList");
+    if (!list) return;
+    list.innerHTML = "";
+    readinessSteps.forEach(function(s, i) {
+        var done = rchecked.indexOf(i) !== -1;
+        var li = document.createElement("li");
+        li.className = "readiness-item" + (done ? " done" : "");
+        li.setAttribute("data-i", i);
+        li.innerHTML =
+            "<div class='ri-check'>" + (done ? "&#10003;" : "") + "</div>" +
+            "<div class='ri-num'>" + (i + 1) + "</div>" +
+            "<div class='ri-text'><strong>" + s.text + "</strong><span>" + s.sub + "</span></div>";
+        li.onclick = function() { toggleReadiness(i); };
+        list.appendChild(li);
+    });
+    updateReadinessProgress();
+}
+
+function toggleReadiness(i) {
+    var idx = rchecked.indexOf(i);
+    if (idx === -1) rchecked.push(i); else rchecked.splice(idx, 1);
+    localStorage.setItem("siem-readiness", JSON.stringify(rchecked));
+    buildReadiness();
+}
+
+function updateReadinessProgress() {
+    var pct = Math.round((rchecked.length / readinessSteps.length) * 100);
+    var bar  = document.getElementById("readinessBar");
+    var lbl  = document.getElementById("readinessLabel");
+    var done = document.getElementById("readinessDone");
+    if (bar) bar.style.width = pct + "%";
+    if (lbl) lbl.textContent = rchecked.length + " von " + readinessSteps.length + " Schritten abgeschlossen";
+    if (done) done.classList.toggle("show", rchecked.length === readinessSteps.length);
+}
+
+function resetReadiness() {
+    rchecked = [];
+    localStorage.removeItem("siem-readiness");
+    buildReadiness();
+}
+
+// ── Init ─────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", function() {
     buildMatrix();
+    buildReadiness();
+
+    // Stats counter
     statsObserver.observe(document.getElementById("statsBanner"));
+
+    // MTTD bars
+    var mttdEl = document.getElementById("mttdChart");
+    if (mttdEl) mttdObserver.observe(mttdEl);
+
+    // Fade-in for all sections
+    document.querySelectorAll(".section").forEach(function(el) {
+        el.classList.add("fade-in");
+        fadeObserver.observe(el);
+    });
+
+    // Scroll active nav
     window.addEventListener("scroll", updateNavActive, { passive: true });
+
+    // Smooth scroll
     document.querySelectorAll(".page-nav a").forEach(function(a) {
         a.addEventListener("click", function(e) {
             e.preventDefault();
