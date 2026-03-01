@@ -1,0 +1,86 @@
+name: Validate
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  lint-markdown:
+    name: Lint Markdown
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Lint Markdown files
+        uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          globs: |
+            docs/**/*.md
+            README.md
+            CONTRIBUTING.md
+          config: |
+            {
+              "default": true,
+              "MD013": false,
+              "MD033": false,
+              "MD041": false
+            }
+
+  validate-yaml:
+    name: Validate YAML
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate YAML files
+        run: |
+          pip install yamllint
+          yamllint -d relaxed mkdocs.yml docker-compose.yml
+
+  build-docs:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install \
+            mkdocs==1.5.3 \
+            mkdocs-material==9.5.3 \
+            mike==2.0.0 \
+            pymdown-extensions==10.7
+
+      - name: Build MkDocs site
+        run: mkdocs build --strict
+
+  validate-html:
+    name: Validate HTML Forms
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check HTML files exist and are non-empty
+        run: |
+          for f in webforms/index.html webforms/upgrade-form.html \
+                   webforms/checklist-generator.html webforms/agent-management.html \
+                   webforms/maintenance-protocol.html; do
+            if [ ! -s "$f" ]; then
+              echo "ERROR: $f is missing or empty"
+              exit 1
+            fi
+            echo "OK: $f"
+          done
