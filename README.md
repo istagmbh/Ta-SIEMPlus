@@ -50,6 +50,7 @@ mkdocs serve                      # http://localhost:8000
 | [Catalog](docs/catalog/) | Kunden- & Infrastruktur-Registry |
 | [Templates](docs/templates/) | Dokumentationsvorlagen |
 | [Guides](docs/guides/) | How-To Anleitungen (Checklisten, Katalog) |
+| [Config Templates](docs/config-templates/) | Befüllbare Konfigurationsvorlagen (ossec.conf, opensearch.yml, filebeat.yml) |
 
 ---
 
@@ -83,6 +84,7 @@ Ta-SIEMPlus/
 │   ├── reference/              # Deployment & Versioning
 │   ├── catalog/                # Kunden-Registry (YAML)
 │   ├── templates/              # Dokumentvorlagen
+│   ├── config-templates/       # Befüllbare Konfig-Templates (ossec.conf, etc.)
 │   └── assets/                 # Bilder & Logos
 │
 ├── docker-compose.yml          # Docker-Deployment
