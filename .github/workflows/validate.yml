@@ -75,9 +75,9 @@ jobs:
 
       - name: Check HTML files exist and are non-empty
         run: |
-          for f in webforms/index.html webforms/upgrade-form.html \
-                   webforms/checklist-generator.html webforms/agent-management.html \
-                   webforms/maintenance-protocol.html; do
+          for f in docs/webforms/index.html docs/webforms/upgrade-form.html \
+                   docs/webforms/checklist-generator.html docs/webforms/agent-management.html \
+                   docs/webforms/maintenance-protocol.html docs/webforms/warum-siem.html; do
             if [ ! -s "$f" ]; then
               echo "ERROR: $f is missing or empty"
               exit 1

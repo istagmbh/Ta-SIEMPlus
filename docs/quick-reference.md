@@ -11,7 +11,7 @@ Ein Cheat-Sheet für erfahrene Operatoren. Alle Befehle zum Kopieren.
 | | Link |
 |---|---|
 | Checkliste | [CHECKLIST_WAZUH_UPGRADE_AIO](checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md) |
-| Upgrade-Formular | [Web-Tool öffnen](../webforms/upgrade-form.html) |
+| Upgrade-Formular | [Web-Tool öffnen](webforms/upgrade-form.html) |
 | Runbook | [RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU](runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md) |
 | Change-Note Template | [CHANGE_NOTE_TEMPLATE](templates/CHANGE_NOTE_TEMPLATE.md) |
 | Kunden-Info | [CUSTOMERS](catalog/CUSTOMERS.md) |
@@ -360,7 +360,7 @@ Alle Credentials müssen via Secret-Store referenziert sein!
 | Wazuh Upgrade Guide | https://documentation.wazuh.com/current/upgrade-guide/ |
 | Wazuh Official Docs | https://documentation.wazuh.com/ |
 | Project Repo | /Users/i.stricker/docker/dev/Ta-SIEMPlus |
-| Contributing Guide | CONTRIBUTING.md |
+| Contributing Guide | [GitHub](https://github.com/istagmbh/Ta-SIEMPlus/blob/main/CONTRIBUTING.md) |
 
 ---
 
@@ -398,8 +398,8 @@ start checklists\CHECKLIST_WAZUH_UPGRADE_AIO.md
 
 ---
 
-**Brauchst du mehr Details?** → [GETTING_STARTED.md](GETTING_STARTED.md)
+**Brauchst du mehr Details?** → [Erste Schritte](getting-started.md)
 
-**Änderung einreichen?** → [CONTRIBUTING.md](CONTRIBUTING.md)
+**Änderung einreichen?** → [CONTRIBUTING.md](https://github.com/istagmbh/Ta-SIEMPlus/blob/main/CONTRIBUTING.md)
 
-**Projekt-Überblick?** → [README.md](README.md)
+**Projekt-Überblick?** → [Projektübersicht](navigation.md)

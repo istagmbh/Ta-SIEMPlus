@@ -4,7 +4,7 @@ Dieses Dokument katalogisiert alle verwalteten Wazuh-Instanzen und deren Zugehö
 
 **Status:** ✅ Production  
 **Zuletzt aktualisiert:** 30. Januar 2026  
-**Verwaltung:** Dieses Dokument wird von der Web-basierte Katalog-Funktion (docs/catalog.html) synchronisiert.
+**Verwaltung:** Dieses Dokument wird von der Web-basierte Katalog-Funktion (dem Katalog-YAML) verwaltet.
 
 ---
 
@@ -157,7 +157,7 @@ Timezone: Europe/Madrid
 
 ### Integration mit Web-Tools
 
-Die Katalog-Daten werden in der Web-Anwendung (docs/catalog.html) angezeigt:
+Die Katalog-Daten werden in den YAML-Dateien gepflegt:
 - Kunden und Infrastrukturen sind interaktiv selektierbar
 - Auswahl wird automatisch in Formular, Checkliste und Runbook übernommen
 - LocalStorage ermöglicht Persistierung während der Session
@@ -179,7 +179,7 @@ Die Katalog-Daten werden in der Web-Anwendung (docs/catalog.html) angezeigt:
 
 ### "Ich muss eine Upgrade durchführen für Kunden X"
 
-1. Geh zu [**Web-Katalog** (docs/catalog.html)](../docs/catalog.html)
+1. Öffne [catalog/CUSTOMERS.md](CUSTOMERS.md)
 2. Suche den Kunden, wähle die Infrastruktur
 3. Klicke **"Im Formular verwenden"**
 4. Metadaten werden automatisch gefüllt ✅
@@ -214,6 +214,6 @@ Dieses Katalog-System ist **gemeinschaftlich wartbar**:
 ---
 
 **Anhänge:**
-- Web-Katalog: [docs/catalog.html](../docs/catalog.html)
+- Katalog: [catalog/CUSTOMERS.md](CUSTOMERS.md)
 - Upgrade-Runbook: [runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md](../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md)
 - Change-Checkliste: [checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md](../checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md)
