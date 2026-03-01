@@ -26,6 +26,7 @@ Reproduzierbar · Auditierbar · Operator-freundlich
 | [Referenz](reference/index.md) | Deployment & Versioning |
 | [Katalog](catalog/index.md) | Kunden- & Infrastruktur-Registry |
 | [Templates](templates/index.md) | Dokumentationsvorlagen |
+| [Config Templates](config-templates/index.md) | Befüllbare Konfigurationsvorlagen mit `{{ VARIABLE }}`-Syntax |
 
 ---
 

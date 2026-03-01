@@ -161,6 +161,20 @@ nav:
     - templates/index.md
     - Change Note Template: templates/CHANGE_NOTE_TEMPLATE.md
 
+  - Config Templates:
+    - config-templates/index.md
+    - Variablenreferenz: config-templates/VARIABLES.md
+    - Manager:
+      - ossec.conf (Manager AIO): config-templates/manager/ossec-manager.md
+      - Agent Group – Linux Server: config-templates/manager/linux-servers.md
+      - Agent Group – Windows Endpoints: config-templates/manager/windows-endpoints.md
+    - Agent:
+      - ossec.conf (Agent Linux): config-templates/agent/ossec-agent.md
+    - Indexer:
+      - opensearch.yml: config-templates/indexer/opensearch.md
+    - Filebeat:
+      - filebeat.yml: config-templates/filebeat/filebeat.md
+
 # Extra
 extra:
   social:

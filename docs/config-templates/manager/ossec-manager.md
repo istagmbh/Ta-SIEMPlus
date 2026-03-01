@@ -1,0 +1,258 @@
+# ossec.conf – Wazuh Manager (AIO)
+
+Vollständige Manager-Konfiguration für eine **All-In-One Ubuntu Installation**.
+
+**Variablenreferenz:** [VARIABLES.md](../VARIABLES.md)
+**Rohdatei (zum Download):** [`ossec.conf.template`](ossec.conf.template)
+
+## Verwendung
+
+```bash
+# Variablen exportieren
+export $(cat vars.yml | grep -v '#' | xargs)
+
+# Template befüllen
+envsubst < docs/config-templates/manager/ossec.conf.template \
+         > /var/ossec/etc/ossec.conf
+
+# Konfiguration validieren
+/var/ossec/bin/wazuh-control check-config
+
+# Manager neu starten
+systemctl restart wazuh-manager
+```
+
+## Template
+
+```xml
+<!--
+  ossec.conf – Wazuh Manager (All-In-One, Ubuntu)
+  Template Version: 1.0
+  Wazuh Version:    {{ WAZUH_VERSION }}
+  Kunde:            {{ CUSTOMER_ID }}
+  Change-Ticket:    {{ CHANGE_TICKET }}
+
+  Variablen: siehe docs/config-templates/VARIABLES.md
+  Befüllen:  envsubst < ossec.conf.template > /var/ossec/etc/ossec.conf
+  Validieren: /var/ossec/bin/wazuh-control check-config
+-->
+<ossec_config>
+
+  <!-- ============================================================
+       GLOBALE EINSTELLUNGEN
+       ============================================================ -->
+  <global>
+    <jsonout_output>yes</jsonout_output>
+    <alerts_log>yes</alerts_log>
+    <logall>{{ LOG_ALL }}</logall>
+    <logall_json>no</logall_json>
+    <email_notification>{{ EMAIL_ENABLED }}</email_notification>
+    <smtp_server>{{ EMAIL_SMTP_SERVER }}</smtp_server>
+    <email_from>{{ EMAIL_FROM }}</email_from>
+    <email_to>{{ EMAIL_TO }}</email_to>
+    <email_maxperhour>12</email_maxperhour>
+    <email_alert_level>{{ EMAIL_ALERT_LEVEL }}</email_alert_level>
+    <email_idsname>Wazuh – {{ CLUSTER_NODE_NAME }}</email_idsname>
+  </global>
+
+  <!-- ============================================================
+       ALERTS
+       ============================================================ -->
+  <alerts>
+    <log_alert_level>3</log_alert_level>
+    <email_alert_level>{{ EMAIL_ALERT_LEVEL }}</email_alert_level>
+  </alerts>
+
+  <!-- ============================================================
+       LOGGING
+       ============================================================ -->
+  <logging>
+    <log_format>{{ LOG_FORMAT }}</log_format>
+  </logging>
+
+  <!-- ============================================================
+       REMOTE (AGENT-KOMMUNIKATION)
+       ============================================================ -->
+  <remote>
+    <connection>secure</connection>
+    <port>{{ MANAGER_PORT }}</port>
+    <protocol>{{ AGENT_PROTOCOL }}</protocol>
+    <queue_size>131072</queue_size>
+  </remote>
+
+  <!-- ============================================================
+       CLUSTER
+       Für AIO (Single-Node): CLUSTER_DISABLED=yes
+       ============================================================ -->
+  <cluster>
+    <name>{{ CLUSTER_NAME }}</name>
+    <node_name>{{ CLUSTER_NODE_NAME }}</node_name>
+    <node_type>{{ CLUSTER_NODE_TYPE }}</node_type>
+    <key>{{ CLUSTER_KEY }}</key>
+    <port>1516</port>
+    <bind_addr>{{ CLUSTER_BIND_ADDR }}</bind_addr>
+    <nodes>
+      <node>{{ CLUSTER_NODES }}</node>
+    </nodes>
+    <hidden>no</hidden>
+    <disabled>{{ CLUSTER_DISABLED }}</disabled>
+  </cluster>
+
+  <!-- ============================================================
+       WAZUH-INDEXER (OpenSearch) OUTPUT
+       ============================================================ -->
+  <indexer>
+    <enabled>yes</enabled>
+    <hosts>
+      <host>https://{{ INDEXER_HOST }}:{{ INDEXER_PORT }}</host>
+    </hosts>
+    <ssl>
+      <certificate_authorities>
+        <ca>/etc/filebeat/certs/root-ca.pem</ca>
+      </certificate_authorities>
+      <certificate>/etc/filebeat/certs/filebeat.pem</certificate>
+      <key>/etc/filebeat/certs/filebeat-key.pem</key>
+    </ssl>
+  </indexer>
+
+  <!-- ============================================================
+       SYSLOG OUTPUT (optional)
+       ============================================================ -->
+  <syslog_output>
+    <level>{{ SYSLOG_ALERT_LEVEL }}</level>
+    <server>{{ SYSLOG_SERVER }}</server>
+    <port>{{ SYSLOG_PORT }}</port>
+    <protocol>{{ SYSLOG_PROTOCOL }}</protocol>
+  </syslog_output>
+
+  <!-- ============================================================
+       FILE INTEGRITY MONITORING (FIM / SYSCHECK)
+       ============================================================ -->
+  <syscheck>
+    <disabled>no</disabled>
+    <frequency>{{ SYSCHECK_FREQUENCY }}</frequency>
+    <scan_on_start>yes</scan_on_start>
+    <alert_new_files>yes</alert_new_files>
+    <auto_ignore frequency="10" timeframe="3600">no</auto_ignore>
+    <directories check_all="yes" realtime="yes">/etc,/usr/bin,/usr/sbin</directories>
+    <directories check_all="yes" realtime="yes">/bin,/sbin,/boot</directories>
+    <directories check_all="yes">/var/ossec/etc</directories>
+    <ignore>/etc/mtab</ignore>
+    <ignore>/etc/hosts.deny</ignore>
+    <ignore type="sregex">.log$|.swp$</ignore>
+    <nodiff>/etc/ssl/private.key</nodiff>
+  </syscheck>
+
+  <!-- ============================================================
+       ROOTCHECK
+       ============================================================ -->
+  <rootcheck>
+    <disabled>no</disabled>
+    <check_files>yes</check_files>
+    <check_trojans>yes</check_trojans>
+    <check_dev>yes</check_dev>
+    <check_sys>yes</check_sys>
+    <check_pids>yes</check_pids>
+    <check_ports>yes</check_ports>
+    <check_if>yes</check_if>
+    <frequency>43200</frequency>
+    <rootkit_files>etc/shared/rootkit_files.txt</rootkit_files>
+    <rootkit_trojans>etc/shared/rootkit_trojans.txt</rootkit_trojans>
+  </rootcheck>
+
+  <!-- ============================================================
+       VULNERABILITY DETECTION
+       ============================================================ -->
+  <vulnerability-detection>
+    <enabled>yes</enabled>
+    <index-status>yes</index-status>
+    <feed-update-interval>60m</feed-update-interval>
+  </vulnerability-detection>
+
+  <!-- ============================================================
+       SCA (Security Configuration Assessment)
+       ============================================================ -->
+  <sca>
+    <enabled>yes</enabled>
+    <scan_on_start>yes</scan_on_start>
+    <interval>12h</interval>
+    <skip_nfs>yes</skip_nfs>
+  </sca>
+
+  <!-- ============================================================
+       LOG-ANALYSE (LOCALFILE)
+       ============================================================ -->
+  <localfile>
+    <log_format>syslog</log_format>
+    <location>/var/log/syslog</location>
+  </localfile>
+  <localfile>
+    <log_format>syslog</log_format>
+    <location>/var/log/auth.log</location>
+  </localfile>
+  <localfile>
+    <log_format>syslog</log_format>
+    <location>/var/log/dpkg.log</location>
+  </localfile>
+  <localfile>
+    <log_format>command</log_format>
+    <command>df -P</command>
+    <frequency>360</frequency>
+  </localfile>
+  <localfile>
+    <log_format>full_command</log_format>
+    <command>last -n 20</command>
+    <frequency>360</frequency>
+  </localfile>
+
+  <!-- ============================================================
+       REGELWERK & DECODER
+       ============================================================ -->
+  <ruleset>
+    <decoder_dir>ruleset/decoders</decoder_dir>
+    <rule_dir>ruleset/rules</rule_dir>
+    <rule_exclude>0215-policy_rules.xml</rule_exclude>
+    <list>etc/lists/audit-keys</list>
+    <list>etc/lists/amazon/aws-eventnames</list>
+    <list>etc/lists/security-eventchannel</list>
+    <decoder_dir>etc/decoders</decoder_dir>
+    <rule_dir>etc/rules</rule_dir>
+  </ruleset>
+
+  <!-- ============================================================
+       ACTIVE RESPONSE
+       ============================================================ -->
+  <active-response>
+    <disabled>no</disabled>
+    <ca_store>etc/wpk_root.pem</ca_store>
+    <ca_verification>yes</ca_verification>
+  </active-response>
+
+  <!-- ============================================================
+       WAZUH API
+       ============================================================ -->
+  <api>
+    <bind_addr>{{ API_HOST }}</bind_addr>
+    <port>{{ API_PORT }}</port>
+    <https>yes</https>
+    <ssl_protocol>TLSv1.2</ssl_protocol>
+    <ssl_ciphers>HIGH:!ADH:!EXP:!MD5:!RC4:!3DES:!CAMELLIA:@STRENGTH</ssl_ciphers>
+    <logs>
+      <level>info</level>
+    </logs>
+    <cors>
+      <enabled>no</enabled>
+    </cors>
+    <cache>
+      <enabled>yes</enabled>
+      <time>0.750</time>
+    </cache>
+    <access>
+      <max_login_attempts>50</max_login_attempts>
+      <block_time>300</block_time>
+      <max_request_per_minute>300</max_request_per_minute>
+    </access>
+  </api>
+
+</ossec_config>
+```
