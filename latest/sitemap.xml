@@ -61,6 +61,46 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://istagmbh.github.io/Ta-SIEMPlus/latest/config-templates/</loc>
+         <lastmod>2026-03-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://istagmbh.github.io/Ta-SIEMPlus/latest/config-templates/VARIABLES/</loc>
+         <lastmod>2026-03-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://istagmbh.github.io/Ta-SIEMPlus/latest/config-templates/agent/ossec-agent/</loc>
+         <lastmod>2026-03-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://istagmbh.github.io/Ta-SIEMPlus/latest/config-templates/filebeat/filebeat/</loc>
+         <lastmod>2026-03-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://istagmbh.github.io/Ta-SIEMPlus/latest/config-templates/indexer/opensearch/</loc>
+         <lastmod>2026-03-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://istagmbh.github.io/Ta-SIEMPlus/latest/config-templates/manager/linux-servers/</loc>
+         <lastmod>2026-03-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://istagmbh.github.io/Ta-SIEMPlus/latest/config-templates/manager/ossec-manager/</loc>
+         <lastmod>2026-03-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://istagmbh.github.io/Ta-SIEMPlus/latest/config-templates/manager/windows-endpoints/</loc>
+         <lastmod>2026-03-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://istagmbh.github.io/Ta-SIEMPlus/latest/guides/</loc>
          <lastmod>2026-03-01</lastmod>
          <changefreq>daily</changefreq>

@@ -12,26 +12,28 @@
         <meta name="author" content="T-Alpha GmbH">
       
       
-        <link rel="canonical" href="https://istagmbh.github.io/Ta-SIEMPlus/latest/">
+        <link rel="canonical" href="https://istagmbh.github.io/Ta-SIEMPlus/latest/config-templates/agent/ossec-agent/">
       
       
+        <link rel="prev" href="../../manager/windows-endpoints/">
       
-        <link rel="next" href="getting-started/">
+      
+        <link rel="next" href="../../indexer/opensearch/">
       
       
-      <link rel="icon" href="assets/images/ta-alpha-logo.svg">
+      <link rel="icon" href="../../../assets/images/ta-alpha-logo.svg">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
     
     
       
-        <title>Ta-SIEMPlus</title>
+        <title>ossec.conf (Agent Linux) - Ta-SIEMPlus</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.50c56a3b.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.50c56a3b.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -50,9 +52,9 @@
       
     
     
-      <link rel="stylesheet" href="stylesheets/ta-alpha-brand.css">
+      <link rel="stylesheet" href="../../../stylesheets/ta-alpha-brand.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -78,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ta-siemplus-dokumentation" class="md-skip">
+        <a href="#ossecconf-wazuh-agent-linux" class="md-skip">
           Zum Inhalt
         </a>
       
@@ -94,9 +96,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Kopfzeile">
-    <a href="." title="Ta-SIEMPlus" class="md-header__button md-logo" aria-label="Ta-SIEMPlus" data-md-component="logo">
+    <a href="../../.." title="Ta-SIEMPlus" class="md-header__button md-logo" aria-label="Ta-SIEMPlus" data-md-component="logo">
       
-  <img src="assets/images/ta-alpha-logo.svg" alt="logo">
+  <img src="../../../assets/images/ta-alpha-logo.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -113,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              ossec.conf (Agent Linux)
             
           </span>
         </div>
@@ -219,11 +221,9 @@
         
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="." class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
         
   
     
@@ -242,7 +242,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="getting-started/" class="md-tabs__link">
+        <a href="../../../getting-started/" class="md-tabs__link">
           
   
     
@@ -262,7 +262,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="overview/" class="md-tabs__link">
+        <a href="../../../overview/" class="md-tabs__link">
           
   
     
@@ -282,7 +282,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="runbooks/" class="md-tabs__link">
+        <a href="../../../runbooks/" class="md-tabs__link">
           
   
     
@@ -302,7 +302,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="checklists/" class="md-tabs__link">
+        <a href="../../../checklists/" class="md-tabs__link">
           
   
     
@@ -322,7 +322,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="upgrade-guides/" class="md-tabs__link">
+        <a href="../../../upgrade-guides/" class="md-tabs__link">
           
   
     
@@ -342,7 +342,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="guides/" class="md-tabs__link">
+        <a href="../../../guides/" class="md-tabs__link">
           
   
     
@@ -362,7 +362,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="reference/" class="md-tabs__link">
+        <a href="../../../reference/" class="md-tabs__link">
           
   
     
@@ -382,7 +382,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="catalog/" class="md-tabs__link">
+        <a href="../../../catalog/" class="md-tabs__link">
           
   
     
@@ -402,7 +402,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="templates/" class="md-tabs__link">
+        <a href="../../../templates/" class="md-tabs__link">
           
   
     
@@ -418,11 +418,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="config-templates/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
           
   
     
@@ -463,9 +465,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Ta-SIEMPlus" class="md-nav__button md-logo" aria-label="Ta-SIEMPlus" data-md-component="logo">
+    <a href="../../.." title="Ta-SIEMPlus" class="md-nav__button md-logo" aria-label="Ta-SIEMPlus" data-md-component="logo">
       
-  <img src="assets/images/ta-alpha-logo.svg" alt="logo">
+  <img src="../../../assets/images/ta-alpha-logo.svg" alt="logo">
 
     </a>
     Ta-SIEMPlus
@@ -489,30 +491,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Home
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -521,53 +503,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Inhaltsverzeichnis">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Inhaltsverzeichnis
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#einstieg" class="md-nav__link">
-    <span class="md-ellipsis">
-      Einstieg
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inhalte" class="md-nav__link">
-    <span class="md-ellipsis">
-      Inhalte
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#kernprinzipien" class="md-nav__link">
-    <span class="md-ellipsis">
-      Kernprinzipien
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -631,7 +566,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting-started/" class="md-nav__link">
+      <a href="../../../getting-started/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -652,7 +587,7 @@
   
   
     <li class="md-nav__item">
-      <a href="installation/" class="md-nav__link">
+      <a href="../../../installation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -673,7 +608,7 @@
   
   
     <li class="md-nav__item">
-      <a href="quick-reference/" class="md-nav__link">
+      <a href="../../../quick-reference/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -694,7 +629,7 @@
   
   
     <li class="md-nav__item">
-      <a href="navigation/" class="md-nav__link">
+      <a href="../../../navigation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -747,7 +682,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="overview/" class="md-nav__link ">
+            <a href="../../../overview/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -813,7 +748,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="runbooks/" class="md-nav__link ">
+            <a href="../../../runbooks/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -846,7 +781,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU/" class="md-nav__link">
+      <a href="../../../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -867,7 +802,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT/" class="md-nav__link">
+      <a href="../../../runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -888,7 +823,7 @@
   
   
     <li class="md-nav__item">
-      <a href="runbooks/RUNBOOK-TEMPLATE/" class="md-nav__link">
+      <a href="../../../runbooks/RUNBOOK-TEMPLATE/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -954,7 +889,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="checklists/" class="md-nav__link ">
+            <a href="../../../checklists/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -987,7 +922,7 @@
   
   
     <li class="md-nav__item">
-      <a href="checklists/CHECKLIST_WAZUH_UPGRADE_AIO/" class="md-nav__link">
+      <a href="../../../checklists/CHECKLIST_WAZUH_UPGRADE_AIO/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1008,7 +943,7 @@
   
   
     <li class="md-nav__item">
-      <a href="checklists/CHECKLIST_WAZUH_UPGRADE_AIO_IMPROVED/" class="md-nav__link">
+      <a href="../../../checklists/CHECKLIST_WAZUH_UPGRADE_AIO_IMPROVED/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1029,7 +964,7 @@
   
   
     <li class="md-nav__item">
-      <a href="checklists/CHECKLIST-TEMPLATE/" class="md-nav__link">
+      <a href="../../../checklists/CHECKLIST-TEMPLATE/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1084,7 +1019,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="upgrade-guides/" class="md-nav__link ">
+            <a href="../../../upgrade-guides/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1142,7 +1077,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="upgrade-guides/4.12/" class="md-nav__link ">
+            <a href="../../../upgrade-guides/4.12/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1214,7 +1149,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="guides/" class="md-nav__link ">
+            <a href="../../../guides/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1247,7 +1182,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/checklist-howto/" class="md-nav__link">
+      <a href="../../../guides/checklist-howto/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1268,7 +1203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/catalog-howto/" class="md-nav__link">
+      <a href="../../../guides/catalog-howto/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1325,7 +1260,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="reference/" class="md-nav__link ">
+            <a href="../../../reference/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1358,7 +1293,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reference/deployment/" class="md-nav__link">
+      <a href="../../../reference/deployment/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1379,7 +1314,7 @@
   
   
     <li class="md-nav__item">
-      <a href="reference/mike-versioning/" class="md-nav__link">
+      <a href="../../../reference/mike-versioning/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1436,7 +1371,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="catalog/" class="md-nav__link ">
+            <a href="../../../catalog/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1469,7 +1404,7 @@
   
   
     <li class="md-nav__item">
-      <a href="catalog/CUSTOMERS/" class="md-nav__link">
+      <a href="../../../catalog/CUSTOMERS/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1490,7 +1425,7 @@
   
   
     <li class="md-nav__item">
-      <a href="catalog/CATALOG/" class="md-nav__link">
+      <a href="../../../catalog/CATALOG/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1545,7 +1480,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="templates/" class="md-nav__link ">
+            <a href="../../../templates/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1578,7 +1513,7 @@
   
   
     <li class="md-nav__item">
-      <a href="templates/CHANGE_NOTE_TEMPLATE/" class="md-nav__link">
+      <a href="../../../templates/CHANGE_NOTE_TEMPLATE/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1603,6 +1538,8 @@
       
   
   
+    
+  
   
   
     
@@ -1629,19 +1566,17 @@
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="config-templates/" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1658,7 +1593,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_11">
             <span class="md-nav__icon md-icon"></span>
             Config Templates
@@ -1674,7 +1609,7 @@
   
   
     <li class="md-nav__item">
-      <a href="config-templates/VARIABLES/" class="md-nav__link">
+      <a href="../../VARIABLES/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1745,7 +1680,7 @@
   
   
     <li class="md-nav__item">
-      <a href="config-templates/manager/ossec-manager/" class="md-nav__link">
+      <a href="../../manager/ossec-manager/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1766,7 +1701,7 @@
   
   
     <li class="md-nav__item">
-      <a href="config-templates/manager/linux-servers/" class="md-nav__link">
+      <a href="../../manager/linux-servers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1787,7 +1722,7 @@
   
   
     <li class="md-nav__item">
-      <a href="config-templates/manager/windows-endpoints/" class="md-nav__link">
+      <a href="../../manager/windows-endpoints/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1813,8 +1748,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -1827,14 +1764,12 @@
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_4" checked>
         
           
           <label class="md-nav__link" for="__nav_11_4" id="__nav_11_4_label" tabindex="">
@@ -1848,7 +1783,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_11_4">
             <span class="md-nav__icon md-icon"></span>
             Agent
@@ -1859,10 +1794,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="config-templates/agent/ossec-agent/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    ossec.conf (Agent Linux)
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1871,6 +1826,53 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Inhaltsverzeichnis">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Inhaltsverzeichnis
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#verwendung" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verwendung
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#registrierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      Registrierung
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#template" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1937,7 +1939,7 @@
   
   
     <li class="md-nav__item">
-      <a href="config-templates/indexer/opensearch/" class="md-nav__link">
+      <a href="../../indexer/opensearch/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2012,7 +2014,7 @@
   
   
     <li class="md-nav__item">
-      <a href="config-templates/filebeat/filebeat/" class="md-nav__link">
+      <a href="../../filebeat/filebeat/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2068,27 +2070,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#einstieg" class="md-nav__link">
+  <a href="#verwendung" class="md-nav__link">
     <span class="md-ellipsis">
-      Einstieg
+      Verwendung
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#inhalte" class="md-nav__link">
+  <a href="#registrierung" class="md-nav__link">
     <span class="md-ellipsis">
-      Inhalte
+      Registrierung
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#kernprinzipien" class="md-nav__link">
+  <a href="#template" class="md-nav__link">
     <span class="md-ellipsis">
-      Kernprinzipien
+      Template
     </span>
   </a>
   
@@ -2109,7 +2111,7 @@
                   
 
   
-    <a href="https://github.com/istagmbh/Ta-SIEMPlus/edit/main/docs/index.md" title="Seite editieren" class="md-content__button md-icon">
+    <a href="https://github.com/istagmbh/Ta-SIEMPlus/edit/main/docs/config-templates/agent/ossec-agent.md" title="Seite editieren" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -2118,104 +2120,180 @@
     
       
     
-    <a href="https://github.com/istagmbh/Ta-SIEMPlus/raw/main/docs/index.md" title="Quellcode der Seite anzeigen" class="md-content__button md-icon">
+    <a href="https://github.com/istagmbh/Ta-SIEMPlus/raw/main/docs/config-templates/agent/ossec-agent.md" title="Quellcode der Seite anzeigen" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
     </a>
   
 
 
-<h1 id="ta-siemplus-dokumentation">Ta-SIEMPlus Dokumentation<a class="headerlink" href="#ta-siemplus-dokumentation" title="Permanent link">&para;</a></h1>
-<p><strong>Operative Dokumentation für standardisierte Wazuh SIEM Wartungsabläufe.</strong>
-Reproduzierbar · Auditierbar · Operator-freundlich</p>
-<hr />
-<h2 id="einstieg">Einstieg<a class="headerlink" href="#einstieg" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Beschreibung</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="getting-started/">Erste Schritte</a></td>
-<td>Schritt-für-Schritt für alle Haupt-Szenarien</td>
-</tr>
-<tr>
-<td><a href="installation/">Installation</a></td>
-<td>Setup-Anleitung (Web / Docker / Python)</td>
-</tr>
-<tr>
-<td><a href="quick-reference/">Schnellreferenz</a></td>
-<td>Copy-Paste Befehle &amp; Health Checks</td>
-</tr>
-<tr>
-<td><a href="navigation/">Projektübersicht</a></td>
-<td>Visuelle Karte durch alle Ressourcen</td>
-</tr>
-</tbody>
-</table>
-<h2 id="inhalte">Inhalte<a class="headerlink" href="#inhalte" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Bereich</th>
-<th>Beschreibung</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="overview/">Overview</a></td>
-<td>Architekturprinzipien &amp; Workflow-Übersicht</td>
-</tr>
-<tr>
-<td><a href="runbooks/">Runbooks</a></td>
-<td>Detaillierte SOPs (Upgrade, Agent Groups)</td>
-</tr>
-<tr>
-<td><a href="checklists/">Checklists</a></td>
-<td>Change-Management-Checklisten</td>
-</tr>
-<tr>
-<td><a href="upgrade-guides/">Upgrade Guides</a></td>
-<td>Versionsspezifische Upgrade-Prozeduren</td>
-</tr>
-<tr>
-<td><a href="guides/">Anleitungen</a></td>
-<td>How-To für Checklisten &amp; Katalog</td>
-</tr>
-<tr>
-<td><a href="reference/">Referenz</a></td>
-<td>Deployment &amp; Versioning</td>
-</tr>
-<tr>
-<td><a href="catalog/">Katalog</a></td>
-<td>Kunden- &amp; Infrastruktur-Registry</td>
-</tr>
-<tr>
-<td><a href="templates/">Templates</a></td>
-<td>Dokumentationsvorlagen</td>
-</tr>
-<tr>
-<td><a href="config-templates/">Config Templates</a></td>
-<td>Befüllbare Konfigurationsvorlagen mit <code>{{ VARIABLE }}</code>-Syntax</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="kernprinzipien">Kernprinzipien<a class="headerlink" href="#kernprinzipien" title="Permanent link">&para;</a></h2>
-<p><strong>No-Go Gates</strong> – Obligatorische Stopkriterien:</p>
-<ul>
-<li>Disk-Belegung &gt; 90% → <strong>STOP</strong></li>
-<li>Services nicht <code>active (running)</code> → <strong>STOP</strong></li>
-<li>Kein Backup/Snapshot → <strong>STOP</strong></li>
-<li>Change nicht genehmigt → <strong>STOP</strong></li>
-</ul>
-<p><strong>Health Snapshots</strong> – Systemzustand vor und nach jeder Änderung dokumentieren.</p>
-<p><strong>Secrets</strong> – Niemals direkt im Repository. Immer <code>vault://pfad/zum/secret</code> verwenden.</p>
-<hr />
-<p><strong>Lizenz:</strong> MIT | <strong>Repository:</strong> <a href="https://github.com/istagmbh/Ta-SIEMPlus">istagmbh/Ta-SIEMPlus</a></p>
+<h1 id="ossecconf-wazuh-agent-linux">ossec.conf – Wazuh Agent (Linux)<a class="headerlink" href="#ossecconf-wazuh-agent-linux" title="Permanent link">&para;</a></h1>
+<p>Standard-Konfiguration für <strong>Wazuh Linux-Agenten</strong>.</p>
+<p><strong>Variablenreferenz:</strong> <a href="../../VARIABLES/">VARIABLES.md</a>
+<strong>Rohdatei (zum Download):</strong> <a href="../ossec.conf.template"><code>ossec.conf.template</code></a></p>
+<h2 id="verwendung">Verwendung<a class="headerlink" href="#verwendung" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Variablen exportieren</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">MANAGER_HOST</span><span class="o">=</span><span class="s2">&quot;192.168.1.10&quot;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">MANAGER_PORT</span><span class="o">=</span><span class="s2">&quot;1514&quot;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AGENT_PROTOCOL</span><span class="o">=</span><span class="s2">&quot;tcp&quot;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AGENT_GROUP</span><span class="o">=</span><span class="s2">&quot;linux-servers&quot;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SYSCHECK_FREQUENCY</span><span class="o">=</span><span class="s2">&quot;43200&quot;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">LOG_FORMAT</span><span class="o">=</span><span class="s2">&quot;plain&quot;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1"># Template befüllen</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>envsubst<span class="w"> </span>&lt;<span class="w"> </span>docs/config-templates/agent/ossec.conf.template<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">         </span>&gt;<span class="w"> </span>/var/ossec/etc/ossec.conf
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># Validieren &amp; neu starten</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>/var/ossec/bin/wazuh-control<span class="w"> </span>check-config
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>systemctl<span class="w"> </span>restart<span class="w"> </span>wazuh-agent
+</span></code></pre></div>
+<h2 id="registrierung">Registrierung<a class="headerlink" href="#registrierung" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Agent beim Manager registrieren (einmalig)</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>/var/ossec/bin/agent-auth<span class="w"> </span>-m<span class="w"> </span><span class="o">{{</span><span class="w"> </span>MANAGER_HOST<span class="w"> </span><span class="o">}}</span><span class="w"> </span>-A<span class="w"> </span><span class="o">{{</span><span class="w"> </span>AGENT_NAME<span class="w"> </span><span class="o">}}</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Gruppe zuweisen (auf dem Manager)</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-a<span class="w"> </span>-i<span class="w"> </span>&lt;AGENT_ID&gt;<span class="w"> </span>-g<span class="w"> </span><span class="o">{{</span><span class="w"> </span>AGENT_GROUP<span class="w"> </span><span class="o">}}</span>
+</span></code></pre></div>
+<h2 id="template">Template<a class="headerlink" href="#template" title="Permanent link">&para;</a></h2>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cm">&lt;!--</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cm">  ossec.conf – Wazuh Agent (Linux)</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cm">  Template Version: 1.0</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="cm">  Wazuh Version:    {{ WAZUH_VERSION }}</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="cm">  Agent-Name:       {{ AGENT_NAME }}</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="cm">  Gruppe:           {{ AGENT_GROUP }}</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="cm">  Kunde:            {{ CUSTOMER_ID }}</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="cm">  Change-Ticket:    {{ CHANGE_TICKET }}</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="cm">  Variablen: siehe docs/config-templates/VARIABLES.md</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="cm">  Befüllen:  envsubst &lt; ossec.conf.template &gt; /var/ossec/etc/ossec.conf</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="cm">  Validieren: /var/ossec/bin/wazuh-control check-config</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="cm">  Registrieren: /var/ossec/bin/agent-auth -m {{ MANAGER_HOST }}</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="cm">--&gt;</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="nt">&lt;ossec_config&gt;</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">  </span><span class="cm">&lt;!-- ============================================================</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="cm">       CLIENT (VERBINDUNG ZUM MANAGER)</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="cm">       ============================================================ --&gt;</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">  </span><span class="nt">&lt;client&gt;</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">    </span><span class="nt">&lt;server&gt;</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">      </span><span class="nt">&lt;address&gt;</span>{{<span class="w"> </span>MANAGER_HOST<span class="w"> </span>}}<span class="nt">&lt;/address&gt;</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">      </span><span class="nt">&lt;port&gt;</span>{{<span class="w"> </span>MANAGER_PORT<span class="w"> </span>}}<span class="nt">&lt;/port&gt;</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">      </span><span class="nt">&lt;protocol&gt;</span>{{<span class="w"> </span>AGENT_PROTOCOL<span class="w"> </span>}}<span class="nt">&lt;/protocol&gt;</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">    </span><span class="nt">&lt;/server&gt;</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="w">    </span><span class="nt">&lt;config-profile&gt;</span>{{<span class="w"> </span>AGENT_GROUP<span class="w"> </span>}}<span class="nt">&lt;/config-profile&gt;</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="w">    </span><span class="nt">&lt;notify_time&gt;</span>10<span class="nt">&lt;/notify_time&gt;</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">    </span><span class="nt">&lt;time-reconnect&gt;</span>60<span class="nt">&lt;/time-reconnect&gt;</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="w">    </span><span class="nt">&lt;auto_restart&gt;</span>yes<span class="nt">&lt;/auto_restart&gt;</span>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="w">  </span><span class="nt">&lt;/client&gt;</span>
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="w">  </span><span class="cm">&lt;!-- ============================================================</span>
+</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="cm">       CLIENT BUFFER</span>
+</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="cm">       ============================================================ --&gt;</span>
+</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="w">  </span><span class="nt">&lt;client_buffer&gt;</span>
+</span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a><span class="w">    </span><span class="nt">&lt;disabled&gt;</span>no<span class="nt">&lt;/disabled&gt;</span>
+</span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a><span class="w">    </span><span class="nt">&lt;queue_size&gt;</span>5000<span class="nt">&lt;/queue_size&gt;</span>
+</span><span id="__span-2-38"><a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a><span class="w">    </span><span class="nt">&lt;events_per_second&gt;</span>500<span class="nt">&lt;/events_per_second&gt;</span>
+</span><span id="__span-2-39"><a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a><span class="w">  </span><span class="nt">&lt;/client_buffer&gt;</span>
+</span><span id="__span-2-40"><a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a>
+</span><span id="__span-2-41"><a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a><span class="w">  </span><span class="cm">&lt;!-- ============================================================</span>
+</span><span id="__span-2-42"><a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a><span class="cm">       FILE INTEGRITY MONITORING (FIM / SYSCHECK)</span>
+</span><span id="__span-2-43"><a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a><span class="cm">       ============================================================ --&gt;</span>
+</span><span id="__span-2-44"><a id="__codelineno-2-44" name="__codelineno-2-44" href="#__codelineno-2-44"></a><span class="w">  </span><span class="nt">&lt;syscheck&gt;</span>
+</span><span id="__span-2-45"><a id="__codelineno-2-45" name="__codelineno-2-45" href="#__codelineno-2-45"></a><span class="w">    </span><span class="nt">&lt;disabled&gt;</span>no<span class="nt">&lt;/disabled&gt;</span>
+</span><span id="__span-2-46"><a id="__codelineno-2-46" name="__codelineno-2-46" href="#__codelineno-2-46"></a><span class="w">    </span><span class="nt">&lt;frequency&gt;</span>{{<span class="w"> </span>SYSCHECK_FREQUENCY<span class="w"> </span>}}<span class="nt">&lt;/frequency&gt;</span>
+</span><span id="__span-2-47"><a id="__codelineno-2-47" name="__codelineno-2-47" href="#__codelineno-2-47"></a><span class="w">    </span><span class="nt">&lt;scan_on_start&gt;</span>yes<span class="nt">&lt;/scan_on_start&gt;</span>
+</span><span id="__span-2-48"><a id="__codelineno-2-48" name="__codelineno-2-48" href="#__codelineno-2-48"></a><span class="w">    </span><span class="nt">&lt;alert_new_files&gt;</span>yes<span class="nt">&lt;/alert_new_files&gt;</span>
+</span><span id="__span-2-49"><a id="__codelineno-2-49" name="__codelineno-2-49" href="#__codelineno-2-49"></a><span class="w">    </span><span class="nt">&lt;auto_ignore</span><span class="w"> </span><span class="na">frequency=</span><span class="s">&quot;10&quot;</span><span class="w"> </span><span class="na">timeframe=</span><span class="s">&quot;3600&quot;</span><span class="nt">&gt;</span>no<span class="nt">&lt;/auto_ignore&gt;</span>
+</span><span id="__span-2-50"><a id="__codelineno-2-50" name="__codelineno-2-50" href="#__codelineno-2-50"></a><span class="w">    </span><span class="nt">&lt;directories</span><span class="w"> </span><span class="na">check_all=</span><span class="s">&quot;yes&quot;</span><span class="w"> </span><span class="na">realtime=</span><span class="s">&quot;yes&quot;</span><span class="nt">&gt;</span>/etc,/usr/bin,/usr/sbin<span class="nt">&lt;/directories&gt;</span>
+</span><span id="__span-2-51"><a id="__codelineno-2-51" name="__codelineno-2-51" href="#__codelineno-2-51"></a><span class="w">    </span><span class="nt">&lt;directories</span><span class="w"> </span><span class="na">check_all=</span><span class="s">&quot;yes&quot;</span><span class="w"> </span><span class="na">realtime=</span><span class="s">&quot;yes&quot;</span><span class="nt">&gt;</span>/bin,/sbin,/boot<span class="nt">&lt;/directories&gt;</span>
+</span><span id="__span-2-52"><a id="__codelineno-2-52" name="__codelineno-2-52" href="#__codelineno-2-52"></a><span class="w">    </span><span class="nt">&lt;ignore&gt;</span>/etc/mtab<span class="nt">&lt;/ignore&gt;</span>
+</span><span id="__span-2-53"><a id="__codelineno-2-53" name="__codelineno-2-53" href="#__codelineno-2-53"></a><span class="w">    </span><span class="nt">&lt;ignore&gt;</span>/etc/hosts.deny<span class="nt">&lt;/ignore&gt;</span>
+</span><span id="__span-2-54"><a id="__codelineno-2-54" name="__codelineno-2-54" href="#__codelineno-2-54"></a><span class="w">    </span><span class="nt">&lt;ignore</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;sregex&quot;</span><span class="nt">&gt;</span>.log$|.swp$|.tmp$<span class="nt">&lt;/ignore&gt;</span>
+</span><span id="__span-2-55"><a id="__codelineno-2-55" name="__codelineno-2-55" href="#__codelineno-2-55"></a><span class="w">  </span><span class="nt">&lt;/syscheck&gt;</span>
+</span><span id="__span-2-56"><a id="__codelineno-2-56" name="__codelineno-2-56" href="#__codelineno-2-56"></a>
+</span><span id="__span-2-57"><a id="__codelineno-2-57" name="__codelineno-2-57" href="#__codelineno-2-57"></a><span class="w">  </span><span class="cm">&lt;!-- ============================================================</span>
+</span><span id="__span-2-58"><a id="__codelineno-2-58" name="__codelineno-2-58" href="#__codelineno-2-58"></a><span class="cm">       ROOTCHECK</span>
+</span><span id="__span-2-59"><a id="__codelineno-2-59" name="__codelineno-2-59" href="#__codelineno-2-59"></a><span class="cm">       ============================================================ --&gt;</span>
+</span><span id="__span-2-60"><a id="__codelineno-2-60" name="__codelineno-2-60" href="#__codelineno-2-60"></a><span class="w">  </span><span class="nt">&lt;rootcheck&gt;</span>
+</span><span id="__span-2-61"><a id="__codelineno-2-61" name="__codelineno-2-61" href="#__codelineno-2-61"></a><span class="w">    </span><span class="nt">&lt;disabled&gt;</span>no<span class="nt">&lt;/disabled&gt;</span>
+</span><span id="__span-2-62"><a id="__codelineno-2-62" name="__codelineno-2-62" href="#__codelineno-2-62"></a><span class="w">    </span><span class="nt">&lt;check_files&gt;</span>yes<span class="nt">&lt;/check_files&gt;</span>
+</span><span id="__span-2-63"><a id="__codelineno-2-63" name="__codelineno-2-63" href="#__codelineno-2-63"></a><span class="w">    </span><span class="nt">&lt;check_trojans&gt;</span>yes<span class="nt">&lt;/check_trojans&gt;</span>
+</span><span id="__span-2-64"><a id="__codelineno-2-64" name="__codelineno-2-64" href="#__codelineno-2-64"></a><span class="w">    </span><span class="nt">&lt;check_dev&gt;</span>yes<span class="nt">&lt;/check_dev&gt;</span>
+</span><span id="__span-2-65"><a id="__codelineno-2-65" name="__codelineno-2-65" href="#__codelineno-2-65"></a><span class="w">    </span><span class="nt">&lt;check_sys&gt;</span>yes<span class="nt">&lt;/check_sys&gt;</span>
+</span><span id="__span-2-66"><a id="__codelineno-2-66" name="__codelineno-2-66" href="#__codelineno-2-66"></a><span class="w">    </span><span class="nt">&lt;check_pids&gt;</span>yes<span class="nt">&lt;/check_pids&gt;</span>
+</span><span id="__span-2-67"><a id="__codelineno-2-67" name="__codelineno-2-67" href="#__codelineno-2-67"></a><span class="w">    </span><span class="nt">&lt;check_ports&gt;</span>yes<span class="nt">&lt;/check_ports&gt;</span>
+</span><span id="__span-2-68"><a id="__codelineno-2-68" name="__codelineno-2-68" href="#__codelineno-2-68"></a><span class="w">    </span><span class="nt">&lt;check_if&gt;</span>yes<span class="nt">&lt;/check_if&gt;</span>
+</span><span id="__span-2-69"><a id="__codelineno-2-69" name="__codelineno-2-69" href="#__codelineno-2-69"></a><span class="w">    </span><span class="nt">&lt;frequency&gt;</span>43200<span class="nt">&lt;/frequency&gt;</span>
+</span><span id="__span-2-70"><a id="__codelineno-2-70" name="__codelineno-2-70" href="#__codelineno-2-70"></a><span class="w">  </span><span class="nt">&lt;/rootcheck&gt;</span>
+</span><span id="__span-2-71"><a id="__codelineno-2-71" name="__codelineno-2-71" href="#__codelineno-2-71"></a>
+</span><span id="__span-2-72"><a id="__codelineno-2-72" name="__codelineno-2-72" href="#__codelineno-2-72"></a><span class="w">  </span><span class="cm">&lt;!-- ============================================================</span>
+</span><span id="__span-2-73"><a id="__codelineno-2-73" name="__codelineno-2-73" href="#__codelineno-2-73"></a><span class="cm">       SCA (Security Configuration Assessment)</span>
+</span><span id="__span-2-74"><a id="__codelineno-2-74" name="__codelineno-2-74" href="#__codelineno-2-74"></a><span class="cm">       ============================================================ --&gt;</span>
+</span><span id="__span-2-75"><a id="__codelineno-2-75" name="__codelineno-2-75" href="#__codelineno-2-75"></a><span class="w">  </span><span class="nt">&lt;sca&gt;</span>
+</span><span id="__span-2-76"><a id="__codelineno-2-76" name="__codelineno-2-76" href="#__codelineno-2-76"></a><span class="w">    </span><span class="nt">&lt;enabled&gt;</span>yes<span class="nt">&lt;/enabled&gt;</span>
+</span><span id="__span-2-77"><a id="__codelineno-2-77" name="__codelineno-2-77" href="#__codelineno-2-77"></a><span class="w">    </span><span class="nt">&lt;scan_on_start&gt;</span>yes<span class="nt">&lt;/scan_on_start&gt;</span>
+</span><span id="__span-2-78"><a id="__codelineno-2-78" name="__codelineno-2-78" href="#__codelineno-2-78"></a><span class="w">    </span><span class="nt">&lt;interval&gt;</span>12h<span class="nt">&lt;/interval&gt;</span>
+</span><span id="__span-2-79"><a id="__codelineno-2-79" name="__codelineno-2-79" href="#__codelineno-2-79"></a><span class="w">    </span><span class="nt">&lt;skip_nfs&gt;</span>yes<span class="nt">&lt;/skip_nfs&gt;</span>
+</span><span id="__span-2-80"><a id="__codelineno-2-80" name="__codelineno-2-80" href="#__codelineno-2-80"></a><span class="w">  </span><span class="nt">&lt;/sca&gt;</span>
+</span><span id="__span-2-81"><a id="__codelineno-2-81" name="__codelineno-2-81" href="#__codelineno-2-81"></a>
+</span><span id="__span-2-82"><a id="__codelineno-2-82" name="__codelineno-2-82" href="#__codelineno-2-82"></a><span class="w">  </span><span class="cm">&lt;!-- ============================================================</span>
+</span><span id="__span-2-83"><a id="__codelineno-2-83" name="__codelineno-2-83" href="#__codelineno-2-83"></a><span class="cm">       LOG-ANALYSE (LOCALFILE)</span>
+</span><span id="__span-2-84"><a id="__codelineno-2-84" name="__codelineno-2-84" href="#__codelineno-2-84"></a><span class="cm">       ============================================================ --&gt;</span>
+</span><span id="__span-2-85"><a id="__codelineno-2-85" name="__codelineno-2-85" href="#__codelineno-2-85"></a><span class="w">  </span><span class="nt">&lt;localfile&gt;</span>
+</span><span id="__span-2-86"><a id="__codelineno-2-86" name="__codelineno-2-86" href="#__codelineno-2-86"></a><span class="w">    </span><span class="nt">&lt;log_format&gt;</span>syslog<span class="nt">&lt;/log_format&gt;</span>
+</span><span id="__span-2-87"><a id="__codelineno-2-87" name="__codelineno-2-87" href="#__codelineno-2-87"></a><span class="w">    </span><span class="nt">&lt;location&gt;</span>/var/log/syslog<span class="nt">&lt;/location&gt;</span>
+</span><span id="__span-2-88"><a id="__codelineno-2-88" name="__codelineno-2-88" href="#__codelineno-2-88"></a><span class="w">  </span><span class="nt">&lt;/localfile&gt;</span>
+</span><span id="__span-2-89"><a id="__codelineno-2-89" name="__codelineno-2-89" href="#__codelineno-2-89"></a><span class="w">  </span><span class="nt">&lt;localfile&gt;</span>
+</span><span id="__span-2-90"><a id="__codelineno-2-90" name="__codelineno-2-90" href="#__codelineno-2-90"></a><span class="w">    </span><span class="nt">&lt;log_format&gt;</span>syslog<span class="nt">&lt;/log_format&gt;</span>
+</span><span id="__span-2-91"><a id="__codelineno-2-91" name="__codelineno-2-91" href="#__codelineno-2-91"></a><span class="w">    </span><span class="nt">&lt;location&gt;</span>/var/log/auth.log<span class="nt">&lt;/location&gt;</span>
+</span><span id="__span-2-92"><a id="__codelineno-2-92" name="__codelineno-2-92" href="#__codelineno-2-92"></a><span class="w">  </span><span class="nt">&lt;/localfile&gt;</span>
+</span><span id="__span-2-93"><a id="__codelineno-2-93" name="__codelineno-2-93" href="#__codelineno-2-93"></a><span class="w">  </span><span class="nt">&lt;localfile&gt;</span>
+</span><span id="__span-2-94"><a id="__codelineno-2-94" name="__codelineno-2-94" href="#__codelineno-2-94"></a><span class="w">    </span><span class="nt">&lt;log_format&gt;</span>syslog<span class="nt">&lt;/log_format&gt;</span>
+</span><span id="__span-2-95"><a id="__codelineno-2-95" name="__codelineno-2-95" href="#__codelineno-2-95"></a><span class="w">    </span><span class="nt">&lt;location&gt;</span>/var/log/kern.log<span class="nt">&lt;/location&gt;</span>
+</span><span id="__span-2-96"><a id="__codelineno-2-96" name="__codelineno-2-96" href="#__codelineno-2-96"></a><span class="w">  </span><span class="nt">&lt;/localfile&gt;</span>
+</span><span id="__span-2-97"><a id="__codelineno-2-97" name="__codelineno-2-97" href="#__codelineno-2-97"></a><span class="w">  </span><span class="nt">&lt;localfile&gt;</span>
+</span><span id="__span-2-98"><a id="__codelineno-2-98" name="__codelineno-2-98" href="#__codelineno-2-98"></a><span class="w">    </span><span class="nt">&lt;log_format&gt;</span>syslog<span class="nt">&lt;/log_format&gt;</span>
+</span><span id="__span-2-99"><a id="__codelineno-2-99" name="__codelineno-2-99" href="#__codelineno-2-99"></a><span class="w">    </span><span class="nt">&lt;location&gt;</span>/var/log/dpkg.log<span class="nt">&lt;/location&gt;</span>
+</span><span id="__span-2-100"><a id="__codelineno-2-100" name="__codelineno-2-100" href="#__codelineno-2-100"></a><span class="w">  </span><span class="nt">&lt;/localfile&gt;</span>
+</span><span id="__span-2-101"><a id="__codelineno-2-101" name="__codelineno-2-101" href="#__codelineno-2-101"></a>
+</span><span id="__span-2-102"><a id="__codelineno-2-102" name="__codelineno-2-102" href="#__codelineno-2-102"></a><span class="w">  </span><span class="cm">&lt;!-- Applikationsspezifisch (ggf. auskommentieren) --&gt;</span>
+</span><span id="__span-2-103"><a id="__codelineno-2-103" name="__codelineno-2-103" href="#__codelineno-2-103"></a><span class="w">  </span><span class="cm">&lt;!--</span>
+</span><span id="__span-2-104"><a id="__codelineno-2-104" name="__codelineno-2-104" href="#__codelineno-2-104"></a><span class="cm">  &lt;localfile&gt;</span>
+</span><span id="__span-2-105"><a id="__codelineno-2-105" name="__codelineno-2-105" href="#__codelineno-2-105"></a><span class="cm">    &lt;log_format&gt;apache&lt;/log_format&gt;</span>
+</span><span id="__span-2-106"><a id="__codelineno-2-106" name="__codelineno-2-106" href="#__codelineno-2-106"></a><span class="cm">    &lt;location&gt;/var/log/nginx/error.log&lt;/location&gt;</span>
+</span><span id="__span-2-107"><a id="__codelineno-2-107" name="__codelineno-2-107" href="#__codelineno-2-107"></a><span class="cm">  &lt;/localfile&gt;</span>
+</span><span id="__span-2-108"><a id="__codelineno-2-108" name="__codelineno-2-108" href="#__codelineno-2-108"></a><span class="cm">  --&gt;</span>
+</span><span id="__span-2-109"><a id="__codelineno-2-109" name="__codelineno-2-109" href="#__codelineno-2-109"></a>
+</span><span id="__span-2-110"><a id="__codelineno-2-110" name="__codelineno-2-110" href="#__codelineno-2-110"></a><span class="w">  </span><span class="nt">&lt;localfile&gt;</span>
+</span><span id="__span-2-111"><a id="__codelineno-2-111" name="__codelineno-2-111" href="#__codelineno-2-111"></a><span class="w">    </span><span class="nt">&lt;log_format&gt;</span>command<span class="nt">&lt;/log_format&gt;</span>
+</span><span id="__span-2-112"><a id="__codelineno-2-112" name="__codelineno-2-112" href="#__codelineno-2-112"></a><span class="w">    </span><span class="nt">&lt;command&gt;</span>df<span class="w"> </span>-P<span class="nt">&lt;/command&gt;</span>
+</span><span id="__span-2-113"><a id="__codelineno-2-113" name="__codelineno-2-113" href="#__codelineno-2-113"></a><span class="w">    </span><span class="nt">&lt;frequency&gt;</span>360<span class="nt">&lt;/frequency&gt;</span>
+</span><span id="__span-2-114"><a id="__codelineno-2-114" name="__codelineno-2-114" href="#__codelineno-2-114"></a><span class="w">  </span><span class="nt">&lt;/localfile&gt;</span>
+</span><span id="__span-2-115"><a id="__codelineno-2-115" name="__codelineno-2-115" href="#__codelineno-2-115"></a><span class="w">  </span><span class="nt">&lt;localfile&gt;</span>
+</span><span id="__span-2-116"><a id="__codelineno-2-116" name="__codelineno-2-116" href="#__codelineno-2-116"></a><span class="w">    </span><span class="nt">&lt;log_format&gt;</span>full_command<span class="nt">&lt;/log_format&gt;</span>
+</span><span id="__span-2-117"><a id="__codelineno-2-117" name="__codelineno-2-117" href="#__codelineno-2-117"></a><span class="w">    </span><span class="nt">&lt;command&gt;</span>last<span class="w"> </span>-n<span class="w"> </span>20<span class="nt">&lt;/command&gt;</span>
+</span><span id="__span-2-118"><a id="__codelineno-2-118" name="__codelineno-2-118" href="#__codelineno-2-118"></a><span class="w">    </span><span class="nt">&lt;frequency&gt;</span>360<span class="nt">&lt;/frequency&gt;</span>
+</span><span id="__span-2-119"><a id="__codelineno-2-119" name="__codelineno-2-119" href="#__codelineno-2-119"></a><span class="w">  </span><span class="nt">&lt;/localfile&gt;</span>
+</span><span id="__span-2-120"><a id="__codelineno-2-120" name="__codelineno-2-120" href="#__codelineno-2-120"></a>
+</span><span id="__span-2-121"><a id="__codelineno-2-121" name="__codelineno-2-121" href="#__codelineno-2-121"></a><span class="w">  </span><span class="cm">&lt;!-- ============================================================</span>
+</span><span id="__span-2-122"><a id="__codelineno-2-122" name="__codelineno-2-122" href="#__codelineno-2-122"></a><span class="cm">       ACTIVE RESPONSE</span>
+</span><span id="__span-2-123"><a id="__codelineno-2-123" name="__codelineno-2-123" href="#__codelineno-2-123"></a><span class="cm">       ============================================================ --&gt;</span>
+</span><span id="__span-2-124"><a id="__codelineno-2-124" name="__codelineno-2-124" href="#__codelineno-2-124"></a><span class="w">  </span><span class="nt">&lt;active-response&gt;</span>
+</span><span id="__span-2-125"><a id="__codelineno-2-125" name="__codelineno-2-125" href="#__codelineno-2-125"></a><span class="w">    </span><span class="nt">&lt;disabled&gt;</span>no<span class="nt">&lt;/disabled&gt;</span>
+</span><span id="__span-2-126"><a id="__codelineno-2-126" name="__codelineno-2-126" href="#__codelineno-2-126"></a><span class="w">    </span><span class="nt">&lt;ca_store&gt;</span>var/ossec/etc/wpk_root.pem<span class="nt">&lt;/ca_store&gt;</span>
+</span><span id="__span-2-127"><a id="__codelineno-2-127" name="__codelineno-2-127" href="#__codelineno-2-127"></a><span class="w">    </span><span class="nt">&lt;ca_verification&gt;</span>yes<span class="nt">&lt;/ca_verification&gt;</span>
+</span><span id="__span-2-128"><a id="__codelineno-2-128" name="__codelineno-2-128" href="#__codelineno-2-128"></a><span class="w">  </span><span class="nt">&lt;/active-response&gt;</span>
+</span><span id="__span-2-129"><a id="__codelineno-2-129" name="__codelineno-2-129" href="#__codelineno-2-129"></a>
+</span><span id="__span-2-130"><a id="__codelineno-2-130" name="__codelineno-2-130" href="#__codelineno-2-130"></a><span class="w">  </span><span class="cm">&lt;!-- ============================================================</span>
+</span><span id="__span-2-131"><a id="__codelineno-2-131" name="__codelineno-2-131" href="#__codelineno-2-131"></a><span class="cm">       LOGGING</span>
+</span><span id="__span-2-132"><a id="__codelineno-2-132" name="__codelineno-2-132" href="#__codelineno-2-132"></a><span class="cm">       ============================================================ --&gt;</span>
+</span><span id="__span-2-133"><a id="__codelineno-2-133" name="__codelineno-2-133" href="#__codelineno-2-133"></a><span class="w">  </span><span class="nt">&lt;logging&gt;</span>
+</span><span id="__span-2-134"><a id="__codelineno-2-134" name="__codelineno-2-134" href="#__codelineno-2-134"></a><span class="w">    </span><span class="nt">&lt;log_format&gt;</span>{{<span class="w"> </span>LOG_FORMAT<span class="w"> </span>}}<span class="nt">&lt;/log_format&gt;</span>
+</span><span id="__span-2-135"><a id="__codelineno-2-135" name="__codelineno-2-135" href="#__codelineno-2-135"></a><span class="w">  </span><span class="nt">&lt;/logging&gt;</span>
+</span><span id="__span-2-136"><a id="__codelineno-2-136" name="__codelineno-2-136" href="#__codelineno-2-136"></a>
+</span><span id="__span-2-137"><a id="__codelineno-2-137" name="__codelineno-2-137" href="#__codelineno-2-137"></a><span class="nt">&lt;/ossec_config&gt;</span>
+</span></code></pre></div>
 
 
 
@@ -2292,10 +2370,10 @@ Reproduzierbar · Auditierbar · Operator-freundlich</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.action.edit", "content.action.view"], "search": "assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "In Zwischenablage kopiert", "clipboard.copy": "In Zwischenablage kopieren", "search.result.more.one": "1 weiteres Suchergebnis auf dieser Seite", "search.result.more.other": "# weitere Suchergebnisse auf dieser Seite", "search.result.none": "Keine Suchergebnisse", "search.result.one": "1 Suchergebnis", "search.result.other": "# Suchergebnisse", "search.result.placeholder": "Suchbegriff eingeben", "search.result.term.missing": "Es fehlt", "select.version": "Version ausw\u00e4hlen"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.action.edit", "content.action.view"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "In Zwischenablage kopiert", "clipboard.copy": "In Zwischenablage kopieren", "search.result.more.one": "1 weiteres Suchergebnis auf dieser Seite", "search.result.more.other": "# weitere Suchergebnisse auf dieser Seite", "search.result.none": "Keine Suchergebnisse", "search.result.one": "1 Suchergebnis", "search.result.other": "# Suchergebnisse", "search.result.placeholder": "Suchbegriff eingeben", "search.result.term.missing": "Es fehlt", "select.version": "Version ausw\u00e4hlen"}}</script>
     
     
-      <script src="assets/javascripts/bundle.d7c377c4.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7c377c4.min.js"></script>
       
     
   </body>
