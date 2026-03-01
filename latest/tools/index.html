@@ -12,26 +12,28 @@
         <meta name="author" content="T-Alpha GmbH">
       
       
-        <link rel="canonical" href="https://istagmbh.github.io/Ta-SIEMPlus/latest/config-templates/filebeat/filebeat/">
+        <link rel="canonical" href="https://istagmbh.github.io/Ta-SIEMPlus/latest/tools/">
       
       
-        <link rel="prev" href="../../indexer/opensearch/">
+        <link rel="prev" href="../navigation/">
       
       
+        <link rel="next" href="../overview/">
       
-      <link rel="icon" href="../../../assets/images/ta-alpha-logo.svg">
+      
+      <link rel="icon" href="../assets/images/ta-alpha-logo.svg">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
     
     
       
-        <title>filebeat.yml - Ta-SIEMPlus</title>
+        <title>Web-Tools - Ta-SIEMPlus</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.50c56a3b.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.50c56a3b.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -50,9 +52,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../stylesheets/ta-alpha-brand.css">
+      <link rel="stylesheet" href="../stylesheets/ta-alpha-brand.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -78,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#filebeatyml-filebeat-fur-wazuh" class="md-skip">
+        <a href="#web-tools" class="md-skip">
           Zum Inhalt
         </a>
       
@@ -94,9 +96,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Kopfzeile">
-    <a href="../../.." title="Ta-SIEMPlus" class="md-header__button md-logo" aria-label="Ta-SIEMPlus" data-md-component="logo">
+    <a href=".." title="Ta-SIEMPlus" class="md-header__button md-logo" aria-label="Ta-SIEMPlus" data-md-component="logo">
       
-  <img src="../../../assets/images/ta-alpha-logo.svg" alt="logo">
+  <img src="../assets/images/ta-alpha-logo.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -113,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              filebeat.yml
+              Web-Tools
             
           </span>
         </div>
@@ -221,7 +223,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href=".." class="md-tabs__link">
         
   
     
@@ -240,7 +242,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../getting-started/" class="md-tabs__link">
+        <a href="../getting-started/" class="md-tabs__link">
           
   
     
@@ -256,11 +258,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../../tools/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
           
   
     
@@ -280,7 +284,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../overview/" class="md-tabs__link">
+        <a href="../overview/" class="md-tabs__link">
           
   
     
@@ -300,7 +304,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../runbooks/" class="md-tabs__link">
+        <a href="../runbooks/" class="md-tabs__link">
           
   
     
@@ -320,7 +324,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../checklists/" class="md-tabs__link">
+        <a href="../checklists/" class="md-tabs__link">
           
   
     
@@ -340,7 +344,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../upgrade-guides/" class="md-tabs__link">
+        <a href="../upgrade-guides/" class="md-tabs__link">
           
   
     
@@ -360,7 +364,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../guides/" class="md-tabs__link">
+        <a href="../guides/" class="md-tabs__link">
           
   
     
@@ -380,7 +384,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../reference/" class="md-tabs__link">
+        <a href="../reference/" class="md-tabs__link">
           
   
     
@@ -400,7 +404,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../catalog/" class="md-tabs__link">
+        <a href="../catalog/" class="md-tabs__link">
           
   
     
@@ -420,7 +424,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../templates/" class="md-tabs__link">
+        <a href="../templates/" class="md-tabs__link">
           
   
     
@@ -436,13 +440,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../config-templates/" class="md-tabs__link">
           
   
     
@@ -483,9 +485,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="Ta-SIEMPlus" class="md-nav__button md-logo" aria-label="Ta-SIEMPlus" data-md-component="logo">
+    <a href=".." title="Ta-SIEMPlus" class="md-nav__button md-logo" aria-label="Ta-SIEMPlus" data-md-component="logo">
       
-  <img src="../../../assets/images/ta-alpha-logo.svg" alt="logo">
+  <img src="../assets/images/ta-alpha-logo.svg" alt="logo">
 
     </a>
     Ta-SIEMPlus
@@ -512,7 +514,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -582,7 +584,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting-started/" class="md-nav__link">
+      <a href="../getting-started/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -603,7 +605,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../quick-reference/" class="md-nav__link">
+      <a href="../quick-reference/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -624,7 +626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../navigation/" class="md-nav__link">
+      <a href="../navigation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -649,6 +651,8 @@
       
   
   
+    
+  
   
   
     
@@ -665,19 +669,17 @@
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../tools/" class="md-nav__link ">
+            <a href="./" class="md-nav__link md-nav__link--active">
               
   
   <span class="md-ellipsis">
@@ -689,7 +691,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Web-Tools
@@ -737,7 +739,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../overview/" class="md-nav__link ">
+            <a href="../overview/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -803,7 +805,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../runbooks/" class="md-nav__link ">
+            <a href="../runbooks/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -836,7 +838,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU/" class="md-nav__link">
+      <a href="../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -857,7 +859,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT/" class="md-nav__link">
+      <a href="../runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -878,7 +880,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../runbooks/RUNBOOK-TEMPLATE/" class="md-nav__link">
+      <a href="../runbooks/RUNBOOK-TEMPLATE/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -944,7 +946,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../checklists/" class="md-nav__link ">
+            <a href="../checklists/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -977,7 +979,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../checklists/CHECKLIST_WAZUH_UPGRADE_AIO/" class="md-nav__link">
+      <a href="../checklists/CHECKLIST_WAZUH_UPGRADE_AIO/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -998,7 +1000,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../checklists/CHECKLIST_WAZUH_UPGRADE_AIO_IMPROVED/" class="md-nav__link">
+      <a href="../checklists/CHECKLIST_WAZUH_UPGRADE_AIO_IMPROVED/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1019,7 +1021,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../checklists/CHECKLIST-TEMPLATE/" class="md-nav__link">
+      <a href="../checklists/CHECKLIST-TEMPLATE/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1074,7 +1076,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../upgrade-guides/" class="md-nav__link ">
+            <a href="../upgrade-guides/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1132,7 +1134,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../upgrade-guides/4.12/" class="md-nav__link ">
+            <a href="../upgrade-guides/4.12/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1204,7 +1206,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../guides/" class="md-nav__link ">
+            <a href="../guides/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1237,7 +1239,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../guides/checklist-howto/" class="md-nav__link">
+      <a href="../guides/checklist-howto/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1258,7 +1260,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../guides/catalog-howto/" class="md-nav__link">
+      <a href="../guides/catalog-howto/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1315,7 +1317,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/" class="md-nav__link ">
+            <a href="../reference/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1348,7 +1350,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/deployment/" class="md-nav__link">
+      <a href="../reference/deployment/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1369,7 +1371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/mike-versioning/" class="md-nav__link">
+      <a href="../reference/mike-versioning/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1426,7 +1428,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../catalog/" class="md-nav__link ">
+            <a href="../catalog/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1459,7 +1461,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../catalog/CUSTOMERS/" class="md-nav__link">
+      <a href="../catalog/CUSTOMERS/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1480,7 +1482,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../catalog/CATALOG/" class="md-nav__link">
+      <a href="../catalog/CATALOG/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1535,7 +1537,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../templates/" class="md-nav__link ">
+            <a href="../templates/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1568,7 +1570,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../templates/CHANGE_NOTE_TEMPLATE/" class="md-nav__link">
+      <a href="../templates/CHANGE_NOTE_TEMPLATE/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1593,8 +1595,6 @@
       
   
   
-    
-  
   
   
     
@@ -1621,17 +1621,19 @@
       
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../" class="md-nav__link ">
+            <a href="../config-templates/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1648,7 +1650,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_12">
             <span class="md-nav__icon md-icon"></span>
             Config Templates
@@ -1664,7 +1666,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../VARIABLES/" class="md-nav__link">
+      <a href="../config-templates/VARIABLES/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1735,7 +1737,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../manager/ossec-manager/" class="md-nav__link">
+      <a href="../config-templates/manager/ossec-manager/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1756,7 +1758,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../manager/linux-servers/" class="md-nav__link">
+      <a href="../config-templates/manager/linux-servers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1777,7 +1779,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../manager/windows-endpoints/" class="md-nav__link">
+      <a href="../config-templates/manager/windows-endpoints/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1852,7 +1854,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../agent/ossec-agent/" class="md-nav__link">
+      <a href="../config-templates/agent/ossec-agent/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1927,7 +1929,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../indexer/opensearch/" class="md-nav__link">
+      <a href="../config-templates/indexer/opensearch/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1953,10 +1955,8 @@
                 
   
   
-    
   
   
-  
     
     
       
@@ -1969,12 +1969,14 @@
       
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12_6" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_6" >
         
           
           <label class="md-nav__link" for="__nav_12_6" id="__nav_12_6_label" tabindex="">
@@ -1988,7 +1990,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_12_6">
             <span class="md-nav__icon md-icon"></span>
             Filebeat
@@ -1999,30 +2001,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    filebeat.yml
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../config-templates/filebeat/filebeat/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2031,44 +2013,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Inhaltsverzeichnis">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Inhaltsverzeichnis
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#verwendung" class="md-nav__link">
-    <span class="md-ellipsis">
-      Verwendung
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#template" class="md-nav__link">
-    <span class="md-ellipsis">
-      Template
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2116,18 +2060,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#verwendung" class="md-nav__link">
+  <a href="#hinweise" class="md-nav__link">
     <span class="md-ellipsis">
-      Verwendung
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#template" class="md-nav__link">
-    <span class="md-ellipsis">
-      Template
+      Hinweise
     </span>
   </a>
   
@@ -2148,7 +2083,7 @@
                   
 
   
-    <a href="https://github.com/istagmbh/Ta-SIEMPlus/edit/main/docs/config-templates/filebeat/filebeat.md" title="Seite editieren" class="md-content__button md-icon">
+    <a href="https://github.com/istagmbh/Ta-SIEMPlus/edit/main/docs/tools/index.md" title="Seite editieren" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -2157,109 +2092,57 @@
     
       
     
-    <a href="https://github.com/istagmbh/Ta-SIEMPlus/raw/main/docs/config-templates/filebeat/filebeat.md" title="Quellcode der Seite anzeigen" class="md-content__button md-icon">
+    <a href="https://github.com/istagmbh/Ta-SIEMPlus/raw/main/docs/tools/index.md" title="Quellcode der Seite anzeigen" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
     </a>
   
 
 
-<h1 id="filebeatyml-filebeat-fur-wazuh">filebeat.yml – Filebeat für Wazuh<a class="headerlink" href="#filebeatyml-filebeat-fur-wazuh" title="Permanent link">&para;</a></h1>
-<p>Filebeat-Konfiguration zum Weiterleiten von Wazuh-Alerts an den <strong>Wazuh Indexer</strong>.</p>
-<p><strong>Variablenreferenz:</strong> <a href="../../VARIABLES/">VARIABLES.md</a>
-<strong>Rohdatei (zum Download):</strong> <a href="../filebeat.yml.template"><code>filebeat.yml.template</code></a></p>
-<h2 id="verwendung">Verwendung<a class="headerlink" href="#verwendung" title="Permanent link">&para;</a></h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Passwort sicher aus Vault lesen (niemals im Klartext!)</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">INDEXER_PASSWORD</span><span class="o">=</span><span class="k">$(</span>vault<span class="w"> </span>kv<span class="w"> </span>get<span class="w"> </span>-field<span class="o">=</span>password<span class="w"> </span>secret/wazuh/indexer<span class="k">)</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Weitere Variablen exportieren</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">INDEXER_HOST</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nb">export</span><span class="w"> </span><span class="nv">INDEXER_PORT</span><span class="o">=</span><span class="s2">&quot;9200&quot;</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">INDEXER_USERNAME</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1"># Template befüllen</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>envsubst<span class="w"> </span>&lt;<span class="w"> </span>docs/config-templates/filebeat/filebeat.yml.template<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">         </span>&gt;<span class="w"> </span>/etc/filebeat/filebeat.yml
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># Konfiguration validieren</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>filebeat<span class="w"> </span><span class="nb">test</span><span class="w"> </span>config<span class="w"> </span>-e
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="c1"># Verbindung zum Indexer testen</span>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>filebeat<span class="w"> </span><span class="nb">test</span><span class="w"> </span>output
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="c1"># Dienst neu starten</span>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>systemctl<span class="w"> </span>restart<span class="w"> </span>filebeat
-</span></code></pre></div>
-<h2 id="template">Template<a class="headerlink" href="#template" title="Permanent link">&para;</a></h2>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># filebeat.yml – Filebeat für Wazuh Dashboard</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># Template Version: 1.0</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Wazuh Version:    {{ WAZUH_VERSION }}</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Kunde:            {{ CUSTOMER_ID }}</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># Change-Ticket:    {{ CHANGE_TICKET }}</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># ============================================================</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1"># OUTPUT – Wazuh Indexer (OpenSearch)</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># ============================================================</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="nt">output.elasticsearch</span><span class="p">:</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="nt">hosts</span><span class="p">:</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;https://{{</span><span class="nv"> </span><span class="s">INDEXER_HOST</span><span class="nv"> </span><span class="s">}}:{{</span><span class="nv"> </span><span class="s">INDEXER_PORT</span><span class="nv"> </span><span class="s">}}&quot;</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">  </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https</span>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">INDEXER_USERNAME</span><span class="nv"> </span><span class="s">}}&quot;</span>
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">  </span><span class="c1"># Passwort aus Vault/Umgebungsvariable – niemals im Klartext!</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${INDEXER_PASSWORD}&quot;</span>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">  </span><span class="nt">ssl.certificate_authorities</span><span class="p">:</span>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/filebeat/certs/root-ca.pem</span>
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">  </span><span class="nt">ssl.certificate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/filebeat/certs/filebeat.pem</span>
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="nt">ssl.key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/filebeat/certs/filebeat-key.pem</span>
-</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>
-</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="c1"># ============================================================</span>
-</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="c1"># SETUP – Index-Template &amp; Dashboards</span>
-</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="c1"># ============================================================</span>
-</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="nt">setup.template.json.enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="nt">setup.template.json.path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/filebeat/wazuh-template.json</span>
-</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="nt">setup.template.json.name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">wazuh</span>
-</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="nt">setup.template.overwrite</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="nt">setup.ilm.enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>
-</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="c1"># ============================================================</span>
-</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="c1"># FILEBEAT INPUTS</span>
-</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="c1"># ============================================================</span>
-</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="nt">filebeat.inputs</span><span class="p">:</span>
-</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">log</span>
-</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="w">    </span><span class="nt">paths</span><span class="p">:</span>
-</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/ossec/logs/alerts/alerts.json</span>
-</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a><span class="w">    </span><span class="nt">fields</span><span class="p">:</span>
-</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="w">      </span><span class="nt">file_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">wazuh_alerts</span>
-</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a><span class="w">    </span><span class="nt">json.message_key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">full_log</span>
-</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a><span class="w">    </span><span class="nt">json.keys_under_root</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a><span class="w">    </span><span class="nt">json.add_error_key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a><span class="w">    </span><span class="nt">json.overwrite_keys</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>
-</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a><span class="c1"># ============================================================</span>
-</span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a><span class="c1"># FILEBEAT MODULES</span>
-</span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a><span class="c1"># ============================================================</span>
-</span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a><span class="nt">filebeat.config.modules</span><span class="p">:</span>
-</span><span id="__span-1-49"><a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a><span class="w">  </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/filebeat/modules.d/*.yml</span>
-</span><span id="__span-1-50"><a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a><span class="w">  </span><span class="nt">reload.enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-</span><span id="__span-1-51"><a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>
-</span><span id="__span-1-52"><a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a><span class="c1"># ============================================================</span>
-</span><span id="__span-1-53"><a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a><span class="c1"># LOGGING</span>
-</span><span id="__span-1-54"><a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a><span class="c1"># ============================================================</span>
-</span><span id="__span-1-55"><a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a><span class="nt">logging.level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">info</span>
-</span><span id="__span-1-56"><a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a><span class="nt">logging.to_files</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span><span id="__span-1-57"><a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a><span class="nt">logging.files</span><span class="p">:</span>
-</span><span id="__span-1-58"><a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a><span class="w">  </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/log/filebeat</span>
-</span><span id="__span-1-59"><a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">filebeat</span>
-</span><span id="__span-1-60"><a id="__codelineno-1-60" name="__codelineno-1-60" href="#__codelineno-1-60"></a><span class="w">  </span><span class="nt">keepfiles</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span>
-</span><span id="__span-1-61"><a id="__codelineno-1-61" name="__codelineno-1-61" href="#__codelineno-1-61"></a><span class="w">  </span><span class="nt">permissions</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0644</span>
-</span><span id="__span-1-62"><a id="__codelineno-1-62" name="__codelineno-1-62" href="#__codelineno-1-62"></a>
-</span><span id="__span-1-63"><a id="__codelineno-1-63" name="__codelineno-1-63" href="#__codelineno-1-63"></a><span class="c1"># ============================================================</span>
-</span><span id="__span-1-64"><a id="__codelineno-1-64" name="__codelineno-1-64" href="#__codelineno-1-64"></a><span class="c1"># PROZESSOR – Host-Metadaten hinzufügen</span>
-</span><span id="__span-1-65"><a id="__codelineno-1-65" name="__codelineno-1-65" href="#__codelineno-1-65"></a><span class="c1"># ============================================================</span>
-</span><span id="__span-1-66"><a id="__codelineno-1-66" name="__codelineno-1-66" href="#__codelineno-1-66"></a><span class="nt">processors</span><span class="p">:</span>
-</span><span id="__span-1-67"><a id="__codelineno-1-67" name="__codelineno-1-67" href="#__codelineno-1-67"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">add_host_metadata</span><span class="p">:</span>
-</span><span id="__span-1-68"><a id="__codelineno-1-68" name="__codelineno-1-68" href="#__codelineno-1-68"></a><span class="w">      </span><span class="nt">when.not.contains.tags</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">forwarded</span>
-</span></code></pre></div>
+<h1 id="web-tools">Web-Tools<a class="headerlink" href="#web-tools" title="Permanent link">&para;</a></h1>
+<p>Interaktive Browser-Tools für alle operativen Workflows – keine Installation, kein lokales Setup.</p>
+<div class="grid cards">
+<ul>
+<li>
+<p><strong>Upgrade-Formular</strong></p>
+<hr />
+<p>Geführter Wazuh AIO Upgrade-Workflow mit automatischer Befehlsgenerierung und PDF-Export.</p>
+<p><a href="../webforms/upgrade-form.html"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Upgrade-Formular öffnen</a></p>
+</li>
+<li>
+<p><strong>Checklisten-Generator</strong></p>
+<hr />
+<p>Individuelle Checklisten für Wartungsfenster generieren, befüllen und exportieren.</p>
+<p><a href="../webforms/checklist-generator.html"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Checklisten-Generator öffnen</a></p>
+</li>
+<li>
+<p><strong>Agent-Verwaltung</strong></p>
+<hr />
+<p>Befehlsgenerator für Wazuh Agent-Gruppen, Registrierung und Konfigurationsverteilung.</p>
+<p><a href="../webforms/agent-management.html"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Agent-Verwaltung öffnen</a></p>
+</li>
+<li>
+<p><strong>Wartungsprotokoll</strong></p>
+<hr />
+<p>Strukturierte Protokollierung von Wartungsarbeiten mit lokalem Speichern (LocalStorage).</p>
+<p><a href="../webforms/maintenance-protocol.html"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Wartungsprotokoll öffnen</a></p>
+</li>
+<li>
+<p><strong>Warum ganzheitliches SIEM?</strong></p>
+<hr />
+<p>Informationsseite zur strategischen Begründung eines ganzheitlichen SIEM-Ansatzes.</p>
+<p><a href="../webforms/warum-siem.html"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Seite öffnen</a></p>
+</li>
+</ul>
+</div>
+<hr />
+<h2 id="hinweise">Hinweise<a class="headerlink" href="#hinweise" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Alle Tools laufen <strong>vollständig im Browser</strong> – keine Serverprozesse, kein Backend</li>
+<li>Daten werden lokal im <strong>LocalStorage</strong> des Browsers gespeichert</li>
+<li>Funktionieren <strong>offline</strong> nach dem ersten Laden (Fonts werden gecacht)</li>
+<li><strong>PDF-Export</strong> ist im Upgrade-Formular und Wartungsprotokoll verfügbar</li>
+</ul>
 
 
 
@@ -2336,10 +2219,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.action.edit", "content.action.view"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "In Zwischenablage kopiert", "clipboard.copy": "In Zwischenablage kopieren", "search.result.more.one": "1 weiteres Suchergebnis auf dieser Seite", "search.result.more.other": "# weitere Suchergebnisse auf dieser Seite", "search.result.none": "Keine Suchergebnisse", "search.result.one": "1 Suchergebnis", "search.result.other": "# Suchergebnisse", "search.result.placeholder": "Suchbegriff eingeben", "search.result.term.missing": "Es fehlt", "select.version": "Version ausw\u00e4hlen"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.action.edit", "content.action.view"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "In Zwischenablage kopiert", "clipboard.copy": "In Zwischenablage kopieren", "search.result.more.one": "1 weiteres Suchergebnis auf dieser Seite", "search.result.more.other": "# weitere Suchergebnisse auf dieser Seite", "search.result.none": "Keine Suchergebnisse", "search.result.one": "1 Suchergebnis", "search.result.other": "# Suchergebnisse", "search.result.placeholder": "Suchbegriff eingeben", "search.result.term.missing": "Es fehlt", "select.version": "Version ausw\u00e4hlen"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7c377c4.min.js"></script>
       
     
   </body>

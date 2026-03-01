@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ta-SIEMPlus - Web-Formulare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/ta-alpha-brand.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-inner">
+                <img src="assets/ta-alpha-logo.svg" alt="T-Alpha GmbH" class="header-logo">
+                <div class="header-text">
+                    <h1>Ta-SIEMPlus Web-Tools</h1>
+                    <p class="subtitle">T-Alpha GmbH &middot; IT Security &middot; www.t-alpha.ch</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+            <div class="intro">
+                <h2>Willkommen!</h2>
+                <p>
+                    Diese Web-Formulare bieten eine benutzerfreundliche Oberfläche für alle wichtigen 
+                    Ta-SIEMPlus Workflows. Wählen Sie unten das passende Tool für Ihre Aufgabe.
+                </p>
+                <p style="margin-top: 10px;">
+                    <strong>✓</strong> Keine Installation erforderlich<br>
+                    <strong>✓</strong> Funktioniert offline im Browser<br>
+                    <strong>✓</strong> PDF-Export für Dokumentation<br>
+                    <strong>✓</strong> Automatische Befehlsgenerierung
+                </p>
+            </div>
+
+            <div class="tools-grid">
+                <a href="upgrade-form.html" class="tool-card">
+                    <div class="icon">🔄</div>
+                    <h3>Wazuh Upgrade Formular</h3>
+                    <p>Interaktives Formular für Wazuh AIO Upgrades mit automatischer Checklisten-Generierung.</p>
+                    <ul class="features">
+                        <li>Pre-Flight Checks</li>
+                        <li>Schritt-für-Schritt Anleitung</li>
+                        <li>Health Snapshots</li>
+                        <li>PDF-Export</li>
+                    </ul>
+                    <span class="btn">Upgrade starten →</span>
+                </a>
+
+                <a href="checklist-generator.html" class="tool-card">
+                    <div class="icon">✅</div>
+                    <h3>Checklisten Generator</h3>
+                    <p>Erstellen Sie individuelle Checklisten für verschiedene Wartungsszenarien.</p>
+                    <ul class="features">
+                        <li>Anpassbare Templates</li>
+                        <li>Metadaten-Management</li>
+                        <li>Markdown-Export</li>
+                        <li>Copy-to-Ticket</li>
+                    </ul>
+                    <span class="btn">Checkliste erstellen →</span>
+                </a>
+
+                <a href="agent-management.html" class="tool-card">
+                    <div class="icon">👥</div>
+                    <h3>Agent-Verwaltung</h3>
+                    <p>Werkzeuge für die Verwaltung von Wazuh-Agentengruppen und Konfigurationen.</p>
+                    <ul class="features">
+                        <li>Gruppen erstellen/bearbeiten</li>
+                        <li>Agenten zuweisen</li>
+                        <li>Befehls-Generator</li>
+                        <li>Multi-Gruppen Support</li>
+                    </ul>
+                    <span class="btn">Agenten verwalten →</span>
+                </a>
+
+                <a href="maintenance-protocol.html" class="tool-card">
+                    <div class="icon">📋</div>
+                    <h3>Wartungsprotokoll</h3>
+                    <p>Dokumentieren Sie Wartungsarbeiten strukturiert und lückenlos.</p>
+                    <ul class="features">
+                        <li>Strukturierte Erfassung</li>
+                        <li>Zeiterfassung</li>
+                        <li>Problembehebung dokumentieren</li>
+                        <li>PDF-Archivierung</li>
+                    </ul>
+                    <span class="btn">Protokoll erstellen →</span>
+                </a>
+
+                <a href="warum-siem.html" class="tool-card">
+                    <div class="icon">🛡️</div>
+                    <h3>Warum ganzheitliches SIEM?</h3>
+                    <p>Erklärt, warum Antivirus allein nicht ausreicht und welchen Mehrwert ein ganzheitliches SIEM mit Wazuh bietet.</p>
+                    <ul class="features">
+                        <li>Ganzheitliche Sicherheitsüberwachung</li>
+                        <li>Antivirus vs. SIEM Vergleich</li>
+                        <li>Paradigmenwechsel erklärt</li>
+                        <li>Empfohlene nächste Schritte</li>
+                    </ul>
+                    <span class="btn">Mehr erfahren →</span>
+                </a>
+            </div>
+
+            <div class="docs-section">
+                <h2>📚 Dokumentation & Ressourcen</h2>
+                <div class="docs-links">
+                    <a href="../getting-started/">🚀 Getting Started</a>
+                    <a href="../quick-reference/">⚡ Quick Reference</a>
+                    <a href="../navigation/">🗺️ Navigation</a>
+                    <a href="https://github.com/istagmbh/Ta-SIEMPlus">📖 README</a>
+                    <a href="../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU/">📘 Upgrade Runbook</a>
+                    <a href="../runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT/">📗 Agent Management Runbook</a>
+                    <a href="../catalog/CUSTOMERS/">👥 Kundenkatalog</a>
+                    <a href="https://github.com/istagmbh/Ta-SIEMPlus/blob/main/CONTRIBUTING.md">🤝 Contributing</a>
+                </div>
+            </div>
+
+            <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 20px; margin-top: 30px; border-radius: 4px;">
+                <h3 style="color: #856404; margin-bottom: 10px;">💡 Tipp für Power-User</h3>
+                <p style="color: #856404;">
+                    Kombinieren Sie Web-Formulare mit den Markdown-Runbooks für maximale Effizienz!
+                    Die Formulare eignen sich perfekt für die Erfassung, während die Runbooks
+                    detaillierte Befehle und Troubleshooting-Anleitungen bieten.
+                </p>
+            </div>
+        </div>
+
+        <footer class="ta-footer">
+            <p>&copy; 2026 <a href="https://www.t-alpha.ch" target="_blank">T-Alpha GmbH</a> &middot; IT Security &middot; <a href="https://req.t-alpha.ch/" target="_blank">req.t-alpha.ch</a></p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent-Verwaltung - Ta-SIEMPlus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/ta-alpha-brand.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="back-link" title="Zurück">&#8592;</a>
+            <div class="header-inner" style="padding-left: 48px;">
+                <img src="assets/ta-alpha-logo.svg" alt="T-Alpha GmbH" class="header-logo">
+                <div class="header-text">
+                    <h1>Agent-Verwaltung</h1>
+                    <p class="subtitle">T-Alpha GmbH &middot; IT Security</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+            <div class="alert alert-info">
+                <strong>📘 Dokumentation:</strong> Alle Befehle basieren auf dem 
+                <a href="../runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT/" style="color: #0c5460; text-decoration: underline;">Agent Management Runbook</a>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('generator')">🔧 Befehls-Generator</button>
+                <button class="tab" onclick="switchTab('examples')">📚 Beispiele</button>
+                <button class="tab" onclick="switchTab('reference')">📖 Referenz</button>
+            </div>
+
+            <!-- Tab 1: Command Generator -->
+            <div class="tab-content active" id="tab-generator">
+                <div class="section">
+                    <h2>🔧 Befehls-Generator</h2>
+                    
+                    <div class="form-group">
+                        <label>Operation auswählen</label>
+                        <select id="operation" onchange="updateCommandForm()">
+                            <option value="create">Gruppe erstellen</option>
+                            <option value="assign">Agenten zuweisen</option>
+                            <option value="unassign">Agenten aus Gruppe entfernen</option>
+                            <option value="list">Gruppen auflisten</option>
+                            <option value="list-agents">Agenten einer Gruppe auflisten</option>
+                            <option value="remove">Gruppe löschen</option>
+                            <option value="config">Gruppenkonfiguration erstellen</option>
+                        </select>
+                    </div>
+
+                    <div id="commandForm">
+                        <!-- Dynamic form fields will be inserted here -->
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn-primary" onclick="generateCommand()">⚡ Befehl generieren</button>
+                        <button class="btn-secondary" onclick="clearForm()">🔄 Zurücksetzen</button>
+                    </div>
+
+                    <div id="generatedCommand" style="margin-top: 20px; display: none;">
+                        <h3 style="color: #667eea; margin-bottom: 10px;">Generierter Befehl:</h3>
+                        <div class="command-output">
+                            <button class="copy-btn" onclick="copyCommand()">📋 Kopieren</button>
+                            <pre id="commandText"></pre>
+                        </div>
+                        <div id="commandDescription" class="alert alert-info" style="margin-top: 10px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Examples -->
+            <div class="tab-content" id="tab-examples">
+                <div class="section">
+                    <h2>📚 Häufige Operationen</h2>
+
+                    <div class="operation-card">
+                        <h4>1. Neue Gruppe erstellen</h4>
+                        <p>Erstellen Sie eine neue Agent-Gruppe für spezifische Konfigurationen</p>
+                        <div class="command-output">
+                            <button class="copy-btn" onclick="copyText(this, '/var/ossec/bin/agent_groups -a -g webservers')">📋</button>
+                            /var/ossec/bin/agent_groups -a -g webservers
+                        </div>
+                        <p style="margin-top: 10px;"><strong>Verwendung:</strong> Für Webserver mit speziellen Security-Policies</p>
+                    </div>
+
+                    <div class="operation-card">
+                        <h4>2. Agent einer Gruppe zuweisen</h4>
+                        <p>Weisen Sie einen bestehenden Agent einer Gruppe zu</p>
+                        <div class="command-output">
+                            <button class="copy-btn" onclick="copyText(this, '/var/ossec/bin/agent_groups -a -i 001 -g webservers')">📋</button>
+                            /var/ossec/bin/agent_groups -a -i 001 -g webservers
+                        </div>
+                        <p style="margin-top: 10px;"><strong>Ergebnis:</strong> Agent 001 erhält die webservers-Konfiguration</p>
+                    </div>
+
+                    <div class="operation-card">
+                        <h4>3. Gruppenkonfiguration erstellen</h4>
+                        <p>Erstellen Sie eine agent.conf für Ihre Gruppe</p>
+                        <div class="command-output">
+                            <button class="copy-btn" onclick="copyText(this, 'cat > /var/ossec/etc/shared/webservers/agent.conf << EOF\n<agent_config>\n  <localfile>\n    <location>/var/log/nginx/access.log</location>\n    <log_format>syslog</log_format>\n  </localfile>\n</agent_config>\nEOF')">📋</button>
+cat > /var/ossec/etc/shared/webservers/agent.conf << EOF
+&lt;agent_config&gt;
+  &lt;localfile&gt;
+    &lt;location&gt;/var/log/nginx/access.log&lt;/location&gt;
+    &lt;log_format&gt;syslog&lt;/log_format&gt;
+  &lt;/localfile&gt;
+&lt;/agent_config&gt;
+EOF
+                        </div>
+                        <p style="margin-top: 10px;"><strong>Hinweis:</strong> Konfiguration wird automatisch an Gruppenagenten verteilt</p>
+                    </div>
+
+                    <div class="operation-card">
+                        <h4>4. Agenten einer Gruppe auflisten</h4>
+                        <p>Zeigen Sie alle Agenten in einer bestimmten Gruppe an</p>
+                        <div class="command-output">
+                            <button class="copy-btn" onclick="copyText(this, '/var/ossec/bin/agent_groups -l -g webservers')">📋</button>
+                            /var/ossec/bin/agent_groups -l -g webservers
+                        </div>
+                        <p style="margin-top: 10px;"><strong>Ausgabe:</strong> Liste aller Agent-IDs und Namen in der Gruppe</p>
+                    </div>
+
+                    <div class="operation-card">
+                        <h4>5. Alle Gruppen auflisten</h4>
+                        <p>Übersicht über alle konfigurierten Agent-Gruppen</p>
+                        <div class="command-output">
+                            <button class="copy-btn" onclick="copyText(this, '/var/ossec/bin/agent_groups -l')">📋</button>
+                            /var/ossec/bin/agent_groups -l
+                        </div>
+                        <p style="margin-top: 10px;"><strong>Nützlich für:</strong> Audit und Inventar</p>
+                    </div>
+
+                    <div class="operation-card">
+                        <h4>6. Agent aus Gruppe entfernen</h4>
+                        <p>Entfernen Sie einen Agent aus einer Gruppe (zurück zu 'default')</p>
+                        <div class="command-output">
+                            <button class="copy-btn" onclick="copyText(this, '/var/ossec/bin/agent_groups -r -i 001 -g webservers')">📋</button>
+                            /var/ossec/bin/agent_groups -r -i 001 -g webservers
+                        </div>
+                        <p style="margin-top: 10px;"><strong>Wichtig:</strong> Agent kehrt zur 'default' Gruppe zurück</p>
+                    </div>
+
+                    <div class="operation-card">
+                        <h4>7. Multi-Group Zuweisung</h4>
+                        <p>Ein Agent kann mehreren Gruppen angehören</p>
+                        <div class="command-output">
+                            <button class="copy-btn" onclick="copyText(this, '/var/ossec/bin/agent_groups -a -i 001 -g webservers\n/var/ossec/bin/agent_groups -a -i 001 -g production')">📋</button>
+/var/ossec/bin/agent_groups -a -i 001 -g webservers
+/var/ossec/bin/agent_groups -a -i 001 -g production
+                        </div>
+                        <p style="margin-top: 10px;"><strong>Resultat:</strong> Agent 001 erbt Konfiguration von beiden Gruppen</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Reference -->
+            <div class="tab-content" id="tab-reference">
+                <div class="section">
+                    <h2>📖 Schnellreferenz</h2>
+
+                    <h3>CLI-Tool: agent_groups</h3>
+                    <div class="command-output">
+/var/ossec/bin/agent_groups [OPTIONS]
+                    </div>
+
+                    <h3 style="margin-top: 30px;">Wichtige Optionen</h3>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                        <tr style="background: #f8f9fa;">
+                            <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Option</th>
+                            <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Beschreibung</th>
+                            <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Beispiel</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><code>-a</code></td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Add (Gruppe erstellen oder Agent zuweisen)</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><code>-a -g webservers</code></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><code>-g</code></td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Group name</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><code>-g production</code></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><code>-i</code></td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Agent ID</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><code>-i 001</code></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><code>-l</code></td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">List (Gruppen oder Agenten auflisten)</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><code>-l -g webservers</code></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><code>-r</code></td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Remove (Agent aus Gruppe entfernen)</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><code>-r -i 001 -g webservers</code></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><code>-s</code></td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Show agent groups</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><code>-s -i 001</code></td>
+                        </tr>
+                    </table>
+
+                    <h3 style="margin-top: 30px;">Dateipfade</h3>
+                    <div class="command-output">
+# Gruppenkonfigurationen
+/var/ossec/etc/shared/&lt;group_name&gt;/agent.conf
+
+# Gruppe-Agent Zuordnung (DB)
+/var/ossec/queue/db/global.db
+
+# Agent-Informationen
+/var/ossec/etc/client.keys
+                    </div>
+
+                    <h3 style="margin-top: 30px;">Best Practices</h3>
+                    <ul style="margin-left: 30px; margin-top: 10px;">
+                        <li style="margin-bottom: 10px;">Verwenden Sie aussagekräftige Gruppennamen (z.B. <code>webservers</code>, <code>databases</code>, <code>prod</code>)</li>
+                        <li style="margin-bottom: 10px;">Testen Sie neue Gruppenkonfigurationen zuerst mit einem Test-Agent</li>
+                        <li style="margin-bottom: 10px;">Dokumentieren Sie Gruppenzweck und -konfiguration im Kundenkatalog</li>
+                        <li style="margin-bottom: 10px;">Überprüfen Sie Gruppenzuweisungen regelmäßig mit <code>-l</code></li>
+                        <li style="margin-bottom: 10px;">Halten Sie agent.conf Dateien in Versionskontrolle</li>
+                        <li style="margin-bottom: 10px;">Multi-Group: Maximale Anzahl Gruppen pro Agent beachten (Standard: 128)</li>
+                    </ul>
+
+                    <div class="quick-reference">
+                        <h4>⚠️ Wichtige Hinweise</h4>
+                        <ul>
+                            <li>Änderungen werden automatisch an Agenten verteilt (kann einige Minuten dauern)</li>
+                            <li>Die Gruppe 'default' existiert immer und kann nicht gelöscht werden</li>
+                            <li>Gruppenkonfigurationen überschreiben lokale Agent-Konfigurationen</li>
+                            <li>Bei Multi-Group werden Konfigurationen in der Reihenfolge der Zuweisung angewendet</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="ta-footer">
+            <p>&copy; 2026 <a href="https://www.t-alpha.ch" target="_blank">T-Alpha GmbH</a> &middot; IT Security &middot; <a href="https://req.t-alpha.ch/" target="_blank">req.t-alpha.ch</a></p>
+        </footer>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        }
+
+        function updateCommandForm() {
+            const operation = document.getElementById('operation').value;
+            const formHtml = {
+                'create': `
+                    <div class="form-group">
+                        <label>Gruppenname</label>
+                        <input type="text" id="groupName" placeholder="z.B. webservers" required>
+                    </div>
+                `,
+                'assign': `
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Agent ID</label>
+                            <input type="text" id="agentId" placeholder="001" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Gruppenname</label>
+                            <input type="text" id="groupName" placeholder="webservers" required>
+                        </div>
+                    </div>
+                `,
+                'unassign': `
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Agent ID</label>
+                            <input type="text" id="agentId" placeholder="001" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Gruppenname</label>
+                            <input type="text" id="groupName" placeholder="webservers" required>
+                        </div>
+                    </div>
+                `,
+                'list': `
+                    <p style="color: #666;">Dieser Befehl benötigt keine zusätzlichen Parameter.</p>
+                `,
+                'list-agents': `
+                    <div class="form-group">
+                        <label>Gruppenname</label>
+                        <input type="text" id="groupName" placeholder="webservers" required>
+                    </div>
+                `,
+                'remove': `
+                    <div class="form-group">
+                        <label>Gruppenname</label>
+                        <input type="text" id="groupName" placeholder="webservers" required>
+                    </div>
+                    <div class="alert alert-warning">
+                        <strong>⚠️ Warnung:</strong> Alle Agenten werden zurück zur 'default' Gruppe verschoben.
+                    </div>
+                `,
+                'config': `
+                    <div class="form-group">
+                        <label>Gruppenname</label>
+                        <input type="text" id="groupName" placeholder="webservers" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Konfigurationsinhalt (agent.conf)</label>
+                        <textarea id="configContent" rows="10" placeholder="<agent_config>
+  <localfile>
+    <location>/var/log/app.log</location>
+    <log_format>syslog</log_format>
+  </localfile>
+</agent_config>"></textarea>
+                    </div>
+                `
+            };
+            
+            document.getElementById('commandForm').innerHTML = formHtml[operation];
+            document.getElementById('generatedCommand').style.display = 'none';
+        }
+
+        function generateCommand() {
+            const operation = document.getElementById('operation').value;
+            let command = '';
+            let description = '';
+            
+            try {
+                switch(operation) {
+                    case 'create':
+                        const createGroup = document.getElementById('groupName').value;
+                        if (!createGroup) throw new Error('Gruppenname ist erforderlich');
+                        command = `/var/ossec/bin/agent_groups -a -g ${createGroup}`;
+                        description = `Erstellt eine neue Agent-Gruppe namens '${createGroup}'. Die Gruppe kann anschließend mit einer agent.conf konfiguriert werden.`;
+                        break;
+                    
+                    case 'assign':
+                        const assignAgent = document.getElementById('agentId').value;
+                        const assignGroup = document.getElementById('groupName').value;
+                        if (!assignAgent || !assignGroup) throw new Error('Agent ID und Gruppenname sind erforderlich');
+                        command = `/var/ossec/bin/agent_groups -a -i ${assignAgent} -g ${assignGroup}`;
+                        description = `Weist Agent ${assignAgent} der Gruppe '${assignGroup}' zu. Der Agent erhält die Gruppenkonfiguration beim nächsten Check-in.`;
+                        break;
+                    
+                    case 'unassign':
+                        const unassignAgent = document.getElementById('agentId').value;
+                        const unassignGroup = document.getElementById('groupName').value;
+                        if (!unassignAgent || !unassignGroup) throw new Error('Agent ID und Gruppenname sind erforderlich');
+                        command = `/var/ossec/bin/agent_groups -r -i ${unassignAgent} -g ${unassignGroup}`;
+                        description = `Entfernt Agent ${unassignAgent} aus Gruppe '${unassignGroup}'. Der Agent wird zur 'default' Gruppe zurückverschoben.`;
+                        break;
+                    
+                    case 'list':
+                        command = `/var/ossec/bin/agent_groups -l`;
+                        description = `Listet alle konfigurierten Agent-Gruppen auf.`;
+                        break;
+                    
+                    case 'list-agents':
+                        const listGroup = document.getElementById('groupName').value;
+                        if (!listGroup) throw new Error('Gruppenname ist erforderlich');
+                        command = `/var/ossec/bin/agent_groups -l -g ${listGroup}`;
+                        description = `Listet alle Agenten auf, die der Gruppe '${listGroup}' zugewiesen sind.`;
+                        break;
+                    
+                    case 'remove':
+                        const removeGroup = document.getElementById('groupName').value;
+                        if (!removeGroup) throw new Error('Gruppenname ist erforderlich');
+                        command = `# Warnung: Alle Agenten werden zur 'default' Gruppe verschoben\n`;
+                        command += `/var/ossec/bin/agent_groups -r -g ${removeGroup}`;
+                        description = `⚠️ Löscht die Gruppe '${removeGroup}' vollständig. Alle zugewiesenen Agenten werden zur 'default' Gruppe verschoben.`;
+                        break;
+                    
+                    case 'config':
+                        const configGroup = document.getElementById('groupName').value;
+                        const configContent = document.getElementById('configContent').value;
+                        if (!configGroup) throw new Error('Gruppenname ist erforderlich');
+                        command = `cat > /var/ossec/etc/shared/${configGroup}/agent.conf << 'EOF'\n${configContent || '<agent_config>\n  <!-- Your config here -->\n</agent_config>'}\nEOF`;
+                        description = `Erstellt oder aktualisiert die Konfigurationsdatei für Gruppe '${configGroup}'. Die Konfiguration wird automatisch an alle Gruppenagenten verteilt.`;
+                        break;
+                }
+                
+                document.getElementById('commandText').textContent = command;
+                document.getElementById('commandDescription').innerHTML = `<strong>ℹ️ Beschreibung:</strong> ${description}`;
+                document.getElementById('generatedCommand').style.display = 'block';
+                
+            } catch (error) {
+                alert('Fehler: ' + error.message);
+            }
+        }
+
+        function copyCommand() {
+            const command = document.getElementById('commandText').textContent;
+            copyText(event.target, command);
+        }
+
+        function copyText(button, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✅ Kopiert!';
+                button.style.background = '#28a745';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                }, 2000);
+            }).catch(err => {
+                alert('Fehler beim Kopieren: ' + err);
+            });
+        }
+
+        function clearForm() {
+            document.getElementById('operation').value = 'create';
+            updateCommandForm();
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            updateCommandForm();
+        });
+    </script>
+</body>
+</html>

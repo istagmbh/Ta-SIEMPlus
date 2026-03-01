@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warum ganzheitliches SIEM? - Ta-SIEMPlus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/ta-alpha-brand.css">
+    <style>
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 24px 0;
+        }
+        .comparison-card {
+            border-radius: var(--ta-border-radius);
+            padding: 24px;
+        }
+        .comparison-card.bad {
+            background: #ffeaea;
+            border: 2px solid #c0392b;
+        }
+        .comparison-card.good {
+            background: #eafaf1;
+            border: 2px solid #27ae60;
+        }
+        .comparison-card h3 {
+            margin-bottom: 14px;
+            font-size: 1.05em;
+        }
+        .comparison-card.bad h3 { color: #c0392b; }
+        .comparison-card.good h3 { color: #27ae60; }
+        .comparison-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .comparison-card ul li {
+            padding: 5px 0;
+            font-size: 0.92em;
+            color: #444;
+        }
+        .comparison-card.bad ul li::before {
+            content: "✗ ";
+            color: #c0392b;
+            font-weight: bold;
+        }
+        .comparison-card.good ul li::before {
+            content: "✓ ";
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .pillar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+            margin: 20px 0;
+        }
+        .pillar-card {
+            background: var(--ta-blue-pale);
+            border: 1.5px solid var(--ta-blue-light);
+            border-radius: var(--ta-border-radius);
+            padding: 20px;
+            text-align: center;
+        }
+        .pillar-card .pillar-icon { font-size: 2em; margin-bottom: 10px; }
+        .pillar-card h4 { color: var(--ta-blue); font-size: 0.95em; margin-bottom: 6px; }
+        .pillar-card p { color: #555; font-size: 0.85em; }
+
+        .shift-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+            font-size: 0.93em;
+        }
+        .shift-table th {
+            background: var(--ta-blue);
+            color: #fff;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        .shift-table td {
+            padding: 11px 16px;
+            border-bottom: 1px solid var(--ta-gray-mid);
+        }
+        .shift-table tr:nth-child(even) td { background: var(--ta-gray-light); }
+        .shift-table td:first-child { color: #c0392b; font-weight: 500; }
+        .shift-table td:last-child  { color: #27ae60; font-weight: 500; }
+
+        .reason-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .reason-card {
+            background: #fff;
+            border: 1.5px solid var(--ta-gray-mid);
+            border-radius: var(--ta-border-radius);
+            padding: 18px;
+        }
+        .reason-card .reason-icon { font-size: 1.6em; margin-bottom: 8px; }
+        .reason-card h4 { color: var(--ta-blue-dark); font-size: 0.95em; margin-bottom: 6px; }
+        .reason-card p { color: #555; font-size: 0.88em; }
+
+        .callout {
+            border-radius: var(--ta-border-radius);
+            padding: 22px 26px;
+            margin: 24px 0;
+        }
+        .callout-blue {
+            background: var(--ta-blue-pale);
+            border-left: 5px solid var(--ta-blue);
+        }
+        .callout-blue h3 { color: var(--ta-blue); margin-bottom: 10px; }
+        .callout-yellow {
+            background: #fff8e1;
+            border-left: 5px solid #f0a500;
+        }
+        .callout-yellow h3 { color: #856404; margin-bottom: 10px; }
+
+        .wazuh-feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            margin: 20px 0;
+        }
+        .wazuh-feature {
+            background: #fff;
+            border: 1.5px solid var(--ta-gray-mid);
+            border-radius: var(--ta-border-radius);
+            padding: 18px;
+            border-top: 4px solid var(--ta-blue);
+        }
+        .wazuh-feature .feat-icon { font-size: 1.5em; margin-bottom: 8px; }
+        .wazuh-feature h4 { color: var(--ta-blue-dark); font-size: 0.95em; margin-bottom: 6px; }
+        .wazuh-feature p { color: #555; font-size: 0.88em; }
+
+        .next-steps-list {
+            list-style: none;
+            padding: 0;
+            margin: 14px 0 0;
+        }
+        .next-steps-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--ta-gray-mid);
+            font-size: 0.93em;
+            color: #333;
+        }
+        .next-steps-list li:last-child { border-bottom: none; }
+        .next-steps-list li .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            height: 26px;
+            background: var(--ta-blue);
+            color: #fff;
+            border-radius: 50%;
+            font-size: 0.82em;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="back-link" title="Zurück zur Übersicht">&#8592;</a>
+            <div class="header-inner" style="padding-left: 48px;">
+                <img src="assets/ta-alpha-logo.svg" alt="T-Alpha GmbH" class="header-logo">
+                <div class="header-text">
+                    <h1>Warum ganzheitliches SIEM?</h1>
+                    <p class="subtitle">T-Alpha GmbH &middot; IT Security &middot; Ta-SIEMPlus</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+
+            <!-- INTRO -->
+            <div class="intro">
+                <h2>🔍 Moderne Bedrohungen erfordern moderne Antworten</h2>
+                <p>
+                    Antivirus-Software allein reicht nicht mehr aus. Angreifer agieren lateral, tarnen sich,
+                    nutzen legitime Werkzeuge und verweilen oft <strong>Monate unentdeckt</strong> in Netzwerken.
+                    Ein ganzheitliches SIEM (Security Information and Event Management) mit Wazuh schließt diese
+                    Lücke – durch kontinuierliche Telemetrie, Korrelation und eine klare Sichtbarkeit über alle
+                    Systeme hinweg.
+                </p>
+                <p style="margin-top: 10px;">
+                    <strong>Auf dieser Seite:</strong> Was SIEM leistet, wo Antivirus versagt, warum sich an den
+                    Grundproblemen seit 40 Jahren nichts geändert hat – und wie Wazuh den Paradigmenwechsel ermöglicht.
+                </p>
+            </div>
+
+            <!-- 1. GANZHEITLICHE SICHERHEITSÜBERWACHUNG -->
+            <div class="section">
+                <h2>1 · Ganzheitliche Sicherheitsüberwachung</h2>
+                <p style="margin-bottom: 20px; color: #555;">
+                    Ganzheitliche Sicherheitsüberwachung bedeutet: <em>Sehen, was passiert – auf jedem System,
+                    in Echtzeit, mit Kontext</em>. Fünf Säulen bilden das Fundament:
+                </p>
+
+                <div class="pillar-grid">
+                    <div class="pillar-card">
+                        <div class="pillar-icon">📡</div>
+                        <h4>Telemetrie</h4>
+                        <p>Logs, Prozesse, Netzwerkverbindungen, Dateiänderungen und Registry-Events von allen Endpunkten in Echtzeit.</p>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="pillar-icon">🔗</div>
+                        <h4>Korrelation</h4>
+                        <p>Ereignisse über Systeme und Zeiträume hinweg verknüpfen, um Angriffsmuster sichtbar zu machen.</p>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="pillar-icon">🧭</div>
+                        <h4>Kontext</h4>
+                        <p>Wer hat wann was getan? Asset-Inventar, Benutzeridentitäten und Systemhistorie geben Bedeutung zu Rohdaten.</p>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="pillar-icon">🚨</div>
+                        <h4>Detection &amp; Response</h4>
+                        <p>Automatisierte Erkennung von Anomalien und Alerts mit klaren Eskalationspfaden und Response-Playbooks.</p>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="pillar-icon">📋</div>
+                        <h4>Compliance</h4>
+                        <p>Audit-Trails, PCI-DSS- und GDPR-Reports sowie Nachweis-Dashboards direkt aus dem SIEM heraus.</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-blue">
+                    <h3>💡 Kernprinzip</h3>
+                    <p>
+                        Sicherheit entsteht nicht durch das Blockieren einzelner Dateien, sondern durch das
+                        <strong>Verstehen von Verhaltensmustern</strong>. Ein SIEM verbindet scheinbar harmlose
+                        Einzelereignisse zu einem vollständigen Bedrohungsbild.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 2. ANTIVIRUS GRENZEN -->
+            <div class="section">
+                <h2>2 · Warum traditionelles Antivirus allein versagt</h2>
+                <p style="margin-bottom: 20px; color: #555;">
+                    Antivirus-Produkte wurden in den 1980er-Jahren für eine andere Bedrohungslandschaft entwickelt.
+                    Ihr Designprinzip – signaturbasiertes Erkennen bekannter Malware – ist gegen moderne Angriffstechniken
+                    strukturell unterlegen.
+                </p>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card bad">
+                        <h3>❌ Klassisches Antivirus</h3>
+                        <ul>
+                            <li>Signaturbasiert: unbekannte Malware bleibt unsichtbar</li>
+                            <li>Nur Endpunkt-Sicht: keine netzwerkweite Korrelation</li>
+                            <li>Kein Kontext: einzelne Datei, keine Verhaltensanalyse</li>
+                            <li>Reaktiv: handelt erst <em>nach</em> Ausführung der Malware</li>
+                            <li>Keine Log-Aggregation: Aktivitäten können nicht rekonstruiert werden</li>
+                            <li>Umgehbar durch Living-off-the-Land Techniken (LOLBins)</li>
+                            <li>Keine Compliance-Reports oder Audit-Trails</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-card good">
+                        <h3>✅ Ganzheitliches SIEM (Wazuh)</h3>
+                        <ul>
+                            <li>Verhaltensbasierte Erkennung: auch Zero-Days detektierbar</li>
+                            <li>Plattformübergreifende Korrelation über alle Systeme</li>
+                            <li>Vollständiger Kontext: Prozessbaum, Benutzer, Netzwerk</li>
+                            <li>Proaktiv: Anomalien werden vor der Eskalation erkannt</li>
+                            <li>Zentralisierte Logs: lückenloser Audit-Trail</li>
+                            <li>Erkennt LOLBins, laterale Bewegungen, Privilege Escalation</li>
+                            <li>Integrierte Compliance-Dashboards (PCI-DSS, GDPR, HIPAA)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="callout callout-yellow">
+                    <h3>⚠️ Die entscheidende Lücke</h3>
+                    <p>
+                        Angreifer brauchen keine Malware mehr. Mit <strong>Mimikatz, PowerShell, WMI oder
+                        certutil</strong> – allesamt legitime Windows-Tools – lassen sich Zugangsdaten stehlen,
+                        Backdoors einrichten und Daten exfiltrieren, ohne dass ein Antivirus anspringt.
+                        Nur verhaltensbasierte Telemetrie und Korrelation enthüllt diese Aktivitäten.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 3. PARADIGMENWECHSEL -->
+            <div class="section">
+                <h2>3 · Der notwendige Paradigmenwechsel</h2>
+                <p style="margin-bottom: 20px; color: #555;">
+                    Die Antwort auf moderne Bedrohungen ist nicht ein besseres Antivirus – es ist ein
+                    grundlegend anderes Sicherheitsmodell. Drei Verschiebungen sind entscheidend:
+                </p>
+
+                <table class="shift-table">
+                    <tr>
+                        <th style="width: 33%">Dimension</th>
+                        <th style="width: 33%">Altes Paradigma</th>
+                        <th style="width: 33%">Neues Paradigma</th>
+                    </tr>
+                    <tr>
+                        <td>Ansatz</td>
+                        <td>Tool-Silo: Antivirus + Firewall getrennt</td>
+                        <td>Security Operations: integrierte Plattform</td>
+                    </tr>
+                    <tr>
+                        <td>Strategie</td>
+                        <td>Prevention-Only: Angriffe abwehren</td>
+                        <td>Detection &amp; Response: Angriffe erkennen &amp; eindämmen</td>
+                    </tr>
+                    <tr>
+                        <td>Rhythmus</td>
+                        <td>Periodische Audits: monatliche/jährliche Checks</td>
+                        <td>Continuous Monitoring: 24/7-Echtzeitsicht</td>
+                    </tr>
+                    <tr>
+                        <td>Sichtbarkeit</td>
+                        <td>Endpunkt-isoliert: kein netzwerkweiter Kontext</td>
+                        <td>Ganzheitlich: alle Systeme, alle Ereignisse, ein Dashboard</td>
+                    </tr>
+                    <tr>
+                        <td>Reaktion</td>
+                        <td>Manuell, reaktiv, nach Eskalation</td>
+                        <td>Automatisiert, proaktiv, mit definierten Playbooks</td>
+                    </tr>
+                </table>
+
+                <div class="callout callout-blue">
+                    <h3>🔄 Assume Breach</h3>
+                    <p>
+                        Das moderne Sicherheitsmodell geht davon aus, dass Angreifer bereits im Netzwerk sind –
+                        oder es bald sein werden. Nicht <em>ob</em> ein Angriff stattfindet, sondern <em>wann</em>
+                        wir ihn erkennen, ist die entscheidende Kennzahl: die <strong>Mean Time to Detect (MTTD)</strong>.
+                        Ein SIEM reduziert diese von Monaten auf Minuten.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4. WARUM SEIT 40 JAHREN -->
+            <div class="section">
+                <h2>4 · Warum haben wir seit 40 Jahren dieselben Probleme?</h2>
+                <p style="margin-bottom: 20px; color: #555;">
+                    Die Sicherheitsprobleme sind bekannt, die Lösungen existieren – und trotzdem wiederholen sich
+                    dieselben Angriffsmuster seit Jahrzehnten. Fünf strukturelle Ursachen erklären dieses Paradoxon:
+                </p>
+
+                <div class="reason-cards">
+                    <div class="reason-card">
+                        <div class="reason-icon">💰</div>
+                        <h4>Budget-Fokus auf Prävention</h4>
+                        <p>
+                            IT-Budgets fließen seit Jahrzehnten in Firewalls und Antivirus – sichtbare,
+                            leicht erklärbare Produkte. Detection &amp; Response gilt als «zu teuer» oder
+                            «nicht nötig, wir wurden noch nicht angegriffen».
+                        </p>
+                    </div>
+                    <div class="reason-card">
+                        <div class="reason-icon">🧩</div>
+                        <h4>Fragmentierte Werkzeuge</h4>
+                        <p>
+                            Antivirus, SIEM, IDS, Vulnerability Scanner – jedes Tool ein eigenes Dashboard,
+                            keine gemeinsame Datenbasis. Sicherheitsrelevante Signale gehen im Rauschen unter.
+                        </p>
+                    </div>
+                    <div class="reason-card">
+                        <div class="reason-icon">🏪</div>
+                        <h4>Vendor-Anreize</h4>
+                        <p>
+                            Sicherheitsanbieter profitieren von Komplexität und proprietären Lösungen.
+                            Integration und Offenheit – die Grundlagen guter Observability – widersprechen
+                            kurzfristigen Lizenzmodellen.
+                        </p>
+                    </div>
+                    <div class="reason-card">
+                        <div class="reason-icon">🙈</div>
+                        <h4>Mangelnde Sichtbarkeit</h4>
+                        <p>
+                            Viele Organisationen wissen schlicht nicht, was in ihren Netzwerken passiert.
+                            Ohne Telemetrie kein Alarm – ohne Alarm kein Handlungsbedarf. Das Problem bleibt
+                            unsichtbar.
+                        </p>
+                    </div>
+                    <div class="reason-card">
+                        <div class="reason-icon">🐢</div>
+                        <h4>Träge Organisationsveränderung</h4>
+                        <p>
+                            Sicherheitskultur, Prozesse und Verantwortlichkeiten ändern sich langsam.
+                            Technische Lösungen allein genügen nicht – sie müssen in betriebliche Abläufe
+                            eingebettet sein.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="callout callout-yellow">
+                    <h3>📌 Konsequenz</h3>
+                    <p>
+                        Die gute Nachricht: Heute sind Open-Source-Plattformen wie Wazuh verfügbar, die
+                        ganzheitliche Sicherheitsüberwachung auch für KMU erschwinglich machen.
+                        Der entscheidende Schritt ist <strong>Sichtbarkeit herzustellen</strong> –
+                        alles andere folgt daraus.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 5. WAZUH VORTEILE -->
+            <div class="section">
+                <h2>5 · Wazuh SIEM – Vorteile im Überblick</h2>
+                <p style="margin-bottom: 20px; color: #555;">
+                    Wazuh ist eine Open-Source-SIEM-Plattform, die alle Komponenten ganzheitlicher
+                    Sicherheitsüberwachung in einer integrierten Lösung vereint.
+                </p>
+
+                <div class="wazuh-feature-grid">
+                    <div class="wazuh-feature">
+                        <div class="feat-icon">🆓</div>
+                        <h4>Open Source &amp; kostenlos</h4>
+                        <p>Keine Lizenzkosten, vollständige Transparenz des Quellcodes, aktive Community und kommerzielle Support-Optionen.</p>
+                    </div>
+                    <div class="wazuh-feature">
+                        <div class="feat-icon">🤖</div>
+                        <h4>Agenten-basierte Telemetrie</h4>
+                        <p>Leichtgewichtige Agenten für Windows, Linux, macOS und Docker liefern tiefe System-Telemetrie in Echtzeit.</p>
+                    </div>
+                    <div class="wazuh-feature">
+                        <div class="feat-icon">📜</div>
+                        <h4>Integrierte Regelwerke</h4>
+                        <p>Über 3.000 vorkonfigurierte Erkennungsregeln, MITRE ATT&amp;CK-Mapping und anpassbare Custom-Rules.</p>
+                    </div>
+                    <div class="wazuh-feature">
+                        <div class="feat-icon">📊</div>
+                        <h4>Dashboards &amp; Reports</h4>
+                        <p>OpenSearch-basierte Dashboards für Security Events, Compliance (PCI-DSS, GDPR, HIPAA) und Vulnerability Management.</p>
+                    </div>
+                    <div class="wazuh-feature">
+                        <div class="feat-icon">🔌</div>
+                        <h4>Integrationen</h4>
+                        <p>Native Integrationen mit VirusTotal, MISP, TheHive, Slack, PagerDuty und anderen Security-Tools.</p>
+                    </div>
+                    <div class="wazuh-feature">
+                        <div class="feat-icon">🛡️</div>
+                        <h4>Active Response</h4>
+                        <p>Automatisierte Reaktionen auf Bedrohungen: IP blockieren, Prozesse beenden, Skripte ausführen – regelbasiert.</p>
+                    </div>
+                    <div class="wazuh-feature">
+                        <div class="feat-icon">🔍</div>
+                        <h4>Vulnerability Detection</h4>
+                        <p>Kontinuierliches Schwachstellen-Scanning auf Basis des CVE-Feeds – ohne separaten Scanner.</p>
+                    </div>
+                    <div class="wazuh-feature">
+                        <div class="feat-icon">⚖️</div>
+                        <h4>Compliance-Automation</h4>
+                        <p>Vorkonfigurierte Compliance-Checks für PCI-DSS, NIST, HIPAA und eigene Sicherheitsrichtlinien.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. NÄCHSTE SCHRITTE -->
+            <div class="section">
+                <h2>6 · Nächste Schritte – Empfehlungen</h2>
+                <p style="margin-bottom: 16px; color: #555;">
+                    Der Einstieg in ganzheitliches SIEM mit Wazuh erfolgt schrittweise. Diese priorisierten
+                    Maßnahmen bilden eine bewährte Grundlage:
+                </p>
+
+                <ul class="next-steps-list">
+                    <li>
+                        <span class="step-num">1</span>
+                        <div>
+                            <strong>Bestandsaufnahme &amp; Asset-Inventar</strong><br>
+                            <span style="color:#666;">Alle Systeme erfassen: Server, Workstations, Netzwerkgeräte. Ohne vollständige Sichtbarkeit keine vollständige Sicherheit.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-num">2</span>
+                        <div>
+                            <strong>Wazuh Server aufsetzen (AIO oder Cluster)</strong><br>
+                            <span style="color:#666;">Wazuh All-in-One auf Ubuntu 22.04 LTS als Einstieg. Referenz:
+                            <a href="../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU/" style="color: var(--ta-blue);">Upgrade Runbook</a>.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-num">3</span>
+                        <div>
+                            <strong>Agenten auf allen kritischen Systemen ausrollen</strong><br>
+                            <span style="color:#666;">Priorisierung: Server und kritische Workstations zuerst. Gruppen für unterschiedliche Konfigurationen nutzen.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-num">4</span>
+                        <div>
+                            <strong>Baseline ermitteln &amp; False Positives reduzieren</strong><br>
+                            <span style="color:#666;">In den ersten 2–4 Wochen normales Verhalten beobachten, Regeln anpassen und Rauschen minimieren.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-num">5</span>
+                        <div>
+                            <strong>Alerting-Kanäle konfigurieren</strong><br>
+                            <span style="color:#666;">E-Mail, Slack oder Ticketsystem anbinden. Kritische Alerts (Level 12+) müssen immer sofort eskaliert werden.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-num">6</span>
+                        <div>
+                            <strong>Response-Playbooks definieren</strong><br>
+                            <span style="color:#666;">Für die häufigsten Alert-Typen klare Reaktionspläne erstellen und im Team kommunizieren.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="step-num">7</span>
+                        <div>
+                            <strong>Regelmäßige Überprüfung &amp; Weiterentwicklung</strong><br>
+                            <span style="color:#666;">Monatliche Review-Meetings: neue Bedrohungen, Regelanpassungen, Compliance-Reports auswerten.</span>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="callout callout-blue" style="margin-top: 24px;">
+                    <h3>🚀 Jetzt starten</h3>
+                    <p>
+                        Nutzen Sie die Ta-SIEMPlus Web-Tools für Ihren ersten Schritt:
+                        Das <a href="upgrade-form.html" style="color: var(--ta-blue); font-weight: 600;">Wazuh Upgrade Formular</a>
+                        führt Sie Schritt für Schritt durch die Installation oder ein Upgrade,
+                        und der <a href="checklist-generator.html" style="color: var(--ta-blue); font-weight: 600;">Checklisten Generator</a>
+                        hilft beim strukturierten Vorgehen.
+                    </p>
+                </div>
+            </div>
+
+            <!-- DOCS LINKS -->
+            <div class="alert alert-info">
+                <strong>📚 Weiterführende Ressourcen:</strong>&nbsp;
+                <a href="https://documentation.wazuh.com/" target="_blank" style="color: var(--ta-blue); text-decoration: underline;">Wazuh Dokumentation</a> &middot;
+                <a href="../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU/" style="color: var(--ta-blue); text-decoration: underline;">Upgrade Runbook</a> &middot;
+                <a href="../runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT/" style="color: var(--ta-blue); text-decoration: underline;">Agent Management Runbook</a> &middot;
+                <a href="../catalog/CUSTOMERS/" style="color: var(--ta-blue); text-decoration: underline;">Kundenkatalog</a>
+            </div>
+
+        </div>
+
+        <footer class="ta-footer">
+            <p>&copy; 2026 <a href="https://www.t-alpha.ch" target="_blank">T-Alpha GmbH</a> &middot; IT Security &middot; <a href="https://req.t-alpha.ch/" target="_blank">req.t-alpha.ch</a></p>
+        </footer>
+    </div>
+</body>
+</html>

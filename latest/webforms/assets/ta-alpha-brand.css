@@ -1,0 +1,286 @@
+/* T-Alpha GmbH Corporate Design – Webforms */
+:root {
+  --ta-blue: #3b3e90;
+  --ta-blue-dark: #2d3070;
+  --ta-blue-light: #5558b0;
+  --ta-blue-pale: #eeeffe;
+  --ta-gray: #4d4d4d;
+  --ta-gray-light: #f5f6fa;
+  --ta-gray-mid: #e0e1f0;
+  --ta-white: #ffffff;
+  --ta-shadow: 0 4px 24px rgba(59, 62, 144, 0.12);
+  --ta-border-radius: 8px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #3b3e90 0%, #2d3070 100%);
+  min-height: 100vh;
+  padding: 20px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: var(--ta-shadow);
+  overflow: hidden;
+}
+
+header {
+  background: linear-gradient(135deg, #3b3e90 0%, #2d3070 100%);
+  color: #fff;
+  padding: 28px 40px;
+  position: relative;
+}
+
+header .header-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+header .header-logo {
+  height: 44px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  flex-shrink: 0;
+}
+
+header .header-text h1 {
+  font-size: 1.8em;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+}
+
+header .header-text .subtitle {
+  font-size: 0.9em;
+  opacity: 0.85;
+  margin: 0;
+}
+
+.back-link {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.5em;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+.back-link:hover { opacity: 1; }
+
+.content { padding: 40px; }
+
+.intro {
+  background: var(--ta-blue-pale);
+  border-left: 4px solid var(--ta-blue);
+  padding: 20px;
+  margin-bottom: 40px;
+  border-radius: 4px;
+}
+.intro h2 { color: var(--ta-blue); margin-bottom: 10px; }
+
+.section {
+  margin-bottom: 30px;
+  padding: 25px;
+  border: 1.5px solid var(--ta-gray-mid);
+  border-radius: var(--ta-border-radius);
+  background: var(--ta-gray-light);
+}
+
+.section h2 {
+  color: var(--ta-blue);
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--ta-blue);
+  font-size: 1.15em;
+}
+
+.section h3 {
+  color: var(--ta-gray);
+  margin-top: 20px;
+  margin-bottom: 12px;
+  font-size: 1.05em;
+}
+
+.form-group { margin-bottom: 18px; }
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--ta-gray);
+  font-size: 0.95em;
+}
+
+.form-group input[type="text"],
+.form-group input[type="datetime-local"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #d0d1e8;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--ta-blue);
+  box-shadow: 0 0 0 3px rgba(59,62,144,0.10);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Buttons */
+button, .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.btn-primary, button[onclick], button.primary {
+  background: var(--ta-blue);
+  color: #fff;
+}
+.btn-primary:hover, button[onclick]:hover, button.primary:hover {
+  background: var(--ta-blue-dark);
+}
+
+.btn-secondary {
+  background: var(--ta-gray-mid);
+  color: var(--ta-gray);
+}
+.btn-secondary:hover { background: #c8cadf; }
+
+/* Tool Cards (index.html) */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.tool-card {
+  background: #fff;
+  border: 2px solid var(--ta-gray-mid);
+  border-radius: var(--ta-border-radius);
+  padding: 28px;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.tool-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(59,62,144,0.15);
+  border-color: var(--ta-blue);
+}
+.tool-card .icon { font-size: 2.5em; margin-bottom: 14px; }
+.tool-card h3 { color: #333; margin-bottom: 8px; font-size: 1.3em; }
+.tool-card p { color: #666; margin-bottom: 12px; font-size: 0.95em; }
+.tool-card .features { list-style: none; padding: 0; }
+.tool-card .features li {
+  padding: 4px 0;
+  color: #555;
+  font-size: 0.88em;
+}
+.tool-card .features li::before {
+  content: "✓ ";
+  color: var(--ta-blue);
+  font-weight: bold;
+}
+
+/* Progress / Status */
+.progress-bar { background: var(--ta-gray-mid); border-radius: 4px; height: 8px; }
+.progress-fill { background: var(--ta-blue); border-radius: 4px; height: 100%; transition: width 0.3s; }
+
+/* Tooltips */
+.tooltip {
+  display: inline-block;
+  width: 18px; height: 18px;
+  background: var(--ta-blue);
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 18px;
+  font-size: 12px;
+  margin-left: 5px;
+  cursor: help;
+}
+
+/* Checkboxes */
+input[type="checkbox"] { accent-color: var(--ta-blue); }
+
+/* Code blocks */
+pre, code {
+  background: #f0f1f8;
+  border: 1px solid var(--ta-gray-mid);
+  border-radius: 4px;
+}
+pre { padding: 12px 16px; overflow-x: auto; }
+code { padding: 2px 6px; font-size: 0.9em; }
+
+/* Copy button */
+.copy-btn {
+  background: var(--ta-blue);
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+.copy-btn:hover { background: var(--ta-blue-dark); }
+
+/* Alert / Warning boxes */
+.alert { padding: 14px 18px; border-radius: 6px; margin-bottom: 16px; border-left: 4px solid; }
+.alert-warning { background: #fff8e1; border-color: #f0a500; }
+.alert-danger { background: #ffeaea; border-color: #c0392b; }
+.alert-success { background: #eafaf1; border-color: #27ae60; }
+.alert-info { background: var(--ta-blue-pale); border-color: var(--ta-blue); }
+
+/* Footer */
+footer.ta-footer {
+  background: var(--ta-gray-light);
+  border-top: 1.5px solid var(--ta-gray-mid);
+  padding: 18px 40px;
+  text-align: center;
+  color: #666;
+  font-size: 0.85em;
+}
+footer.ta-footer a { color: var(--ta-blue); text-decoration: none; }
+footer.ta-footer a:hover { text-decoration: underline; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-row { grid-template-columns: 1fr; }
+  .content { padding: 20px; }
+  header { padding: 20px; }
+  header .header-text h1 { font-size: 1.4em; }
+}
