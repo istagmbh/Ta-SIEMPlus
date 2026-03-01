@@ -5,51 +5,37 @@ Reproduzierbar · Auditierbar · Operator-freundlich
 
 ---
 
-## Schnellstart
+## Zugriff
 
-```bash
-git clone https://github.com/istagmbh/Ta-SIEMPlus.git
-cd Ta-SIEMPlus
+| | URL |
+|---|---|
+| **Dokumentation** | [istagmbh.github.io/Ta-SIEMPlus](https://istagmbh.github.io/Ta-SIEMPlus/) |
+| **Web-Tools** | [istagmbh.github.io/Ta-SIEMPlus/latest/webforms/](https://istagmbh.github.io/Ta-SIEMPlus/latest/webforms/) |
 
-# Option A – Web-Tools direkt öffnen (kein Server nötig)
-open webforms/index.html          # macOS
-xdg-open webforms/index.html      # Linux
-start webforms\index.html         # Windows
-
-# Option B – Dokumentationsseite mit Docker starten
-docker-compose up -d              # http://localhost:8080
-
-# Option C – Lokale MkDocs-Entwicklung
-pip install mkdocs mkdocs-material mike
-mkdocs serve                      # http://localhost:8000
-```
+Kein lokales Setup nötig – alles läuft direkt im Browser.
 
 ---
 
-## Web-Tools (`webforms/`)
+## Web-Tools
 
-| Tool | Datei | Zweck |
-|---|---|---|
-| Hub | `index.html` | Übersicht aller Tools |
-| Upgrade-Formular | `upgrade-form.html` | 5-stufiger Upgrade-Wizard mit PDF-Export |
-| Checklisten-Generator | `checklist-generator.html` | Individuelle Checklisten erstellen & exportieren |
-| Agent-Verwaltung | `agent-management.html` | CLI-Befehle für Agentengruppen generieren |
-| Wartungsprotokoll | `maintenance-protocol.html` | Strukturierte Wartungsdokumentation mit Timer |
+| Tool | Beschreibung |
+|---|---|
+| Upgrade-Formular | Geführter Wazuh AIO Upgrade-Workflow mit PDF-Export |
+| Checklisten-Generator | Individuelle Checklisten erstellen & exportieren |
+| Agent-Verwaltung | CLI-Befehle für Agentengruppen generieren |
+| Wartungsprotokoll | Strukturierte Wartungsdokumentation mit Timer |
 
 ---
 
-## Dokumentation (`docs/`)
+## Dokumentation
 
 | Bereich | Inhalt |
 |---|---|
-| [Quickstart](docs/getting-started.md) | Erste Schritte für alle Szenarien |
-| [Installation](docs/installation.md) | Setup-Anleitung (Web / Docker / Python) |
 | [Quick Reference](docs/quick-reference.md) | Copy-Paste Befehle & Health Checks |
 | [Runbooks](docs/runbooks/) | Detaillierte SOPs (Upgrade, Agent Groups) |
 | [Checklists](docs/checklists/) | Change-Management-Checklisten |
 | [Catalog](docs/catalog/) | Kunden- & Infrastruktur-Registry |
 | [Templates](docs/templates/) | Dokumentationsvorlagen |
-| [Guides](docs/guides/) | How-To Anleitungen (Checklisten, Katalog) |
 | [Config Templates](docs/config-templates/) | Befüllbare Konfigurationsvorlagen (ossec.conf, opensearch.yml, filebeat.yml) |
 
 ---
@@ -62,20 +48,13 @@ Ta-SIEMPlus/
 ├── CONTRIBUTING.md             # Governance & PR-Prozess
 ├── LICENSE                     # MIT
 │
-├── webforms/                   # Interaktive HTML-Tools
-│   ├── index.html              # Tool-Hub
-│   ├── upgrade-form.html
-│   ├── checklist-generator.html
-│   ├── agent-management.html
-│   ├── maintenance-protocol.html
-│   └── assets/                 # CSS & Logo
-│
 ├── docs/                       # Einzige Wahrheitsquelle (Single Source of Truth)
 │   ├── index.md                # Dokumentations-Startseite
 │   ├── getting-started.md      # Erste Schritte
-│   ├── installation.md         # Installation & Setup
 │   ├── quick-reference.md      # Befehls-Referenz
 │   ├── navigation.md           # Projekt-Übersichtskarte
+│   ├── webforms/               # Interaktive HTML-Tools (via GitHub Pages)
+│   ├── tools/                  # Tools-Landingpage
 │   ├── overview/               # Architektur & Prinzipien
 │   ├── runbooks/               # Schritt-für-Schritt Anleitungen
 │   ├── checklists/             # Change-Checklisten

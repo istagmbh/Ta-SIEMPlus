@@ -118,9 +118,11 @@ nav:
 
   - Einstieg:
     - Erste Schritte: getting-started.md
-    - Installation: installation.md
     - Schnellreferenz: quick-reference.md
     - Projektübersicht: navigation.md
+
+  - Web-Tools:
+    - tools/index.md
 
   - Overview:
     - overview/index.md
