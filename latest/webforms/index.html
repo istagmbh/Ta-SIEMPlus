@@ -3,10 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ta-SIEMPlus - Web-Formulare</title>
+    <title>Ta-SIEMPlus – Web-Tools</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/ta-alpha-brand.css">
+    <style>
+        /* Category layout */
+        .category { margin-bottom: 48px; }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--ta-blue);
+        }
+        .category-header .cat-icon { font-size: 1.5em; line-height: 1; }
+        .category-header h2 {
+            color: var(--ta-blue);
+            margin: 0;
+            font-size: 1.15em;
+            font-weight: 700;
+        }
+        .category-header .cat-badge {
+            background: var(--ta-blue-pale);
+            color: var(--ta-blue);
+            border-radius: 20px;
+            padding: 2px 12px;
+            font-size: 0.78em;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* Tool grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .tool-card { position: relative; }
+        .tool-card .badge {
+            display: inline-block;
+            background: var(--ta-blue);
+            color: #fff;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 0.72em;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            margin-bottom: 10px;
+        }
+
+        /* Coming Soon state */
+        .tool-card.coming-soon {
+            opacity: 0.55;
+            cursor: default;
+            pointer-events: none;
+            border-style: dashed;
+        }
+        .tool-card.coming-soon:hover {
+            transform: none;
+            box-shadow: none;
+            border-color: var(--ta-gray-mid);
+        }
+        .tool-card.coming-soon .badge {
+            background: #999;
+        }
+        .tool-card .btn {
+            display: inline-block;
+            margin-top: 14px;
+            background: var(--ta-blue);
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-size: 0.88em;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .tool-card .btn:hover { background: var(--ta-blue-dark); }
+
+        /* Info banner */
+        .info-banner {
+            display: flex;
+            gap: 32px;
+            background: var(--ta-blue-pale);
+            border-left: 4px solid var(--ta-blue);
+            padding: 18px 24px;
+            border-radius: 4px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        .info-banner .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--ta-blue);
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        .info-banner .info-item .info-icon { font-size: 1.2em; }
+
+        /* Docs link bar */
+        .docs-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 40px;
+            padding: 20px 24px;
+            background: var(--ta-gray-light);
+            border-radius: var(--ta-border-radius);
+            border: 1.5px solid var(--ta-gray-mid);
+        }
+        .docs-bar-label {
+            font-size: 0.88em;
+            font-weight: 600;
+            color: var(--ta-gray);
+            align-self: center;
+            margin-right: 4px;
+        }
+        .docs-bar a {
+            font-size: 0.85em;
+            color: var(--ta-blue);
+            text-decoration: none;
+            padding: 4px 12px;
+            background: #fff;
+            border: 1.5px solid var(--ta-gray-mid);
+            border-radius: 20px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .docs-bar a:hover {
+            background: var(--ta-blue-pale);
+            border-color: var(--ta-blue);
+        }
+
+        /* Header back link */
+        .header-actions {
+            position: absolute;
+            top: 20px;
+            right: 32px;
+            display: flex;
+            gap: 12px;
+        }
+        .header-actions a {
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 0.85em;
+            font-weight: 500;
+            padding: 6px 14px;
+            border: 1.5px solid rgba(255,255,255,0.4);
+            border-radius: 20px;
+            transition: all 0.2s;
+        }
+        .header-actions a:hover {
+            color: #fff;
+            border-color: #fff;
+            background: rgba(255,255,255,0.1);
+        }
+
+        @media (max-width: 640px) {
+            .info-banner { gap: 16px; }
+            .header-actions { display: none; }
+            .tools-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -18,116 +181,214 @@
                     <p class="subtitle">T-Alpha GmbH &middot; IT Security &middot; www.t-alpha.ch</p>
                 </div>
             </div>
+            <div class="header-actions">
+                <a href="../">← Dokumentation</a>
+                <a href="https://github.com/istagmbh/Ta-SIEMPlus" target="_blank">GitHub ↗</a>
+            </div>
         </header>
 
         <div class="content">
-            <div class="intro">
-                <h2>Willkommen!</h2>
-                <p>
-                    Diese Web-Formulare bieten eine benutzerfreundliche Oberfläche für alle wichtigen 
-                    Ta-SIEMPlus Workflows. Wählen Sie unten das passende Tool für Ihre Aufgabe.
-                </p>
-                <p style="margin-top: 10px;">
-                    <strong>✓</strong> Keine Installation erforderlich<br>
-                    <strong>✓</strong> Funktioniert offline im Browser<br>
-                    <strong>✓</strong> PDF-Export für Dokumentation<br>
-                    <strong>✓</strong> Automatische Befehlsgenerierung
-                </p>
-            </div>
 
-            <div class="tools-grid">
-                <a href="upgrade-form.html" class="tool-card">
-                    <div class="icon">🔄</div>
-                    <h3>Wazuh Upgrade Formular</h3>
-                    <p>Interaktives Formular für Wazuh AIO Upgrades mit automatischer Checklisten-Generierung.</p>
-                    <ul class="features">
-                        <li>Pre-Flight Checks</li>
-                        <li>Schritt-für-Schritt Anleitung</li>
-                        <li>Health Snapshots</li>
-                        <li>PDF-Export</li>
-                    </ul>
-                    <span class="btn">Upgrade starten →</span>
-                </a>
-
-                <a href="checklist-generator.html" class="tool-card">
-                    <div class="icon">✅</div>
-                    <h3>Checklisten Generator</h3>
-                    <p>Erstellen Sie individuelle Checklisten für verschiedene Wartungsszenarien.</p>
-                    <ul class="features">
-                        <li>Anpassbare Templates</li>
-                        <li>Metadaten-Management</li>
-                        <li>Markdown-Export</li>
-                        <li>Copy-to-Ticket</li>
-                    </ul>
-                    <span class="btn">Checkliste erstellen →</span>
-                </a>
-
-                <a href="agent-management.html" class="tool-card">
-                    <div class="icon">👥</div>
-                    <h3>Agent-Verwaltung</h3>
-                    <p>Werkzeuge für die Verwaltung von Wazuh-Agentengruppen und Konfigurationen.</p>
-                    <ul class="features">
-                        <li>Gruppen erstellen/bearbeiten</li>
-                        <li>Agenten zuweisen</li>
-                        <li>Befehls-Generator</li>
-                        <li>Multi-Gruppen Support</li>
-                    </ul>
-                    <span class="btn">Agenten verwalten →</span>
-                </a>
-
-                <a href="maintenance-protocol.html" class="tool-card">
-                    <div class="icon">📋</div>
-                    <h3>Wartungsprotokoll</h3>
-                    <p>Dokumentieren Sie Wartungsarbeiten strukturiert und lückenlos.</p>
-                    <ul class="features">
-                        <li>Strukturierte Erfassung</li>
-                        <li>Zeiterfassung</li>
-                        <li>Problembehebung dokumentieren</li>
-                        <li>PDF-Archivierung</li>
-                    </ul>
-                    <span class="btn">Protokoll erstellen →</span>
-                </a>
-
-                <a href="warum-siem.html" class="tool-card">
-                    <div class="icon">🛡️</div>
-                    <h3>Warum ganzheitliches SIEM?</h3>
-                    <p>Erklärt, warum Antivirus allein nicht ausreicht und welchen Mehrwert ein ganzheitliches SIEM mit Wazuh bietet.</p>
-                    <ul class="features">
-                        <li>Ganzheitliche Sicherheitsüberwachung</li>
-                        <li>Antivirus vs. SIEM Vergleich</li>
-                        <li>Paradigmenwechsel erklärt</li>
-                        <li>Empfohlene nächste Schritte</li>
-                    </ul>
-                    <span class="btn">Mehr erfahren →</span>
-                </a>
-            </div>
-
-            <div class="docs-section">
-                <h2>📚 Dokumentation & Ressourcen</h2>
-                <div class="docs-links">
-                    <a href="../getting-started/">🚀 Getting Started</a>
-                    <a href="../quick-reference/">⚡ Quick Reference</a>
-                    <a href="../navigation/">🗺️ Navigation</a>
-                    <a href="https://github.com/istagmbh/Ta-SIEMPlus">📖 README</a>
-                    <a href="../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU/">📘 Upgrade Runbook</a>
-                    <a href="../runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT/">📗 Agent Management Runbook</a>
-                    <a href="../catalog/CUSTOMERS/">👥 Kundenkatalog</a>
-                    <a href="https://github.com/istagmbh/Ta-SIEMPlus/blob/main/CONTRIBUTING.md">🤝 Contributing</a>
+            <!-- Info banner -->
+            <div class="info-banner">
+                <div class="info-item">
+                    <span class="info-icon">✓</span>
+                    Kein Login, kein Server
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">✓</span>
+                    Offline-fähig
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">✓</span>
+                    PDF-Export
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">✓</span>
+                    Automatische Befehlsgenerierung
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">✓</span>
+                    LocalStorage – Daten bleiben im Browser
                 </div>
             </div>
 
-            <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 20px; margin-top: 30px; border-radius: 4px;">
-                <h3 style="color: #856404; margin-bottom: 10px;">💡 Tipp für Power-User</h3>
-                <p style="color: #856404;">
-                    Kombinieren Sie Web-Formulare mit den Markdown-Runbooks für maximale Effizienz!
-                    Die Formulare eignen sich perfekt für die Erfassung, während die Runbooks
-                    detaillierte Befehle und Troubleshooting-Anleitungen bieten.
-                </p>
+            <!-- ─── KATEGORIE 1: Upgrade & Wartung ─── -->
+            <div class="category">
+                <div class="category-header">
+                    <span class="cat-icon">🔧</span>
+                    <h2>Upgrade &amp; Wartung</h2>
+                    <span class="cat-badge">3 Tools</span>
+                </div>
+                <div class="tools-grid">
+
+                    <a href="upgrade-form.html" class="tool-card">
+                        <div class="badge">Upgrade</div>
+                        <div class="icon">🔄</div>
+                        <h3>Wazuh Upgrade Formular</h3>
+                        <p>Geführter Upgrade-Workflow für Wazuh AIO. Generiert automatisch alle Befehle und Checklisten.</p>
+                        <ul class="features">
+                            <li>Pre-Flight Checks &amp; No-Go Gates</li>
+                            <li>Schritt-für-Schritt Anleitung</li>
+                            <li>Health Snapshots Pre &amp; Post</li>
+                            <li>PDF-Export für Ticketsystem</li>
+                        </ul>
+                        <span class="btn">Upgrade starten →</span>
+                    </a>
+
+                    <a href="checklist-generator.html" class="tool-card">
+                        <div class="badge">Checkliste</div>
+                        <div class="icon">✅</div>
+                        <h3>Checklisten-Generator</h3>
+                        <p>Individuelle Checklisten für Wartungsfenster generieren, befüllen und exportieren.</p>
+                        <ul class="features">
+                            <li>Anpassbare Templates</li>
+                            <li>Metadaten-Management</li>
+                            <li>Markdown-Export</li>
+                            <li>Copy-to-Ticket</li>
+                        </ul>
+                        <span class="btn">Checkliste erstellen →</span>
+                    </a>
+
+                    <a href="maintenance-protocol.html" class="tool-card">
+                        <div class="badge">Protokoll</div>
+                        <div class="icon">📋</div>
+                        <h3>Wartungsprotokoll</h3>
+                        <p>Strukturierte Protokollierung von Wartungsarbeiten mit lokalem Speichern.</p>
+                        <ul class="features">
+                            <li>Strukturierte Erfassung</li>
+                            <li>Zeiterfassung</li>
+                            <li>Problembehebung dokumentieren</li>
+                            <li>PDF-Archivierung</li>
+                        </ul>
+                        <span class="btn">Protokoll erstellen →</span>
+                    </a>
+
+                </div>
             </div>
+
+            <!-- ─── KATEGORIE 2: Administration ─── -->
+            <div class="category">
+                <div class="category-header">
+                    <span class="cat-icon">⚙️</span>
+                    <h2>Administration</h2>
+                    <span class="cat-badge">1 Tool</span>
+                </div>
+                <div class="tools-grid">
+
+                    <a href="agent-management.html" class="tool-card">
+                        <div class="badge">Agent</div>
+                        <div class="icon">👥</div>
+                        <h3>Agent-Verwaltung</h3>
+                        <p>Befehlsgenerator für Wazuh Agent-Gruppen, Registrierung und Konfigurationsverteilung.</p>
+                        <ul class="features">
+                            <li>Gruppen erstellen &amp; bearbeiten</li>
+                            <li>Agenten zuweisen</li>
+                            <li>Befehls-Generator</li>
+                            <li>Multi-Gruppen Support</li>
+                        </ul>
+                        <span class="btn">Agenten verwalten →</span>
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- ─── KATEGORIE 3: In Entwicklung ─── -->
+            <div class="category">
+                <div class="category-header">
+                    <span class="cat-icon">🚧</span>
+                    <h2>In Entwicklung</h2>
+                    <span class="cat-badge">3 Tools geplant</span>
+                </div>
+                <div class="tools-grid">
+
+                    <div class="tool-card coming-soon">
+                        <div class="badge">Geplant</div>
+                        <div class="icon">📝</div>
+                        <h3>Konfigurations-Generator</h3>
+                        <p>Formularbasierte Erstellung von <code>ossec.conf</code> für Manager und Agent. Variablen eingeben – fertige Konfigurationsdatei erhalten.</p>
+                        <ul class="features">
+                            <li>Manager &amp; Agent Templates</li>
+                            <li>Alle Variablen per Formular</li>
+                            <li>Direkt kopierbare Ausgabe</li>
+                            <li>Basiert auf Config Templates</li>
+                        </ul>
+                    </div>
+
+                    <div class="tool-card coming-soon">
+                        <div class="badge">Geplant</div>
+                        <div class="icon">🎯</div>
+                        <h3>Alert-Regeleditor</h3>
+                        <p>Wazuh Custom Detection Rules direkt im Browser erstellen, bearbeiten und validieren.</p>
+                        <ul class="features">
+                            <li>XML-Editor mit Syntaxhighlighting</li>
+                            <li>Regelstruktur-Validierung</li>
+                            <li>Vorlagen für häufige Use-Cases</li>
+                            <li>Export als regelkonformes XML</li>
+                        </ul>
+                    </div>
+
+                    <div class="tool-card coming-soon">
+                        <div class="badge">Geplant</div>
+                        <div class="icon">📅</div>
+                        <h3>Patch-Planer</h3>
+                        <p>Wartungsfenster für mehrere Kunden koordinieren und Upgrade-Abhängigkeiten visualisieren.</p>
+                        <ul class="features">
+                            <li>Kunden-Übersicht mit Versionsstand</li>
+                            <li>Wartungsfenster-Planung</li>
+                            <li>Reihenfolge-Empfehlungen</li>
+                            <li>Export als Kalender-Datei</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ─── KATEGORIE 4: Information ─── -->
+            <div class="category">
+                <div class="category-header">
+                    <span class="cat-icon">📖</span>
+                    <h2>Information &amp; Beratung</h2>
+                    <span class="cat-badge">1 Seite</span>
+                </div>
+                <div class="tools-grid">
+
+                    <a href="warum-siem.html" class="tool-card">
+                        <div class="badge">Info</div>
+                        <div class="icon">🛡️</div>
+                        <h3>Warum ganzheitliches SIEM?</h3>
+                        <p>Erklärt, warum Antivirus allein nicht ausreicht und welchen Mehrwert ein ganzheitliches SIEM mit Wazuh bietet.</p>
+                        <ul class="features">
+                            <li>Antivirus vs. SIEM Vergleich</li>
+                            <li>Ganzheitliche Sicherheitsüberwachung</li>
+                            <li>Paradigmenwechsel erklärt</li>
+                            <li>Empfohlene nächste Schritte</li>
+                        </ul>
+                        <span class="btn">Mehr erfahren →</span>
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- ─── Dokumentations-Links ─── -->
+            <div class="docs-bar">
+                <span class="docs-bar-label">Dokumentation:</span>
+                <a href="../">🏠 Start</a>
+                <a href="../quick-reference/">⚡ Schnellreferenz</a>
+                <a href="../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU/">📘 Upgrade Runbook</a>
+                <a href="../runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT/">📗 Agent Runbook</a>
+                <a href="../catalog/CUSTOMERS/">👥 Kundenkatalog</a>
+                <a href="../config-templates/">🔧 Config Templates</a>
+                <a href="https://github.com/istagmbh/Ta-SIEMPlus" target="_blank">GitHub ↗</a>
+            </div>
+
         </div>
 
         <footer class="ta-footer">
-            <p>&copy; 2026 <a href="https://www.t-alpha.ch" target="_blank">T-Alpha GmbH</a> &middot; IT Security &middot; <a href="https://req.t-alpha.ch/" target="_blank">req.t-alpha.ch</a></p>
+            <p>&copy; 2026 <a href="https://www.t-alpha.ch" target="_blank">T-Alpha GmbH</a>
+            &middot; IT Security
+            &middot; <a href="https://req.t-alpha.ch/" target="_blank">req.t-alpha.ch</a>
+            &middot; <a href="../">Dokumentation</a></p>
         </footer>
     </div>
 </body>
