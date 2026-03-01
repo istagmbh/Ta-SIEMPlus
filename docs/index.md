@@ -9,9 +9,9 @@ Reproduzierbar · Auditierbar · Operator-freundlich
 
 | | Beschreibung |
 |---|---|
-| [Erste Schritte](getting-started.md) | Schritt-für-Schritt für alle Haupt-Szenarien |
-| [Installation](installation.md) | Setup-Anleitung (Web / Docker / Python) |
+| [Erste Schritte](getting-started.md) | Dokumentations-URL, Web-Tools, lokale Entwicklung |
 | [Schnellreferenz](quick-reference.md) | Copy-Paste Befehle & Health Checks |
+| [Web-Tools](tools/index.md) | Interaktive Browser-Tools (Upgrade, Checklisten, Agent-Verwaltung) |
 | [Projektübersicht](navigation.md) | Visuelle Karte durch alle Ressourcen |
 
 ## Inhalte

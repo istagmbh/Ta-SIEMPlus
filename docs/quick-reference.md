@@ -1,19 +1,20 @@
-# ⚡ QUICK REFERENCE – Schnelle Lookups
+# Schnellreferenz
 
 Ein Cheat-Sheet für erfahrene Operatoren. Alle Befehle zum Kopieren.
 
 ---
 
-## 🎯 Wazuh Upgrade (Ubuntu AIO)
+## Wazuh Upgrade (Ubuntu AIO)
 
-### Datei-Locations
-```
-Checkliste (Markdown):     checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md
-Checkliste (Web):          docs/maintenance-form.html
-Runbook:                   runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md
-Template:                  templates/CHANGE_NOTE_TEMPLATE.md
-Kunden-Info:               Catalog/CUSTOMERS.md
-```
+### Ressourcen
+
+| | Link |
+|---|---|
+| Checkliste | [CHECKLIST_WAZUH_UPGRADE_AIO](checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md) |
+| Upgrade-Formular | [Web-Tool öffnen](../webforms/upgrade-form.html) |
+| Runbook | [RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU](runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md) |
+| Change-Note Template | [CHANGE_NOTE_TEMPLATE](templates/CHANGE_NOTE_TEMPLATE.md) |
+| Kunden-Info | [CUSTOMERS](catalog/CUSTOMERS.md) |
 
 ---
 
