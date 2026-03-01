@@ -1,0 +1,3037 @@
+
+<!doctype html>
+<html lang="de" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Operative Dokumentation für standardisierte Wazuh SIEM Wartungsabläufe">
+      
+      
+        <meta name="author" content="T-Alpha GmbH">
+      
+      
+        <link rel="canonical" href="https://istagmbh.github.io/Ta-SIEMPlus/latest/runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT/">
+      
+      
+        <link rel="prev" href="../RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU/">
+      
+      
+        <link rel="next" href="../RUNBOOK-TEMPLATE/">
+      
+      
+      <link rel="icon" href="../../assets/images/ta-alpha-logo.svg">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+    
+    
+      
+        <title>Agent Group Management - Ta-SIEMPlus</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/ta-alpha-brand.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#runbook-wazuh-agentengruppen-verwaltung" class="md-skip">
+          Zum Inhalt
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Kopfzeile">
+    <a href="../.." title="Ta-SIEMPlus" class="md-header__button md-logo" aria-label="Ta-SIEMPlus" data-md-component="logo">
+      
+  <img src="../../assets/images/ta-alpha-logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Ta-SIEMPlus
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Agent Group Management
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Auf Dunkelmodus wechseln"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Auf Dunkelmodus wechseln" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Auf Hellmodus wechseln"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Auf Hellmodus wechseln" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Suche" placeholder="Suche" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Suche">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Teilen" aria-label="Teilen" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Zurücksetzen" aria-label="Zurücksetzen" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Suche wird initialisiert
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/istagmbh/Ta-SIEMPlus" title="Zum Repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    istagmbh/Ta-SIEMPlus
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Hauptnavigation" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/" class="md-tabs__link">
+          
+  
+    
+  
+  Einstieg
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../overview/" class="md-tabs__link">
+          
+  
+    
+  
+  Overview
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  Runbooks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../checklists/" class="md-tabs__link">
+          
+  
+    
+  
+  Checklists
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../upgrade-guides/" class="md-tabs__link">
+          
+  
+    
+  
+  Upgrade Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../guides/" class="md-tabs__link">
+          
+  
+    
+  
+  Anleitungen
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/" class="md-tabs__link">
+          
+  
+    
+  
+  Referenz
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../catalog/" class="md-tabs__link">
+          
+  
+    
+  
+  Katalog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../templates/" class="md-tabs__link">
+          
+  
+    
+  
+  Templates
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Ta-SIEMPlus" class="md-nav__button md-logo" aria-label="Ta-SIEMPlus" data-md-component="logo">
+      
+  <img src="../../assets/images/ta-alpha-logo.svg" alt="logo">
+
+    </a>
+    Ta-SIEMPlus
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/istagmbh/Ta-SIEMPlus" title="Zum Repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    istagmbh/Ta-SIEMPlus
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Einstieg
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Einstieg
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Erste Schritte
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick-reference/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schnellreferenz
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../navigation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Projektübersicht
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../overview/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Overview
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Runbooks
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Runbooks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Upgrade AIO Ubuntu
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Agent Group Management
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Agent Group Management
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Inhaltsverzeichnis">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Inhaltsverzeichnis
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#inhaltsverzeichnis" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Inhaltsverzeichnis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0-nicht-verhandelbare-regeln" class="md-nav__link">
+    <span class="md-ellipsis">
+      0) Nicht verhandelbare Regeln
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uberblick" class="md-nav__link">
+    <span class="md-ellipsis">
+      Überblick
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Überblick">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#was-sind-wazuh-agentengruppen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Was sind Wazuh Agentengruppen?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hauptmerkmale" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hauptmerkmale:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wichtige-dateien" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wichtige Dateien
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Wichtige Dateien">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-mergedmg" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. merged.mg
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-arconf" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. ar.conf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-agentconf" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. agent.conf
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kommandozeilenverwaltung" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kommandozeilenverwaltung
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Kommandozeilenverwaltung">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gruppen-erstellen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gruppen erstellen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gruppen-auflisten" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gruppen auflisten
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenten-zu-gruppen-hinzufugen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Agenten zu Gruppen hinzufügen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenten-aus-gruppen-entfernen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Agenten aus Gruppen entfernen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gruppen-mitglieder-anzeigen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gruppen-Mitglieder anzeigen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gruppe-loschen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gruppe löschen
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gruppenkonfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gruppenkonfiguration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gruppenkonfiguration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gruppenkonfiguration-erstellen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gruppenkonfiguration erstellen
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best Practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-namenskonventionen" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Namenskonventionen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-gruppen-hierarchie" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Gruppen-Hierarchie
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-konfigurationsmanagement" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Konfigurationsmanagement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-dokumentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Dokumentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-agent-erhalt-keine-konfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: Agent erhält keine Konfiguration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-mergedmg-wird-nicht-aktualisiert" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: merged.mg wird nicht aktualisiert
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-gruppe-kann-nicht-geloscht-werden" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: Gruppe kann nicht gelöscht werden
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-arconf-befehle-funktionieren-nicht" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: ar.conf Befehle funktionieren nicht
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#health-check-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Health Check Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Health Check Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gruppen-status-uberprufen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gruppen-Status überprüfen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchronisations-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      Synchronisations-Status
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nutzliche-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nützliche Scripts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Nützliche Scripts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#script-alle-agenten-einer-gruppe-auflisten" class="md-nav__link">
+    <span class="md-ellipsis">
+      Script: Alle Agenten einer Gruppe auflisten
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#script-gruppen-backup-erstellen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Script: Gruppen-Backup erstellen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#script-konfiguration-auf-alle-gruppen-anwenden" class="md-nav__link">
+    <span class="md-ellipsis">
+      Script: Konfiguration auf alle Gruppen anwenden
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#weiterfuhrende-dokumentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Weiterführende Dokumentation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RUNBOOK-TEMPLATE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Runbook Template
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../checklists/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Checklists
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Checklists
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checklists/CHECKLIST_WAZUH_UPGRADE_AIO/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Upgrade AIO
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checklists/CHECKLIST_WAZUH_UPGRADE_AIO_IMPROVED/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Upgrade AIO (Verbessert)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checklists/CHECKLIST-TEMPLATE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Checklist Template
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../upgrade-guides/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Upgrade Guides
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Upgrade Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../upgrade-guides/4.12/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Wazuh 4.12
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            Wazuh 4.12
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../guides/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Anleitungen
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Anleitungen
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/checklist-howto/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Checklisten-Anleitung
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/catalog-howto/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Katalog-Verwaltung
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../reference/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Referenz
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Referenz
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/deployment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Deployment Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/mike-versioning/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Mike Versioning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../catalog/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Katalog
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_9" id="__nav_9_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Katalog
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../catalog/CUSTOMERS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kunden
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../catalog/CATALOG/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Katalog-Info
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../templates/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Templates
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_10" id="__nav_10_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Templates
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../templates/CHANGE_NOTE_TEMPLATE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Change Note Template
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Inhaltsverzeichnis">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Inhaltsverzeichnis
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#inhaltsverzeichnis" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Inhaltsverzeichnis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0-nicht-verhandelbare-regeln" class="md-nav__link">
+    <span class="md-ellipsis">
+      0) Nicht verhandelbare Regeln
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uberblick" class="md-nav__link">
+    <span class="md-ellipsis">
+      Überblick
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Überblick">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#was-sind-wazuh-agentengruppen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Was sind Wazuh Agentengruppen?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hauptmerkmale" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hauptmerkmale:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wichtige-dateien" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wichtige Dateien
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Wichtige Dateien">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-mergedmg" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. merged.mg
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-arconf" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. ar.conf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-agentconf" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. agent.conf
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kommandozeilenverwaltung" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kommandozeilenverwaltung
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Kommandozeilenverwaltung">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gruppen-erstellen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gruppen erstellen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gruppen-auflisten" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gruppen auflisten
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenten-zu-gruppen-hinzufugen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Agenten zu Gruppen hinzufügen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenten-aus-gruppen-entfernen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Agenten aus Gruppen entfernen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gruppen-mitglieder-anzeigen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gruppen-Mitglieder anzeigen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gruppe-loschen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gruppe löschen
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gruppenkonfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gruppenkonfiguration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gruppenkonfiguration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gruppenkonfiguration-erstellen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gruppenkonfiguration erstellen
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best Practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-namenskonventionen" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Namenskonventionen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-gruppen-hierarchie" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Gruppen-Hierarchie
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-konfigurationsmanagement" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Konfigurationsmanagement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-dokumentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Dokumentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-agent-erhalt-keine-konfiguration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: Agent erhält keine Konfiguration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-mergedmg-wird-nicht-aktualisiert" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: merged.mg wird nicht aktualisiert
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-gruppe-kann-nicht-geloscht-werden" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: Gruppe kann nicht gelöscht werden
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-arconf-befehle-funktionieren-nicht" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: ar.conf Befehle funktionieren nicht
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#health-check-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Health Check Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Health Check Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gruppen-status-uberprufen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gruppen-Status überprüfen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchronisations-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      Synchronisations-Status
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nutzliche-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nützliche Scripts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Nützliche Scripts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#script-alle-agenten-einer-gruppe-auflisten" class="md-nav__link">
+    <span class="md-ellipsis">
+      Script: Alle Agenten einer Gruppe auflisten
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#script-gruppen-backup-erstellen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Script: Gruppen-Backup erstellen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#script-konfiguration-auf-alle-gruppen-anwenden" class="md-nav__link">
+    <span class="md-ellipsis">
+      Script: Konfiguration auf alle Gruppen anwenden
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#weiterfuhrende-dokumentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Weiterführende Dokumentation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/istagmbh/Ta-SIEMPlus/edit/main/docs/runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md" title="Seite editieren" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/istagmbh/Ta-SIEMPlus/raw/main/docs/runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md" title="Quellcode der Seite anzeigen" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
+    </a>
+  
+
+
+<h1 id="runbook-wazuh-agentengruppen-verwaltung">RUNBOOK: Wazuh Agentengruppen-Verwaltung<a class="headerlink" href="#runbook-wazuh-agentengruppen-verwaltung" title="Permanent link">&para;</a></h1>
+<p><strong>Version:</strong> 1.0.0<br />
+<strong>Letzte Aktualisierung:</strong> 2026-02-17<br />
+<strong>Anwendbar auf:</strong> Wazuh Manager (alle Versionen ab 4.x)<br />
+<strong>Betriebssystem:</strong> Linux (Ubuntu, CentOS, RHEL, etc.)</p>
+<hr />
+<h2 id="inhaltsverzeichnis">📋 Inhaltsverzeichnis<a class="headerlink" href="#inhaltsverzeichnis" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="#überblick">Überblick</a></li>
+<li><a href="#wichtige-dateien">Wichtige Dateien</a></li>
+<li><a href="#kommandozeilenverwaltung">Kommandozeilenverwaltung</a></li>
+<li><a href="#gruppenkonfiguration">Gruppenkonfiguration</a></li>
+<li><a href="#best-practices">Best Practices</a></li>
+<li><a href="#troubleshooting">Troubleshooting</a></li>
+</ol>
+<hr />
+<h2 id="0-nicht-verhandelbare-regeln">0) Nicht verhandelbare Regeln<a class="headerlink" href="#0-nicht-verhandelbare-regeln" title="Permanent link">&para;</a></h2>
+<p>⚠️ <strong>STOP-Kriterien</strong> – Diese Bedingungen sind absolute STOP-Signale:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Regel</strong></th>
+<th><strong>Beschreibung</strong></th>
+<th><strong>Check-Befehl</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Wazuh Manager muss laufen</strong></td>
+<td>Der Manager-Service muss aktiv sein</td>
+<td><code>systemctl status wazuh-manager</code></td>
+</tr>
+<tr>
+<td><strong>Backup vor Änderungen</strong></td>
+<td>Vor größeren Gruppenänderungen Backup erstellen</td>
+<td><code>tar -czf /tmp/wazuh-groups-backup-$(date +%F).tar.gz /var/ossec/etc/shared/</code></td>
+</tr>
+<tr>
+<td><strong>Keine gleichzeitigen Änderungen</strong></td>
+<td>Nur ein Administrator darf Gruppen ändern</td>
+<td>Koordination im Team</td>
+</tr>
+<tr>
+<td><strong>Gültige Gruppennamen</strong></td>
+<td>Nur alphanumerische Zeichen, Unterstriche und Bindestriche erlaubt</td>
+<td><code>[a-zA-Z0-9_-]+</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="uberblick">Überblick<a class="headerlink" href="#uberblick" title="Permanent link">&para;</a></h2>
+<h3 id="was-sind-wazuh-agentengruppen">Was sind Wazuh Agentengruppen?<a class="headerlink" href="#was-sind-wazuh-agentengruppen" title="Permanent link">&para;</a></h3>
+<p>Wazuh Agentengruppen ermöglichen die zentrale Verwaltung von Agent-Konfigurationen. Agenten können einer oder mehreren Gruppen zugeordnet werden und erhalten automatisch die kombinierten Konfigurationen aller Gruppen.</p>
+<h3 id="hauptmerkmale">Hauptmerkmale:<a class="headerlink" href="#hauptmerkmale" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Zentrale Konfigurationsverwaltung</strong>: Konfigurationen werden vom Manager verwaltet und automatisch an Agenten verteilt</li>
+<li><strong>Multi-Gruppen-Unterstützung</strong>: Ein Agent kann mehreren Gruppen gleichzeitig angehören</li>
+<li><strong>Automatische Synchronisation</strong>: Änderungen werden automatisch an alle betroffenen Agenten übertragen</li>
+<li><strong>Persistenz</strong>: Gruppenzugehörigkeiten bleiben bei Agent-Neuregistrierung erhalten</li>
+</ul>
+<hr />
+<h2 id="wichtige-dateien">Wichtige Dateien<a class="headerlink" href="#wichtige-dateien" title="Permanent link">&para;</a></h2>
+<h3 id="1-mergedmg">1. merged.mg<a class="headerlink" href="#1-mergedmg" title="Permanent link">&para;</a></h3>
+<p><strong>Pfad:</strong> <code>/var/ossec/etc/shared/&lt;agent-id&gt;/merged.mg</code></p>
+<p><strong>Beschreibung:</strong><br />
+Die Datei <code>merged.mg</code> wird vom Wazuh-Manager generiert und enthält die <strong>konsolidierte Konfiguration</strong> aller Gruppen, denen ein Agent angehört. Diese Datei spielt eine zentrale Rolle bei der Agent-Konfiguration.</p>
+<p><strong>Funktionsweise:</strong>
+- Wird automatisch vom Manager erstellt und aktualisiert
+- Enthält die zusammengeführte Konfiguration aus allen Gruppen des Agents
+- Wird bei jeder Konfigurationsänderung oder Gruppenzuordnung neu generiert
+- Automatisch an den Agent übertragen
+- Über das Dashboard einsehbar, aber <strong>nicht editierbar</strong></p>
+<p><strong>Wichtige Eigenschaften:</strong>
+- Stellt sicher, dass Agenten stets die aktuelle Konfiguration erhalten
+- Unterstützt automatische Wiederzuordnung nach erneuter Registrierung
+- Konfliktauflösung bei überlappenden Konfigurationen folgt einer definierten Priorität</p>
+<p><strong>Beispiel-Struktur:</strong>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cm">&lt;!-- merged.mg --&gt;</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">&lt;agent_config&gt;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="cm">&lt;!-- Konfiguration aus Gruppe &quot;linux-servers&quot; --&gt;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">&lt;localfile&gt;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">&lt;location&gt;</span>/var/log/syslog<span class="nt">&lt;/location&gt;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">&lt;log_format&gt;</span>syslog<span class="nt">&lt;/log_format&gt;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="nt">&lt;/localfile&gt;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="cm">&lt;!-- Konfiguration aus Gruppe &quot;web-servers&quot; --&gt;</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="nt">&lt;localfile&gt;</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nt">&lt;location&gt;</span>/var/log/apache2/access.log<span class="nt">&lt;/location&gt;</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="nt">&lt;log_format&gt;</span>apache<span class="nt">&lt;/log_format&gt;</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="nt">&lt;/localfile&gt;</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="nt">&lt;/agent_config&gt;</span>
+</span></code></pre></div></p>
+<h3 id="2-arconf">2. ar.conf<a class="headerlink" href="#2-arconf" title="Permanent link">&para;</a></h3>
+<p><strong>Pfad:</strong> <code>/var/ossec/etc/shared/&lt;group-name&gt;/ar.conf</code></p>
+<p><strong>Beschreibung:</strong><br />
+Die Datei <code>ar.conf</code> (Active Response Configuration) definiert <strong>Befehle</strong>, die auf den Agenten innerhalb einer Gruppe ausgeführt werden können.</p>
+<p><strong>Verwendungszweck:</strong>
+- Liste von Befehlen für Active Response
+- Skripte oder Programme für Wartungsaufgaben
+- Befehle zur Problembehebung
+- Service-Neustart-Anweisungen</p>
+<p><strong>Beispiel-Inhalt:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># ar.conf - Active Response Commands</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Neustart des Wazuh-Agents (Linux)</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>restart-wazuh0<span class="w"> </span>-<span class="w"> </span>restart-wazuh<span class="w"> </span>-<span class="w"> </span><span class="m">0</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># Neustart des Wazuh-Agents (Windows)</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>restart-wazuh-windows<span class="w"> </span>-<span class="w"> </span>restart-wazuh.exe<span class="w"> </span>-<span class="w"> </span><span class="m">0</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># Neustart des OSSEC-Dienstes</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>restart-ossec0<span class="w"> </span>-<span class="w"> </span>restart-ossec<span class="w"> </span>-<span class="w"> </span><span class="m">0</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1"># Firewall-Blockierung</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>firewall-block<span class="w"> </span>-<span class="w"> </span>firewall-block.sh<span class="w"> </span>-<span class="w"> </span>default-firewall-drop
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="c1"># Host-Deny</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>host-deny<span class="w"> </span>-<span class="w"> </span>host-deny.sh<span class="w"> </span>-<span class="w"> </span>default-ossec-deny
+</span></code></pre></div></p>
+<p><strong>Befehls-Format:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&lt;name&gt; - &lt;executable&gt; - &lt;timeout/event-location&gt;
+</span></code></pre></div></p>
+<p><strong>Wichtige Hinweise:</strong>
+- Befehle müssen auf dem Agent-System verfügbar sein
+- Ausführungsberechtigungen müssen korrekt gesetzt sein
+- Über das Dashboard einsehbar, aber <strong>nicht editierbar</strong>
+- Änderungen erfordern Manager-Neustart</p>
+<h3 id="3-agentconf">3. agent.conf<a class="headerlink" href="#3-agentconf" title="Permanent link">&para;</a></h3>
+<p><strong>Pfad:</strong> <code>/var/ossec/etc/shared/&lt;group-name&gt;/agent.conf</code></p>
+<p><strong>Beschreibung:</strong><br />
+Enthält die spezifische Konfiguration für alle Agenten in dieser Gruppe.</p>
+<p><strong>Beispiel:</strong>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">&lt;agent_config&gt;</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&lt;client_buffer&gt;</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">&lt;disabled&gt;</span>no<span class="nt">&lt;/disabled&gt;</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nt">&lt;queue_size&gt;</span>5000<span class="nt">&lt;/queue_size&gt;</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nt">&lt;/client_buffer&gt;</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="nt">&lt;localfile&gt;</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="nt">&lt;location&gt;</span>/var/log/syslog<span class="nt">&lt;/location&gt;</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="nt">&lt;log_format&gt;</span>syslog<span class="nt">&lt;/log_format&gt;</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span><span class="nt">&lt;/localfile&gt;</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="nt">&lt;/agent_config&gt;</span>
+</span></code></pre></div></p>
+<hr />
+<h2 id="kommandozeilenverwaltung">Kommandozeilenverwaltung<a class="headerlink" href="#kommandozeilenverwaltung" title="Permanent link">&para;</a></h2>
+<p>Das Tool <code>agent_groups</code> ermöglicht die vollständige Verwaltung von Agentengruppen über die Kommandozeile.</p>
+<h3 id="gruppen-erstellen">Gruppen erstellen<a class="headerlink" href="#gruppen-erstellen" title="Permanent link">&para;</a></h3>
+<p><strong>Neue Agentengruppe erstellen:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-a<span class="w"> </span>-g<span class="w"> </span>&lt;group-name&gt;
+</span></code></pre></div></p>
+<p><strong>Beispiele:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Linux-Server-Gruppe erstellen</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-a<span class="w"> </span>-g<span class="w"> </span>linux-servers
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Web-Server-Gruppe erstellen</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-a<span class="w"> </span>-g<span class="w"> </span>web-servers
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Datenbank-Server-Gruppe erstellen</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-a<span class="w"> </span>-g<span class="w"> </span>db-servers
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># Entwicklungs-Umgebung</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-a<span class="w"> </span>-g<span class="w"> </span>dev-environment
+</span></code></pre></div></p>
+<p><strong>Hinweise:</strong>
+- Gruppennamen sollten beschreibend sein
+- Verwenden Sie Bindestriche oder Unterstriche (keine Leerzeichen)
+- Keine Sonderzeichen außer <code>-</code> und <code>_</code></p>
+<hr />
+<h3 id="gruppen-auflisten">Gruppen auflisten<a class="headerlink" href="#gruppen-auflisten" title="Permanent link">&para;</a></h3>
+<p><strong>Alle Gruppen anzeigen:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-l
+</span></code></pre></div></p>
+<p><strong>Gruppen mit Details anzeigen:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-l<span class="w"> </span>-g<span class="w"> </span>&lt;group-name&gt;
+</span></code></pre></div></p>
+<p><strong>Beispiel-Ausgabe:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Groups:
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>  - linux-servers (5 agents)
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>  - web-servers (3 agents)
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>  - db-servers (2 agents)
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>  - default (0 agents)
+</span></code></pre></div></p>
+<hr />
+<h3 id="agenten-zu-gruppen-hinzufugen">Agenten zu Gruppen hinzufügen<a class="headerlink" href="#agenten-zu-gruppen-hinzufugen" title="Permanent link">&para;</a></h3>
+<p><strong>Agent zu einer Gruppe hinzufügen:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-a<span class="w"> </span>-i<span class="w"> </span>&lt;agent-id&gt;<span class="w"> </span>-g<span class="w"> </span>&lt;group-name&gt;
+</span></code></pre></div></p>
+<p><strong>Agent zu mehreren Gruppen hinzufügen:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-a<span class="w"> </span>-i<span class="w"> </span>&lt;agent-id&gt;<span class="w"> </span>-g<span class="w"> </span>&lt;group1&gt;,&lt;group2&gt;,&lt;group3&gt;
+</span></code></pre></div></p>
+<p><strong>Beispiele:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Agent 001 zur Gruppe linux-servers hinzufügen</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-a<span class="w"> </span>-i<span class="w"> </span><span class="m">001</span><span class="w"> </span>-g<span class="w"> </span>linux-servers
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Agent 002 zu linux-servers und web-servers hinzufügen</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-a<span class="w"> </span>-i<span class="w"> </span><span class="m">002</span><span class="w"> </span>-g<span class="w"> </span>linux-servers,web-servers
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># Agent 003 zu mehreren Gruppen</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-a<span class="w"> </span>-i<span class="w"> </span><span class="m">003</span><span class="w"> </span>-g<span class="w"> </span>linux-servers,db-servers,prod-environment
+</span></code></pre></div></p>
+<hr />
+<h3 id="agenten-aus-gruppen-entfernen">Agenten aus Gruppen entfernen<a class="headerlink" href="#agenten-aus-gruppen-entfernen" title="Permanent link">&para;</a></h3>
+<p><strong>Agent aus einer Gruppe entfernen:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-r<span class="w"> </span>-i<span class="w"> </span>&lt;agent-id&gt;<span class="w"> </span>-g<span class="w"> </span>&lt;group-name&gt;
+</span></code></pre></div></p>
+<p><strong>Agent komplett aus allen Gruppen entfernen:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-r<span class="w"> </span>-i<span class="w"> </span>&lt;agent-id&gt;
+</span></code></pre></div></p>
+<p><strong>Beispiele:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Agent 001 aus web-servers entfernen</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-r<span class="w"> </span>-i<span class="w"> </span><span class="m">001</span><span class="w"> </span>-g<span class="w"> </span>web-servers
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Agent 003 aus allen Gruppen entfernen</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-r<span class="w"> </span>-i<span class="w"> </span><span class="m">003</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="gruppen-mitglieder-anzeigen">Gruppen-Mitglieder anzeigen<a class="headerlink" href="#gruppen-mitglieder-anzeigen" title="Permanent link">&para;</a></h3>
+<p><strong>Alle Agenten einer Gruppe auflisten:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-l<span class="w"> </span>-g<span class="w"> </span>&lt;group-name&gt;
+</span></code></pre></div></p>
+<p><strong>Detaillierte Agenten-Info mit Gruppen:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>/var/ossec/bin/manage_agents<span class="w"> </span>-l
+</span></code></pre></div></p>
+<p><strong>Beispiel-Ausgabe:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>Available agents:
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>   ID: 001, Name: web-server-01, IP: 10.0.1.10, Groups: linux-servers,web-servers
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>   ID: 002, Name: db-server-01, IP: 10.0.1.20, Groups: linux-servers,db-servers
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>   ID: 003, Name: app-server-01, IP: 10.0.1.30, Groups: linux-servers
+</span></code></pre></div></p>
+<hr />
+<h3 id="gruppe-loschen">Gruppe löschen<a class="headerlink" href="#gruppe-loschen" title="Permanent link">&para;</a></h3>
+<p><strong>Achtung: Agenten müssen zuerst aus der Gruppe entfernt werden!</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Schritt 1: Alle Agenten aus der Gruppe entfernen</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-r<span class="w"> </span>-g<span class="w"> </span>&lt;group-name&gt;
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># Schritt 2: Gruppe löschen (Verzeichnis entfernen)</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>rm<span class="w"> </span>-rf<span class="w"> </span>/var/ossec/etc/shared/&lt;group-name&gt;
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># Schritt 3: Manager-Cache aktualisieren</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>systemctl<span class="w"> </span>restart<span class="w"> </span>wazuh-manager
+</span></code></pre></div>
+<p><strong>Beispiel:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Gruppe &quot;old-servers&quot; komplett entfernen</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-r<span class="w"> </span>-g<span class="w"> </span>old-servers
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>rm<span class="w"> </span>-rf<span class="w"> </span>/var/ossec/etc/shared/old-servers
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>systemctl<span class="w"> </span>restart<span class="w"> </span>wazuh-manager
+</span></code></pre></div></p>
+<hr />
+<h2 id="gruppenkonfiguration">Gruppenkonfiguration<a class="headerlink" href="#gruppenkonfiguration" title="Permanent link">&para;</a></h2>
+<h3 id="gruppenkonfiguration-erstellen">Gruppenkonfiguration erstellen<a class="headerlink" href="#gruppenkonfiguration-erstellen" title="Permanent link">&para;</a></h3>
+<p><strong>1. Gruppenverzeichnis anlegen (automatisch beim Erstellen der Gruppe):</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-a<span class="w"> </span>-g<span class="w"> </span>&lt;group-name&gt;
+</span></code></pre></div></p>
+<p><strong>2. Konfigurationsdatei erstellen:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>vi<span class="w"> </span>/var/ossec/etc/shared/&lt;group-name&gt;/agent.conf
+</span></code></pre></div></p>
+<p><strong>3. Beispiel-Konfiguration:</strong>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nt">&lt;agent_config&gt;</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">  </span><span class="cm">&lt;!-- Logging-Konfiguration --&gt;</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">  </span><span class="nt">&lt;localfile&gt;</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="w">    </span><span class="nt">&lt;location&gt;</span>/var/log/syslog<span class="nt">&lt;/location&gt;</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="w">    </span><span class="nt">&lt;log_format&gt;</span>syslog<span class="nt">&lt;/log_format&gt;</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="w">  </span><span class="nt">&lt;/localfile&gt;</span>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="w">  </span><span class="nt">&lt;localfile&gt;</span>
+</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a><span class="w">    </span><span class="nt">&lt;location&gt;</span>/var/log/auth.log<span class="nt">&lt;/location&gt;</span>
+</span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a><span class="w">    </span><span class="nt">&lt;log_format&gt;</span>syslog<span class="nt">&lt;/log_format&gt;</span>
+</span><span id="__span-22-11"><a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a><span class="w">  </span><span class="nt">&lt;/localfile&gt;</span>
+</span><span id="__span-22-12"><a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>
+</span><span id="__span-22-13"><a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a><span class="w">  </span><span class="cm">&lt;!-- Rootcheck-Konfiguration --&gt;</span>
+</span><span id="__span-22-14"><a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a><span class="w">  </span><span class="nt">&lt;rootcheck&gt;</span>
+</span><span id="__span-22-15"><a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a><span class="w">    </span><span class="nt">&lt;frequency&gt;</span>43200<span class="nt">&lt;/frequency&gt;</span>
+</span><span id="__span-22-16"><a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a><span class="w">  </span><span class="nt">&lt;/rootcheck&gt;</span>
+</span><span id="__span-22-17"><a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a>
+</span><span id="__span-22-18"><a id="__codelineno-22-18" name="__codelineno-22-18" href="#__codelineno-22-18"></a><span class="w">  </span><span class="cm">&lt;!-- SCA-Konfiguration --&gt;</span>
+</span><span id="__span-22-19"><a id="__codelineno-22-19" name="__codelineno-22-19" href="#__codelineno-22-19"></a><span class="w">  </span><span class="nt">&lt;sca&gt;</span>
+</span><span id="__span-22-20"><a id="__codelineno-22-20" name="__codelineno-22-20" href="#__codelineno-22-20"></a><span class="w">    </span><span class="nt">&lt;enabled&gt;</span>yes<span class="nt">&lt;/enabled&gt;</span>
+</span><span id="__span-22-21"><a id="__codelineno-22-21" name="__codelineno-22-21" href="#__codelineno-22-21"></a><span class="w">    </span><span class="nt">&lt;scan_on_start&gt;</span>yes<span class="nt">&lt;/scan_on_start&gt;</span>
+</span><span id="__span-22-22"><a id="__codelineno-22-22" name="__codelineno-22-22" href="#__codelineno-22-22"></a><span class="w">    </span><span class="nt">&lt;interval&gt;</span>12h<span class="nt">&lt;/interval&gt;</span>
+</span><span id="__span-22-23"><a id="__codelineno-22-23" name="__codelineno-22-23" href="#__codelineno-22-23"></a><span class="w">  </span><span class="nt">&lt;/sca&gt;</span>
+</span><span id="__span-22-24"><a id="__codelineno-22-24" name="__codelineno-22-24" href="#__codelineno-22-24"></a><span class="nt">&lt;/agent_config&gt;</span>
+</span></code></pre></div></p>
+<p><strong>4. Active Response Commands konfigurieren (optional):</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>vi<span class="w"> </span>/var/ossec/etc/shared/&lt;group-name&gt;/ar.conf
+</span></code></pre></div></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Beispiel ar.conf</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>restart-wazuh0<span class="w"> </span>-<span class="w"> </span>restart-wazuh<span class="w"> </span>-<span class="w"> </span><span class="m">0</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>firewall-block<span class="w"> </span>-<span class="w"> </span>firewall-block.sh<span class="w"> </span>-<span class="w"> </span>default-firewall-drop
+</span></code></pre></div>
+<p><strong>5. Konfiguration validieren:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>/var/ossec/bin/wazuh-logtest-config
+</span></code></pre></div></p>
+<p><strong>6. Manager neu laden:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>systemctl<span class="w"> </span>restart<span class="w"> </span>wazuh-manager
+</span></code></pre></div></p>
+<hr />
+<h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<h3 id="1-namenskonventionen">1. Namenskonventionen<a class="headerlink" href="#1-namenskonventionen" title="Permanent link">&para;</a></h3>
+<p><strong>Empfohlene Namensstruktur:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>&lt;umgebung&gt;-&lt;funktion&gt;-&lt;location&gt;
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>Beispiele:
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>- prod-web-servers
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>- dev-database-servers
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>- test-app-servers
+</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>- prod-linux-eu-west
+</span></code></pre></div></p>
+<h3 id="2-gruppen-hierarchie">2. Gruppen-Hierarchie<a class="headerlink" href="#2-gruppen-hierarchie" title="Permanent link">&para;</a></h3>
+<p><strong>Basis-Gruppen:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>linux-base      → Grundkonfiguration für alle Linux-Systeme
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>windows-base    → Grundkonfiguration für alle Windows-Systeme
+</span></code></pre></div></p>
+<p><strong>Funktions-Gruppen:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>web-servers     → Spezifische Konfiguration für Webserver
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>db-servers      → Spezifische Konfiguration für Datenbankserver
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>app-servers     → Spezifische Konfiguration für Applikationsserver
+</span></code></pre></div></p>
+<p><strong>Umgebungs-Gruppen:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>prod            → Produktionsumgebung
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>test            → Testumgebung
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>dev             → Entwicklungsumgebung
+</span></code></pre></div></p>
+<p><strong>Agent-Zuordnung (Multi-Gruppen):</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Beispiel: Production Web Server</span>
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-a<span class="w"> </span>-i<span class="w"> </span><span class="m">001</span><span class="w"> </span>-g<span class="w"> </span>linux-base,web-servers,prod
+</span></code></pre></div></p>
+<h3 id="3-konfigurationsmanagement">3. Konfigurationsmanagement<a class="headerlink" href="#3-konfigurationsmanagement" title="Permanent link">&para;</a></h3>
+<p><strong>Versionskontrolle:</strong>
+- Alle Gruppenkonfigurationen in Git verwalten
+- Änderungen über Pull Requests reviewen
+- Rollback-Möglichkeit sicherstellen</p>
+<p><strong>Backup-Strategie:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1"># Vor Änderungen Backup erstellen</span>
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>tar<span class="w"> </span>-czf<span class="w"> </span>/backup/wazuh-groups-<span class="k">$(</span>date<span class="w"> </span>+%F-%H%M<span class="k">)</span>.tar.gz<span class="w"> </span>/var/ossec/etc/shared/
+</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>
+</span><span id="__span-32-4"><a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="c1"># Regelmäßige Backups (Cron)</span>
+</span><span id="__span-32-5"><a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="m">0</span><span class="w"> </span><span class="m">2</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>tar<span class="w"> </span>-czf<span class="w"> </span>/backup/wazuh-groups-<span class="k">$(</span>date<span class="w"> </span>+<span class="se">\%</span>F<span class="k">)</span>.tar.gz<span class="w"> </span>/var/ossec/etc/shared/
+</span></code></pre></div></p>
+<h3 id="4-testing">4. Testing<a class="headerlink" href="#4-testing" title="Permanent link">&para;</a></h3>
+<p><strong>Test-Gruppe verwenden:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Test-Gruppe erstellen</span>
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-a<span class="w"> </span>-g<span class="w"> </span>test-config
+</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>
+</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="c1"># Test-Agent zuweisen</span>
+</span><span id="__span-33-5"><a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-a<span class="w"> </span>-i<span class="w"> </span><span class="m">999</span><span class="w"> </span>-g<span class="w"> </span>test-config
+</span><span id="__span-33-6"><a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>
+</span><span id="__span-33-7"><a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a><span class="c1"># Konfiguration testen</span>
+</span><span id="__span-33-8"><a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a><span class="c1"># ... Änderungen beobachten ...</span>
+</span><span id="__span-33-9"><a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a>
+</span><span id="__span-33-10"><a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a><span class="c1"># Bei Erfolg auf alle Agenten ausrollen</span>
+</span></code></pre></div></p>
+<h3 id="5-dokumentation">5. Dokumentation<a class="headerlink" href="#5-dokumentation" title="Permanent link">&para;</a></h3>
+<p><strong>Für jede Gruppe dokumentieren:</strong>
+- Zweck der Gruppe
+- Enthaltene Konfigurationen
+- Zugewiesene Agenten
+- Änderungshistorie
+- Verantwortliche Person</p>
+<p><strong>Beispiel-Dokumentation:</strong>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="nt">gruppe</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web-servers</span>
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="nt">zweck</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Konfiguration für Apache/Nginx Webserver</span>
+</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="nt">konfigurationen</span><span class="p">:</span>
+</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Apache access/error logs</span>
+</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Nginx access/error logs</span>
+</span><span id="__span-34-6"><a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ModSecurity monitoring</span>
+</span><span id="__span-34-7"><a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SSL/TLS certificate monitoring</span>
+</span><span id="__span-34-8"><a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a><span class="nt">agenten_count</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">12</span>
+</span><span id="__span-34-9"><a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a><span class="nt">erstellt</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026-01-15</span>
+</span><span id="__span-34-10"><a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a><span class="nt">verantwortlich</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">security-team@company.com</span>
+</span></code></pre></div></p>
+<hr />
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="problem-agent-erhalt-keine-konfiguration">Problem: Agent erhält keine Konfiguration<a class="headerlink" href="#problem-agent-erhalt-keine-konfiguration" title="Permanent link">&para;</a></h3>
+<p><strong>Symptom:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>Agent logs zeigen keine Konfigurationsaktualisierung
+</span></code></pre></div></p>
+<p><strong>Diagnose:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="c1"># 1. Gruppenzugehörigkeit prüfen</span>
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-l<span class="w"> </span>-g<span class="w"> </span>&lt;group-name&gt;
+</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="c1"># 2. merged.mg prüfen</span>
+</span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a>ls<span class="w"> </span>-la<span class="w"> </span>/var/ossec/etc/shared/&lt;agent-id&gt;/merged.mg
+</span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>
+</span><span id="__span-36-7"><a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a><span class="c1"># 3. Manager-Logs prüfen</span>
+</span><span id="__span-36-8"><a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>tail<span class="w"> </span>-f<span class="w"> </span>/var/ossec/logs/ossec.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;group&quot;</span>
+</span><span id="__span-36-9"><a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a>
+</span><span id="__span-36-10"><a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a><span class="c1"># 4. Agent-Verbindung prüfen</span>
+</span><span id="__span-36-11"><a id="__codelineno-36-11" name="__codelineno-36-11" href="#__codelineno-36-11"></a>/var/ossec/bin/agent_control<span class="w"> </span>-l
+</span></code></pre></div></p>
+<p><strong>Lösung:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="c1"># Agent erneut zur Gruppe hinzufügen</span>
+</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-a<span class="w"> </span>-i<span class="w"> </span>&lt;agent-id&gt;<span class="w"> </span>-g<span class="w"> </span>&lt;group-name&gt;
+</span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>
+</span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a><span class="c1"># Manager neu starten</span>
+</span><span id="__span-37-5"><a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>systemctl<span class="w"> </span>restart<span class="w"> </span>wazuh-manager
+</span><span id="__span-37-6"><a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>
+</span><span id="__span-37-7"><a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a><span class="c1"># Agent-Synchronisation erzwingen</span>
+</span><span id="__span-37-8"><a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>/var/ossec/bin/agent_control<span class="w"> </span>-R<span class="w"> </span>&lt;agent-id&gt;
+</span></code></pre></div></p>
+<hr />
+<h3 id="problem-mergedmg-wird-nicht-aktualisiert">Problem: merged.mg wird nicht aktualisiert<a class="headerlink" href="#problem-mergedmg-wird-nicht-aktualisiert" title="Permanent link">&para;</a></h3>
+<p><strong>Symptom:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>Konfigurationsänderungen werden nicht an Agenten übertragen
+</span></code></pre></div></p>
+<p><strong>Diagnose:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="c1"># 1. Dateiberechtigungen prüfen</span>
+</span><span id="__span-39-2"><a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>ls<span class="w"> </span>-la<span class="w"> </span>/var/ossec/etc/shared/&lt;group-name&gt;/
+</span><span id="__span-39-3"><a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>
+</span><span id="__span-39-4"><a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a><span class="c1"># 2. Manager-Prozess prüfen</span>
+</span><span id="__span-39-5"><a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a>ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>wazuh-remoted
+</span><span id="__span-39-6"><a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a>
+</span><span id="__span-39-7"><a id="__codelineno-39-7" name="__codelineno-39-7" href="#__codelineno-39-7"></a><span class="c1"># 3. Queue prüfen</span>
+</span><span id="__span-39-8"><a id="__codelineno-39-8" name="__codelineno-39-8" href="#__codelineno-39-8"></a>ls<span class="w"> </span>-la<span class="w"> </span>/var/ossec/queue/rids/
+</span></code></pre></div></p>
+<p><strong>Lösung:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="c1"># 1. Berechtigungen korrigieren</span>
+</span><span id="__span-40-2"><a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>chown<span class="w"> </span>-R<span class="w"> </span>wazuh:wazuh<span class="w"> </span>/var/ossec/etc/shared/&lt;group-name&gt;/
+</span><span id="__span-40-3"><a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>chmod<span class="w"> </span><span class="m">750</span><span class="w"> </span>/var/ossec/etc/shared/&lt;group-name&gt;/
+</span><span id="__span-40-4"><a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a>chmod<span class="w"> </span><span class="m">640</span><span class="w"> </span>/var/ossec/etc/shared/&lt;group-name&gt;/*
+</span><span id="__span-40-5"><a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>
+</span><span id="__span-40-6"><a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a><span class="c1"># 2. Manager neu starten</span>
+</span><span id="__span-40-7"><a id="__codelineno-40-7" name="__codelineno-40-7" href="#__codelineno-40-7"></a>systemctl<span class="w"> </span>restart<span class="w"> </span>wazuh-manager
+</span><span id="__span-40-8"><a id="__codelineno-40-8" name="__codelineno-40-8" href="#__codelineno-40-8"></a>
+</span><span id="__span-40-9"><a id="__codelineno-40-9" name="__codelineno-40-9" href="#__codelineno-40-9"></a><span class="c1"># 3. Agent-Synchronisation erzwingen</span>
+</span><span id="__span-40-10"><a id="__codelineno-40-10" name="__codelineno-40-10" href="#__codelineno-40-10"></a>/var/ossec/bin/agent_control<span class="w"> </span>-R<span class="w"> </span>-a
+</span></code></pre></div></p>
+<hr />
+<h3 id="problem-gruppe-kann-nicht-geloscht-werden">Problem: Gruppe kann nicht gelöscht werden<a class="headerlink" href="#problem-gruppe-kann-nicht-geloscht-werden" title="Permanent link">&para;</a></h3>
+<p><strong>Symptom:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>Fehler beim Löschen einer Gruppe
+</span></code></pre></div></p>
+<p><strong>Diagnose:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="c1"># 1. Agenten in der Gruppe prüfen</span>
+</span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-l<span class="w"> </span>-g<span class="w"> </span>&lt;group-name&gt;
+</span><span id="__span-42-3"><a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>
+</span><span id="__span-42-4"><a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a><span class="c1"># 2. Dateisystem-Locks prüfen</span>
+</span><span id="__span-42-5"><a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a>lsof<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>/var/ossec/etc/shared/&lt;group-name&gt;
+</span></code></pre></div></p>
+<p><strong>Lösung:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="c1"># 1. Alle Agenten aus der Gruppe entfernen</span>
+</span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-r<span class="w"> </span>-g<span class="w"> </span>&lt;group-name&gt;
+</span><span id="__span-43-3"><a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>
+</span><span id="__span-43-4"><a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a><span class="c1"># 2. Manager stoppen</span>
+</span><span id="__span-43-5"><a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a>systemctl<span class="w"> </span>stop<span class="w"> </span>wazuh-manager
+</span><span id="__span-43-6"><a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a>
+</span><span id="__span-43-7"><a id="__codelineno-43-7" name="__codelineno-43-7" href="#__codelineno-43-7"></a><span class="c1"># 3. Gruppe löschen</span>
+</span><span id="__span-43-8"><a id="__codelineno-43-8" name="__codelineno-43-8" href="#__codelineno-43-8"></a>rm<span class="w"> </span>-rf<span class="w"> </span>/var/ossec/etc/shared/&lt;group-name&gt;
+</span><span id="__span-43-9"><a id="__codelineno-43-9" name="__codelineno-43-9" href="#__codelineno-43-9"></a>
+</span><span id="__span-43-10"><a id="__codelineno-43-10" name="__codelineno-43-10" href="#__codelineno-43-10"></a><span class="c1"># 4. Manager starten</span>
+</span><span id="__span-43-11"><a id="__codelineno-43-11" name="__codelineno-43-11" href="#__codelineno-43-11"></a>systemctl<span class="w"> </span>start<span class="w"> </span>wazuh-manager
+</span></code></pre></div></p>
+<hr />
+<h3 id="problem-arconf-befehle-funktionieren-nicht">Problem: ar.conf Befehle funktionieren nicht<a class="headerlink" href="#problem-arconf-befehle-funktionieren-nicht" title="Permanent link">&para;</a></h3>
+<p><strong>Symptom:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>Active Response Befehle werden nicht ausgeführt
+</span></code></pre></div></p>
+<p><strong>Diagnose:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="c1"># 1. ar.conf Syntax prüfen</span>
+</span><span id="__span-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>cat<span class="w"> </span>/var/ossec/etc/shared/&lt;group-name&gt;/ar.conf
+</span><span id="__span-45-3"><a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a>
+</span><span id="__span-45-4"><a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a><span class="c1"># 2. Befehl auf Agent vorhanden?</span>
+</span><span id="__span-45-5"><a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a><span class="c1"># (auf dem Agent-System)</span>
+</span><span id="__span-45-6"><a id="__codelineno-45-6" name="__codelineno-45-6" href="#__codelineno-45-6"></a>ls<span class="w"> </span>-la<span class="w"> </span>/var/ossec/active-response/bin/
+</span><span id="__span-45-7"><a id="__codelineno-45-7" name="__codelineno-45-7" href="#__codelineno-45-7"></a>
+</span><span id="__span-45-8"><a id="__codelineno-45-8" name="__codelineno-45-8" href="#__codelineno-45-8"></a><span class="c1"># 3. Agent-Logs prüfen</span>
+</span><span id="__span-45-9"><a id="__codelineno-45-9" name="__codelineno-45-9" href="#__codelineno-45-9"></a><span class="c1"># (auf dem Agent-System)</span>
+</span><span id="__span-45-10"><a id="__codelineno-45-10" name="__codelineno-45-10" href="#__codelineno-45-10"></a>tail<span class="w"> </span>-f<span class="w"> </span>/var/ossec/logs/active-responses.log
+</span></code></pre></div></p>
+<p><strong>Lösung:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="c1"># 1. ar.conf korrigieren</span>
+</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>vi<span class="w"> </span>/var/ossec/etc/shared/&lt;group-name&gt;/ar.conf
+</span><span id="__span-46-3"><a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a>
+</span><span id="__span-46-4"><a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a><span class="c1"># 2. Berechtigungen setzen</span>
+</span><span id="__span-46-5"><a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a>chmod<span class="w"> </span><span class="m">750</span><span class="w"> </span>/var/ossec/active-response/bin/*
+</span><span id="__span-46-6"><a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a>
+</span><span id="__span-46-7"><a id="__codelineno-46-7" name="__codelineno-46-7" href="#__codelineno-46-7"></a><span class="c1"># 3. Manager neu starten</span>
+</span><span id="__span-46-8"><a id="__codelineno-46-8" name="__codelineno-46-8" href="#__codelineno-46-8"></a>systemctl<span class="w"> </span>restart<span class="w"> </span>wazuh-manager
+</span><span id="__span-46-9"><a id="__codelineno-46-9" name="__codelineno-46-9" href="#__codelineno-46-9"></a>
+</span><span id="__span-46-10"><a id="__codelineno-46-10" name="__codelineno-46-10" href="#__codelineno-46-10"></a><span class="c1"># 4. Agent-Synchronisation erzwingen</span>
+</span><span id="__span-46-11"><a id="__codelineno-46-11" name="__codelineno-46-11" href="#__codelineno-46-11"></a>/var/ossec/bin/agent_control<span class="w"> </span>-R<span class="w"> </span>&lt;agent-id&gt;
+</span></code></pre></div></p>
+<hr />
+<h2 id="health-check-commands">Health Check Commands<a class="headerlink" href="#health-check-commands" title="Permanent link">&para;</a></h2>
+<h3 id="gruppen-status-uberprufen">Gruppen-Status überprüfen<a class="headerlink" href="#gruppen-status-uberprufen" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="c1"># Alle Gruppen mit Anzahl Agenten</span>
+</span><span id="__span-47-2"><a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-l
+</span><span id="__span-47-3"><a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a>
+</span><span id="__span-47-4"><a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a><span class="c1"># Spezifische Gruppe mit Details</span>
+</span><span id="__span-47-5"><a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-l<span class="w"> </span>-g<span class="w"> </span>&lt;group-name&gt;
+</span><span id="__span-47-6"><a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a>
+</span><span id="__span-47-7"><a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a><span class="c1"># Alle Agenten mit Gruppenzugehörigkeit</span>
+</span><span id="__span-47-8"><a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a>/var/ossec/bin/manage_agents<span class="w"> </span>-l<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;group&quot;</span>
+</span><span id="__span-47-9"><a id="__codelineno-47-9" name="__codelineno-47-9" href="#__codelineno-47-9"></a>
+</span><span id="__span-47-10"><a id="__codelineno-47-10" name="__codelineno-47-10" href="#__codelineno-47-10"></a><span class="c1"># Gruppen-Verzeichnisse prüfen</span>
+</span><span id="__span-47-11"><a id="__codelineno-47-11" name="__codelineno-47-11" href="#__codelineno-47-11"></a>ls<span class="w"> </span>-la<span class="w"> </span>/var/ossec/etc/shared/
+</span><span id="__span-47-12"><a id="__codelineno-47-12" name="__codelineno-47-12" href="#__codelineno-47-12"></a>
+</span><span id="__span-47-13"><a id="__codelineno-47-13" name="__codelineno-47-13" href="#__codelineno-47-13"></a><span class="c1"># Konfigurationsdateien prüfen</span>
+</span><span id="__span-47-14"><a id="__codelineno-47-14" name="__codelineno-47-14" href="#__codelineno-47-14"></a>find<span class="w"> </span>/var/ossec/etc/shared/<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;agent.conf&quot;</span><span class="w"> </span>-o<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;ar.conf&quot;</span><span class="w"> </span>-o<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;merged.mg&quot;</span>
+</span></code></pre></div>
+<h3 id="synchronisations-status">Synchronisations-Status<a class="headerlink" href="#synchronisations-status" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="c1"># Agent-Verbindungsstatus</span>
+</span><span id="__span-48-2"><a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a>/var/ossec/bin/agent_control<span class="w"> </span>-l
+</span><span id="__span-48-3"><a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a>
+</span><span id="__span-48-4"><a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a><span class="c1"># Letzte Agent-Synchronisation</span>
+</span><span id="__span-48-5"><a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a>/var/ossec/bin/agent_control<span class="w"> </span>-i<span class="w"> </span>&lt;agent-id&gt;
+</span><span id="__span-48-6"><a id="__codelineno-48-6" name="__codelineno-48-6" href="#__codelineno-48-6"></a>
+</span><span id="__span-48-7"><a id="__codelineno-48-7" name="__codelineno-48-7" href="#__codelineno-48-7"></a><span class="c1"># Queue-Status</span>
+</span><span id="__span-48-8"><a id="__codelineno-48-8" name="__codelineno-48-8" href="#__codelineno-48-8"></a>ls<span class="w"> </span>-la<span class="w"> </span>/var/ossec/queue/rids/
+</span><span id="__span-48-9"><a id="__codelineno-48-9" name="__codelineno-48-9" href="#__codelineno-48-9"></a>
+</span><span id="__span-48-10"><a id="__codelineno-48-10" name="__codelineno-48-10" href="#__codelineno-48-10"></a><span class="c1"># Manager-Logs für Gruppen-Events</span>
+</span><span id="__span-48-11"><a id="__codelineno-48-11" name="__codelineno-48-11" href="#__codelineno-48-11"></a>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;group&quot;</span><span class="w"> </span>/var/ossec/logs/ossec.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span>
+</span></code></pre></div>
+<hr />
+<h2 id="nutzliche-scripts">Nützliche Scripts<a class="headerlink" href="#nutzliche-scripts" title="Permanent link">&para;</a></h2>
+<h3 id="script-alle-agenten-einer-gruppe-auflisten">Script: Alle Agenten einer Gruppe auflisten<a class="headerlink" href="#script-alle-agenten-einer-gruppe-auflisten" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-49-2"><a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a><span class="c1"># list-group-agents.sh</span>
+</span><span id="__span-49-3"><a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a>
+</span><span id="__span-49-4"><a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a><span class="nv">GROUP_NAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+</span><span id="__span-49-5"><a id="__codelineno-49-5" name="__codelineno-49-5" href="#__codelineno-49-5"></a>
+</span><span id="__span-49-6"><a id="__codelineno-49-6" name="__codelineno-49-6" href="#__codelineno-49-6"></a><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GROUP_NAME</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-49-7"><a id="__codelineno-49-7" name="__codelineno-49-7" href="#__codelineno-49-7"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Usage: </span><span class="nv">$0</span><span class="s2"> &lt;group-name&gt;&quot;</span>
+</span><span id="__span-49-8"><a id="__codelineno-49-8" name="__codelineno-49-8" href="#__codelineno-49-8"></a><span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-49-9"><a id="__codelineno-49-9" name="__codelineno-49-9" href="#__codelineno-49-9"></a><span class="k">fi</span>
+</span><span id="__span-49-10"><a id="__codelineno-49-10" name="__codelineno-49-10" href="#__codelineno-49-10"></a>
+</span><span id="__span-49-11"><a id="__codelineno-49-11" name="__codelineno-49-11" href="#__codelineno-49-11"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== Agents in group: </span><span class="nv">$GROUP_NAME</span><span class="s2"> ===&quot;</span>
+</span><span id="__span-49-12"><a id="__codelineno-49-12" name="__codelineno-49-12" href="#__codelineno-49-12"></a>/var/ossec/bin/manage_agents<span class="w"> </span>-l<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Groups:.*</span><span class="nv">$GROUP_NAME</span><span class="s2">&quot;</span>
+</span></code></pre></div>
+<h3 id="script-gruppen-backup-erstellen">Script: Gruppen-Backup erstellen<a class="headerlink" href="#script-gruppen-backup-erstellen" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-50-2"><a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a><span class="c1"># backup-groups.sh</span>
+</span><span id="__span-50-3"><a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a>
+</span><span id="__span-50-4"><a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a><span class="nv">BACKUP_DIR</span><span class="o">=</span><span class="s2">&quot;/backup/wazuh-groups&quot;</span>
+</span><span id="__span-50-5"><a id="__codelineno-50-5" name="__codelineno-50-5" href="#__codelineno-50-5"></a><span class="nv">TIMESTAMP</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+%F-%H%M%S<span class="k">)</span>
+</span><span id="__span-50-6"><a id="__codelineno-50-6" name="__codelineno-50-6" href="#__codelineno-50-6"></a>
+</span><span id="__span-50-7"><a id="__codelineno-50-7" name="__codelineno-50-7" href="#__codelineno-50-7"></a>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$BACKUP_DIR</span><span class="s2">&quot;</span>
+</span><span id="__span-50-8"><a id="__codelineno-50-8" name="__codelineno-50-8" href="#__codelineno-50-8"></a>
+</span><span id="__span-50-9"><a id="__codelineno-50-9" name="__codelineno-50-9" href="#__codelineno-50-9"></a>tar<span class="w"> </span>-czf<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$BACKUP_DIR</span><span class="s2">/groups-backup-</span><span class="nv">$TIMESTAMP</span><span class="s2">.tar.gz&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-50-10"><a id="__codelineno-50-10" name="__codelineno-50-10" href="#__codelineno-50-10"></a><span class="w">    </span>/var/ossec/etc/shared/
+</span><span id="__span-50-11"><a id="__codelineno-50-11" name="__codelineno-50-11" href="#__codelineno-50-11"></a>
+</span><span id="__span-50-12"><a id="__codelineno-50-12" name="__codelineno-50-12" href="#__codelineno-50-12"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Backup created: </span><span class="nv">$BACKUP_DIR</span><span class="s2">/groups-backup-</span><span class="nv">$TIMESTAMP</span><span class="s2">.tar.gz&quot;</span>
+</span><span id="__span-50-13"><a id="__codelineno-50-13" name="__codelineno-50-13" href="#__codelineno-50-13"></a>ls<span class="w"> </span>-lh<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$BACKUP_DIR</span><span class="s2">/groups-backup-</span><span class="nv">$TIMESTAMP</span><span class="s2">.tar.gz&quot;</span>
+</span></code></pre></div>
+<h3 id="script-konfiguration-auf-alle-gruppen-anwenden">Script: Konfiguration auf alle Gruppen anwenden<a class="headerlink" href="#script-konfiguration-auf-alle-gruppen-anwenden" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-51-2"><a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a><span class="c1"># apply-config-to-all.sh</span>
+</span><span id="__span-51-3"><a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a>
+</span><span id="__span-51-4"><a id="__codelineno-51-4" name="__codelineno-51-4" href="#__codelineno-51-4"></a><span class="nv">CONFIG_FILE</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+</span><span id="__span-51-5"><a id="__codelineno-51-5" name="__codelineno-51-5" href="#__codelineno-51-5"></a>
+</span><span id="__span-51-6"><a id="__codelineno-51-6" name="__codelineno-51-6" href="#__codelineno-51-6"></a><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>!<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CONFIG_FILE</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-51-7"><a id="__codelineno-51-7" name="__codelineno-51-7" href="#__codelineno-51-7"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Config file not found: </span><span class="nv">$CONFIG_FILE</span><span class="s2">&quot;</span>
+</span><span id="__span-51-8"><a id="__codelineno-51-8" name="__codelineno-51-8" href="#__codelineno-51-8"></a><span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-51-9"><a id="__codelineno-51-9" name="__codelineno-51-9" href="#__codelineno-51-9"></a><span class="k">fi</span>
+</span><span id="__span-51-10"><a id="__codelineno-51-10" name="__codelineno-51-10" href="#__codelineno-51-10"></a>
+</span><span id="__span-51-11"><a id="__codelineno-51-11" name="__codelineno-51-11" href="#__codelineno-51-11"></a><span class="k">for</span><span class="w"> </span>group_dir<span class="w"> </span><span class="k">in</span><span class="w"> </span>/var/ossec/etc/shared/*/<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-51-12"><a id="__codelineno-51-12" name="__codelineno-51-12" href="#__codelineno-51-12"></a><span class="w">    </span><span class="nv">group_name</span><span class="o">=</span><span class="k">$(</span>basename<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$group_dir</span><span class="s2">&quot;</span><span class="k">)</span>
+</span><span id="__span-51-13"><a id="__codelineno-51-13" name="__codelineno-51-13" href="#__codelineno-51-13"></a>
+</span><span id="__span-51-14"><a id="__codelineno-51-14" name="__codelineno-51-14" href="#__codelineno-51-14"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$group_name</span><span class="s2">&quot;</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">&quot;default&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-51-15"><a id="__codelineno-51-15" name="__codelineno-51-15" href="#__codelineno-51-15"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Applying to: </span><span class="nv">$group_name</span><span class="s2">&quot;</span>
+</span><span id="__span-51-16"><a id="__codelineno-51-16" name="__codelineno-51-16" href="#__codelineno-51-16"></a><span class="w">        </span>cp<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CONFIG_FILE</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$group_dir</span><span class="s2">/agent.conf&quot;</span>
+</span><span id="__span-51-17"><a id="__codelineno-51-17" name="__codelineno-51-17" href="#__codelineno-51-17"></a><span class="w">    </span><span class="k">fi</span>
+</span><span id="__span-51-18"><a id="__codelineno-51-18" name="__codelineno-51-18" href="#__codelineno-51-18"></a><span class="k">done</span>
+</span><span id="__span-51-19"><a id="__codelineno-51-19" name="__codelineno-51-19" href="#__codelineno-51-19"></a>
+</span><span id="__span-51-20"><a id="__codelineno-51-20" name="__codelineno-51-20" href="#__codelineno-51-20"></a>systemctl<span class="w"> </span>restart<span class="w"> </span>wazuh-manager
+</span><span id="__span-51-21"><a id="__codelineno-51-21" name="__codelineno-51-21" href="#__codelineno-51-21"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Configuration applied to all groups&quot;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="weiterfuhrende-dokumentation">Weiterführende Dokumentation<a class="headerlink" href="#weiterfuhrende-dokumentation" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Wazuh Official Docs - Agent Groups:</strong> https://documentation.wazuh.com/current/user-manual/agent-enrollment/agent-enrollment.html</li>
+<li><strong>Wazuh Official Docs - Centralized Configuration:</strong> https://documentation.wazuh.com/current/user-manual/reference/centralized-configuration.html</li>
+<li><strong>Wazuh Official Docs - Active Response:</strong> https://documentation.wazuh.com/current/user-manual/capabilities/active-response/index.html</li>
+</ul>
+<hr />
+<p><strong>Letzte Aktualisierung:</strong> 2026-02-17<br />
+<strong>Nächste Review:</strong> 2026-05-17<br />
+<strong>Verantwortlich:</strong> Security Operations Team</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Zurück zum Seitenanfang
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 <a href='https://www.t-alpha.ch' target='_blank'>T-Alpha GmbH</a> &middot; IT Security
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://www.t-alpha.ch" target="_blank" rel="noopener" title="T-Alpha GmbH Website" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M352 256c0 22.2-1.2 43.6-3.3 64H163.3c-2.2-20.4-3.3-41.8-3.3-64s1.2-43.6 3.3-64h185.4c2.2 20.4 3.3 41.8 3.3 64zm28.8-64h123.1c5.3 20.5 8.1 41.9 8.1 64s-2.8 43.5-8.1 64H380.8c2.1-20.6 3.2-42 3.2-64s-1.1-43.4-3.2-64zm112.6-32H376.7c-10-63.9-29.8-117.4-55.3-151.6 78.3 20.7 142 77.5 171.9 151.6zm-149.1 0H167.7c6.1-36.4 15.5-68.6 27-94.7 10.5-23.6 22.2-40.7 33.5-51.5C239.4 3.2 248.7 0 256 0s16.6 3.2 27.8 13.8c11.3 10.8 23 27.9 33.5 51.5 11.6 26 20.9 58.2 27 94.7zm-209 0H18.6c30-74.1 93.6-130.9 172-151.6-25.5 34.2-45.3 87.7-55.3 151.6zM8.1 192h123.1c-2.1 20.6-3.2 42-3.2 64s1.1 43.4 3.2 64H8.1C2.8 299.5 0 278.1 0 256s2.8-43.5 8.1-64zm186.6 254.6c-11.6-26-20.9-58.2-27-94.6h176.6c-6.1 36.4-15.5 68.6-27 94.6-10.5 23.6-22.2 40.7-33.5 51.5-11.2 10.7-20.5 13.9-27.8 13.9s-16.6-3.2-27.8-13.8c-11.3-10.8-23-27.9-33.5-51.5zM135.3 352c10 63.9 29.8 117.4 55.3 151.6-78.4-20.7-142-77.5-172-151.6h116.7zm358.1 0c-30 74.1-93.6 130.9-171.9 151.6 25.5-34.2 45.2-87.7 55.3-151.6h116.6z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/istagmbh/Ta-SIEMPlus" target="_blank" rel="noopener" title="GitHub Repository" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.action.edit", "content.action.view"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "In Zwischenablage kopiert", "clipboard.copy": "In Zwischenablage kopieren", "search.result.more.one": "1 weiteres Suchergebnis auf dieser Seite", "search.result.more.other": "# weitere Suchergebnisse auf dieser Seite", "search.result.none": "Keine Suchergebnisse", "search.result.one": "1 Suchergebnis", "search.result.other": "# Suchergebnisse", "search.result.placeholder": "Suchbegriff eingeben", "search.result.term.missing": "Es fehlt", "select.version": "Version ausw\u00e4hlen"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+    
+  </body>
+</html>

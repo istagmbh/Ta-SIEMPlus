@@ -1,0 +1,3022 @@
+
+<!doctype html>
+<html lang="de" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Operative Dokumentation für standardisierte Wazuh SIEM Wartungsabläufe">
+      
+      
+        <meta name="author" content="T-Alpha GmbH">
+      
+      
+        <link rel="canonical" href="https://istagmbh.github.io/Ta-SIEMPlus/latest/guides/catalog-howto/">
+      
+      
+        <link rel="prev" href="../checklist-howto/">
+      
+      
+        <link rel="next" href="../../reference/">
+      
+      
+      <link rel="icon" href="../../assets/images/ta-alpha-logo.svg">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+    
+    
+      
+        <title>Katalog-Verwaltung - Ta-SIEMPlus</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/ta-alpha-brand.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#katalog-verwaltung-neue-infrastruktur-hinzufugen" class="md-skip">
+          Zum Inhalt
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Kopfzeile">
+    <a href="../.." title="Ta-SIEMPlus" class="md-header__button md-logo" aria-label="Ta-SIEMPlus" data-md-component="logo">
+      
+  <img src="../../assets/images/ta-alpha-logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Ta-SIEMPlus
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Katalog-Verwaltung
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Auf Dunkelmodus wechseln"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Auf Dunkelmodus wechseln" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Auf Hellmodus wechseln"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Auf Hellmodus wechseln" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Suche" placeholder="Suche" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Suche">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Teilen" aria-label="Teilen" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Zurücksetzen" aria-label="Zurücksetzen" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Suche wird initialisiert
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/istagmbh/Ta-SIEMPlus" title="Zum Repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    istagmbh/Ta-SIEMPlus
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Hauptnavigation" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/" class="md-tabs__link">
+          
+  
+    
+  
+  Einstieg
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../overview/" class="md-tabs__link">
+          
+  
+    
+  
+  Overview
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../runbooks/" class="md-tabs__link">
+          
+  
+    
+  
+  Runbooks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../checklists/" class="md-tabs__link">
+          
+  
+    
+  
+  Checklists
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../upgrade-guides/" class="md-tabs__link">
+          
+  
+    
+  
+  Upgrade Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  Anleitungen
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/" class="md-tabs__link">
+          
+  
+    
+  
+  Referenz
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../catalog/" class="md-tabs__link">
+          
+  
+    
+  
+  Katalog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../templates/" class="md-tabs__link">
+          
+  
+    
+  
+  Templates
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Ta-SIEMPlus" class="md-nav__button md-logo" aria-label="Ta-SIEMPlus" data-md-component="logo">
+      
+  <img src="../../assets/images/ta-alpha-logo.svg" alt="logo">
+
+    </a>
+    Ta-SIEMPlus
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/istagmbh/Ta-SIEMPlus" title="Zum Repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    istagmbh/Ta-SIEMPlus
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Einstieg
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Einstieg
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Erste Schritte
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick-reference/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schnellreferenz
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../navigation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Projektübersicht
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../overview/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Overview
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../runbooks/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Runbooks
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Runbooks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Upgrade AIO Ubuntu
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Agent Group Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../runbooks/RUNBOOK-TEMPLATE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Runbook Template
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../checklists/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Checklists
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Checklists
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checklists/CHECKLIST_WAZUH_UPGRADE_AIO/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Upgrade AIO
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checklists/CHECKLIST_WAZUH_UPGRADE_AIO_IMPROVED/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Upgrade AIO (Verbessert)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checklists/CHECKLIST-TEMPLATE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Checklist Template
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../upgrade-guides/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Upgrade Guides
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Upgrade Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../upgrade-guides/4.12/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Wazuh 4.12
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            Wazuh 4.12
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Anleitungen
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Anleitungen
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checklist-howto/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Checklisten-Anleitung
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Katalog-Verwaltung
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Katalog-Verwaltung
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Inhaltsverzeichnis">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Inhaltsverzeichnis
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#szenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Szenario
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schritt-1-infrastruktur-daten-sammeln" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 SCHRITT 1: Infrastruktur-Daten sammeln
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 SCHRITT 1: Infrastruktur-Daten sammeln">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kundeninformationen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kundeninformationen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wazuh-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wazuh-Installation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zugriffs-urls" class="md-nav__link">
+    <span class="md-ellipsis">
+      Zugriffs-URLs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#netzwerk-ports" class="md-nav__link">
+    <span class="md-ellipsis">
+      Netzwerk &amp; Ports
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secretscredentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      Secrets/Credentials
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wartungs-richtlinien" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wartungs-Richtlinien
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schritt-2-eintrag-erstellen-copy-paste" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✏️ SCHRITT 2: Eintrag erstellen (COPY-PASTE)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✏️ SCHRITT 2: Eintrag erstellen (COPY-PASTE)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2a-katalog-datei-offnen" class="md-nav__link">
+    <span class="md-ellipsis">
+      2a) Katalog-Datei öffnen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2b-ans-ende-der-datei-gehen" class="md-nav__link">
+    <span class="md-ellipsis">
+      2b) Ans Ende der Datei gehen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2c-template-kopieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      2c) Template kopieren
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2d-template-an-katalog-anhangen" class="md-nav__link">
+    <span class="md-ellipsis">
+      2d) Template an Katalog anhängen
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schritt-3-felder-ausfullen-mit-beispiel" class="md-nav__link">
+    <span class="md-ellipsis">
+      🖊️ SCHRITT 3: Felder ausfüllen (mit BEISPIEL)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🖊️ SCHRITT 3: Felder ausfüllen (mit BEISPIEL)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#beispiel-vorher-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      Beispiel: VORHER (Template)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beispiel-nachher-ausgefullt" class="md-nav__link">
+    <span class="md-ellipsis">
+      Beispiel: NACHHER (ausgefüllt)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#feld-definitionen" class="md-nav__link">
+    <span class="md-ellipsis">
+      📝 Feld-Definitionen
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wichtig-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚨 WICHTIG: SECRETS
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚨 WICHTIG: SECRETS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#falsch-niemals" class="md-nav__link">
+    <span class="md-ellipsis">
+      ❌ FALSCH (NIEMALS!)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#richtig" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ RICHTIG
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schritt-4-anderung-via-pull-request-einreichen" class="md-nav__link">
+    <span class="md-ellipsis">
+      📤 SCHRITT 4: Änderung via Pull Request einreichen
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📤 SCHRITT 4: Änderung via Pull Request einreichen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4a-feature-branch-erstellen" class="md-nav__link">
+    <span class="md-ellipsis">
+      4a) Feature-Branch erstellen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4b-datei-speichern-anderung-committen" class="md-nav__link">
+    <span class="md-ellipsis">
+      4b) Datei speichern &amp; Änderung committen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4c-auf-github-pushen" class="md-nav__link">
+    <span class="md-ellipsis">
+      4c) Auf GitHub pushen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4d-pull-request-erstellen" class="md-nav__link">
+    <span class="md-ellipsis">
+      4d) Pull Request erstellen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4e-warte-auf-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      4e) Warte auf Review
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schritt-5-nach-dem-merge" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ SCHRITT 5: Nach dem Merge
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✅ SCHRITT 5: Nach dem Merge">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5a-feature-branch-loschen-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      5a) Feature-Branch löschen (cleanup)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5b-neue-eintrage-verwenden" class="md-nav__link">
+    <span class="md-ellipsis">
+      5b) Neue Einträge verwenden
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validierung-vor-dem-commit-prufen" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 VALIDIERUNG: Vor dem Commit prüfen
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 VALIDIERUNG: Vor dem Commit prüfen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#checkliste" class="md-nav__link">
+    <span class="md-ellipsis">
+      Checkliste:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yaml-syntax-testen" class="md-nav__link">
+    <span class="md-ellipsis">
+      YAML-Syntax testen
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vollstandiges-beispiel" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Vollständiges Beispiel
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Vollständiges Beispiel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vorher-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vorher (Template)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nachher-ausgefullt" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nachher (Ausgefüllt)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#haufige-fehler" class="md-nav__link">
+    <span class="md-ellipsis">
+      🆘 Häufige Fehler
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pro-tipps" class="md-nav__link">
+    <span class="md-ellipsis">
+      💡 Pro-Tipps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Pro-Tipps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tip-1-schnell-einen-kunden-finden" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tip 1: Schnell einen Kunden finden
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tip-2-alle-kunden-auflisten" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tip 2: Alle Kunden auflisten
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tip-3-yaml-validieren-schnell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tip 3: YAML validieren (schnell)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tip-4-secrets-pfade-uberprufen-sicher" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tip 4: Secrets-Pfade überprüfen (sicher!)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#support" class="md-nav__link">
+    <span class="md-ellipsis">
+      📞 Support
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../reference/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Referenz
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Referenz
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/deployment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Deployment Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/mike-versioning/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Mike Versioning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../catalog/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Katalog
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_9" id="__nav_9_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Katalog
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../catalog/CUSTOMERS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kunden
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../catalog/CATALOG/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Katalog-Info
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../templates/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Templates
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_10" id="__nav_10_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Templates
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../templates/CHANGE_NOTE_TEMPLATE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Change Note Template
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Inhaltsverzeichnis">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Inhaltsverzeichnis
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#szenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Szenario
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schritt-1-infrastruktur-daten-sammeln" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 SCHRITT 1: Infrastruktur-Daten sammeln
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 SCHRITT 1: Infrastruktur-Daten sammeln">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kundeninformationen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kundeninformationen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wazuh-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wazuh-Installation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zugriffs-urls" class="md-nav__link">
+    <span class="md-ellipsis">
+      Zugriffs-URLs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#netzwerk-ports" class="md-nav__link">
+    <span class="md-ellipsis">
+      Netzwerk &amp; Ports
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secretscredentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      Secrets/Credentials
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wartungs-richtlinien" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wartungs-Richtlinien
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schritt-2-eintrag-erstellen-copy-paste" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✏️ SCHRITT 2: Eintrag erstellen (COPY-PASTE)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✏️ SCHRITT 2: Eintrag erstellen (COPY-PASTE)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2a-katalog-datei-offnen" class="md-nav__link">
+    <span class="md-ellipsis">
+      2a) Katalog-Datei öffnen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2b-ans-ende-der-datei-gehen" class="md-nav__link">
+    <span class="md-ellipsis">
+      2b) Ans Ende der Datei gehen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2c-template-kopieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      2c) Template kopieren
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2d-template-an-katalog-anhangen" class="md-nav__link">
+    <span class="md-ellipsis">
+      2d) Template an Katalog anhängen
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schritt-3-felder-ausfullen-mit-beispiel" class="md-nav__link">
+    <span class="md-ellipsis">
+      🖊️ SCHRITT 3: Felder ausfüllen (mit BEISPIEL)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🖊️ SCHRITT 3: Felder ausfüllen (mit BEISPIEL)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#beispiel-vorher-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      Beispiel: VORHER (Template)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beispiel-nachher-ausgefullt" class="md-nav__link">
+    <span class="md-ellipsis">
+      Beispiel: NACHHER (ausgefüllt)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#feld-definitionen" class="md-nav__link">
+    <span class="md-ellipsis">
+      📝 Feld-Definitionen
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wichtig-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚨 WICHTIG: SECRETS
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚨 WICHTIG: SECRETS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#falsch-niemals" class="md-nav__link">
+    <span class="md-ellipsis">
+      ❌ FALSCH (NIEMALS!)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#richtig" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ RICHTIG
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schritt-4-anderung-via-pull-request-einreichen" class="md-nav__link">
+    <span class="md-ellipsis">
+      📤 SCHRITT 4: Änderung via Pull Request einreichen
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📤 SCHRITT 4: Änderung via Pull Request einreichen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4a-feature-branch-erstellen" class="md-nav__link">
+    <span class="md-ellipsis">
+      4a) Feature-Branch erstellen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4b-datei-speichern-anderung-committen" class="md-nav__link">
+    <span class="md-ellipsis">
+      4b) Datei speichern &amp; Änderung committen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4c-auf-github-pushen" class="md-nav__link">
+    <span class="md-ellipsis">
+      4c) Auf GitHub pushen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4d-pull-request-erstellen" class="md-nav__link">
+    <span class="md-ellipsis">
+      4d) Pull Request erstellen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4e-warte-auf-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      4e) Warte auf Review
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schritt-5-nach-dem-merge" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ SCHRITT 5: Nach dem Merge
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✅ SCHRITT 5: Nach dem Merge">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5a-feature-branch-loschen-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      5a) Feature-Branch löschen (cleanup)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5b-neue-eintrage-verwenden" class="md-nav__link">
+    <span class="md-ellipsis">
+      5b) Neue Einträge verwenden
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validierung-vor-dem-commit-prufen" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 VALIDIERUNG: Vor dem Commit prüfen
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 VALIDIERUNG: Vor dem Commit prüfen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#checkliste" class="md-nav__link">
+    <span class="md-ellipsis">
+      Checkliste:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yaml-syntax-testen" class="md-nav__link">
+    <span class="md-ellipsis">
+      YAML-Syntax testen
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vollstandiges-beispiel" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Vollständiges Beispiel
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Vollständiges Beispiel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vorher-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vorher (Template)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nachher-ausgefullt" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nachher (Ausgefüllt)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#haufige-fehler" class="md-nav__link">
+    <span class="md-ellipsis">
+      🆘 Häufige Fehler
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pro-tipps" class="md-nav__link">
+    <span class="md-ellipsis">
+      💡 Pro-Tipps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Pro-Tipps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tip-1-schnell-einen-kunden-finden" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tip 1: Schnell einen Kunden finden
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tip-2-alle-kunden-auflisten" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tip 2: Alle Kunden auflisten
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tip-3-yaml-validieren-schnell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tip 3: YAML validieren (schnell)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tip-4-secrets-pfade-uberprufen-sicher" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tip 4: Secrets-Pfade überprüfen (sicher!)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#support" class="md-nav__link">
+    <span class="md-ellipsis">
+      📞 Support
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/istagmbh/Ta-SIEMPlus/edit/main/docs/guides/catalog-howto.md" title="Seite editieren" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/istagmbh/Ta-SIEMPlus/raw/main/docs/guides/catalog-howto.md" title="Quellcode der Seite anzeigen" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
+    </a>
+  
+
+
+<h1 id="katalog-verwaltung-neue-infrastruktur-hinzufugen">🏗️ Katalog-Verwaltung – Neue Infrastruktur hinzufügen<a class="headerlink" href="#katalog-verwaltung-neue-infrastruktur-hinzufugen" title="Permanent link">&para;</a></h1>
+<p>Schritt-für-Schritt-Anleitung zum Hinzufügen einer neuen Wazuh-Installation im Katalog.</p>
+<hr />
+<h2 id="szenario">📋 Szenario<a class="headerlink" href="#szenario" title="Permanent link">&para;</a></h2>
+<p>Du hast einen <strong>neuen Kunden</strong> mit einer neuen <strong>Wazuh-Installation</strong> bekommen.<br />
+Du brauchst diese in den Katalog eintragen, damit Operatoren die Daten schnell finden.</p>
+<hr />
+<h2 id="schritt-1-infrastruktur-daten-sammeln">🎯 SCHRITT 1: Infrastruktur-Daten sammeln<a class="headerlink" href="#schritt-1-infrastruktur-daten-sammeln" title="Permanent link">&para;</a></h2>
+<p>Bevor du etwas eintragst, brauchst du diese Informationen vom Kunden/Systemadmin:</p>
+<h3 id="kundeninformationen">Kundeninformationen<a class="headerlink" href="#kundeninformationen" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Kundenname:              ________________
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Kundenkürzel (für URL):  ________________
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Hauptkontakt Email:      ________________
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Sicherheitsrichtlinien:  ________________
+</span></code></pre></div>
+<h3 id="wazuh-installation">Wazuh-Installation<a class="headerlink" href="#wazuh-installation" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Installationstyp:        Ubuntu AIO (APT) / Docker / Sonstiges
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Umgebung:                prod / test / dev
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Haupthost (FQDN):        ________________
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>Management-IP:           ________________
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Zeitzone:                ________________
+</span></code></pre></div>
+<h3 id="zugriffs-urls">Zugriffs-URLs<a class="headerlink" href="#zugriffs-urls" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Dashboard:               https://________________
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>API:                     https://________________:55000
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Indexer:                 https://________________:9200
+</span></code></pre></div>
+<h3 id="netzwerk-ports">Netzwerk &amp; Ports<a class="headerlink" href="#netzwerk-ports" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Agent-Port (TCP):        1514 / Sonstiges
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Manager-API (TCP):       55000 / Sonstiges
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Dashboard (HTTPS):       5601 / Sonstiges
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>Indexer (HTTPS):         9200 / Sonstiges
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>Offene Ports:            ________________
+</span></code></pre></div>
+<h3 id="secretscredentials">Secrets/Credentials<a class="headerlink" href="#secretscredentials" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>⚠️ **NIEMALS direkt eintragen!**
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Stattdessen: Wo sind die Secrets gespeichert?
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  - Vault path?           vault://customer/wazuh/...
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  - 1Password vault?
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>  - Keepass-Datenbank?
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>  - Passwordstate?
+</span></code></pre></div>
+<h3 id="wartungs-richtlinien">Wartungs-Richtlinien<a class="headerlink" href="#wartungs-richtlinien" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Wartungsfenster:         Mo-Fr 22:00-06:00 / Nur nachts? / Beliebig?
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Notfall-Kontakt (24/7):  ________________
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>Change-Approval nötig:   ja / nein
+</span></code></pre></div>
+<hr />
+<h2 id="schritt-2-eintrag-erstellen-copy-paste">✏️ SCHRITT 2: Eintrag erstellen (COPY-PASTE)<a class="headerlink" href="#schritt-2-eintrag-erstellen-copy-paste" title="Permanent link">&para;</a></h2>
+<h3 id="2a-katalog-datei-offnen">2a) Katalog-Datei öffnen<a class="headerlink" href="#2a-katalog-datei-offnen" title="Permanent link">&para;</a></h3>
+<p>Datei: <code>Catalog/CUSTOMERS.md</code></p>
+<h3 id="2b-ans-ende-der-datei-gehen">2b) Ans Ende der Datei gehen<a class="headerlink" href="#2b-ans-ende-der-datei-gehen" title="Permanent link">&para;</a></h3>
+<p>Scrolle bis zum Ende und finde den letzten Kundeneintrag.</p>
+<h3 id="2c-template-kopieren">2c) Template kopieren<a class="headerlink" href="#2c-template-kopieren" title="Permanent link">&para;</a></h3>
+<p>Suche in der Datei nach <code>---</code> (YAML-Trennzeichen) und kopiere einen kompletten Block:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nn">---</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nt">customer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DeepCloud</span><span class="nv"> </span><span class="s">AG&quot;</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="nt">infrastructure</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DeepInfra&quot;</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;prod&quot;</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nt">wazuh_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ubuntu</span><span class="nv"> </span><span class="s">AIO</span><span class="nv"> </span><span class="s">(APT)&quot;</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="nt">hosts</span><span class="p">:</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wazuh-aio&quot;</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="nt">fqdn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wazuh01.example.tld&quot;</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">    </span><span class="nt">mgmt_ip</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10.10.10.10&quot;</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="nt">urls</span><span class="p">:</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">  </span><span class="nt">dashboard</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://wazuh01.example.tld&quot;</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">  </span><span class="nt">api</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://wazuh01.example.tld:55000&quot;</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">  </span><span class="nt">indexer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://wazuh01.example.tld:9200&quot;</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="nt">ports_expected</span><span class="p">:</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;1514/tcp&quot;</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;1515/tcp&quot;</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;55000/tcp&quot;</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;5601/tcp&quot;</span>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;9200/tcp&quot;</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="nt">secrets_ref</span><span class="p">:</span>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="w">  </span><span class="nt">admin_user</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vault://deepcloud/wazuh/admin_user&quot;</span>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="w">  </span><span class="nt">admin_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vault://deepcloud/wazuh/admin_password&quot;</span>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="nt">change_policy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Within</span><span class="nv"> </span><span class="s">business</span><span class="nv"> </span><span class="s">hours</span><span class="nv"> </span><span class="s">(08:00</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">17:00</span><span class="nv"> </span><span class="s">CET)&quot;</span>
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="nt">contact_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;siem-team@deepcloud.example.tld&quot;</span>
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="nn">---</span>
+</span></code></pre></div>
+<h3 id="2d-template-an-katalog-anhangen">2d) Template an Katalog anhängen<a class="headerlink" href="#2d-template-an-katalog-anhangen" title="Permanent link">&para;</a></h3>
+<p>Am <strong>Ende der Datei</strong>, nach dem letzten Eintrag, füge eine neue Leerzeile ein und klebst dein Template:</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>...
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="gu">contact_email: &quot;siem-team@existingcustomer.example.tld&quot;</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="gu">---</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>---
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>customer: &quot;NEUE AG&quot;    ← DEIN NEUER EINTRAG
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>infrastructure: &quot;NeueInfra&quot;
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="gu">...</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="gu">---</span>
+</span></code></pre></div>
+<hr />
+<h2 id="schritt-3-felder-ausfullen-mit-beispiel">🖊️ SCHRITT 3: Felder ausfüllen (mit BEISPIEL)<a class="headerlink" href="#schritt-3-felder-ausfullen-mit-beispiel" title="Permanent link">&para;</a></h2>
+<p>Jedes YAML-Feld müssen mit echten Werten gefüllt werden:</p>
+<h3 id="beispiel-vorher-template">Beispiel: VORHER (Template)<a class="headerlink" href="#beispiel-vorher-template" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nn">---</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nt">customer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DeepCloud</span><span class="nv"> </span><span class="s">AG&quot;</span><span class="w">              </span><span class="l l-Scalar l-Scalar-Plain">← TEMPLATE (noch leer)</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nt">infrastructure</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DeepInfra&quot;</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;prod&quot;</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nt">wazuh_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ubuntu</span><span class="nv"> </span><span class="s">AIO</span><span class="nv"> </span><span class="s">(APT)&quot;</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="nn">...</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="nn">---</span>
+</span></code></pre></div>
+<h3 id="beispiel-nachher-ausgefullt">Beispiel: NACHHER (ausgefüllt)<a class="headerlink" href="#beispiel-nachher-ausgefullt" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nn">---</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nt">customer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Acme</span><span class="nv"> </span><span class="s">Corporation&quot;</span><span class="w">          </span><span class="l l-Scalar l-Scalar-Plain">← Echter Kundenname</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nt">infrastructure</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Acme-PROD-01&quot;</span><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">← Infrastruktur-ID</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;prod&quot;</span><span class="w">                   </span><span class="l l-Scalar l-Scalar-Plain">← prod/test/dev</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="nt">wazuh_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ubuntu</span><span class="nv"> </span><span class="s">AIO</span><span class="nv"> </span><span class="s">(APT)&quot;</span><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">← Installationstyp</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="nt">hosts</span><span class="p">:</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wazuh-aio&quot;</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="nt">fqdn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;siem.acme.example.tld&quot;</span><span class="w">     </span><span class="l l-Scalar l-Scalar-Plain">← Hostname (FQDN)</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="nt">mgmt_ip</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;192.168.10.50&quot;</span><span class="w">          </span><span class="l l-Scalar l-Scalar-Plain">← Management-IP</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="nt">urls</span><span class="p">:</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">  </span><span class="nt">dashboard</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://siem.acme.example.tld&quot;</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">  </span><span class="nt">api</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://siem.acme.example.tld:55000&quot;</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">  </span><span class="nt">indexer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://siem.acme.example.tld:9200&quot;</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="nt">ports_expected</span><span class="p">:</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;1514/tcp&quot;</span><span class="w">                        </span><span class="l l-Scalar l-Scalar-Plain">← Agent-Eingehend</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;1515/tcp&quot;</span><span class="w">                        </span><span class="l l-Scalar l-Scalar-Plain">← Agent-Cluster</span>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;55000/tcp&quot;</span><span class="w">                       </span><span class="l l-Scalar l-Scalar-Plain">← Manager-API</span>
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;5601/tcp&quot;</span><span class="w">                        </span><span class="l l-Scalar l-Scalar-Plain">← Dashboard</span>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;9200/tcp&quot;</span><span class="w">                        </span><span class="l l-Scalar l-Scalar-Plain">← Indexer/Elasticsearch</span>
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="nt">secrets_ref</span><span class="p">:</span>
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="w">  </span><span class="nt">admin_user</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vault://acme/wazuh/admin_user&quot;</span><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">← KEIN echtes PW!</span>
+</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="w">  </span><span class="nt">admin_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vault://acme/wazuh/admin_password&quot;</span>
+</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="nt">change_policy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Within</span><span class="nv"> </span><span class="s">business</span><span class="nv"> </span><span class="s">hours</span><span class="nv"> </span><span class="s">(08:00</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">18:00</span><span class="nv"> </span><span class="s">CET),</span><span class="nv"> </span><span class="s">max</span><span class="nv"> </span><span class="s">2h</span><span class="nv"> </span><span class="s">window&quot;</span>
+</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="nt">contact_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;siem-oncall@acme.example.tld&quot;</span>
+</span><span id="__span-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="nn">---</span>
+</span></code></pre></div>
+<hr />
+<h2 id="feld-definitionen">📝 Feld-Definitionen<a class="headerlink" href="#feld-definitionen" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Feld</th>
+<th>Format</th>
+<th>Beispiel</th>
+<th>Erklärung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>customer</code></td>
+<td>Text</td>
+<td>"Acme Corp"</td>
+<td>Kundenname</td>
+</tr>
+<tr>
+<td><code>infrastructure</code></td>
+<td>Text (no spaces)</td>
+<td>"Acme-PROD-01"</td>
+<td>Eindeutige ID für diese Installation</td>
+</tr>
+<tr>
+<td><code>environment</code></td>
+<td>prod/test/dev</td>
+<td>"prod"</td>
+<td>Umgebungstyp</td>
+</tr>
+<tr>
+<td><code>wazuh_type</code></td>
+<td>Text</td>
+<td>"Ubuntu AIO (APT)"</td>
+<td>Installationstyp</td>
+</tr>
+<tr>
+<td><code>fqdn</code></td>
+<td>FQDN</td>
+<td>"siem.acme.tld"</td>
+<td>Vollqualifizierter Hostname</td>
+</tr>
+<tr>
+<td><code>mgmt_ip</code></td>
+<td>IP-Adresse</td>
+<td>"192.168.10.50"</td>
+<td>Management-IP (für SSH)</td>
+</tr>
+<tr>
+<td><code>dashboard</code></td>
+<td>HTTPS URL</td>
+<td>"https://siem.acme.tld"</td>
+<td>Dashboard-Zugriff</td>
+</tr>
+<tr>
+<td><code>api</code></td>
+<td>HTTPS URL + Port</td>
+<td>"https://siem.acme.tld:55000"</td>
+<td>Manager-API</td>
+</tr>
+<tr>
+<td><code>indexer</code></td>
+<td>HTTPS URL + Port</td>
+<td>"https://siem.acme.tld:9200"</td>
+<td>Elasticsearch/Opensearch</td>
+</tr>
+<tr>
+<td><code>ports_expected</code></td>
+<td>Liste (TCP/UDP)</td>
+<td>"1514/tcp"</td>
+<td>Erwartete offene Ports</td>
+</tr>
+<tr>
+<td><code>admin_user</code></td>
+<td>Vault-Pfad</td>
+<td>"vault://acme/wazuh/admin"</td>
+<td>NIEMALS echte Passwörter!</td>
+</tr>
+<tr>
+<td><code>admin_password</code></td>
+<td>Vault-Pfad</td>
+<td>"vault://acme/wazuh/pass"</td>
+<td>NIEMALS echte Passwörter!</td>
+</tr>
+<tr>
+<td><code>change_policy</code></td>
+<td>Text (Geschäftszeiten)</td>
+<td>"Mo-Fr 22:00-06:00"</td>
+<td>Wann sind Änderungen erlaubt?</td>
+</tr>
+<tr>
+<td><code>contact_email</code></td>
+<td>Email</td>
+<td>"siem@acme.tld"</td>
+<td>Notfall-Kontakt</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="wichtig-secrets">🚨 WICHTIG: SECRETS<a class="headerlink" href="#wichtig-secrets" title="Permanent link">&para;</a></h2>
+<h3 id="falsch-niemals">❌ FALSCH (NIEMALS!)<a class="headerlink" href="#falsch-niemals" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">secrets_ref</span><span class="p">:</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">admin_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;MySecretPassword123!&quot;</span>
+</span></code></pre></div>
+<h3 id="richtig">✅ RICHTIG<a class="headerlink" href="#richtig" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">secrets_ref</span><span class="p">:</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">admin_user</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vault://acme/wazuh/admin_user&quot;</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="nt">admin_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vault://acme/wazuh/admin_password&quot;</span>
+</span></code></pre></div>
+<p><strong>Warum?</strong>
+- Die Katalog-Datei ist im Git Repository
+- Git speichert die komplette Historie (auch gelöschte Secrets!)
+- Secrets müssen in deinem Secret-Store sein (Vault, 1Password, etc.)</p>
+<p><strong>Wie benutze ich die Secrets?</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Passwort abrufen (z.B. mit Vault):</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>vault<span class="w"> </span>kv<span class="w"> </span>get<span class="w"> </span>acme/wazuh/admin_password
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="c1"># Output: password: MySecretPassword123!</span>
+</span></code></pre></div></p>
+<hr />
+<h2 id="schritt-4-anderung-via-pull-request-einreichen">📤 SCHRITT 4: Änderung via Pull Request einreichen<a class="headerlink" href="#schritt-4-anderung-via-pull-request-einreichen" title="Permanent link">&para;</a></h2>
+<p>Jetzt musst du die Änderung ins Repository bekommen. Das geht via <strong>Git + Pull Request</strong>:</p>
+<h3 id="4a-feature-branch-erstellen">4a) Feature-Branch erstellen<a class="headerlink" href="#4a-feature-branch-erstellen" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Terminal-Befehl zum Kopieren:</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>add/customer-acme-corp
+</span></code></pre></div>
+<h3 id="4b-datei-speichern-anderung-committen">4b) Datei speichern &amp; Änderung committen<a class="headerlink" href="#4b-datei-speichern-anderung-committen" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Terminal-Befehle zum Kopieren:</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>git<span class="w"> </span>add<span class="w"> </span>Catalog/CUSTOMERS.md
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;catalog: Add Acme Corporation infrastructure (Acme-PROD-01)&quot;</span>
+</span></code></pre></div>
+<h3 id="4c-auf-github-pushen">4c) Auf GitHub pushen<a class="headerlink" href="#4c-auf-github-pushen" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Terminal-Befehl zum Kopieren:</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>add/customer-acme-corp
+</span></code></pre></div>
+<h3 id="4d-pull-request-erstellen">4d) Pull Request erstellen<a class="headerlink" href="#4d-pull-request-erstellen" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Gehe zu https://github.com/istagmbh/Ta-SIEMPlus</li>
+<li>Klicke auf <strong>"Pull requests"</strong></li>
+<li>Klicke auf <strong>"New Pull Request"</strong></li>
+<li>Wähle:</li>
+<li><strong>Base:</strong> <code>main</code></li>
+<li><strong>Compare:</strong> <code>add/customer-acme-corp</code></li>
+<li><strong>Title:</strong> <code>catalog: Add Acme Corporation</code></li>
+<li><strong>Description:</strong>
+   <div class="language-markdown highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>Adds new customer infrastructure to catalog:
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="k">-</span><span class="w"> </span>Customer: Acme Corporation
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="k">-</span><span class="w"> </span>Infrastructure: Acme-PROD-01
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="k">-</span><span class="w"> </span>Environment: prod
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="k">-</span><span class="w"> </span>Type: Ubuntu AIO (APT)
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="k">-</span><span class="w"> </span>Dashboard: https://siem.acme.example.tld
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>No breaking changes. Ready for review.
+</span></code></pre></div></li>
+<li>Klicke <strong>"Create Pull Request"</strong></li>
+</ol>
+<h3 id="4e-warte-auf-review">4e) Warte auf Review<a class="headerlink" href="#4e-warte-auf-review" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Mindestens 1 Reviewer muss zustimmen ✅</li>
+<li>Reviewer überprüft: Syntax, Secrets-Referenzen, Vollständigkeit</li>
+<li>Nach Approval: <strong>Merge</strong> (dein Eintrag ist live!)</li>
+</ul>
+<hr />
+<h2 id="schritt-5-nach-dem-merge">✅ SCHRITT 5: Nach dem Merge<a class="headerlink" href="#schritt-5-nach-dem-merge" title="Permanent link">&para;</a></h2>
+<h3 id="5a-feature-branch-loschen-cleanup">5a) Feature-Branch löschen (cleanup)<a class="headerlink" href="#5a-feature-branch-loschen-cleanup" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Terminal-Befehl zum Kopieren:</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>main
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </span>main
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>git<span class="w"> </span>branch<span class="w"> </span>-d<span class="w"> </span>add/customer-acme-corp
+</span></code></pre></div>
+<h3 id="5b-neue-eintrage-verwenden">5b) Neue Einträge verwenden<a class="headerlink" href="#5b-neue-eintrage-verwenden" title="Permanent link">&para;</a></h3>
+<p>Jetzt können Operatoren deine Daten verwenden:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Zum Beispiel in einer Checkliste:</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>customer:<span class="w"> </span><span class="s2">&quot;Acme Corporation&quot;</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>infrastructure:<span class="w"> </span><span class="s2">&quot;Acme-PROD-01&quot;</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># → Alle Daten aus Catalog/CUSTOMERS.md werden automatisch verwendet!</span>
+</span></code></pre></div>
+<hr />
+<h2 id="validierung-vor-dem-commit-prufen">🔍 VALIDIERUNG: Vor dem Commit prüfen<a class="headerlink" href="#validierung-vor-dem-commit-prufen" title="Permanent link">&para;</a></h2>
+<p>Bevor du git commit machst, überprüfe:</p>
+<h3 id="checkliste">Checkliste:<a class="headerlink" href="#checkliste" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Alle Felder ausgefüllt?</strong> (nichts "UNSET" lassen)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>YAML-Syntax korrekt?</strong> (keine Tabulatoren, nur Spaces!)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Secrets nur als Vault-Pfade?</strong> (kein echtes Passwort!)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>URLs erreichbar?</strong> (zumindest Dashboard + API testen)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Keine Duplikate?</strong> (grep -n "customer: \"Acme\"" Catalog/CUSTOMERS.md)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Commit-Message aussagekräftig?</strong> (kurz + präzise)</li>
+</ul>
+<h3 id="yaml-syntax-testen">YAML-Syntax testen<a class="headerlink" href="#yaml-syntax-testen" title="Permanent link">&para;</a></h3>
+<p>Öffne die Datei in einem YAML-Validator:
+- Online: https://jsoncrack.com/editor
+- Lokal: <code>python -c "import yaml; yaml.safe_load(open('Catalog/CUSTOMERS.md'))"</code></p>
+<p>Falls Fehler: Fix vor dem Commit!</p>
+<hr />
+<h2 id="vollstandiges-beispiel">📚 Vollständiges Beispiel<a class="headerlink" href="#vollstandiges-beispiel" title="Permanent link">&para;</a></h2>
+<h3 id="vorher-template">Vorher (Template)<a class="headerlink" href="#vorher-template" title="Permanent link">&para;</a></h3>
+<p>Datei: <code>Catalog/CUSTOMERS.md</code>, Zeile 100+</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nn">---</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="nt">customer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="nt">infrastructure</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="nn">...</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="nn">---</span>
+</span></code></pre></div>
+<h3 id="nachher-ausgefullt">Nachher (Ausgefüllt)<a class="headerlink" href="#nachher-ausgefullt" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nn">---</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="nt">customer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TechVision</span><span class="nv"> </span><span class="s">AG&quot;</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="nt">infrastructure</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TechVision-Security-01&quot;</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;prod&quot;</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="nt">wazuh_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ubuntu</span><span class="nv"> </span><span class="s">AIO</span><span class="nv"> </span><span class="s">(APT)&quot;</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="nt">hosts</span><span class="p">:</span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wazuh-aio&quot;</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="w">    </span><span class="nt">fqdn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wazuh-prod.techvision.internal&quot;</span>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="w">    </span><span class="nt">mgmt_ip</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10.50.100.5&quot;</span>
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="nt">urls</span><span class="p">:</span>
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="w">  </span><span class="nt">dashboard</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://wazuh-prod.techvision.internal&quot;</span>
+</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="w">  </span><span class="nt">api</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://wazuh-prod.techvision.internal:55000&quot;</span>
+</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="w">  </span><span class="nt">indexer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://wazuh-prod.techvision.internal:9200&quot;</span>
+</span><span id="__span-20-14"><a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a><span class="nt">ports_expected</span><span class="p">:</span>
+</span><span id="__span-20-15"><a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;1514/tcp&quot;</span>
+</span><span id="__span-20-16"><a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;1515/tcp&quot;</span>
+</span><span id="__span-20-17"><a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;55000/tcp&quot;</span>
+</span><span id="__span-20-18"><a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;5601/tcp&quot;</span>
+</span><span id="__span-20-19"><a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;9200/tcp&quot;</span>
+</span><span id="__span-20-20"><a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a><span class="nt">secrets_ref</span><span class="p">:</span>
+</span><span id="__span-20-21"><a id="__codelineno-20-21" name="__codelineno-20-21" href="#__codelineno-20-21"></a><span class="w">  </span><span class="nt">admin_user</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vault://techvision/wazuh/admin_user&quot;</span>
+</span><span id="__span-20-22"><a id="__codelineno-20-22" name="__codelineno-20-22" href="#__codelineno-20-22"></a><span class="w">  </span><span class="nt">admin_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vault://techvision/wazuh/admin_password&quot;</span>
+</span><span id="__span-20-23"><a id="__codelineno-20-23" name="__codelineno-20-23" href="#__codelineno-20-23"></a><span class="nt">change_policy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Weekdays</span><span class="nv"> </span><span class="s">22:00-06:00</span><span class="nv"> </span><span class="s">CET,</span><span class="nv"> </span><span class="s">no</span><span class="nv"> </span><span class="s">change</span><span class="nv"> </span><span class="s">Fri</span><span class="nv"> </span><span class="s">evening</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">Sun&quot;</span>
+</span><span id="__span-20-24"><a id="__codelineno-20-24" name="__codelineno-20-24" href="#__codelineno-20-24"></a><span class="nt">contact_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;security-oncall@techvision.internal&quot;</span>
+</span><span id="__span-20-25"><a id="__codelineno-20-25" name="__codelineno-20-25" href="#__codelineno-20-25"></a><span class="nn">---</span>
+</span></code></pre></div>
+<p>Git Commit:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>git<span class="w"> </span>add<span class="w"> </span>Catalog/CUSTOMERS.md
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;catalog: Add TechVision AG infrastructure (prod environment)&quot;</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>add/customer-techvision-ag
+</span></code></pre></div></p>
+<hr />
+<h2 id="haufige-fehler">🆘 Häufige Fehler<a class="headerlink" href="#haufige-fehler" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Fehler</th>
+<th>Symptom</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>YAML-Syntax falsch</td>
+<td><code>yaml.scanner.ScannerError</code></td>
+<td>Überprüfe Einrückung (2 Spaces, keine Tabs)</td>
+</tr>
+<tr>
+<td>Feld vergessen</td>
+<td><code>infrastructure: UNSET</code> bleibt leer</td>
+<td>Alle Felder ausfüllen!</td>
+</tr>
+<tr>
+<td>Secret als Plaintext</td>
+<td><code>admin_password: "MyPassword123"</code></td>
+<td>Nur <code>vault://...</code> Referenzen!</td>
+</tr>
+<tr>
+<td>Doppelter Eintrag</td>
+<td>Zwei Kunden mit gleichem Namen</td>
+<td>Überprüfe mit <code>grep</code></td>
+</tr>
+<tr>
+<td>URL falsch</td>
+<td><code>http://</code> statt <code>https://</code></td>
+<td>HTTPS verwenden!</td>
+</tr>
+<tr>
+<td>Port in URLs</td>
+<td><code>https://siem.tld:5601</code> (falsch)</td>
+<td>Port nur in indexer/api, nicht dashboard</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="pro-tipps">💡 Pro-Tipps<a class="headerlink" href="#pro-tipps" title="Permanent link">&para;</a></h2>
+<h3 id="tip-1-schnell-einen-kunden-finden">Tip 1: Schnell einen Kunden finden<a class="headerlink" href="#tip-1-schnell-einen-kunden-finden" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="s2">&quot;customer: \&quot;Acme&quot;</span><span class="w"> </span>Catalog/CUSTOMERS.md
+</span></code></pre></div>
+<h3 id="tip-2-alle-kunden-auflisten">Tip 2: Alle Kunden auflisten<a class="headerlink" href="#tip-2-alle-kunden-auflisten" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>grep<span class="w"> </span><span class="s2">&quot;^customer:&quot;</span><span class="w"> </span>Catalog/CUSTOMERS.md<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort
+</span></code></pre></div>
+<h3 id="tip-3-yaml-validieren-schnell">Tip 3: YAML validieren (schnell)<a class="headerlink" href="#tip-3-yaml-validieren-schnell" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import yaml; yaml.safe_load(open(&#39;Catalog/CUSTOMERS.md&#39;))&quot;</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="c1"># Kein Output = ✅ OK!</span>
+</span></code></pre></div>
+<h3 id="tip-4-secrets-pfade-uberprufen-sicher">Tip 4: Secrets-Pfade überprüfen (sicher!)<a class="headerlink" href="#tip-4-secrets-pfade-uberprufen-sicher" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>grep<span class="w"> </span><span class="s2">&quot;secrets_ref:&quot;</span><span class="w"> </span>-A<span class="w"> </span><span class="m">3</span><span class="w"> </span>Catalog/CUSTOMERS.md<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;vault://&quot;</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="c1"># Keine Ausgabe = ✅ Alle sicher!</span>
+</span></code></pre></div>
+<hr />
+<h2 id="support">📞 Support<a class="headerlink" href="#support" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Frage</th>
+<th>Antwort</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wo finde ich Beispiel-Einträge?</td>
+<td>In <code>Catalog/CUSTOMERS.md</code> selbst (suche nach <code>---</code>)</td>
+</tr>
+<tr>
+<td>Wie teste ich YAML?</td>
+<td>Online: https://jsoncrack.com/editor</td>
+</tr>
+<tr>
+<td>Wer kann Änderungen genehmigen?</td>
+<td>1 Reviewer (siehe CONTRIBUTING.md)</td>
+</tr>
+<tr>
+<td>Kann ich URLs als HTTP (nicht HTTPS)?</td>
+<td>Nein – immer HTTPS aus Sicherheit</td>
+</tr>
+<tr>
+<td>Darf ich Ports hinzufügen?</td>
+<td>Ja, wenn notwendig. Dokumentiere im Kommentar.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>✅ <strong>Du bist bereit!</strong> Viel Erfolg beim Hinzufügen neuer Infrastrukturen! 🚀</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Zurück zum Seitenanfang
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 <a href='https://www.t-alpha.ch' target='_blank'>T-Alpha GmbH</a> &middot; IT Security
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://www.t-alpha.ch" target="_blank" rel="noopener" title="T-Alpha GmbH Website" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M352 256c0 22.2-1.2 43.6-3.3 64H163.3c-2.2-20.4-3.3-41.8-3.3-64s1.2-43.6 3.3-64h185.4c2.2 20.4 3.3 41.8 3.3 64zm28.8-64h123.1c5.3 20.5 8.1 41.9 8.1 64s-2.8 43.5-8.1 64H380.8c2.1-20.6 3.2-42 3.2-64s-1.1-43.4-3.2-64zm112.6-32H376.7c-10-63.9-29.8-117.4-55.3-151.6 78.3 20.7 142 77.5 171.9 151.6zm-149.1 0H167.7c6.1-36.4 15.5-68.6 27-94.7 10.5-23.6 22.2-40.7 33.5-51.5C239.4 3.2 248.7 0 256 0s16.6 3.2 27.8 13.8c11.3 10.8 23 27.9 33.5 51.5 11.6 26 20.9 58.2 27 94.7zm-209 0H18.6c30-74.1 93.6-130.9 172-151.6-25.5 34.2-45.3 87.7-55.3 151.6zM8.1 192h123.1c-2.1 20.6-3.2 42-3.2 64s1.1 43.4 3.2 64H8.1C2.8 299.5 0 278.1 0 256s2.8-43.5 8.1-64zm186.6 254.6c-11.6-26-20.9-58.2-27-94.6h176.6c-6.1 36.4-15.5 68.6-27 94.6-10.5 23.6-22.2 40.7-33.5 51.5-11.2 10.7-20.5 13.9-27.8 13.9s-16.6-3.2-27.8-13.8c-11.3-10.8-23-27.9-33.5-51.5zM135.3 352c10 63.9 29.8 117.4 55.3 151.6-78.4-20.7-142-77.5-172-151.6h116.7zm358.1 0c-30 74.1-93.6 130.9-171.9 151.6 25.5-34.2 45.2-87.7 55.3-151.6h116.6z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/istagmbh/Ta-SIEMPlus" target="_blank" rel="noopener" title="GitHub Repository" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.action.edit", "content.action.view"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "In Zwischenablage kopiert", "clipboard.copy": "In Zwischenablage kopieren", "search.result.more.one": "1 weiteres Suchergebnis auf dieser Seite", "search.result.more.other": "# weitere Suchergebnisse auf dieser Seite", "search.result.none": "Keine Suchergebnisse", "search.result.one": "1 Suchergebnis", "search.result.other": "# Suchergebnisse", "search.result.placeholder": "Suchbegriff eingeben", "search.result.term.missing": "Es fehlt", "select.version": "Version ausw\u00e4hlen"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+    
+  </body>
+</html>

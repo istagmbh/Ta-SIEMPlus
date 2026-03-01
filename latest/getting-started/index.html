@@ -1,0 +1,2825 @@
+
+<!doctype html>
+<html lang="de" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Operative Dokumentation für standardisierte Wazuh SIEM Wartungsabläufe">
+      
+      
+        <meta name="author" content="T-Alpha GmbH">
+      
+      
+        <link rel="canonical" href="https://istagmbh.github.io/Ta-SIEMPlus/latest/getting-started/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../installation/">
+      
+      
+      <link rel="icon" href="../assets/images/ta-alpha-logo.svg">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+    
+    
+      
+        <title>Erste Schritte - Ta-SIEMPlus</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.50c56a3b.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/ta-alpha-brand.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#getting-started-dein-einstieg-in-ta-siemplus" class="md-skip">
+          Zum Inhalt
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Kopfzeile">
+    <a href=".." title="Ta-SIEMPlus" class="md-header__button md-logo" aria-label="Ta-SIEMPlus" data-md-component="logo">
+      
+  <img src="../assets/images/ta-alpha-logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Ta-SIEMPlus
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Erste Schritte
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Auf Dunkelmodus wechseln"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Auf Dunkelmodus wechseln" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Auf Hellmodus wechseln"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Auf Hellmodus wechseln" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Suche" placeholder="Suche" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Suche">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Teilen" aria-label="Teilen" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Zurücksetzen" aria-label="Zurücksetzen" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Suche wird initialisiert
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/istagmbh/Ta-SIEMPlus" title="Zum Repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    istagmbh/Ta-SIEMPlus
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Hauptnavigation" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+    
+  
+  Einstieg
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../overview/" class="md-tabs__link">
+          
+  
+    
+  
+  Overview
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../runbooks/" class="md-tabs__link">
+          
+  
+    
+  
+  Runbooks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../checklists/" class="md-tabs__link">
+          
+  
+    
+  
+  Checklists
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../upgrade-guides/" class="md-tabs__link">
+          
+  
+    
+  
+  Upgrade Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../guides/" class="md-tabs__link">
+          
+  
+    
+  
+  Anleitungen
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../reference/" class="md-tabs__link">
+          
+  
+    
+  
+  Referenz
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../catalog/" class="md-tabs__link">
+          
+  
+    
+  
+  Katalog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../templates/" class="md-tabs__link">
+          
+  
+    
+  
+  Templates
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Ta-SIEMPlus" class="md-nav__button md-logo" aria-label="Ta-SIEMPlus" data-md-component="logo">
+      
+  <img src="../assets/images/ta-alpha-logo.svg" alt="logo">
+
+    </a>
+    Ta-SIEMPlus
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/istagmbh/Ta-SIEMPlus" title="Zum Repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    istagmbh/Ta-SIEMPlus
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Einstieg
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Einstieg
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Erste Schritte
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Erste Schritte
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Inhaltsverzeichnis">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Inhaltsverzeichnis
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hauptzugriff-web-formulare-neu" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌐 Hauptzugriff: Web-Formulare (NEU!)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🌐 Hauptzugriff: Web-Formulare (NEU!)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#schnellstart-2-minuten" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schnellstart (2 Minuten)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verfugbare-web-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verfügbare Web-Tools
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#neu-hier-installationsanleitung" class="md-nav__link">
+    <span class="md-ellipsis">
+      📦 Neu hier? Installationsanleitung
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#was-brauchst-du" class="md-nav__link">
+    <span class="md-ellipsis">
+      ❓ Was Brauchst Du?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="❓ Was Brauchst Du?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ich-fuhre-ein-wazuh-upgrade-durch-upgrade-prozess" class="md-nav__link">
+    <span class="md-ellipsis">
+      1️⃣ Ich führe ein Wazuh-Upgrade durch → 👉 Upgrade-Prozess
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ich-verwalte-agentengruppen-agentengruppen" class="md-nav__link">
+    <span class="md-ellipsis">
+      2️⃣ Ich verwalte Agentengruppen → 👉 Agentengruppen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-ich-registriere-einen-neuen-kunden-kundeneintrag-erstellen" class="md-nav__link">
+    <span class="md-ellipsis">
+      3️⃣ Ich registriere einen neuen Kunden → 👉 Kundeneintrag erstellen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-ich-habe-ein-problem-beim-upgrade-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      4️⃣ Ich habe ein Problem beim Upgrade → 👉 Troubleshooting
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-ich-mochte-ein-runbookeine-checkliste-andern-beitragen" class="md-nav__link">
+    <span class="md-ellipsis">
+      5️⃣ Ich möchte ein Runbook/eine Checkliste ändern → 👉 Beitragen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-ich-bin-neu-und-will-das-projekt-verstehen-uberblick" class="md-nav__link">
+    <span class="md-ellipsis">
+      6️⃣ Ich bin neu und will das Projekt verstehen → 👉 Überblick
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upgrade-prozess" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 UPGRADE-PROZESS
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 UPGRADE-PROZESS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#schritt-1-wahle-deinen-ansatz" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 1: Wähle deinen Ansatz
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schritt-2-metadaten-vorbereiten" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 2: Metadaten vorbereiten
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schritt-3-formular-ausfullen-befehle-ausfuhren" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 3: Formular ausfüllen &amp; Befehle ausführen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schritt-4-pre-go-checken-kritisch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 4: Pre-Go Checken (Kritisch!)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schritt-5-befehle-ausfuhren" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 5: Befehle ausführen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schritt-6-health-snapshots-dokumentieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 6: Health Snapshots dokumentieren
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schritt-7-bei-problemen-rollback" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 7: Bei Problemen → Rollback
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agentengruppen-verwalten" class="md-nav__link">
+    <span class="md-ellipsis">
+      👥 AGENTENGRUPPEN-VERWALTEN
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="👥 AGENTENGRUPPEN-VERWALTEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#was-sind-agentengruppen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Was sind Agentengruppen?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schnellstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schnellstart
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detaillierte-dokumentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detaillierte Dokumentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#neuer-kunde" class="md-nav__link">
+    <span class="md-ellipsis">
+      👤 NEUER KUNDE
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="👤 NEUER KUNDE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#schritt-1-kundendaten-sammeln" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 1: Kundendaten sammeln
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schritt-2-eintrag-hinzufugen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 2: Eintrag hinzufügen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schritt-3-anderung-einreichen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 3: Änderung einreichen
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 TROUBLESHOOTING
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 TROUBLESHOOTING">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-service-startet-nicht-nach-upgrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: Service startet nicht nach Upgrade
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-upgrade-abbruch-rollback-notwendig" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: Upgrade-Abbruch (Rollback notwendig)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contribution-anderungen" class="md-nav__link">
+    <span class="md-ellipsis">
+      💡 CONTRIBUTION (Änderungen)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 CONTRIBUTION (Änderungen)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ich-mochte-ein-runbook-andern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ich möchte ein Runbook ändern
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uberblick-projektstruktur" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 ÜBERBLICK (Projektstruktur)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schnelle-hilfe" class="md-nav__link">
+    <span class="md-ellipsis">
+      🆘 Schnelle Hilfe
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nachste-schritte" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Nächste Schritte
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quick-reference/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schnellreferenz
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../navigation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Projektübersicht
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../overview/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Overview
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../runbooks/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Runbooks
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Runbooks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Upgrade AIO Ubuntu
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Agent Group Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runbooks/RUNBOOK-TEMPLATE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Runbook Template
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../checklists/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Checklists
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Checklists
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checklists/CHECKLIST_WAZUH_UPGRADE_AIO/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Upgrade AIO
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checklists/CHECKLIST_WAZUH_UPGRADE_AIO_IMPROVED/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Upgrade AIO (Verbessert)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checklists/CHECKLIST-TEMPLATE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Checklist Template
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../upgrade-guides/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Upgrade Guides
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Upgrade Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../upgrade-guides/4.12/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Wazuh 4.12
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            Wazuh 4.12
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../guides/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Anleitungen
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Anleitungen
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/checklist-howto/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Checklisten-Anleitung
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/catalog-howto/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Katalog-Verwaltung
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../reference/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Referenz
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Referenz
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/deployment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Deployment Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/mike-versioning/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Mike Versioning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../catalog/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Katalog
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_9" id="__nav_9_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Katalog
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../catalog/CUSTOMERS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kunden
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../catalog/CATALOG/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Katalog-Info
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../templates/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Templates
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_10" id="__nav_10_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Templates
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../templates/CHANGE_NOTE_TEMPLATE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Change Note Template
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Inhaltsverzeichnis">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Inhaltsverzeichnis
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hauptzugriff-web-formulare-neu" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌐 Hauptzugriff: Web-Formulare (NEU!)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🌐 Hauptzugriff: Web-Formulare (NEU!)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#schnellstart-2-minuten" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schnellstart (2 Minuten)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verfugbare-web-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verfügbare Web-Tools
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#neu-hier-installationsanleitung" class="md-nav__link">
+    <span class="md-ellipsis">
+      📦 Neu hier? Installationsanleitung
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#was-brauchst-du" class="md-nav__link">
+    <span class="md-ellipsis">
+      ❓ Was Brauchst Du?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="❓ Was Brauchst Du?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ich-fuhre-ein-wazuh-upgrade-durch-upgrade-prozess" class="md-nav__link">
+    <span class="md-ellipsis">
+      1️⃣ Ich führe ein Wazuh-Upgrade durch → 👉 Upgrade-Prozess
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ich-verwalte-agentengruppen-agentengruppen" class="md-nav__link">
+    <span class="md-ellipsis">
+      2️⃣ Ich verwalte Agentengruppen → 👉 Agentengruppen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-ich-registriere-einen-neuen-kunden-kundeneintrag-erstellen" class="md-nav__link">
+    <span class="md-ellipsis">
+      3️⃣ Ich registriere einen neuen Kunden → 👉 Kundeneintrag erstellen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-ich-habe-ein-problem-beim-upgrade-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      4️⃣ Ich habe ein Problem beim Upgrade → 👉 Troubleshooting
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-ich-mochte-ein-runbookeine-checkliste-andern-beitragen" class="md-nav__link">
+    <span class="md-ellipsis">
+      5️⃣ Ich möchte ein Runbook/eine Checkliste ändern → 👉 Beitragen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-ich-bin-neu-und-will-das-projekt-verstehen-uberblick" class="md-nav__link">
+    <span class="md-ellipsis">
+      6️⃣ Ich bin neu und will das Projekt verstehen → 👉 Überblick
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upgrade-prozess" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 UPGRADE-PROZESS
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 UPGRADE-PROZESS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#schritt-1-wahle-deinen-ansatz" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 1: Wähle deinen Ansatz
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schritt-2-metadaten-vorbereiten" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 2: Metadaten vorbereiten
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schritt-3-formular-ausfullen-befehle-ausfuhren" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 3: Formular ausfüllen &amp; Befehle ausführen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schritt-4-pre-go-checken-kritisch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 4: Pre-Go Checken (Kritisch!)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schritt-5-befehle-ausfuhren" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 5: Befehle ausführen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schritt-6-health-snapshots-dokumentieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 6: Health Snapshots dokumentieren
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schritt-7-bei-problemen-rollback" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 7: Bei Problemen → Rollback
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agentengruppen-verwalten" class="md-nav__link">
+    <span class="md-ellipsis">
+      👥 AGENTENGRUPPEN-VERWALTEN
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="👥 AGENTENGRUPPEN-VERWALTEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#was-sind-agentengruppen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Was sind Agentengruppen?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schnellstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schnellstart
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detaillierte-dokumentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detaillierte Dokumentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#neuer-kunde" class="md-nav__link">
+    <span class="md-ellipsis">
+      👤 NEUER KUNDE
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="👤 NEUER KUNDE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#schritt-1-kundendaten-sammeln" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 1: Kundendaten sammeln
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schritt-2-eintrag-hinzufugen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 2: Eintrag hinzufügen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schritt-3-anderung-einreichen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 3: Änderung einreichen
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 TROUBLESHOOTING
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 TROUBLESHOOTING">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-service-startet-nicht-nach-upgrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: Service startet nicht nach Upgrade
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-upgrade-abbruch-rollback-notwendig" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: Upgrade-Abbruch (Rollback notwendig)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contribution-anderungen" class="md-nav__link">
+    <span class="md-ellipsis">
+      💡 CONTRIBUTION (Änderungen)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 CONTRIBUTION (Änderungen)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ich-mochte-ein-runbook-andern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ich möchte ein Runbook ändern
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uberblick-projektstruktur" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 ÜBERBLICK (Projektstruktur)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schnelle-hilfe" class="md-nav__link">
+    <span class="md-ellipsis">
+      🆘 Schnelle Hilfe
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nachste-schritte" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Nächste Schritte
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/istagmbh/Ta-SIEMPlus/edit/main/docs/getting-started.md" title="Seite editieren" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/istagmbh/Ta-SIEMPlus/raw/main/docs/getting-started.md" title="Quellcode der Seite anzeigen" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
+    </a>
+  
+
+
+<h1 id="getting-started-dein-einstieg-in-ta-siemplus">🚀 GETTING STARTED – Dein Einstieg in Ta-SIEMPlus<a class="headerlink" href="#getting-started-dein-einstieg-in-ta-siemplus" title="Permanent link">&para;</a></h1>
+<p><strong>Willkommen!</strong> Dieses Dokument führt dich Schritt für Schritt durch die wichtigsten Szenarien.</p>
+<hr />
+<h2 id="hauptzugriff-web-formulare-neu">🌐 Hauptzugriff: Web-Formulare (NEU!)<a class="headerlink" href="#hauptzugriff-web-formulare-neu" title="Permanent link">&para;</a></h2>
+<p><strong>✨ Alle Werkzeuge sind jetzt über interaktive Web-Formulare zugänglich!</strong></p>
+<h3 id="schnellstart-2-minuten">Schnellstart (2 Minuten)<a class="headerlink" href="#schnellstart-2-minuten" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># 1. Repository klonen (falls noch nicht geschehen)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/istagmbh/Ta-SIEMPlus.git
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>Ta-SIEMPlus
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># 2. Web-Formulare öffnen</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>open<span class="w"> </span>webforms/index.html<span class="w">  </span><span class="c1"># Mac</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>xdg-open<span class="w"> </span>webforms/index.html<span class="w">  </span><span class="c1"># Linux</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>start<span class="w"> </span>webforms<span class="se">\i</span>ndex.html<span class="w">  </span><span class="c1"># Windows</span>
+</span></code></pre></div>
+<h3 id="verfugbare-web-tools">Verfügbare Web-Tools<a class="headerlink" href="#verfugbare-web-tools" title="Permanent link">&para;</a></h3>
+<ul>
+<li>🔄 <strong><a href="webforms/upgrade-form.html">Upgrade-Formular</a></strong> - Wazuh AIO Upgrades mit PDF-Export</li>
+<li>✅ <strong><a href="webforms/checklist-generator.html">Checklisten-Generator</a></strong> - Individuelle Checklisten</li>
+<li>👥 <strong><a href="webforms/agent-management.html">Agent-Verwaltung</a></strong> - Befehls-Generator für Agenten</li>
+<li>📋 <strong><a href="webforms/maintenance-protocol.html">Wartungsprotokoll</a></strong> - Strukturierte Dokumentation</li>
+</ul>
+<p><strong>Vorteile der Web-Formulare:</strong>
+- ✅ Keine Installation oder Setup notwendig
+- ✅ Funktioniert offline im Browser
+- ✅ Automatische Befehlsgenerierung
+- ✅ PDF-Export für Dokumentation
+- ✅ Copy-Paste freundliche Kommandos
+- ✅ Persistente Datenspeicherung (LocalStorage)</p>
+<hr />
+<h2 id="neu-hier-installationsanleitung">📦 Neu hier? Installationsanleitung<a class="headerlink" href="#neu-hier-installationsanleitung" title="Permanent link">&para;</a></h2>
+<p>Falls du Ta-SIEMPlus zum ersten Mal einrichtest:</p>
+<p>→ <strong><a href="INSTALLATION.md">📦 Siehe INSTALLATION.md</a></strong> für eine komplette Setup-Anleitung</p>
+<hr />
+<h2 id="was-brauchst-du">❓ Was Brauchst Du?<a class="headerlink" href="#was-brauchst-du" title="Permanent link">&para;</a></h2>
+<p>Klicke auf dein Szenario, um die richtige Anleitung zu finden:</p>
+<h3 id="1-ich-fuhre-ein-wazuh-upgrade-durch-upgrade-prozess">1️⃣ <strong>Ich führe ein Wazuh-Upgrade durch</strong> → <a href="#upgrade-durchführen">👉 Upgrade-Prozess</a><a class="headerlink" href="#1-ich-fuhre-ein-wazuh-upgrade-durch-upgrade-prozess" title="Permanent link">&para;</a></h3>
+<h3 id="2-ich-verwalte-agentengruppen-agentengruppen">2️⃣ <strong>Ich verwalte Agentengruppen</strong> → <a href="#agentengruppen-verwalten">👉 Agentengruppen</a><a class="headerlink" href="#2-ich-verwalte-agentengruppen-agentengruppen" title="Permanent link">&para;</a></h3>
+<h3 id="3-ich-registriere-einen-neuen-kunden-kundeneintrag-erstellen">3️⃣ <strong>Ich registriere einen neuen Kunden</strong> → <a href="#neuer-kunde">👉 Kundeneintrag erstellen</a><a class="headerlink" href="#3-ich-registriere-einen-neuen-kunden-kundeneintrag-erstellen" title="Permanent link">&para;</a></h3>
+<h3 id="4-ich-habe-ein-problem-beim-upgrade-troubleshooting">4️⃣ <strong>Ich habe ein Problem beim Upgrade</strong> → <a href="#troubleshooting">👉 Troubleshooting</a><a class="headerlink" href="#4-ich-habe-ein-problem-beim-upgrade-troubleshooting" title="Permanent link">&para;</a></h3>
+<h3 id="5-ich-mochte-ein-runbookeine-checkliste-andern-beitragen">5️⃣ <strong>Ich möchte ein Runbook/eine Checkliste ändern</strong> → <a href="#contribution">👉 Beitragen</a><a class="headerlink" href="#5-ich-mochte-ein-runbookeine-checkliste-andern-beitragen" title="Permanent link">&para;</a></h3>
+<h3 id="6-ich-bin-neu-und-will-das-projekt-verstehen-uberblick">6️⃣ <strong>Ich bin neu und will das Projekt verstehen</strong> → <a href="#überblick">👉 Überblick</a><a class="headerlink" href="#6-ich-bin-neu-und-will-das-projekt-verstehen-uberblick" title="Permanent link">&para;</a></h3>
+<hr />
+<h2 id="upgrade-prozess">🔄 UPGRADE-PROZESS<a class="headerlink" href="#upgrade-prozess" title="Permanent link">&para;</a></h2>
+<h3 id="schritt-1-wahle-deinen-ansatz">Schritt 1: Wähle deinen Ansatz<a class="headerlink" href="#schritt-1-wahle-deinen-ansatz" title="Permanent link">&para;</a></h3>
+<p>Du kannst einen Upgrade <strong>3 Wege</strong> dokumentieren:</p>
+<h4 id="weg-a-web-formular-empfohlen-schnell-modern"><strong>Weg A: Web-Formular (Empfohlen - Schnell &amp; Modern)</strong><a class="headerlink" href="#weg-a-web-formular-empfohlen-schnell-modern" title="Permanent link">&para;</a></h4>
+<ul>
+<li>✅ Öffne das interaktive Formular: <strong><a href="webforms/upgrade-form.html">webforms/upgrade-form.html</a></strong></li>
+<li>✅ Fülle Felder aus, generiere Befehle automatisch</li>
+<li>✅ Exportiere als PDF für Dokumentation</li>
+<li>✅ Keine Installation nötig, funktioniert offline</li>
+<li>✅ Persistente Speicherung im Browser</li>
+</ul>
+<p><strong>Workflow:</strong>
+1. Öffne <code>webforms/upgrade-form.html</code> im Browser
+2. Fülle Metadaten aus (Kunde, Infrastruktur, Versionen, etc.)
+3. Folge den 5 Schritten mit automatischer Befehlsgenerierung
+4. Führe Health Checks durch
+5. Exportiere PDF für Ticket-Dokumentation</p>
+<h4 id="weg-b-markdown-checkliste-fur-ticket-systeme"><strong>Weg B: Markdown Checkliste (Für Ticket-Systeme)</strong><a class="headerlink" href="#weg-b-markdown-checkliste-fur-ticket-systeme" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Kopiere die Checkliste direkt ins Change-Ticket</li>
+<li>Arbeite Schritt-für-Schritt ab mit Runbook-Referenzen</li>
+<li>Versionskontrolle via Git</li>
+<li><strong>Datei:</strong> <a href="../checklists/CHECKLIST_WAZUH_UPGRADE_AIO/">checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md</a></li>
+</ul>
+<h4 id="weg-c-mkdocs-dokumentation-fur-teams"><strong>Weg C: MkDocs Dokumentation (Für Teams)</strong><a class="headerlink" href="#weg-c-mkdocs-dokumentation-fur-teams" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Vollständige, durchsuchbare Dokumentation</li>
+<li>Docker-basiertes Deployment</li>
+<li>Versionierung und Navigation</li>
+<li><strong>Start:</strong> <code>docker-compose up -d</code> → http://localhost:8080</li>
+</ul>
+<p>→ <strong>Wir empfehlen: Weg A</strong> (Web-Formular) für neue Nutzer und schnelle Erfassung.</p>
+<hr />
+<h3 id="schritt-2-metadaten-vorbereiten">Schritt 2: Metadaten vorbereiten<a class="headerlink" href="#schritt-2-metadaten-vorbereiten" title="Permanent link">&para;</a></h3>
+<p>Du brauchst diese Informationen für dein Change-Ticket:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Operator:              David Dutler / Ivan Stricker
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Kunde:                 z.B. DeepCloud AG
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Infrastruktur:         z.B. DeepInfra
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>Change-Ticket-ID:      z.B. CHG-2026-00123
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Wartungsfenster:       YYYY-MM-DD HH:MM - YYYY-MM-DD HH:MM (Europe/Zurich)
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>Ist-Version:           z.B. 4.9.0
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>Ziel-Version:          z.B. 4.12.0
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>Snapshot/Backup-ID:    z.B. snap-0123456789abcdef0
+</span></code></pre></div>
+<p>💡 <strong>Tipp:</strong> Diese Infos findest du in <code>Catalog/CUSTOMERS.md</code></p>
+<h4 id="automatisches-ausfullen-im-web-formular">💫 <strong>Automatisches Ausfüllen im Web-Formular</strong><a class="headerlink" href="#automatisches-ausfullen-im-web-formular" title="Permanent link">&para;</a></h4>
+<p>Das Web-Formular bietet <strong>automatische Metadaten-Verwaltung</strong>:
+- Trage die Metadaten im ersten Schritt ein
+- Das Formular speichert die Daten automatisch im Browser (LocalStorage)
+- Alle Schritte werden automatisch vorausgefüllt
+- Die Daten bleiben auch nach Browser-Neustart erhalten
+- PDF-Export enthält alle Metadaten automatisch</p>
+<hr />
+<h3 id="schritt-3-formular-ausfullen-befehle-ausfuhren">Schritt 3: Formular ausfüllen &amp; Befehle ausführen<a class="headerlink" href="#schritt-3-formular-ausfullen-befehle-ausfuhren" title="Permanent link">&para;</a></h3>
+<h4 id="option-a-web-formular-empfohlen"><strong>OPTION A: Web-Formular (empfohlen)</strong><a class="headerlink" href="#option-a-web-formular-empfohlen" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Öffne im Browser:
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>webforms/upgrade-form.html
+</span></code></pre></div></li>
+<li>Fülle das Formular Schritt für Schritt aus:</li>
+<li><strong>Schritt 1:</strong> Metadaten &amp; Pre-Flight Checks</li>
+<li><strong>Schritt 2:</strong> Service-Stop &amp; Backup</li>
+<li><strong>Schritt 3:</strong> Package-Upgrade</li>
+<li><strong>Schritt 4:</strong> Service-Start &amp; Validation</li>
+<li><strong>Schritt 5:</strong> Post-Checks &amp; Documentation</li>
+<li>Kopiere die generierten Befehle</li>
+<li>Führe sie auf dem Server aus</li>
+<li>Klicke "PDF generieren" für die Dokumentation</li>
+</ol>
+<h4 id="option-b-markdown-checkliste"><strong>OPTION B: Markdown Checkliste</strong><a class="headerlink" href="#option-b-markdown-checkliste" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Öffne die Datei:
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md
+</span></code></pre></div></li>
+<li><strong>Kopiere den kompletten Inhalt</strong> (⌘C oder Strg+C)</li>
+<li><strong>Füge ihn in dein Change-Ticket ein</strong></li>
+<li>Trage alle Metadaten-Felder ein (siehe Schritt 2)</li>
+<li>Arbeite die Checkliste Punkt für Punkt ab</li>
+</ol>
+<p><strong>→ Welche Option passt zu dir?</strong>
+- Web-Formular: Schnell, modern, PDF-Export ✅
+- Markdown-Checkliste: Git-Versioniert, Ticket-System-freundlich ✅</p>
+<hr />
+<h3 id="schritt-4-pre-go-checken-kritisch">Schritt 4: Pre-Go Checken (Kritisch!)<a class="headerlink" href="#schritt-4-pre-go-checken-kritisch" title="Permanent link">&para;</a></h3>
+<p>Arbeite <strong>die Pre-Flight Checks</strong> ab (in Schritt 1 des Web-Formulars oder Abschnitt B der Checkliste). </p>
+<p>Wenn auch nur EINE Box nicht ✓ ist:</p>
+<p>⛔ <strong>STOPP – Upgrade verschieben!</strong></p>
+<p><strong>Kritische No-Go Gates:</strong>
+- ❌ Disk-Belegung &gt; 90%
+- ❌ Services nicht <code>active (running)</code>
+- ❌ Kein Backup/Snapshot vorhanden
+- ❌ Change nicht genehmigt
+- ❌ Außerhalb Wartungsfenster</p>
+<hr />
+<h3 id="schritt-5-befehle-ausfuhren">Schritt 5: Befehle ausführen<a class="headerlink" href="#schritt-5-befehle-ausfuhren" title="Permanent link">&para;</a></h3>
+<p>Für jeden Punkt:</p>
+<ol>
+<li><strong>Lies die Anweisung</strong> (im Web-Formular oder in der Checkliste)</li>
+<li><strong>Kopiere den Befehl</strong> (automatisch generiert im Web-Formular, oder aus Runbook)</li>
+<li><strong>Führe ihn auf dem Server aus</strong></li>
+<li><strong>Validiere das Ergebnis</strong></li>
+<li><strong>Hake die Box ab</strong> (im Formular oder <code>[x]</code> in Checkliste)</li>
+</ol>
+<p>💡 <strong>Tipp:</strong> Nutze das <strong><a href="../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU/">Upgrade Runbook</a></strong> parallel für detaillierte Befehle und Troubleshooting.</p>
+<hr />
+<h3 id="schritt-6-health-snapshots-dokumentieren">Schritt 6: Health Snapshots dokumentieren<a class="headerlink" href="#schritt-6-health-snapshots-dokumentieren" title="Permanent link">&para;</a></h3>
+<p><strong>Vor dem Upgrade:</strong>
+- Im <strong>Web-Formular:</strong> Fülle "Pre-Upgrade Health Check" in Schritt 1 aus
+- In <strong>Markdown:</strong> Führe die Befehle aus Abschnitt 1 des Runbooks aus</p>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Kopiere diesen Befehl:</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>date<span class="w"> </span>-Is<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>wazuh-indexer<span class="w"> </span>wazuh-manager<span class="w"> </span>wazuh-dashboard<span class="w"> </span>filebeat<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>dpkg<span class="w"> </span>-l<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;wazuh|filebeat&#39;</span>
+</span></code></pre></div>
+→ <strong>Speichere die Ausgabe</strong> (im Formular-Feld oder im Change-Ticket)</p>
+<p><strong>Nach dem Upgrade:</strong>
+- Im <strong>Web-Formular:</strong> Fülle "Post-Upgrade Health Check" in Schritt 5 aus
+- In <strong>Markdown:</strong> Führe denselben Befehl nochmal aus
+→ <strong>Vergleiche die Ausgaben</strong></p>
+<hr />
+<h3 id="schritt-7-bei-problemen-rollback">Schritt 7: Bei Problemen → Rollback<a class="headerlink" href="#schritt-7-bei-problemen-rollback" title="Permanent link">&para;</a></h3>
+<p>Wenn etwas schiefgeht:</p>
+<ol>
+<li>Gehe zu <strong>"Rollback"</strong>-Abschnitt (im Web-Formular oder Abschnitt E der Checkliste)</li>
+<li>Folge den Rollback-Anweisungen</li>
+<li><strong>Dokumentiere was schief ging</strong> im Change-Ticket</li>
+<li>Erstelle ein Incident-Ticket</li>
+</ol>
+<p>💡 <strong>Siehe auch:</strong> <a href="../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU/#10-rollback--notfall">Runbook Abschnitt 10 - Rollback</a></p>
+<hr />
+<h2 id="agentengruppen-verwalten">👥 AGENTENGRUPPEN-VERWALTEN<a class="headerlink" href="#agentengruppen-verwalten" title="Permanent link">&para;</a></h2>
+<h3 id="was-sind-agentengruppen">Was sind Agentengruppen?<a class="headerlink" href="#was-sind-agentengruppen" title="Permanent link">&para;</a></h3>
+<p>Wazuh Agentengruppen ermöglichen die <strong>zentrale Verwaltung</strong> von Agent-Konfigurationen. 
+Agenten können einer oder mehreren Gruppen zugeordnet werden und erhalten automatisch 
+die kombinierten Konfigurationen aller Gruppen.</p>
+<h3 id="schnellstart">Schnellstart<a class="headerlink" href="#schnellstart" title="Permanent link">&para;</a></h3>
+<p><strong>1. Web-Formular öffnen (Empfohlen):</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Öffne: webforms/agent-management.html
+</span></code></pre></div></p>
+<p>Das Web-Formular bietet:
+- ✅ Interaktive Befehlsgenerierung für alle Operationen
+- ✅ 7 vordefinierte Beispiele zum Kopieren
+- ✅ Erklärungen zu merged.mg und ar.conf
+- ✅ Copy-Paste freundliche Kommandos
+- ✅ Keine Installation nötig</p>
+<p><strong>Verfügbare Operationen:</strong>
+1. Gruppe erstellen
+2. Agent zu Gruppe hinzufügen
+3. Agent aus Gruppe entfernen
+4. Gruppen auflisten
+5. Agenten einer Gruppe anzeigen
+6. Multi-Gruppen Zuweisung
+7. Gruppen-Konfiguration anzeigen</p>
+<p><strong>2. Oder nutze die Kommandozeile direkt:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Gruppe erstellen</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-a<span class="w"> </span>-g<span class="w"> </span>linux-servers
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Agent zu Gruppe hinzufügen</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-a<span class="w"> </span>-i<span class="w"> </span><span class="m">001</span><span class="w"> </span>-g<span class="w"> </span>linux-servers
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># Alle Gruppen auflisten</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-l
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1"># Agent zu mehreren Gruppen (Multi-Gruppen)</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>/var/ossec/bin/agent_groups<span class="w"> </span>-a<span class="w"> </span>-i<span class="w"> </span><span class="m">002</span><span class="w"> </span>-g<span class="w"> </span>linux-servers,web-servers,prod
+</span></code></pre></div>
+<h3 id="detaillierte-dokumentation">Detaillierte Dokumentation<a class="headerlink" href="#detaillierte-dokumentation" title="Permanent link">&para;</a></h3>
+<p><strong>Für mehr Details:</strong>
+- <strong>🌐 Web-Tool:</strong> <a href="webforms/agent-management.html">webforms/agent-management.html</a> - Interaktives Formular (NEU!)
+- <strong>📘 Runbook:</strong> <a href="../runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT/">runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT.md</a> - Vollständige Dokumentation
+- <strong>⚡ Quick Reference:</strong> <a href="QUICK_REFERENCE.md">QUICK_REFERENCE.md</a> - Alle Befehle auf einen Blick</p>
+<hr />
+<h2 id="neuer-kunde">👤 NEUER KUNDE<a class="headerlink" href="#neuer-kunde" title="Permanent link">&para;</a></h2>
+<h3 id="schritt-1-kundendaten-sammeln">Schritt 1: Kundendaten sammeln<a class="headerlink" href="#schritt-1-kundendaten-sammeln" title="Permanent link">&para;</a></h3>
+<p>Du brauchst:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Kundenname:          z.B. DeepCloud AG
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>Infrastruktur-Name:  z.B. DeepInfra
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>Umgebung:            prod / test / dev
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>Wazuh-Typ:           Ubuntu AIO (APT) / Docker / etc.
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>Haupt-Host FQDN:     z.B. wazuh01.example.tld
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>Management-IP:       z.B. 10.10.10.10
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>Dashboard-URL:       https://wazuh01.example.tld
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>API-URL:             https://wazuh01.example.tld:55000
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>Indexer-URL:         https://wazuh01.example.tld:9200
+</span></code></pre></div></p>
+<hr />
+<h3 id="schritt-2-eintrag-hinzufugen">Schritt 2: Eintrag hinzufügen<a class="headerlink" href="#schritt-2-eintrag-hinzufugen" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Öffne: <code>Catalog/CUSTOMERS.md</code></p>
+</li>
+<li>
+<p>Scrolle ans <strong>Ende der Datei</strong></p>
+</li>
+<li>
+<p>Kopiere den YAML-Template-Block (dort zu finden)</p>
+</li>
+<li>
+<p><strong>Ersetze alle UNSET-Werte</strong> mit echten Daten:</p>
+</li>
+</ol>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">customer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DeepCloud</span><span class="nv"> </span><span class="s">AG&quot;</span><span class="w">              </span><span class="c1"># ← Kundenname</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nt">infrastructure</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DeepInfra&quot;</span><span class="w">           </span><span class="c1"># ← Infrastruktur</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;prod&quot;</span><span class="w">                   </span><span class="c1"># ← prod/test/dev</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="nt">wazuh_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ubuntu</span><span class="nv"> </span><span class="s">AIO</span><span class="nv"> </span><span class="s">(APT)&quot;</span><span class="w">        </span><span class="c1"># ← Installationstyp</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nt">hosts</span><span class="p">:</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wazuh-aio&quot;</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="nt">fqdn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wazuh01.example.tld&quot;</span><span class="w">       </span><span class="c1"># ← Hostname</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="nt">mgmt_ip</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10.10.10.10&quot;</span><span class="w">            </span><span class="c1"># ← Management-IP</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="nt">urls</span><span class="p">:</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">  </span><span class="nt">dashboard</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://wazuh01.example.tld&quot;</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">  </span><span class="nt">api</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://wazuh01.example.tld:55000&quot;</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">  </span><span class="nt">indexer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://wazuh01.example.tld:9200&quot;</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="nt">ports_expected</span><span class="p">:</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;1514/tcp&quot;</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;1515/tcp&quot;</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;55000/tcp&quot;</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;5601/tcp&quot;</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;9200/tcp&quot;</span>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="nt">secrets_ref</span><span class="p">:</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="w">  </span><span class="nt">admin_user</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vault://deepcloud/wazuh/admin_user&quot;</span>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="w">  </span><span class="nt">admin_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vault://deepcloud/wazuh/admin_password&quot;</span>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="nt">change_policy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Within</span><span class="nv"> </span><span class="s">business</span><span class="nv"> </span><span class="s">hours</span><span class="nv"> </span><span class="s">(08:00</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">17:00</span><span class="nv"> </span><span class="s">CET)&quot;</span>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="nt">contact_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;siem-team@deepcloud.example.tld&quot;</span>
+</span></code></pre></div>
+<p>⚠️ <strong>WICHTIG:</strong> Keine echten Passwörter eintragen! Nur <code>vault://...</code> Pfade!</p>
+<hr />
+<h3 id="schritt-3-anderung-einreichen">Schritt 3: Änderung einreichen<a class="headerlink" href="#schritt-3-anderung-einreichen" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Terminal-Befehle zum Einreichen (Copy-Paste):</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>add/customer-deepcloud
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>git<span class="w"> </span>add<span class="w"> </span>Catalog/CUSTOMERS.md
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;catalog: Add DeepCloud AG infrastructure entry&quot;</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>add/customer-deepcloud
+</span></code></pre></div>
+<p>Dann: <strong>Pull Request erstellen</strong> und warten auf Review ✅</p>
+<hr />
+<h2 id="troubleshooting">🔧 TROUBLESHOOTING<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="problem-service-startet-nicht-nach-upgrade">Problem: Service startet nicht nach Upgrade<a class="headerlink" href="#problem-service-startet-nicht-nach-upgrade" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>Gehe zu Abschnitt 11 im Runbook:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md → Troubleshooting
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Führe die Diagnose-Befehle aus</strong> (alle grau hinterlegt)</p>
+</li>
+<li>
+<p><strong>Wenn es nicht hilft:</strong></p>
+</li>
+<li>✅ Lies die <a href="https://documentation.wazuh.com/">Wazuh offizielle Dokumentation</a></li>
+<li>✅ Erstelle ein Incident-Ticket</li>
+<li>✅ Kontaktiere das Support-Team</li>
+</ol>
+<h3 id="problem-upgrade-abbruch-rollback-notwendig">Problem: Upgrade-Abbruch (Rollback notwendig)<a class="headerlink" href="#problem-upgrade-abbruch-rollback-notwendig" title="Permanent link">&para;</a></h3>
+<p>Folge <strong>Abschnitt 10 des Runbooks</strong>: "Rollback / Notfall"</p>
+<hr />
+<h2 id="contribution-anderungen">💡 CONTRIBUTION (Änderungen)<a class="headerlink" href="#contribution-anderungen" title="Permanent link">&para;</a></h2>
+<h3 id="ich-mochte-ein-runbook-andern">Ich möchte ein Runbook ändern<a class="headerlink" href="#ich-mochte-ein-runbook-andern" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Öffne die Datei (z.B. <code>runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md</code>)</li>
+<li><strong>Mache deine Änderung</strong></li>
+<li><strong>Dokumentiere das Warum:</strong></li>
+<li>Begründung?</li>
+<li>Welche Risiken?</li>
+<li>Wie rollback?</li>
+<li><strong>Erstelle einen Pull Request:</strong>
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>fix/upgrade-runbook-xyz
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>git<span class="w"> </span>add<span class="w"> </span>runbooks/RUNBOOK_*.md
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;fix: Correct command for service restart (because: Wazuh 4.12 requires...)&quot;</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>fix/upgrade-runbook-xyz
+</span></code></pre></div></li>
+<li><strong>Warte auf Review</strong> (min. 1 Person muss zustimmen)</li>
+</ol>
+<p>👀 Siehe auch: <a href="CONTRIBUTING.md">CONTRIBUTING.md</a></p>
+<hr />
+<h2 id="uberblick-projektstruktur">📚 ÜBERBLICK (Projektstruktur)<a class="headerlink" href="#uberblick-projektstruktur" title="Permanent link">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Ta-SIEMPlus/
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>├── README.md                          ← Projekt-Übersicht
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>├── GETTING_STARTED.md                 ← DU BIST HIER 👈
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>├── QUICK_REFERENCE.md                 ← Schnelle Lookups
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>│
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>├── runbooks/                          ← Detaillierte Anleitungen
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>│   ├── RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>│   └── RUNBOOK-TEMPLATE.md
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>│
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>├── checklists/                        ← Ticket-Checklisten
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>│   ├── CHECKLIST_WAZUH_UPGRADE_AIO.md
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>│   └── CHECKLIST-TEMPLATE.md
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>│
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>├── Catalog/                           ← Kunden-Registry
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>│   └── CUSTOMERS.md
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>│
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>├── templates/                         ← Vorlagen
+</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>│   └── CHANGE_NOTE_TEMPLATE.md
+</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>│
+</span><span id="__span-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>├── docs/                              ← Web-Tools
+</span><span id="__span-12-21"><a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>│   ├── index.html                     ← Übersicht
+</span><span id="__span-12-22"><a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a>│   ├── maintenance-form.html          ← Digitales Formular
+</span><span id="__span-12-23"><a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a>│   └── README.md
+</span><span id="__span-12-24"><a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a>│
+</span><span id="__span-12-25"><a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a>└── CONTRIBUTING.md                    ← Governance
+</span></code></pre></div>
+<p><strong>Welche Datei für was?</strong></p>
+<table>
+<thead>
+<tr>
+<th>Szenario</th>
+<th>Datei</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Upgrade durchführen</td>
+<td>Checkliste + Runbook</td>
+</tr>
+<tr>
+<td>Neuen Kunden hinzufügen</td>
+<td>Catalog/CUSTOMERS.md</td>
+</tr>
+<tr>
+<td>Befehle verstehen</td>
+<td>Runbooks</td>
+</tr>
+<tr>
+<td>Prozess dokumentieren</td>
+<td>Templates</td>
+</tr>
+<tr>
+<td>Änderung einreichen</td>
+<td>CONTRIBUTING.md</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="schnelle-hilfe">🆘 Schnelle Hilfe<a class="headerlink" href="#schnelle-hilfe" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Frage</th>
+<th>Antwort</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wie starte ich ein Upgrade?</td>
+<td><a href="#upgrade-durchführen">👆 Oben: Upgrade-Prozess</a></td>
+</tr>
+<tr>
+<td>Wo finde ich Befehle?</td>
+<td><code>runbooks/RUNBOOK_*.md</code> (grau hinterlegte Felder)</td>
+</tr>
+<tr>
+<td>Darf ich Passwörter eintragen?</td>
+<td>❌ <strong>NEIN!</strong> Nur <code>vault://...</code> Referenzen</td>
+</tr>
+<tr>
+<td>Ich bin fertig – was nun?</td>
+<td>Überprüfe: ✅ Alle Checkboxen? ✅ Health Snapshots dokumentiert? ✅ Kunden informiert?</td>
+</tr>
+<tr>
+<td>Wer kann Änderungen genehmigen?</td>
+<td>Mindestens 1 Reviewer (siehe <a href="CONTRIBUTING.md">CONTRIBUTING.md</a>)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="nachste-schritte">✅ Nächste Schritte<a class="headerlink" href="#nachste-schritte" title="Permanent link">&para;</a></h2>
+<p>→ <strong>Suchst du einen bestimmten Workflow?</strong> Gehe zurück nach oben und klicke auf dein Szenario.</p>
+<p>→ <strong>Brauchst du schnelle Befehle?</strong> Siehe: <a href="QUICK_REFERENCE.md">QUICK_REFERENCE.md</a></p>
+<p>→ <strong>Du willst beitragen?</strong> Lese: <a href="CONTRIBUTING.md">CONTRIBUTING.md</a></p>
+<hr />
+<p><strong>Fragen?</strong> Öffne ein Issue oder kontaktiere das Team! 👋</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Zurück zum Seitenanfang
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 <a href='https://www.t-alpha.ch' target='_blank'>T-Alpha GmbH</a> &middot; IT Security
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://www.t-alpha.ch" target="_blank" rel="noopener" title="T-Alpha GmbH Website" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M352 256c0 22.2-1.2 43.6-3.3 64H163.3c-2.2-20.4-3.3-41.8-3.3-64s1.2-43.6 3.3-64h185.4c2.2 20.4 3.3 41.8 3.3 64zm28.8-64h123.1c5.3 20.5 8.1 41.9 8.1 64s-2.8 43.5-8.1 64H380.8c2.1-20.6 3.2-42 3.2-64s-1.1-43.4-3.2-64zm112.6-32H376.7c-10-63.9-29.8-117.4-55.3-151.6 78.3 20.7 142 77.5 171.9 151.6zm-149.1 0H167.7c6.1-36.4 15.5-68.6 27-94.7 10.5-23.6 22.2-40.7 33.5-51.5C239.4 3.2 248.7 0 256 0s16.6 3.2 27.8 13.8c11.3 10.8 23 27.9 33.5 51.5 11.6 26 20.9 58.2 27 94.7zm-209 0H18.6c30-74.1 93.6-130.9 172-151.6-25.5 34.2-45.3 87.7-55.3 151.6zM8.1 192h123.1c-2.1 20.6-3.2 42-3.2 64s1.1 43.4 3.2 64H8.1C2.8 299.5 0 278.1 0 256s2.8-43.5 8.1-64zm186.6 254.6c-11.6-26-20.9-58.2-27-94.6h176.6c-6.1 36.4-15.5 68.6-27 94.6-10.5 23.6-22.2 40.7-33.5 51.5-11.2 10.7-20.5 13.9-27.8 13.9s-16.6-3.2-27.8-13.8c-11.3-10.8-23-27.9-33.5-51.5zM135.3 352c10 63.9 29.8 117.4 55.3 151.6-78.4-20.7-142-77.5-172-151.6h116.7zm358.1 0c-30 74.1-93.6 130.9-171.9 151.6 25.5-34.2 45.2-87.7 55.3-151.6h116.6z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/istagmbh/Ta-SIEMPlus" target="_blank" rel="noopener" title="GitHub Repository" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.action.edit", "content.action.view"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "In Zwischenablage kopiert", "clipboard.copy": "In Zwischenablage kopieren", "search.result.more.one": "1 weiteres Suchergebnis auf dieser Seite", "search.result.more.other": "# weitere Suchergebnisse auf dieser Seite", "search.result.none": "Keine Suchergebnisse", "search.result.one": "1 Suchergebnis", "search.result.other": "# Suchergebnisse", "search.result.placeholder": "Suchbegriff eingeben", "search.result.term.missing": "Es fehlt", "select.version": "Version ausw\u00e4hlen"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+    
+  </body>
+</html>
