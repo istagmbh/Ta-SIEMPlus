@@ -25,10 +25,10 @@ Latest stable release with enhanced detection capabilities and performance impro
 
 **Upgrade Path:** 4.10.x, 4.11.x → 4.12.0
 
-#### [Wazuh 4.11 Upgrade Guide](4.11/index.md) *(Coming Soon)*
+#### Wazuh 4.11 Upgrade Guide *(Coming Soon)*
 Previous stable release with focus on reliability.
 
-#### [Wazuh 4.10 Upgrade Guide](4.10/index.md) *(Coming Soon)*
+#### Wazuh 4.10 Upgrade Guide *(Coming Soon)*
 Long-term support release.
 
 ### Version Selection Guide
@@ -105,8 +105,8 @@ Two approaches:
 ### Wazuh 4.12
 - [Release Notes](https://documentation.wazuh.com/current/release-notes/release-4-12-0.html)
 - [Upgrade Guide](4.12/index.md)
-- [Known Issues](4.12/known-issues.md)
-- [Migration Guide](4.12/migration.md)
+- Known Issues *(Coming Soon)*
+- Migration Guide *(Coming Soon)*
 
 ### Official Wazuh Documentation
 - [Current Documentation](https://documentation.wazuh.com/current/)
