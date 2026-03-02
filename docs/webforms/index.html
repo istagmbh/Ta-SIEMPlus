@@ -272,7 +272,7 @@
                 <div class="category-header">
                     <span class="cat-icon">⚙️</span>
                     <h2>Administration</h2>
-                    <span class="cat-badge">1 Tool</span>
+                    <span class="cat-badge">2 Tools</span>
                 </div>
                 <div class="tools-grid">
 
@@ -290,56 +290,59 @@
                         <span class="btn">Agenten verwalten →</span>
                     </a>
 
+                    <a href="alert-regeleditor.html" class="tool-card">
+                        <div class="badge">Detection</div>
+                        <div class="icon">🎯</div>
+                        <h3>Alert-Regeleditor</h3>
+                        <p>Wazuh Custom Detection Rules visuell erstellen, validieren und als XML exportieren.</p>
+                        <ul class="features">
+                            <li>Visueller Regel-Builder (kein XML nötig)</li>
+                            <li>8 Vorlagen (Brute-Force, Mimikatz, …)</li>
+                            <li>Live XML-Vorschau mit Validierung</li>
+                            <li>MITRE ATT&amp;CK Mapping</li>
+                        </ul>
+                        <span class="btn">Regeln erstellen →</span>
+                    </a>
+
                 </div>
             </div>
 
-            <!-- ─── KATEGORIE 3: In Entwicklung ─── -->
+            <!-- ─── KATEGORIE 3: Konfiguration &amp; Planung ─── -->
             <div class="category">
                 <div class="category-header">
-                    <span class="cat-icon">🚧</span>
-                    <h2>In Entwicklung</h2>
-                    <span class="cat-badge">3 Tools geplant</span>
+                    <span class="cat-icon">📐</span>
+                    <h2>Konfiguration &amp; Planung</h2>
+                    <span class="cat-badge">2 Tools</span>
                 </div>
                 <div class="tools-grid">
 
-                    <div class="tool-card coming-soon">
-                        <div class="badge">Geplant</div>
+                    <a href="config-generator.html" class="tool-card">
+                        <div class="badge">Konfiguration</div>
                         <div class="icon">📝</div>
                         <h3>Konfigurations-Generator</h3>
-                        <p>Formularbasierte Erstellung von <code>ossec.conf</code> für Manager und Agent. Variablen eingeben – fertige Konfigurationsdatei erhalten.</p>
+                        <p>Wazuh Konfigurationsdateien per Formular generieren – kein manuelles Editieren von XML/YAML mehr.</p>
                         <ul class="features">
-                            <li>Manager &amp; Agent Templates</li>
-                            <li>Alle Variablen per Formular</li>
-                            <li>Direkt kopierbare Ausgabe</li>
-                            <li>Basiert auf Config Templates</li>
+                            <li>Manager, Agent (Linux/Windows), Indexer, Filebeat</li>
+                            <li>Live-Vorschau mit Syntax-Highlighting</li>
+                            <li>ossec.conf Validator (Altlasten &amp; Diffs)</li>
+                            <li>Copy + Download als Datei</li>
                         </ul>
-                    </div>
+                        <span class="btn">Config generieren →</span>
+                    </a>
 
-                    <div class="tool-card coming-soon">
-                        <div class="badge">Geplant</div>
-                        <div class="icon">🎯</div>
-                        <h3>Alert-Regeleditor</h3>
-                        <p>Wazuh Custom Detection Rules direkt im Browser erstellen, bearbeiten und validieren.</p>
-                        <ul class="features">
-                            <li>XML-Editor mit Syntaxhighlighting</li>
-                            <li>Regelstruktur-Validierung</li>
-                            <li>Vorlagen für häufige Use-Cases</li>
-                            <li>Export als regelkonformes XML</li>
-                        </ul>
-                    </div>
-
-                    <div class="tool-card coming-soon">
-                        <div class="badge">Geplant</div>
+                    <a href="patch-planner.html" class="tool-card">
+                        <div class="badge">Planung</div>
                         <div class="icon">📅</div>
                         <h3>Patch-Planer</h3>
-                        <p>Wartungsfenster für mehrere Kunden koordinieren und Upgrade-Abhängigkeiten visualisieren.</p>
+                        <p>Wartungsfenster für mehrere Kunden koordinieren, Konflikte vermeiden und PDF exportieren.</p>
                         <ul class="features">
-                            <li>Kunden-Übersicht mit Versionsstand</li>
-                            <li>Wartungsfenster-Planung</li>
-                            <li>Reihenfolge-Empfehlungen</li>
-                            <li>Export als Kalender-Datei</li>
+                            <li>Monatskalender (Browser, kein Server)</li>
+                            <li>Kunden, Typen, Versionen verwalten</li>
+                            <li>JSON Import/Export für Team-Sharing</li>
+                            <li>PDF-Export für Ticketsystem</li>
                         </ul>
-                    </div>
+                        <span class="btn">Patch-Plan öffnen →</span>
+                    </a>
 
                 </div>
             </div>

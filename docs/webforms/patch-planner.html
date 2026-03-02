@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patch-Planer – Ta-SIEMPlus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/ta-alpha-brand.css">
+    <style>
+        .planner-layout { display: grid; grid-template-columns: 340px 1fr; gap: 24px; align-items: start; }
+        @media (max-width: 900px) { .planner-layout { grid-template-columns: 1fr; } }
+
+        /* Sidebar form */
+        .sidebar-form { background: var(--ta-gray-light); border: 1.5px solid var(--ta-gray-mid); border-radius: var(--ta-border-radius); padding: 20px; }
+        .sidebar-form h3 { margin: 0 0 16px; color: var(--ta-blue); font-size: 1em; font-weight: 700; }
+        .fg { margin-bottom: 12px; }
+        .fg label { display: block; font-size: 0.82em; font-weight: 600; color: var(--ta-gray); margin-bottom: 4px; }
+        .fg input, .fg select, .fg textarea { width: 100%; box-sizing: border-box; padding: 7px 10px; border: 1.5px solid var(--ta-gray-mid); border-radius: 5px; font-family: inherit; font-size: 0.88em; background: #fff; color: #222; transition: border-color 0.15s; }
+        .fg textarea { resize: vertical; min-height: 60px; }
+        .fg input:focus, .fg select:focus, .fg textarea:focus { outline: none; border-color: var(--ta-blue); }
+        .fg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        /* Type colors */
+        .type-upgrade  { --tc: #e63946; }
+        .type-check    { --tc: #457b9d; }
+        .type-agent    { --tc: #2a9d8f; }
+        .type-config   { --tc: #e9c46a; }
+        .type-other    { --tc: #8338ec; }
+
+        /* Calendar */
+        .cal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .cal-header h2 { margin: 0; font-size: 1.1em; color: var(--ta-blue); }
+        .cal-nav { display: flex; gap: 8px; }
+        .cal-nav button {
+            padding: 6px 14px;
+            border: 1.5px solid var(--ta-gray-mid);
+            background: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: var(--ta-blue);
+            transition: all 0.15s;
+        }
+        .cal-nav button:hover { background: var(--ta-blue-pale); border-color: var(--ta-blue); }
+
+        .cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+        .cal-day-name {
+            text-align: center;
+            font-size: 0.75em;
+            font-weight: 700;
+            color: var(--ta-gray);
+            padding: 6px 0;
+            text-transform: uppercase;
+        }
+        .cal-cell {
+            min-height: 90px;
+            border: 1.5px solid var(--ta-gray-mid);
+            border-radius: 6px;
+            padding: 4px 6px;
+            background: #fff;
+            cursor: pointer;
+            transition: border-color 0.15s;
+        }
+        .cal-cell:hover { border-color: var(--ta-blue); }
+        .cal-cell.today { border-color: var(--ta-blue); background: var(--ta-blue-pale); }
+        .cal-cell.empty { background: var(--ta-gray-light); border-style: dashed; cursor: default; }
+        .cal-cell.empty:hover { border-color: var(--ta-gray-mid); }
+        .cal-day-num {
+            font-size: 0.78em;
+            font-weight: 700;
+            color: var(--ta-gray);
+            margin-bottom: 4px;
+        }
+        .cal-cell.today .cal-day-num { color: var(--ta-blue); }
+        .cal-event {
+            font-size: 0.72em;
+            font-weight: 600;
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #fff;
+            background: var(--tc, #666);
+            cursor: pointer;
+        }
+        .cal-more { font-size: 0.7em; color: var(--ta-gray); margin-top: 2px; cursor: pointer; }
+
+        /* View tabs */
+        .view-tabs { display: flex; gap: 4px; margin-bottom: 16px; }
+        .view-tab {
+            padding: 7px 16px;
+            border: 1.5px solid var(--ta-gray-mid);
+            background: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: var(--ta-gray);
+            font-family: inherit;
+            transition: all 0.15s;
+        }
+        .view-tab.active { background: var(--ta-blue); color: #fff; border-color: var(--ta-blue); }
+
+        /* List view */
+        .event-list { display: flex; flex-direction: column; gap: 10px; }
+        .event-item {
+            display: grid;
+            grid-template-columns: 6px 1fr auto;
+            gap: 12px;
+            align-items: start;
+            background: #fff;
+            border: 1.5px solid var(--ta-gray-mid);
+            border-radius: 8px;
+            padding: 12px 14px;
+            transition: border-color 0.15s;
+        }
+        .event-item:hover { border-color: var(--ta-blue); }
+        .event-stripe { border-radius: 3px; background: var(--tc, #666); align-self: stretch; min-height: 40px; }
+        .event-info h4 { margin: 0 0 4px; font-size: 0.92em; color: #1a1a2e; }
+        .event-meta { font-size: 0.8em; color: var(--ta-gray); display: flex; gap: 10px; flex-wrap: wrap; }
+        .event-meta span { display: flex; align-items: center; gap: 4px; }
+        .event-notes { font-size: 0.8em; color: var(--ta-gray); margin-top: 4px; font-style: italic; }
+        .event-actions { display: flex; gap: 6px; }
+        .event-actions button {
+            padding: 4px 10px;
+            border: 1.5px solid var(--ta-gray-mid);
+            background: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.78em;
+            font-weight: 600;
+            font-family: inherit;
+            transition: all 0.15s;
+        }
+        .event-actions .btn-edit:hover { border-color: var(--ta-blue); color: var(--ta-blue); }
+        .event-actions .btn-del:hover { border-color: #dc3545; color: #dc3545; }
+
+        /* Filter bar */
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-bar label { font-size: 0.82em; font-weight: 600; color: var(--ta-gray); }
+        .filter-bar select, .filter-bar input {
+            padding: 5px 10px;
+            border: 1.5px solid var(--ta-gray-mid);
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 0.82em;
+            background: #fff;
+        }
+        .filter-bar select:focus, .filter-bar input:focus { outline: none; border-color: var(--ta-blue); }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.78em; color: var(--ta-gray); }
+        .legend-dot { width: 10px; height: 10px; border-radius: 2px; background: var(--tc); }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: #fff;
+            border-radius: 10px;
+            padding: 28px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        }
+        .modal h3 { margin: 0 0 20px; color: var(--ta-blue); font-size: 1.05em; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+
+        .overdue { border-color: #dc3545 !important; }
+        .overdue .event-info h4::after { content: ' ⚠ Überfällig'; font-size: 0.75em; color: #dc3545; font-weight: 600; }
+
+        .empty-state { text-align: center; padding: 40px 20px; color: var(--ta-gray); }
+        .empty-state .icon { font-size: 3em; margin-bottom: 12px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <div class="header-inner">
+            <img src="assets/ta-alpha-logo.svg" alt="T-Alpha GmbH" class="header-logo">
+            <div class="header-text">
+                <h1>Patch-Planer</h1>
+                <p class="subtitle">Wartungsfenster koordinieren &middot; Kunden &amp; Upgrades planen &middot; T-Alpha GmbH</p>
+            </div>
+        </div>
+        <div style="position:absolute;top:20px;right:32px;display:flex;gap:10px;">
+            <a href="index.html" style="color:rgba(255,255,255,0.85);text-decoration:none;font-size:0.85em;font-weight:500;padding:6px 14px;border:1.5px solid rgba(255,255,255,0.4);border-radius:20px;">← Web-Tools</a>
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="planner-layout">
+
+            <!-- SIDEBAR: Add entry -->
+            <div class="sidebar-form">
+                <h3 id="form-title">Neuer Eintrag</h3>
+                <input type="hidden" id="edit-id" value="">
+
+                <div class="fg"><label>Kunde / Installation</label>
+                    <input type="text" id="f-customer" placeholder="KUNDE-01">
+                </div>
+                <div class="fg"><label>Titel / Beschreibung</label>
+                    <input type="text" id="f-title" placeholder="Wazuh 4.12 Upgrade">
+                </div>
+                <div class="fg"><label>Typ</label>
+                    <select id="f-type">
+                        <option value="upgrade">Upgrade</option>
+                        <option value="check">Health-Check</option>
+                        <option value="agent">Agent-Verwaltung</option>
+                        <option value="config">Konfiguration</option>
+                        <option value="other">Sonstiges</option>
+                    </select>
+                </div>
+                <div class="fg-row">
+                    <div class="fg"><label>Datum</label>
+                        <input type="date" id="f-date">
+                    </div>
+                    <div class="fg"><label>Uhrzeit</label>
+                        <input type="time" id="f-time" value="08:00">
+                    </div>
+                </div>
+                <div class="fg"><label>Dauer (h)</label>
+                    <input type="number" id="f-duration" value="2" min="0.5" step="0.5">
+                </div>
+                <div class="fg"><label>Aktuell → Ziel Version</label>
+                    <input type="text" id="f-version" placeholder="4.11.2 → 4.12.0">
+                </div>
+                <div class="fg"><label>Notizen</label>
+                    <textarea id="f-notes" placeholder="Anmerkungen, Kontaktperson, Ticket-Nr. …"></textarea>
+                </div>
+
+                <div style="display:flex;gap:8px;">
+                    <button class="btn-primary" onclick="saveEntry()" style="flex:1;">
+                        <span id="save-btn-text">Hinzufügen</span>
+                    </button>
+                    <button class="btn-secondary" onclick="cancelEdit()" id="cancel-btn" style="display:none;">Abbrechen</button>
+                </div>
+
+                <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--ta-gray-mid);">
+                    <div style="font-size:0.8em;font-weight:700;color:var(--ta-gray);margin-bottom:10px;">Daten-Management</div>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                        <button class="btn-secondary" onclick="exportJSON()" style="font-size:0.8em;padding:6px 12px;">JSON Export</button>
+                        <label class="btn-secondary" style="font-size:0.8em;padding:6px 12px;cursor:pointer;">
+                            JSON Import <input type="file" accept=".json" onchange="importJSON(event)" style="display:none;">
+                        </label>
+                        <button class="btn-secondary" onclick="exportPDF()" style="font-size:0.8em;padding:6px 12px;">PDF Export</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MAIN: Calendar + List -->
+            <div>
+                <!-- Legend -->
+                <div class="legend">
+                    <div class="legend-item type-upgrade"><div class="legend-dot"></div> Upgrade</div>
+                    <div class="legend-item type-check"><div class="legend-dot"></div> Health-Check</div>
+                    <div class="legend-item type-agent"><div class="legend-dot"></div> Agent-Verwaltung</div>
+                    <div class="legend-item type-config"><div class="legend-dot"></div> Konfiguration</div>
+                    <div class="legend-item type-other"><div class="legend-dot"></div> Sonstiges</div>
+                </div>
+
+                <!-- View toggle -->
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+                    <div class="view-tabs">
+                        <button class="view-tab active" onclick="setView('cal', this)">Kalender</button>
+                        <button class="view-tab" onclick="setView('list', this)">Liste</button>
+                    </div>
+                    <div class="filter-bar">
+                        <label>Filter:</label>
+                        <select id="filter-type" onchange="renderAll()">
+                            <option value="">Alle Typen</option>
+                            <option value="upgrade">Upgrade</option>
+                            <option value="check">Health-Check</option>
+                            <option value="agent">Agent</option>
+                            <option value="config">Konfiguration</option>
+                            <option value="other">Sonstiges</option>
+                        </select>
+                        <input type="text" id="filter-customer" placeholder="Kunden-Filter…" oninput="renderAll()" style="width:150px;">
+                    </div>
+                </div>
+
+                <!-- Calendar view -->
+                <div id="view-cal">
+                    <div class="cal-header">
+                        <button class="btn-secondary" onclick="changeMonth(-1)" style="padding:6px 14px;">&#8249; Zurück</button>
+                        <h2 id="cal-title"></h2>
+                        <button class="btn-secondary" onclick="changeMonth(1)" style="padding:6px 14px;">Weiter &#8250;</button>
+                    </div>
+                    <div class="cal-grid" id="cal-grid"></div>
+                </div>
+
+                <!-- List view -->
+                <div id="view-list" style="display:none;">
+                    <div class="event-list" id="event-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="ta-footer">
+        <p>&copy; 2026 <a href="https://www.t-alpha.ch" target="_blank">T-Alpha GmbH</a>
+        &middot; IT Security
+        &middot; <a href="index.html">← Web-Tools</a></p>
+    </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+var STORAGE_KEY = 'ta-patch-planner-v1';
+var entries = [];
+var currentYear, currentMonth;
+var currentView = 'cal';
+
+var TYPE_COLORS = {
+    upgrade: '#e63946',
+    check:   '#457b9d',
+    agent:   '#2a9d8f',
+    config:  '#c9a227',
+    other:   '#8338ec'
+};
+var TYPE_LABELS = {
+    upgrade: 'Upgrade',
+    check:   'Health-Check',
+    agent:   'Agent',
+    config:  'Konfiguration',
+    other:   'Sonstiges'
+};
+var MONTHS_DE = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+var DAYS_DE   = ['Mo','Di','Mi','Do','Fr','Sa','So'];
+
+function load() {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    entries = raw ? JSON.parse(raw) : [];
+}
+function save() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+}
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+
+function saveEntry() {
+    var customer = document.getElementById('f-customer').value.trim();
+    var title    = document.getElementById('f-title').value.trim();
+    var type     = document.getElementById('f-type').value;
+    var date     = document.getElementById('f-date').value;
+    var time     = document.getElementById('f-time').value;
+    var duration = parseFloat(document.getElementById('f-duration').value) || 2;
+    var version  = document.getElementById('f-version').value.trim();
+    var notes    = document.getElementById('f-notes').value.trim();
+    var editId   = document.getElementById('edit-id').value;
+
+    if (!title || !date) {
+        alert('Bitte Titel und Datum ausfüllen.');
+        return;
+    }
+
+    if (editId) {
+        var idx = entries.findIndex(function(e){ return e.id === editId; });
+        if (idx >= 0) entries[idx] = { id: editId, customer, title, type, date, time, duration, version, notes };
+    } else {
+        entries.push({ id: uid(), customer, title, type, date, time, duration, version, notes });
+    }
+
+    entries.sort(function(a,b){ return a.date.localeCompare(b.date); });
+    save();
+    cancelEdit();
+    renderAll();
+}
+
+function deleteEntry(id) {
+    if (!confirm('Eintrag löschen?')) return;
+    entries = entries.filter(function(e){ return e.id !== id; });
+    save();
+    renderAll();
+}
+
+function startEdit(id) {
+    var e = entries.find(function(x){ return x.id === id; });
+    if (!e) return;
+    document.getElementById('edit-id').value = e.id;
+    document.getElementById('f-customer').value  = e.customer || '';
+    document.getElementById('f-title').value     = e.title || '';
+    document.getElementById('f-type').value      = e.type || 'upgrade';
+    document.getElementById('f-date').value      = e.date || '';
+    document.getElementById('f-time').value      = e.time || '08:00';
+    document.getElementById('f-duration').value  = e.duration || 2;
+    document.getElementById('f-version').value   = e.version || '';
+    document.getElementById('f-notes').value     = e.notes || '';
+    document.getElementById('form-title').textContent = 'Eintrag bearbeiten';
+    document.getElementById('save-btn-text').textContent = 'Speichern';
+    document.getElementById('cancel-btn').style.display = 'inline-block';
+    document.querySelector('.sidebar-form').scrollIntoView({ behavior: 'smooth' });
+}
+
+function cancelEdit() {
+    document.getElementById('edit-id').value = '';
+    document.getElementById('f-customer').value = '';
+    document.getElementById('f-title').value = '';
+    document.getElementById('f-type').value = 'upgrade';
+    document.getElementById('f-date').value = '';
+    document.getElementById('f-time').value = '08:00';
+    document.getElementById('f-duration').value = 2;
+    document.getElementById('f-version').value = '';
+    document.getElementById('f-notes').value = '';
+    document.getElementById('form-title').textContent = 'Neuer Eintrag';
+    document.getElementById('save-btn-text').textContent = 'Hinzufügen';
+    document.getElementById('cancel-btn').style.display = 'none';
+}
+
+function filteredEntries() {
+    var ft = document.getElementById('filter-type').value;
+    var fc = (document.getElementById('filter-customer').value || '').toLowerCase();
+    return entries.filter(function(e) {
+        if (ft && e.type !== ft) return false;
+        if (fc && !(e.customer || '').toLowerCase().includes(fc) && !(e.title || '').toLowerCase().includes(fc)) return false;
+        return true;
+    });
+}
+
+/* ─── Calendar ─── */
+function changeMonth(delta) {
+    currentMonth += delta;
+    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+    if (currentMonth < 0)  { currentMonth = 11; currentYear--; }
+    renderCalendar();
+}
+
+function renderCalendar() {
+    document.getElementById('cal-title').textContent = MONTHS_DE[currentMonth] + ' ' + currentYear;
+
+    var grid = document.getElementById('cal-grid');
+    grid.innerHTML = '';
+
+    // Day names (Mon–Sun)
+    DAYS_DE.forEach(function(d) {
+        var el = document.createElement('div');
+        el.className = 'cal-day-name';
+        el.textContent = d;
+        grid.appendChild(el);
+    });
+
+    var firstDay = new Date(currentYear, currentMonth, 1).getDay(); // 0=Sun
+    var offset = (firstDay === 0) ? 6 : firstDay - 1; // make Mon=0
+    var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    var today = new Date();
+    var todayStr = today.getFullYear() + '-' + pad(today.getMonth()+1) + '-' + pad(today.getDate());
+
+    var fe = filteredEntries();
+
+    for (var i = 0; i < offset; i++) {
+        var emp = document.createElement('div');
+        emp.className = 'cal-cell empty';
+        grid.appendChild(emp);
+    }
+
+    for (var d = 1; d <= daysInMonth; d++) {
+        var dateStr = currentYear + '-' + pad(currentMonth+1) + '-' + pad(d);
+        var cell = document.createElement('div');
+        cell.className = 'cal-cell' + (dateStr === todayStr ? ' today' : '');
+
+        var numEl = document.createElement('div');
+        numEl.className = 'cal-day-num';
+        numEl.textContent = d;
+        cell.appendChild(numEl);
+
+        cell.addEventListener('click', function(ds) {
+            return function(ev) {
+                if (ev.target === cell || ev.target === numEl) {
+                    document.getElementById('f-date').value = ds;
+                }
+            };
+        }(dateStr));
+
+        var dayEvents = fe.filter(function(e){ return e.date === dateStr; });
+        var maxShow = 3;
+        dayEvents.slice(0, maxShow).forEach(function(ev) {
+            var evEl = document.createElement('div');
+            evEl.className = 'cal-event type-' + ev.type;
+            evEl.style.background = TYPE_COLORS[ev.type] || '#666';
+            evEl.title = (ev.customer ? ev.customer + ': ' : '') + ev.title;
+            evEl.textContent = (ev.customer ? ev.customer + ': ' : '') + ev.title;
+            evEl.addEventListener('click', function(e){ e.stopPropagation(); startEdit(ev.id); });
+            cell.appendChild(evEl);
+        });
+        if (dayEvents.length > maxShow) {
+            var more = document.createElement('div');
+            more.className = 'cal-more';
+            more.textContent = '+' + (dayEvents.length - maxShow) + ' weitere';
+            cell.appendChild(more);
+        }
+
+        grid.appendChild(cell);
+    }
+}
+
+/* ─── List View ─── */
+function renderList() {
+    var list = document.getElementById('event-list');
+    var fe = filteredEntries();
+    if (!fe.length) {
+        list.innerHTML = '<div class="empty-state"><div class="icon">📅</div><p>Keine Einträge vorhanden.<br>Füge oben deinen ersten Eintrag hinzu.</p></div>';
+        return;
+    }
+    var today = new Date().toISOString().slice(0,10);
+    list.innerHTML = '';
+    fe.forEach(function(ev) {
+        var overdue = ev.date < today;
+        var item = document.createElement('div');
+        item.className = 'event-item type-' + ev.type + (overdue ? ' overdue' : '');
+        item.innerHTML =
+            '<div class="event-stripe type-' + ev.type + '" style="background:' + (TYPE_COLORS[ev.type]||'#666') + '"></div>' +
+            '<div class="event-info">' +
+              '<h4>' + esc(ev.title) + '</h4>' +
+              '<div class="event-meta">' +
+                (ev.customer ? '<span>👤 ' + esc(ev.customer) + '</span>' : '') +
+                '<span>📅 ' + fmtDate(ev.date) + (ev.time ? ' ' + ev.time + ' Uhr' : '') + '</span>' +
+                '<span>⏱ ' + ev.duration + 'h</span>' +
+                '<span class="type-' + ev.type + '" style="color:' + (TYPE_COLORS[ev.type]||'#666') + '">' + (TYPE_LABELS[ev.type]||ev.type) + '</span>' +
+                (ev.version ? '<span>🔄 ' + esc(ev.version) + '</span>' : '') +
+              '</div>' +
+              (ev.notes ? '<div class="event-notes">' + esc(ev.notes) + '</div>' : '') +
+            '</div>' +
+            '<div class="event-actions">' +
+              '<button class="btn-edit" onclick="startEdit(\'' + ev.id + '\')">Bearbeiten</button>' +
+              '<button class="btn-del" onclick="deleteEntry(\'' + ev.id + '\')">Löschen</button>' +
+            '</div>';
+        list.appendChild(item);
+    });
+}
+
+function setView(v, btn) {
+    currentView = v;
+    document.querySelectorAll('.view-tab').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById('view-cal').style.display  = v === 'cal'  ? 'block' : 'none';
+    document.getElementById('view-list').style.display = v === 'list' ? 'block' : 'none';
+    renderAll();
+}
+
+function renderAll() {
+    renderCalendar();
+    renderList();
+}
+
+/* ─── Export / Import ─── */
+function exportJSON() {
+    var blob = new Blob([JSON.stringify(entries, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'patch-plan-' + new Date().toISOString().slice(0,10) + '.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+function importJSON(event) {
+    var file = event.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            var data = JSON.parse(e.target.result);
+            if (!Array.isArray(data)) throw new Error('Kein Array');
+            if (confirm('Bestehende Einträge ' + (entries.length > 0 ? 'zusammenführen' : 'laden') + '? (' + data.length + ' Einträge importieren)')) {
+                var existing = new Set(entries.map(function(x){ return x.id; }));
+                data.forEach(function(item) {
+                    if (!existing.has(item.id)) entries.push(item);
+                });
+                entries.sort(function(a,b){ return a.date.localeCompare(b.date); });
+                save();
+                renderAll();
+            }
+        } catch(err) {
+            alert('Fehler beim Importieren: ' + err.message);
+        }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+}
+
+function exportPDF() {
+    var jsPDF = window.jspdf ? window.jspdf.jsPDF : (window.jsPDF || (jspdf && jspdf.jsPDF));
+    if (!jsPDF) { alert('jsPDF nicht geladen.'); return; }
+    var doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    var margin = 15;
+    var y = margin;
+    var pw = 210 - margin*2;
+
+    doc.setFontSize(16); doc.setFont(undefined, 'bold');
+    doc.text('Patch-Plan / Wartungsfenster', margin, y); y += 8;
+    doc.setFontSize(9); doc.setFont(undefined, 'normal');
+    doc.text('T-Alpha GmbH  ·  Erstellt: ' + new Date().toLocaleDateString('de-CH'), margin, y); y += 10;
+
+    var fe = filteredEntries();
+    if (!fe.length) {
+        doc.setFontSize(11);
+        doc.text('Keine Einträge vorhanden.', margin, y);
+    } else {
+        fe.forEach(function(ev) {
+            if (y > 265) { doc.addPage(); y = margin; }
+            var title = (ev.customer ? ev.customer + ': ' : '') + ev.title;
+            doc.setFontSize(11); doc.setFont(undefined, 'bold');
+            doc.text(title, margin, y); y += 5;
+            doc.setFontSize(9); doc.setFont(undefined, 'normal');
+            var meta = fmtDate(ev.date) + (ev.time ? ' ' + ev.time + ' Uhr' : '') +
+                       '  |  Dauer: ' + ev.duration + 'h' +
+                       '  |  Typ: ' + (TYPE_LABELS[ev.type]||ev.type) +
+                       (ev.version ? '  |  ' + ev.version : '');
+            doc.text(meta, margin, y); y += 4;
+            if (ev.notes) {
+                var lines = doc.splitTextToSize(ev.notes, pw);
+                doc.setTextColor(100,100,100);
+                doc.text(lines, margin, y); y += lines.length * 4;
+                doc.setTextColor(0,0,0);
+            }
+            y += 5;
+            doc.setDrawColor(200,200,200);
+            doc.line(margin, y-2, margin+pw, y-2);
+        });
+    }
+
+    doc.save('patch-plan-' + new Date().toISOString().slice(0,10) + '.pdf');
+}
+
+/* ─── Helpers ─── */
+function pad(n) { return n < 10 ? '0'+n : ''+n; }
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtDate(d) {
+    if (!d) return '';
+    var p = d.split('-');
+    return p[2] + '.' + p[1] + '.' + p[0];
+}
+
+/* ─── Init ─── */
+var now = new Date();
+currentYear  = now.getFullYear();
+currentMonth = now.getMonth();
+load();
+renderAll();
+</script>
+</body>
+</html>
