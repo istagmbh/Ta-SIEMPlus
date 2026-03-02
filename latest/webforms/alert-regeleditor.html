@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alert-Regeleditor – Ta-SIEMPlus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/ta-alpha-brand.css">
+    <style>
+        .editor-layout {
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+        @media (max-width: 960px) { .editor-layout { grid-template-columns: 1fr; } }
+
+        .rule-form { background: var(--ta-gray-light); border: 1.5px solid var(--ta-gray-mid); border-radius: var(--ta-border-radius); padding: 20px; }
+        .rule-form h3 { margin: 0 0 4px; color: var(--ta-blue); font-size: 1em; font-weight: 700; }
+        .rule-form .form-subtitle { font-size: 0.8em; color: var(--ta-gray); margin-bottom: 16px; }
+
+        .section-label {
+            font-size: 0.72em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em;
+            color: var(--ta-gray); margin: 16px 0 8px; padding-top: 14px; border-top: 1px solid var(--ta-gray-mid);
+        }
+        .section-label:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+
+        .fg { margin-bottom: 12px; }
+        .fg label { display: block; font-size: 0.82em; font-weight: 600; color: var(--ta-gray); margin-bottom: 4px; }
+        .fg input, .fg select, .fg textarea {
+            width: 100%; box-sizing: border-box; padding: 7px 10px;
+            border: 1.5px solid var(--ta-gray-mid); border-radius: 5px;
+            font-family: inherit; font-size: 0.88em; background: #fff; color: #222;
+            transition: border-color 0.15s;
+        }
+        .fg input:focus, .fg select:focus, .fg textarea:focus { outline: none; border-color: var(--ta-blue); }
+        .fg .hint { font-size: 0.74em; color: var(--ta-gray); margin-top: 3px; }
+        .fg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .fg-row3 { display: grid; grid-template-columns: 2fr 1.5fr 1fr; gap: 8px; }
+
+        /* Level indicator */
+        .level-bar { display: flex; gap: 3px; align-items: center; margin-top: 6px; }
+        .level-seg { height: 6px; flex: 1; border-radius: 2px; background: var(--ta-gray-mid); }
+        .level-seg.active-low    { background: #2a9d8f; }
+        .level-seg.active-mid    { background: #e9c46a; }
+        .level-seg.active-high   { background: #e63946; }
+        .level-label { font-size: 0.75em; color: var(--ta-gray); margin-left: 8px; white-space: nowrap; }
+
+        /* Conditions */
+        .conditions-list { display: flex; flex-direction: column; gap: 8px; }
+        .condition-row {
+            display: grid;
+            grid-template-columns: 1.5fr 1.2fr 1fr auto;
+            gap: 6px;
+            align-items: center;
+            background: #fff;
+            border: 1.5px solid var(--ta-gray-mid);
+            border-radius: 6px;
+            padding: 8px 10px;
+        }
+        .condition-row input, .condition-row select {
+            width: 100%; box-sizing: border-box; padding: 5px 8px;
+            border: 1.5px solid var(--ta-gray-mid); border-radius: 4px;
+            font-family: inherit; font-size: 0.82em; background: #fff;
+        }
+        .condition-row input:focus, .condition-row select:focus { outline: none; border-color: var(--ta-blue); }
+        .cond-del {
+            padding: 5px 9px; border: 1.5px solid var(--ta-gray-mid);
+            background: #fff; border-radius: 4px; cursor: pointer; color: #dc3545;
+            font-size: 0.85em; line-height: 1; transition: all 0.15s;
+        }
+        .cond-del:hover { background: #dc3545; color: #fff; border-color: #dc3545; }
+
+        /* Options checkboxes */
+        .opts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .opt-item { display: flex; align-items: center; gap: 8px; }
+        .opt-item label { font-size: 0.85em; font-weight: 500; color: var(--ta-gray); margin: 0; cursor: pointer; }
+        .opt-item input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--ta-blue); cursor: pointer; }
+
+        /* Preview */
+        .preview-wrap { position: sticky; top: 20px; }
+        .preview-header {
+            display: flex; align-items: center; justify-content: space-between;
+            background: #1e2030; color: #c9d1d9;
+            padding: 10px 16px; border-radius: 8px 8px 0 0;
+            font-size: 0.83em; font-weight: 600;
+        }
+        .preview-actions { display: flex; gap: 8px; }
+        .preview-actions button {
+            padding: 5px 12px; border: 1.5px solid rgba(255,255,255,0.25);
+            background: transparent; color: #c9d1d9; border-radius: 4px;
+            cursor: pointer; font-size: 0.82em; font-weight: 600; font-family: inherit;
+            transition: all 0.15s;
+        }
+        .preview-actions button:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }
+        .preview-actions button.copied { color: #7ee787; border-color: #7ee787; }
+        .xml-preview {
+            background: #161b22; border-radius: 0 0 8px 8px;
+            overflow: auto; max-height: 50vh; min-height: 220px;
+        }
+        .xml-preview pre {
+            margin: 0; padding: 16px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.78em;
+            line-height: 1.65; color: #e6edf3; white-space: pre;
+        }
+        .hl-comment { color: #8b949e; }
+        .hl-tag { color: #7ee787; }
+        .hl-attr { color: #79c0ff; }
+        .hl-val { color: #a5d6ff; }
+
+        /* Templates panel */
+        .tpl-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .tpl-card {
+            background: #fff; border: 1.5px solid var(--ta-gray-mid);
+            border-radius: 8px; padding: 12px 14px; cursor: pointer;
+            transition: all 0.15s;
+        }
+        .tpl-card:hover { border-color: var(--ta-blue); background: var(--ta-blue-pale); }
+        .tpl-card h4 { margin: 0 0 4px; font-size: 0.88em; color: var(--ta-blue); }
+        .tpl-card p { margin: 0; font-size: 0.78em; color: var(--ta-gray); line-height: 1.4; }
+        .tpl-card .tpl-meta { font-size: 0.73em; color: var(--ta-gray); margin-top: 6px; display: flex; gap: 8px; }
+        .tpl-badge {
+            display: inline-block; padding: 1px 6px; border-radius: 3px;
+            font-size: 0.7em; font-weight: 700;
+            background: var(--ta-blue-pale); color: var(--ta-blue);
+        }
+
+        /* Rule library list */
+        .rule-library { display: flex; flex-direction: column; gap: 8px; }
+        .library-item {
+            display: grid; grid-template-columns: 1fr auto;
+            align-items: center; gap: 10px;
+            background: #fff; border: 1.5px solid var(--ta-gray-mid);
+            border-radius: 6px; padding: 10px 14px;
+        }
+        .library-item h4 { margin: 0 0 2px; font-size: 0.88em; color: #1a1a2e; }
+        .library-item p { margin: 0; font-size: 0.78em; color: var(--ta-gray); }
+        .library-item button { white-space: nowrap; }
+
+        /* Tab nav */
+        .tab-nav { display: flex; gap: 4px; border-bottom: 2px solid var(--ta-blue); margin-bottom: 24px; }
+        .tab-btn {
+            padding: 8px 18px; border: none; background: var(--ta-gray-light);
+            color: var(--ta-gray); font-family: inherit; font-size: 0.88em;
+            font-weight: 600; border-radius: 6px 6px 0 0; cursor: pointer; transition: all 0.15s;
+        }
+        .tab-btn:hover { background: var(--ta-blue-pale); color: var(--ta-blue); }
+        .tab-btn.active { background: var(--ta-blue); color: #fff; }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <div class="header-inner">
+            <img src="assets/ta-alpha-logo.svg" alt="T-Alpha GmbH" class="header-logo">
+            <div class="header-text">
+                <h1>Alert-Regeleditor</h1>
+                <p class="subtitle">Wazuh Custom Detection Rules visuell erstellen &amp; exportieren &middot; T-Alpha GmbH</p>
+            </div>
+        </div>
+        <div style="position:absolute;top:20px;right:32px;display:flex;gap:10px;">
+            <a href="index.html" style="color:rgba(255,255,255,0.85);text-decoration:none;font-size:0.85em;font-weight:500;padding:6px 14px;border:1.5px solid rgba(255,255,255,0.4);border-radius:20px;">← Web-Tools</a>
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="tab-nav">
+            <button class="tab-btn active" data-tab="editor">Regel-Editor</button>
+            <button class="tab-btn" data-tab="templates">Vorlagen-Bibliothek</button>
+            <button class="tab-btn" data-tab="reference">Referenz</button>
+        </div>
+
+        <!-- ─── TAB: EDITOR ─── -->
+        <div class="tab-panel active" id="tab-editor">
+            <div class="editor-layout">
+                <!-- FORM -->
+                <div class="rule-form">
+                    <h3>Regel definieren</h3>
+                    <p class="form-subtitle">Formular ausfüllen → XML wird live generiert</p>
+
+                    <div class="section-label">Basis-Eigenschaften</div>
+                    <div class="fg-row">
+                        <div class="fg">
+                            <label>Rule ID <span style="color:#dc3545">*</span></label>
+                            <input type="number" id="r-id" placeholder="100001" min="100000" max="199999" oninput="renderRule()">
+                            <div class="hint">Eigene Regeln: 100000–199999</div>
+                        </div>
+                        <div class="fg">
+                            <label>Level (1–15) <span style="color:#dc3545">*</span></label>
+                            <input type="number" id="r-level" placeholder="7" min="1" max="15" oninput="renderRule(); updateLevelBar()">
+                        </div>
+                    </div>
+                    <div id="level-indicator" style="margin:-6px 0 12px;">
+                        <div class="level-bar" id="level-bar"></div>
+                        <span class="level-label" id="level-text" style="font-size:0.78em;color:var(--ta-gray);"></span>
+                    </div>
+                    <div class="fg">
+                        <label>Beschreibung <span style="color:#dc3545">*</span></label>
+                        <input type="text" id="r-desc" placeholder="Beschreibt, was diese Regel erkennt" oninput="renderRule()">
+                    </div>
+                    <div class="fg">
+                        <label>Gruppen (kommagetrennt)</label>
+                        <input type="text" id="r-groups" placeholder="authentication_failed,pci_dss_10.2.4" oninput="renderRule()">
+                        <div class="hint">Kategorien für Dashboards &amp; Filter</div>
+                    </div>
+
+                    <div class="section-label">Übergeordnete Regel (optional)</div>
+                    <div class="fg-row">
+                        <div class="fg">
+                            <label>if_sid (Rule-ID parent)</label>
+                            <input type="text" id="r-ifsid" placeholder="5710" oninput="renderRule()">
+                            <div class="hint">Kommagetrennt möglich</div>
+                        </div>
+                        <div class="fg">
+                            <label>if_group</label>
+                            <input type="text" id="r-ifgroup" placeholder="authentication_failed" oninput="renderRule()">
+                        </div>
+                    </div>
+
+                    <div class="section-label">Bedingungen (Match-Felder)</div>
+                    <div class="conditions-list" id="conditions-list"></div>
+                    <button class="btn-secondary" onclick="addCondition()" style="margin-top:8px;font-size:0.85em;padding:7px 14px;">+ Bedingung hinzufügen</button>
+
+                    <div class="section-label">Frequenz &amp; Zeitfenster</div>
+                    <div class="fg-row">
+                        <div class="fg">
+                            <label>frequency (Häufigkeit)</label>
+                            <input type="number" id="r-freq" placeholder="" min="2" oninput="renderRule()">
+                            <div class="hint">Min. Ereignisse innerhalb timeframe</div>
+                        </div>
+                        <div class="fg">
+                            <label>timeframe (Sekunden)</label>
+                            <input type="number" id="r-tf" placeholder="" min="1" oninput="renderRule()">
+                        </div>
+                    </div>
+
+                    <div class="section-label">Optionen</div>
+                    <div class="opts-grid">
+                        <div class="opt-item">
+                            <input type="checkbox" id="o-email" onchange="renderRule()">
+                            <label for="o-email">E-Mail-Alert senden</label>
+                        </div>
+                        <div class="opt-item">
+                            <input type="checkbox" id="o-noalert" onchange="renderRule()">
+                            <label for="o-noalert">noalert (kein Alert, nur intern)</label>
+                        </div>
+                        <div class="opt-item">
+                            <input type="checkbox" id="o-overwrite" onchange="renderRule()">
+                            <label for="o-overwrite">overwrite (bestehende Regel überschreiben)</label>
+                        </div>
+                    </div>
+                    <div class="fg" style="margin-top:10px;">
+                        <label>ignore (Sekunden, 0 = deaktiviert)</label>
+                        <input type="number" id="r-ignore" value="0" min="0" oninput="renderRule()" style="max-width:120px;">
+                        <div class="hint">Alert für N Sekunden nach erstem Treffer unterdrücken</div>
+                    </div>
+
+                    <div class="section-label">MITRE ATT&amp;CK (optional)</div>
+                    <div class="fg-row">
+                        <div class="fg">
+                            <label>Tactic ID (e.g. TA0006)</label>
+                            <input type="text" id="r-mitre-tac" placeholder="TA0006" oninput="renderRule()">
+                        </div>
+                        <div class="fg">
+                            <label>Technique ID (e.g. T1110)</label>
+                            <input type="text" id="r-mitre-tec" placeholder="T1110" oninput="renderRule()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PREVIEW -->
+                <div class="preview-wrap">
+                    <div class="preview-header">
+                        <span style="font-family:'JetBrains Mono',monospace;opacity:0.8;">/var/ossec/etc/rules/local_rules.xml</span>
+                        <div class="preview-actions">
+                            <button onclick="copyXml(this)">Kopieren</button>
+                            <button onclick="downloadXml()">Download .xml</button>
+                            <button onclick="resetForm()">Zurücksetzen</button>
+                        </div>
+                    </div>
+                    <div class="xml-preview"><pre id="xml-preview"></pre></div>
+
+                    <!-- Validation panel -->
+                    <div id="validation-panel" style="margin-top:12px;"></div>
+
+                    <!-- Rule library (saved rules) -->
+                    <div style="margin-top:16px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                            <strong style="font-size:0.88em;color:var(--ta-blue);">Gespeicherte Regeln</strong>
+                            <button class="btn-primary" onclick="saveRule()" style="padding:6px 14px;font-size:0.82em;">Regel speichern</button>
+                        </div>
+                        <div class="rule-library" id="rule-library">
+                            <div style="text-align:center;color:var(--ta-gray);font-size:0.85em;padding:16px;">
+                                Noch keine gespeicherten Regeln. Formular ausfüllen und "Regel speichern" klicken.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── TAB: TEMPLATES ─── -->
+        <div class="tab-panel" id="tab-templates">
+            <div class="alert alert-info" style="margin-bottom:16px;">
+                Vorlage auswählen → Felder werden automatisch befüllt → Tab "Regel-Editor" für Anpassung.
+            </div>
+            <div class="tpl-grid" id="tpl-grid"></div>
+        </div>
+
+        <!-- ─── TAB: REFERENCE ─── -->
+        <div class="tab-panel" id="tab-reference">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+                <div>
+                    <h3 style="color:var(--ta-blue);margin-top:0;">Match-Typen</h3>
+                    <table style="width:100%;border-collapse:collapse;font-size:0.88em;">
+                        <thead><tr style="background:var(--ta-blue);color:#fff;">
+                            <th style="padding:8px;text-align:left;">Typ</th><th style="padding:8px;text-align:left;">Beschreibung</th>
+                        </tr></thead>
+                        <tbody>
+                            <tr><td style="padding:6px 8px;border-bottom:1px solid var(--ta-gray-mid);font-family:monospace;">match</td><td style="padding:6px 8px;border-bottom:1px solid var(--ta-gray-mid);">Enthält den exakten String (case-insensitive)</td></tr>
+                            <tr><td style="padding:6px 8px;border-bottom:1px solid var(--ta-gray-mid);font-family:monospace;">regex</td><td style="padding:6px 8px;border-bottom:1px solid var(--ta-gray-mid);">POSIX Extended Regular Expression</td></tr>
+                            <tr><td style="padding:6px 8px;border-bottom:1px solid var(--ta-gray-mid);font-family:monospace;">pcre2</td><td style="padding:6px 8px;border-bottom:1px solid var(--ta-gray-mid);">Perl Compatible Regular Expression (modern)</td></tr>
+                            <tr><td style="padding:6px 8px;border-bottom:1px solid var(--ta-gray-mid);font-family:monospace;">negation</td><td style="padding:6px 8px;border-bottom:1px solid var(--ta-gray-mid);">Trifft zu wenn String NICHT enthalten ist</td></tr>
+                            <tr><td style="padding:6px 8px;font-family:monospace;">field</td><td style="padding:6px 8px;">Decoded-Field aus dem JSON-Log prüfen</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h3 style="color:var(--ta-blue);margin-top:24px;">Level-Übersicht</h3>
+                    <table style="width:100%;border-collapse:collapse;font-size:0.88em;">
+                        <thead><tr style="background:var(--ta-blue);color:#fff;">
+                            <th style="padding:8px;">Level</th><th style="padding:8px;text-align:left;">Bedeutung</th>
+                        </tr></thead>
+                        <tbody>
+                            <tr><td style="padding:6px 8px;text-align:center;border-bottom:1px solid var(--ta-gray-mid);">1–3</td><td style="padding:6px 8px;border-bottom:1px solid var(--ta-gray-mid);">Info / Debug (keine Alerts)</td></tr>
+                            <tr><td style="padding:6px 8px;text-align:center;border-bottom:1px solid var(--ta-gray-mid);">4–7</td><td style="padding:6px 8px;border-bottom:1px solid var(--ta-gray-mid);">Low / Niedrig</td></tr>
+                            <tr><td style="padding:6px 8px;text-align:center;border-bottom:1px solid var(--ta-gray-mid);">8–11</td><td style="padding:6px 8px;border-bottom:1px solid var(--ta-gray-mid);">Medium / Mittel</td></tr>
+                            <tr><td style="padding:6px 8px;text-align:center;border-bottom:1px solid var(--ta-gray-mid);">12–14</td><td style="padding:6px 8px;border-bottom:1px solid var(--ta-gray-mid);">High / Hoch</td></tr>
+                            <tr><td style="padding:6px 8px;text-align:center;">15</td><td style="padding:6px 8px;">Critical / Kritisch</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3 style="color:var(--ta-blue);margin-top:0;">Häufige Felder (field name)</h3>
+                    <table style="width:100%;border-collapse:collapse;font-size:0.85em;">
+                        <thead><tr style="background:var(--ta-blue);color:#fff;">
+                            <th style="padding:8px;text-align:left;">Feld</th><th style="padding:8px;text-align:left;">Beschreibung</th>
+                        </tr></thead>
+                        <tbody id="ref-fields"></tbody>
+                    </table>
+
+                    <h3 style="color:var(--ta-blue);margin-top:24px;">Wichtige Hinweise</h3>
+                    <ul style="font-size:0.88em;line-height:1.7;color:#444;">
+                        <li>Eigene Rule-IDs: <strong>100000–199999</strong></li>
+                        <li>Datei: <code>/var/ossec/etc/rules/local_rules.xml</code></li>
+                        <li>Wrapping-Element: <code>&lt;group name="..."&gt;</code></li>
+                        <li>Nach Änderung: <code>systemctl restart wazuh-manager</code></li>
+                        <li>Test: <code>/var/ossec/bin/wazuh-logtest</code></li>
+                        <li>Validierung: <code>/var/ossec/bin/wazuh-control check-config</code></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /content -->
+
+    <footer class="ta-footer">
+        <p>&copy; 2026 <a href="https://www.t-alpha.ch" target="_blank">T-Alpha GmbH</a>
+        &middot; IT Security
+        &middot; <a href="index.html">← Web-Tools</a>
+        &middot; <a href="https://documentation.wazuh.com/current/user-manual/ruleset/custom.html" target="_blank">Wazuh Docs ↗</a></p>
+    </footer>
+</div>
+
+<script>
+/* ─── Tab Switching ─── */
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+        document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+});
+
+/* ─── Templates ─── */
+var TEMPLATES = [
+    {
+        name: 'SSH Brute-Force',
+        desc: 'Mehrere fehlgeschlagene SSH-Logins in kurzer Zeit',
+        level: 10, id: 100002,
+        groups: 'authentication_failed,pci_dss_10.2.4,gdpr_IV_35.7.d',
+        ifsid: '5710', ifgroup: '',
+        conditions: [{ field: 'srcip', type: 'match', value: '' }],
+        freq: 8, tf: 120, email: true, noalert: false, ignore: 300,
+        overwrite: false, mitreTac: 'TA0006', mitreTec: 'T1110',
+        badge: 'Brute-Force'
+    },
+    {
+        name: 'Sudo Privilege Escalation',
+        desc: 'Sudo-Befehl durch unprivilegierten Benutzer ausgeführt',
+        level: 7, id: 100010,
+        groups: 'pam,privilege_escalation',
+        ifsid: '5402', ifgroup: '',
+        conditions: [{ field: 'data.audit.exe', type: 'pcre2', value: '/usr/bin/sudo' }],
+        freq: 0, tf: 0, email: false, noalert: false, ignore: 0,
+        overwrite: false, mitreTac: 'TA0004', mitreTec: 'T1548.003',
+        badge: 'Privilege Escalation'
+    },
+    {
+        name: 'New Local User Created',
+        desc: 'Neues lokales Benutzerkonto wurde angelegt',
+        level: 8, id: 100020,
+        groups: 'account_management,pci_dss_8.1.2',
+        ifsid: '5901', ifgroup: '',
+        conditions: [{ field: 'data.audit.exe', type: 'match', value: 'useradd' }],
+        freq: 0, tf: 0, email: true, noalert: false, ignore: 0,
+        overwrite: false, mitreTac: 'TA0003', mitreTec: 'T1136.001',
+        badge: 'Account Management'
+    },
+    {
+        name: 'Firewall Block (Repeated)',
+        desc: 'Wiederholte Firewall-Blockierungen von gleicher Quell-IP',
+        level: 9, id: 100030,
+        groups: 'firewall,network_security',
+        ifsid: '', ifgroup: 'firewall_drop',
+        conditions: [{ field: 'srcip', type: 'match', value: '' }],
+        freq: 10, tf: 60, email: false, noalert: false, ignore: 600,
+        overwrite: false, mitreTac: 'TA0043', mitreTec: 'T1046',
+        badge: 'Netzwerk'
+    },
+    {
+        name: 'Mimikatz / LSASS Access',
+        desc: 'LSASS-Prozesszugriff – mögliche Credential-Extraktion',
+        level: 14, id: 100040,
+        groups: 'attack,credential_access,windows',
+        ifsid: '61100', ifgroup: '',
+        conditions: [
+            { field: 'data.win.eventdata.targetImage', type: 'pcre2', value: '(?i)lsass.exe' },
+            { field: 'data.win.eventdata.grantedAccess', type: 'pcre2', value: '0x(14[0-9a-f]|[1-9a-f][0-9a-f]{2,})' }
+        ],
+        freq: 0, tf: 0, email: true, noalert: false, ignore: 0,
+        overwrite: false, mitreTac: 'TA0006', mitreTec: 'T1003.001',
+        badge: 'Credential Access'
+    },
+    {
+        name: 'PowerShell Encoded Command',
+        desc: 'PowerShell mit Base64-encodiertem Command ausgeführt',
+        level: 11, id: 100050,
+        groups: 'windows,attack,execution',
+        ifsid: '91801', ifgroup: '',
+        conditions: [
+            { field: 'data.win.eventdata.commandLine', type: 'pcre2', value: '(?i)-enc(oded)?\\s+[A-Za-z0-9+/]{20,}' }
+        ],
+        freq: 0, tf: 0, email: false, noalert: false, ignore: 0,
+        overwrite: false, mitreTac: 'TA0002', mitreTec: 'T1059.001',
+        badge: 'Execution'
+    },
+    {
+        name: 'File Integrity Violation',
+        desc: 'Kritische Systemdatei wurde unerwartet geändert',
+        level: 12, id: 100060,
+        groups: 'syscheck,integrity_check,pci_dss_11.5',
+        ifsid: '550', ifgroup: '',
+        conditions: [{ field: 'syscheck.path', type: 'pcre2', value: '^/(etc/passwd|etc/shadow|etc/sudoers)' }],
+        freq: 0, tf: 0, email: true, noalert: false, ignore: 0,
+        overwrite: false, mitreTac: 'TA0005', mitreTec: 'T1565',
+        badge: 'FIM'
+    },
+    {
+        name: 'Web Attack – SQL Injection',
+        desc: 'Mögliche SQL-Injection in Apache/Nginx Access Log',
+        level: 10, id: 100070,
+        groups: 'web,attack,sql_injection',
+        ifsid: '31101', ifgroup: '',
+        conditions: [
+            { field: 'data.url', type: 'pcre2', value: '(?i)(union\\s+select|select\\s+\\*|drop\\s+table|1=1|or\\s+1=1)' }
+        ],
+        freq: 0, tf: 0, email: false, noalert: false, ignore: 60,
+        overwrite: false, mitreTac: 'TA0001', mitreTec: 'T1190',
+        badge: 'Web Attack'
+    }
+];
+
+var REF_FIELDS = [
+    { f: 'srcip', d: 'Quell-IP-Adresse' },
+    { f: 'dstip', d: 'Ziel-IP-Adresse' },
+    { f: 'srcuser', d: 'Quell-Benutzername' },
+    { f: 'dstuser', d: 'Ziel-Benutzername' },
+    { f: 'url', d: 'URL (Web-Logs)' },
+    { f: 'data.audit.exe', d: 'Ausgeführtes Programm (Audit)' },
+    { f: 'data.win.eventdata.commandLine', d: 'Windows Prozess-Commandline' },
+    { f: 'data.win.eventdata.targetImage', d: 'Ziel-Prozessimage (Sysmon 10)' },
+    { f: 'data.win.system.eventID', d: 'Windows Event-ID' },
+    { f: 'syscheck.path', d: 'FIM – geänderter Dateipfad' },
+    { f: 'syscheck.sha256_after', d: 'FIM – neuer SHA256-Hash' },
+    { f: 'full_log', d: 'Vollständiger Logeintrag (Rohdaten)' },
+];
+
+var LEVEL_LABELS = ['','Noise','Noise','Info','Low','Low','Low','Low','Medium','Medium','Medium','Medium','High','High','High','Critical'];
+
+/* ─── Conditions ─── */
+var conditionCount = 0;
+function addCondition(preset) {
+    preset = preset || {};
+    var list = document.getElementById('conditions-list');
+    var idx = conditionCount++;
+    var row = document.createElement('div');
+    row.className = 'condition-row';
+    row.id = 'cond-' + idx;
+    row.innerHTML =
+        '<input type="text" placeholder="Feld / match-Text" value="' + esc(preset.field||'') + '" ' +
+            'oninput="renderRule()" id="cf-' + idx + '">' +
+        '<select oninput="renderRule()" id="ct-' + idx + '">' +
+            ['match','regex','pcre2','negation','field'].map(function(t) {
+                return '<option value="' + t + '"' + (t === (preset.type||'match') ? ' selected' : '') + '>' + t + '</option>';
+            }).join('') +
+        '</select>' +
+        '<input type="text" placeholder="Wert" value="' + esc(preset.value||'') + '" ' +
+            'oninput="renderRule()" id="cv-' + idx + '">' +
+        '<button class="cond-del" onclick="removeCondition(\'' + idx + '\')">✕</button>';
+    list.appendChild(row);
+    renderRule();
+}
+function removeCondition(idx) {
+    var el = document.getElementById('cond-' + idx);
+    if (el) el.remove();
+    renderRule();
+}
+function getConditions() {
+    var rows = document.querySelectorAll('.condition-row');
+    var out = [];
+    rows.forEach(function(row) {
+        var id = row.id.replace('cond-','');
+        var field = (document.getElementById('cf-'+id)||{}).value||'';
+        var type  = (document.getElementById('ct-'+id)||{}).value||'match';
+        var value = (document.getElementById('cv-'+id)||{}).value||'';
+        if (field) out.push({ field: field, type: type, value: value });
+    });
+    return out;
+}
+
+/* ─── Level Bar ─── */
+function updateLevelBar() {
+    var lvl = parseInt(document.getElementById('r-level').value) || 0;
+    var bar = document.getElementById('level-bar');
+    bar.innerHTML = '';
+    for (var i = 1; i <= 15; i++) {
+        var seg = document.createElement('div');
+        seg.className = 'level-seg';
+        if (i <= lvl) {
+            if (i <= 7)  seg.className += ' active-low';
+            else if (i <= 11) seg.className += ' active-mid';
+            else seg.className += ' active-high';
+        }
+        bar.appendChild(seg);
+    }
+    document.getElementById('level-text').textContent = lvl ? (LEVEL_LABELS[lvl] || '') + ' (Level ' + lvl + ')' : '';
+}
+
+/* ─── XML Rendering ─── */
+function renderRule() {
+    var rId     = document.getElementById('r-id').value;
+    var rLevel  = document.getElementById('r-level').value;
+    var rDesc   = document.getElementById('r-desc').value;
+    var rGroups = document.getElementById('r-groups').value.trim();
+    var rIfSid  = document.getElementById('r-ifsid').value.trim();
+    var rIfGrp  = document.getElementById('r-ifgroup').value.trim();
+    var rFreq   = document.getElementById('r-freq').value;
+    var rTf     = document.getElementById('r-tf').value;
+    var rIgnore = parseInt(document.getElementById('r-ignore').value) || 0;
+    var oEmail  = document.getElementById('o-email').checked;
+    var oNoAlert= document.getElementById('o-noalert').checked;
+    var oOverwrite = document.getElementById('o-overwrite').checked;
+    var mitreTac = document.getElementById('r-mitre-tac').value.trim();
+    var mitreTec = document.getElementById('r-mitre-tec').value.trim();
+    var conds   = getConditions();
+
+    var attrs = ' id="' + (rId || 'XXXXX') + '" level="' + (rLevel || 'X') + '"';
+    if (rFreq) attrs += ' frequency="' + rFreq + '"';
+    if (rTf)   attrs += ' timeframe="' + rTf + '"';
+    if (oOverwrite) attrs += ' overwrite="yes"';
+
+    var lines = [];
+    lines.push('<group name="' + (rGroups || 'local,') + '">');
+    lines.push('');
+    lines.push('  <rule' + attrs + '>');
+    if (rIfSid) lines.push('    <if_sid>' + esc(rIfSid) + '</if_sid>');
+    if (rIfGrp) lines.push('    <if_group>' + esc(rIfGrp) + '</if_group>');
+
+    conds.forEach(function(c) {
+        var tag, attrVal = '';
+        if (c.type === 'match')    { tag = 'match'; }
+        else if (c.type === 'regex')   { tag = 'regex'; }
+        else if (c.type === 'pcre2')   { tag = 'pcre2'; }
+        else if (c.type === 'negation'){ tag = 'match'; attrVal = ' negate="yes"'; }
+        else if (c.type === 'field')   { tag = 'field'; attrVal = ' name="' + esc(c.field) + '"'; }
+
+        if (c.type === 'field') {
+            lines.push('    <field name="' + esc(c.field) + '">' + esc(c.value) + '</field>');
+        } else {
+            lines.push('    <' + tag + attrVal + '>' + esc(c.value || c.field) + '</' + tag + '>');
+        }
+    });
+
+    lines.push('    <description>' + esc(rDesc || 'Beschreibung der Regel') + '</description>');
+
+    if (rGroups) {
+        lines.push('    <group>' + esc(rGroups) + '</group>');
+    }
+    if (oEmail)   lines.push('    <options>email_alert</options>');
+    if (oNoAlert) lines.push('    <options>no_alert</options>');
+    if (rIgnore > 0) lines.push('    <ignore>' + rIgnore + '</ignore>');
+
+    if (mitreTac || mitreTec) {
+        lines.push('    <mitre>');
+        if (mitreTac) lines.push('      <id>' + esc(mitreTac) + '</id>');
+        if (mitreTec) lines.push('      <id>' + esc(mitreTec) + '</id>');
+        lines.push('    </mitre>');
+    }
+
+    lines.push('  </rule>');
+    lines.push('');
+    lines.push('</group>');
+
+    var raw = lines.join('\n');
+    document.getElementById('xml-preview').innerHTML = hlXml(raw);
+    validateRule(rId, rLevel, rDesc, conds);
+}
+
+/* ─── Validation ─── */
+function validateRule(id, level, desc, conds) {
+    var errors = [], warnings = [];
+    var idNum = parseInt(id);
+    var lvlNum = parseInt(level);
+
+    if (!id) errors.push('Rule-ID fehlt');
+    else if (idNum < 100000 || idNum > 199999) warnings.push('Rule-ID außerhalb des empfohlenen Bereichs 100000–199999');
+
+    if (!level) errors.push('Level fehlt');
+    else if (lvlNum < 1 || lvlNum > 15) errors.push('Level muss zwischen 1 und 15 liegen');
+
+    if (!desc) errors.push('Beschreibung fehlt');
+
+    if (conds.length === 0) warnings.push('Keine Bedingungen definiert – Regel trifft auf ALLE Events zu');
+
+    conds.forEach(function(c, i) {
+        if (!c.value && c.type !== 'field') warnings.push('Bedingung ' + (i+1) + ': Wert fehlt');
+    });
+
+    var panel = document.getElementById('validation-panel');
+    if (!errors.length && !warnings.length) {
+        panel.innerHTML = '<div class="alert alert-success" style="padding:8px 14px;font-size:0.82em;">✓ Keine Validierungsfehler</div>';
+    } else {
+        var html = '';
+        errors.forEach(function(e) {
+            html += '<div class="alert alert-danger" style="padding:6px 14px;font-size:0.82em;margin-bottom:4px;">✕ ' + esc(e) + '</div>';
+        });
+        warnings.forEach(function(w) {
+            html += '<div class="alert alert-warning" style="padding:6px 14px;font-size:0.82em;margin-bottom:4px;">⚠ ' + esc(w) + '</div>';
+        });
+        panel.innerHTML = html;
+    }
+}
+
+/* ─── Copy / Download ─── */
+function copyXml(btn) {
+    var text = document.getElementById('xml-preview').innerText;
+    navigator.clipboard.writeText(text).then(function() {
+        btn.textContent = '✓ Kopiert!';
+        btn.classList.add('copied');
+        setTimeout(function(){ btn.textContent = 'Kopieren'; btn.classList.remove('copied'); }, 2000);
+    });
+}
+function downloadXml() {
+    var text = document.getElementById('xml-preview').innerText;
+    var id   = document.getElementById('r-id').value || 'rule';
+    var blob = new Blob([text], { type: 'text/xml' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'local_rule_' + id + '.xml';
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+
+/* ─── Save / Load local rules ─── */
+var SAVED_KEY = 'ta-alert-rules-v1';
+var savedRules = [];
+function loadSaved() {
+    var raw = localStorage.getItem(SAVED_KEY);
+    savedRules = raw ? JSON.parse(raw) : [];
+    renderLibrary();
+}
+function saveRule() {
+    var id    = document.getElementById('r-id').value;
+    var desc  = document.getElementById('r-desc').value || 'Unbenannte Regel';
+    var level = document.getElementById('r-level').value;
+    var xml   = document.getElementById('xml-preview').innerText;
+    if (!id) { alert('Bitte erst Rule-ID ausfüllen.'); return; }
+    savedRules = savedRules.filter(function(r){ return r.id !== id; });
+    savedRules.unshift({ id: id, desc: desc, level: level, xml: xml, saved: new Date().toLocaleDateString('de-CH') });
+    localStorage.setItem(SAVED_KEY, JSON.stringify(savedRules));
+    renderLibrary();
+}
+function renderLibrary() {
+    var lib = document.getElementById('rule-library');
+    if (!savedRules.length) {
+        lib.innerHTML = '<div style="text-align:center;color:var(--ta-gray);font-size:0.85em;padding:16px;">Noch keine gespeicherten Regeln.</div>';
+        return;
+    }
+    lib.innerHTML = '';
+    savedRules.forEach(function(r) {
+        var item = document.createElement('div');
+        item.className = 'library-item';
+        item.innerHTML =
+            '<div><h4>' + esc(r.desc) + '</h4><p>ID: ' + esc(r.id) + ' · Level: ' + esc(r.level) + ' · ' + esc(r.saved) + '</p></div>' +
+            '<div style="display:flex;gap:6px;">' +
+              '<button class="btn-secondary" style="font-size:0.78em;padding:5px 10px;" onclick="loadRuleFromLib(\'' + r.id + '\')">Laden</button>' +
+              '<button class="btn-secondary" style="font-size:0.78em;padding:5px 10px;" onclick="copyFromLib(\'' + r.id + '\', this)">Kopieren</button>' +
+              '<button class="btn-danger" style="font-size:0.78em;padding:5px 10px;" onclick="deleteFromLib(\'' + r.id + '\')">✕</button>' +
+            '</div>';
+        lib.appendChild(item);
+    });
+}
+function loadRuleFromLib(id) {
+    var r = savedRules.find(function(x){ return x.id === id; });
+    if (!r) return;
+    document.getElementById('xml-preview').innerText = r.xml;
+    // Switch to editor tab
+    document.querySelectorAll('.tab-btn')[0].click();
+    alert('XML aus Bibliothek in Vorschau geladen. Manuell in /var/ossec/etc/rules/local_rules.xml einfügen oder Download nutzen.');
+}
+function copyFromLib(id, btn) {
+    var r = savedRules.find(function(x){ return x.id === id; });
+    if (!r) return;
+    navigator.clipboard.writeText(r.xml).then(function() {
+        btn.textContent = '✓';
+        setTimeout(function(){ btn.textContent = 'Kopieren'; }, 1500);
+    });
+}
+function deleteFromLib(id) {
+    if (!confirm('Gespeicherte Regel löschen?')) return;
+    savedRules = savedRules.filter(function(r){ return r.id !== id; });
+    localStorage.setItem(SAVED_KEY, JSON.stringify(savedRules));
+    renderLibrary();
+}
+
+/* ─── Load Template ─── */
+function loadTemplate(t) {
+    resetForm();
+    document.getElementById('r-id').value     = t.id;
+    document.getElementById('r-level').value  = t.level;
+    document.getElementById('r-desc').value   = t.desc;
+    document.getElementById('r-groups').value = t.groups || '';
+    document.getElementById('r-ifsid').value  = t.ifsid || '';
+    document.getElementById('r-ifgroup').value= t.ifgroup || '';
+    document.getElementById('r-freq').value   = t.freq || '';
+    document.getElementById('r-tf').value     = t.tf || '';
+    document.getElementById('r-ignore').value = t.ignore || 0;
+    document.getElementById('o-email').checked   = !!t.email;
+    document.getElementById('o-noalert').checked = !!t.noalert;
+    document.getElementById('o-overwrite').checked = !!t.overwrite;
+    document.getElementById('r-mitre-tac').value = t.mitreTac || '';
+    document.getElementById('r-mitre-tec').value = t.mitreTec || '';
+    (t.conditions || []).forEach(function(c){ addCondition(c); });
+    updateLevelBar();
+    renderRule();
+    // Switch to editor tab
+    document.querySelectorAll('.tab-btn')[0].click();
+}
+
+function resetForm() {
+    document.getElementById('r-id').value = '';
+    document.getElementById('r-level').value = '';
+    document.getElementById('r-desc').value = '';
+    document.getElementById('r-groups').value = '';
+    document.getElementById('r-ifsid').value = '';
+    document.getElementById('r-ifgroup').value = '';
+    document.getElementById('r-freq').value = '';
+    document.getElementById('r-tf').value = '';
+    document.getElementById('r-ignore').value = 0;
+    document.getElementById('o-email').checked = false;
+    document.getElementById('o-noalert').checked = false;
+    document.getElementById('o-overwrite').checked = false;
+    document.getElementById('r-mitre-tac').value = '';
+    document.getElementById('r-mitre-tec').value = '';
+    document.getElementById('conditions-list').innerHTML = '';
+    conditionCount = 0;
+    updateLevelBar();
+    renderRule();
+}
+
+/* ─── Syntax Highlighting ─── */
+function hlXml(raw) {
+    return raw
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/(&lt;!--[\s\S]*?--&gt;)/g,'<span class="hl-comment">$1</span>')
+        .replace(/(&lt;\/?)([\w\-]+)/g,'$1<span class="hl-tag">$2</span>')
+        .replace(/([\w\-]+)(=)(&quot;[^&]*&quot;)/g,'<span class="hl-attr">$1</span>$2<span class="hl-val">$3</span>');
+}
+
+function esc(s) {
+    return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ─── Build Templates Grid ─── */
+function buildTemplates() {
+    var grid = document.getElementById('tpl-grid');
+    TEMPLATES.forEach(function(t) {
+        var card = document.createElement('div');
+        card.className = 'tpl-card';
+        card.innerHTML =
+            '<span class="tpl-badge">' + esc(t.badge) + '</span>' +
+            '<h4>' + esc(t.name) + '</h4>' +
+            '<p>' + esc(t.desc) + '</p>' +
+            '<div class="tpl-meta">' +
+              '<span>ID: ' + t.id + '</span>' +
+              '<span>Level: ' + t.level + '</span>' +
+              (t.mitreTec ? '<span>' + esc(t.mitreTec) + '</span>' : '') +
+            '</div>';
+        card.addEventListener('click', function(){ loadTemplate(t); });
+        grid.appendChild(card);
+    });
+}
+
+/* ─── Build Reference Fields Table ─── */
+function buildRefFields() {
+    var tbody = document.getElementById('ref-fields');
+    REF_FIELDS.forEach(function(f, i) {
+        var tr = document.createElement('tr');
+        tr.style.borderBottom = '1px solid var(--ta-gray-mid)';
+        tr.innerHTML =
+            '<td style="padding:5px 8px;font-family:monospace;font-size:0.82em;' +
+            (i%2===0?'background:var(--ta-gray-light)':'') + '">' + esc(f.f) + '</td>' +
+            '<td style="padding:5px 8px;' + (i%2===0?'background:var(--ta-gray-light)':'') + '">' + esc(f.d) + '</td>';
+        tbody.appendChild(tr);
+    });
+}
+
+/* ─── Init ─── */
+document.addEventListener('DOMContentLoaded', function() {
+    buildTemplates();
+    buildRefFields();
+    addCondition();
+    updateLevelBar();
+    renderRule();
+    loadSaved();
+});
+</script>
+</body>
+</html>
