@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent-Gruppen-Planer – Ta-SIEMPlus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/ta-alpha-brand.css">
+    <style>
+        /* ── Tabs ── */
+        .tab-nav { display:flex; gap:4px; border-bottom:2px solid var(--ta-blue); margin-bottom:24px; flex-wrap:wrap; }
+        .tab-btn { padding:9px 20px; border:none; background:var(--ta-gray-light); color:var(--ta-gray);
+            font-family:inherit; font-size:0.88em; font-weight:600; border-radius:6px 6px 0 0;
+            cursor:pointer; transition:all 0.15s; white-space:nowrap; }
+        .tab-btn:hover { background:var(--ta-blue-pale); color:var(--ta-blue); }
+        .tab-btn.active { background:var(--ta-blue); color:#fff; }
+        .tab-panel { display:none; }
+        .tab-panel.active { display:block; }
+
+        /* ── Category filter ── */
+        .cat-filters { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:18px; }
+        .cat-btn { padding:5px 14px; border:1.5px solid var(--ta-gray-mid); background:#fff;
+            border-radius:20px; cursor:pointer; font-size:0.82em; font-weight:600;
+            color:var(--ta-gray); font-family:inherit; transition:all 0.15s; }
+        .cat-btn:hover { border-color:var(--ta-blue); color:var(--ta-blue); }
+        .cat-btn.active { background:var(--ta-blue); color:#fff; border-color:var(--ta-blue); }
+
+        /* ── Group catalog cards ── */
+        .catalog-layout { display:grid; grid-template-columns:1fr 340px; gap:24px; align-items:start; }
+        @media(max-width:960px){ .catalog-layout { grid-template-columns:1fr; } }
+
+        .catalog-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px; }
+        .group-card {
+            background:#fff; border:2px solid var(--ta-gray-mid); border-radius:8px;
+            padding:12px 14px; cursor:pointer; transition:all 0.15s; position:relative;
+        }
+        .group-card:hover { border-color:var(--ta-blue); transform:translateY(-1px); box-shadow:0 3px 10px rgba(59,62,144,0.1); }
+        .group-card.selected { border-color:var(--ta-blue); background:var(--ta-blue-pale); }
+        .group-card .gc-icon { font-size:1.5em; margin-bottom:6px; }
+        .group-card .gc-name { font-family:'JetBrains Mono',monospace; font-size:0.82em; font-weight:700;
+            color:var(--ta-blue); margin-bottom:4px; }
+        .group-card .gc-desc { font-size:0.78em; color:var(--ta-gray); line-height:1.4; }
+        .group-card .gc-when { font-size:0.73em; color:#888; margin-top:5px; font-style:italic; }
+        .group-card .gc-tags { display:flex; gap:4px; flex-wrap:wrap; margin-top:7px; }
+        .gc-tag { font-size:0.68em; font-weight:700; padding:1px 6px; border-radius:3px;
+            background:var(--ta-gray-light); color:var(--ta-gray); }
+        .group-card .gc-check { position:absolute; top:10px; right:10px; width:20px; height:20px;
+            border-radius:50%; background:var(--ta-blue); color:#fff;
+            display:none; align-items:center; justify-content:center; font-size:0.7em; font-weight:700; }
+        .group-card.selected .gc-check { display:flex; }
+
+        /* ── Selected panel ── */
+        .selected-panel { background:var(--ta-gray-light); border:1.5px solid var(--ta-gray-mid);
+            border-radius:var(--ta-border-radius); padding:16px; position:sticky; top:20px; }
+        .selected-panel h3 { margin:0 0 12px; color:var(--ta-blue); font-size:0.95em; }
+        .selected-list { display:flex; flex-direction:column; gap:6px; min-height:60px; }
+        .selected-item { background:#fff; border:1.5px solid var(--ta-blue); border-radius:6px;
+            padding:8px 12px; display:flex; align-items:center; gap:8px; }
+        .selected-item .si-icon { font-size:1em; }
+        .selected-item .si-name { font-family:'JetBrains Mono',monospace; font-size:0.82em;
+            font-weight:700; color:var(--ta-blue); flex:1; }
+        .selected-item .si-del { background:none; border:none; cursor:pointer; color:#aaa;
+            font-size:1em; padding:0 2px; line-height:1; transition:color 0.15s; }
+        .selected-item .si-del:hover { color:#dc3545; }
+        .empty-note { color:var(--ta-gray); font-size:0.82em; text-align:center; padding:12px 0; }
+
+        /* Custom group form */
+        .custom-group-form { margin-top:16px; padding-top:14px; border-top:1px solid var(--ta-gray-mid); }
+        .custom-group-form h4 { margin:0 0 8px; font-size:0.85em; color:var(--ta-gray); }
+        .fg-sm { margin-bottom:8px; }
+        .fg-sm label { display:block; font-size:0.78em; font-weight:600; color:var(--ta-gray); margin-bottom:3px; }
+        .fg-sm input, .fg-sm select { width:100%; box-sizing:border-box; padding:6px 9px;
+            border:1.5px solid var(--ta-gray-mid); border-radius:4px; font-family:inherit;
+            font-size:0.82em; background:#fff; }
+        .fg-sm input:focus, .fg-sm select:focus { outline:none; border-color:var(--ta-blue); }
+
+        /* ── Inventory analysis ── */
+        .inv-layout { display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start; }
+        @media(max-width:860px){ .inv-layout { grid-template-columns:1fr; } }
+
+        .inv-input-wrap textarea {
+            width:100%; box-sizing:border-box; font-family:'JetBrains Mono',monospace;
+            font-size:0.78em; padding:12px; border:2px solid var(--ta-gray-mid); border-radius:6px;
+            resize:vertical; min-height:280px; background:#fdfdfd; line-height:1.6;
+        }
+        .inv-input-wrap textarea:focus { outline:none; border-color:var(--ta-blue); }
+
+        .format-tabs { display:flex; gap:4px; margin-bottom:8px; }
+        .fmt-btn { padding:5px 12px; border:1.5px solid var(--ta-gray-mid); background:#fff;
+            border-radius:4px; cursor:pointer; font-size:0.8em; font-weight:600;
+            color:var(--ta-gray); font-family:inherit; transition:all 0.15s; }
+        .fmt-btn.active { background:var(--ta-blue); color:#fff; border-color:var(--ta-blue); }
+
+        .inv-table-wrap { overflow-x:auto; }
+        table.inv-table { width:100%; border-collapse:collapse; font-size:0.83em; }
+        .inv-table th { background:var(--ta-blue); color:#fff; padding:8px 10px; text-align:left; font-weight:600; }
+        .inv-table td { padding:7px 10px; border-bottom:1px solid var(--ta-gray-mid); vertical-align:top; }
+        .inv-table tr:hover td { background:var(--ta-blue-pale); }
+        .inv-table .groups-cell { display:flex; gap:4px; flex-wrap:wrap; }
+        .grp-badge { font-size:0.72em; font-weight:700; padding:2px 7px; border-radius:3px;
+            background:var(--ta-blue-pale); color:var(--ta-blue); font-family:'JetBrains Mono',monospace; }
+        .grp-badge.suggested { background:#d4edda; color:#155724; }
+        .grp-badge.manual { background:#fff3cd; color:#856404; }
+        .conf-score { display:inline-flex; align-items:center; gap:4px; }
+        .conf-dot { width:8px; height:8px; border-radius:50%; }
+
+        /* ── Export ── */
+        .export-section { margin-bottom:28px; }
+        .export-section h3 { color:var(--ta-blue); font-size:0.95em; margin:0 0 10px; border-bottom:2px solid var(--ta-blue); padding-bottom:6px; }
+        .code-block-wrap { background:#161b22; border-radius:8px; overflow:auto; max-height:320px; }
+        .code-block-wrap pre { margin:0; padding:16px; font-family:'JetBrains Mono',monospace;
+            font-size:0.78em; line-height:1.65; color:#e6edf3; white-space:pre; }
+        .export-actions { display:flex; gap:8px; margin-top:8px; }
+        .export-actions button { padding:6px 14px; font-size:0.82em; }
+
+        .hl-comment { color:#8b949e; }
+        .hl-tag { color:#7ee787; }
+        .hl-attr { color:#79c0ff; }
+        .hl-val { color:#a5d6ff; }
+        .hl-cmd-kw { color:#ff7b72; }
+        .hl-cmd-flag { color:#79c0ff; }
+        .hl-cmd-val { color:#a5d6ff; }
+        .hl-cmd-comment { color:#8b949e; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <div class="header-inner">
+            <img src="assets/ta-alpha-logo.svg" alt="T-Alpha GmbH" class="header-logo">
+            <div class="header-text">
+                <h1>Agent-Gruppen-Planer</h1>
+                <p class="subtitle">Wazuh Agent-Gruppen strukturieren, Inventar analysieren &amp; Konfiguration exportieren &middot; T-Alpha GmbH</p>
+            </div>
+        </div>
+        <div style="position:absolute;top:20px;right:32px;display:flex;gap:10px;">
+            <a href="index.html" style="color:rgba(255,255,255,0.85);text-decoration:none;font-size:0.85em;font-weight:500;padding:6px 14px;border:1.5px solid rgba(255,255,255,0.4);border-radius:20px;">← Web-Tools</a>
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="tab-nav">
+            <button class="tab-btn active" data-tab="catalog">Gruppen-Baukasten</button>
+            <button class="tab-btn" data-tab="inventory">Inventar-Analyse</button>
+            <button class="tab-btn" data-tab="export">Export &amp; Befehle</button>
+        </div>
+
+        <!-- ═══════════ TAB 1: GRUPPEN-BAUKASTEN ═══════════ -->
+        <div class="tab-panel active" id="tab-catalog">
+            <div class="catalog-layout">
+                <div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+                        <div>
+                            <strong style="color:var(--ta-blue);">Gruppe auswählen</strong>
+                            <span style="font-size:0.82em;color:var(--ta-gray);margin-left:8px;">Klicken zum Aktivieren/Deaktivieren</span>
+                        </div>
+                        <input type="text" id="catalog-search" placeholder="Gruppe suchen…"
+                            oninput="filterCatalog()"
+                            style="padding:6px 12px;border:1.5px solid var(--ta-gray-mid);border-radius:20px;font-size:0.82em;font-family:inherit;width:180px;">
+                    </div>
+                    <div class="cat-filters">
+                        <button class="cat-btn active" data-cat="">Alle</button>
+                        <button class="cat-btn" data-cat="os">Betriebssystem</button>
+                        <button class="cat-btn" data-cat="role">Serverrolle</button>
+                        <button class="cat-btn" data-cat="zone">Netzwerkzone</button>
+                        <button class="cat-btn" data-cat="compliance">Compliance</button>
+                        <button class="cat-btn" data-cat="custom">Eigene</button>
+                    </div>
+                    <div class="catalog-grid" id="catalog-grid"></div>
+                </div>
+
+                <!-- Selected panel -->
+                <div class="selected-panel">
+                    <h3>Ausgewählte Gruppen <span id="sel-count" style="background:var(--ta-blue);color:#fff;border-radius:10px;padding:1px 8px;font-size:0.75em;margin-left:4px;">0</span></h3>
+                    <div class="selected-list" id="selected-list">
+                        <div class="empty-note">Noch keine Gruppen ausgewählt.<br>Links auf eine Gruppe klicken.</div>
+                    </div>
+
+                    <div class="custom-group-form">
+                        <h4>+ Eigene Gruppe hinzufügen</h4>
+                        <div class="fg-sm">
+                            <label>Gruppenname</label>
+                            <input type="text" id="custom-name" placeholder="z.B. kunden-ag-servers">
+                        </div>
+                        <div class="fg-sm">
+                            <label>Beschreibung</label>
+                            <input type="text" id="custom-desc" placeholder="Kurzbeschreibung">
+                        </div>
+                        <div class="fg-sm">
+                            <label>Kategorie</label>
+                            <select id="custom-cat">
+                                <option value="custom">Eigene</option>
+                                <option value="os">Betriebssystem</option>
+                                <option value="role">Serverrolle</option>
+                                <option value="zone">Netzwerkzone</option>
+                                <option value="compliance">Compliance</option>
+                            </select>
+                        </div>
+                        <button class="btn-secondary" onclick="addCustomGroup()" style="width:100%;margin-top:4px;font-size:0.85em;">Gruppe hinzufügen</button>
+                    </div>
+
+                    <div style="margin-top:16px;display:flex;gap:6px;">
+                        <button class="btn-primary" onclick="goToExport()" style="flex:1;font-size:0.85em;" id="export-btn" disabled>Export erstellen →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════ TAB 2: INVENTAR-ANALYSE ═══════════ -->
+        <div class="tab-panel" id="tab-inventory">
+            <div class="inv-layout">
+                <div class="inv-input-wrap">
+                    <div style="font-weight:700;color:var(--ta-blue);margin-bottom:8px;">Inventar einfügen oder eingeben</div>
+
+                    <div class="format-tabs">
+                        <button class="fmt-btn active" onclick="setFmt('csv',this)">CSV</button>
+                        <button class="fmt-btn" onclick="setFmt('json',this)">JSON</button>
+                        <button class="fmt-btn" onclick="setFmt('manual',this)">Manuell</button>
+                    </div>
+
+                    <div id="fmt-hint" style="font-size:0.78em;color:var(--ta-gray);margin-bottom:6px;padding:6px 10px;background:var(--ta-gray-light);border-radius:4px;"></div>
+
+                    <textarea id="inv-input" placeholder="" oninput="parseInventory()"></textarea>
+
+                    <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
+                        <button class="btn-primary" onclick="parseInventory()">Analysieren</button>
+                        <button class="btn-secondary" onclick="loadExample()">Beispiel laden</button>
+                        <button class="btn-secondary" onclick="document.getElementById('inv-input').value='';document.getElementById('inv-results').innerHTML='';invData=[];">Leeren</button>
+                    </div>
+
+                    <div style="margin-top:12px;font-size:0.8em;color:var(--ta-gray);">
+                        <strong>Erkannte Muster (Hostname-Regeln):</strong>
+                        <div style="margin-top:4px;display:flex;flex-direction:column;gap:3px;" id="pattern-list"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <div style="font-weight:700;color:var(--ta-blue);margin-bottom:10px;" id="inv-stat"></div>
+                    <div id="inv-results"></div>
+                </div>
+            </div>
+
+            <!-- Apply to export -->
+            <div id="inv-apply-bar" style="display:none;margin-top:20px;padding:12px 16px;background:var(--ta-blue-pale);border:1.5px solid var(--ta-blue);border-radius:8px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+                <div style="font-size:0.88em;color:var(--ta-blue);font-weight:600;">
+                    <span id="inv-apply-text"></span>
+                </div>
+                <button class="btn-primary" onclick="applyInventoryToExport()">Erkannte Gruppen aktivieren + zum Export →</button>
+            </div>
+        </div>
+
+        <!-- ═══════════ TAB 3: EXPORT ═══════════ -->
+        <div class="tab-panel" id="tab-export">
+            <div id="export-empty" style="text-align:center;padding:40px 20px;color:var(--ta-gray);">
+                <div style="font-size:2.5em;margin-bottom:12px;">📋</div>
+                <p>Noch keine Gruppen ausgewählt.<br>Im Tab <strong>Gruppen-Baukasten</strong> oder <strong>Inventar-Analyse</strong> Gruppen definieren.</p>
+                <button class="btn-primary" onclick="document.querySelectorAll('.tab-btn')[0].click()" style="margin-top:12px;">Zum Gruppen-Baukasten →</button>
+            </div>
+
+            <div id="export-content" style="display:none;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px;">
+                    <div>
+                        <strong style="color:var(--ta-blue);font-size:1.05em;">Export für <span id="exp-count">0</span> Gruppen</strong>
+                        <div style="font-size:0.8em;color:var(--ta-gray);margin-top:2px;">Alle Befehle auf dem Wazuh Manager ausführen</div>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                        <button class="btn-secondary" onclick="copyAll()" style="font-size:0.85em;">Alles kopieren</button>
+                        <button class="btn-secondary" onclick="downloadAll()" style="font-size:0.85em;">Download (.sh)</button>
+                    </div>
+                </div>
+
+                <!-- CLI Commands -->
+                <div class="export-section">
+                    <h3>1. Gruppen erstellen – CLI-Befehle</h3>
+                    <div class="code-block-wrap"><pre id="exp-cli"></pre></div>
+                    <div class="export-actions">
+                        <button class="btn-secondary" onclick="copySection('exp-cli',this)">Kopieren</button>
+                    </div>
+                </div>
+
+                <!-- Agent assignments -->
+                <div class="export-section" id="exp-assignments-section" style="display:none;">
+                    <h3>2. Agent-Zuweisungen (aus Inventar-Analyse)</h3>
+                    <div class="code-block-wrap"><pre id="exp-assignments"></pre></div>
+                    <div class="export-actions">
+                        <button class="btn-secondary" onclick="copySection('exp-assignments',this)">Kopieren</button>
+                    </div>
+                </div>
+
+                <!-- agent.conf XML per group -->
+                <div class="export-section">
+                    <h3>3. agent.conf – Gruppen-Konfiguration</h3>
+                    <div style="font-size:0.82em;color:var(--ta-gray);margin-bottom:8px;">
+                        Für jede Gruppe eine separate Datei unter <code>/var/ossec/etc/shared/&lt;gruppe&gt;/agent.conf</code>
+                    </div>
+                    <div id="exp-agentconf-tabs" style="display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap;"></div>
+                    <div class="code-block-wrap"><pre id="exp-agentconf"></pre></div>
+                    <div class="export-actions">
+                        <button class="btn-secondary" onclick="copySection('exp-agentconf',this)">Kopieren</button>
+                        <button class="btn-secondary" onclick="downloadAgentConf()">Download agent.conf</button>
+                    </div>
+                </div>
+
+                <!-- Markdown documentation -->
+                <div class="export-section">
+                    <h3>4. Dokumentation (Markdown)</h3>
+                    <div class="code-block-wrap"><pre id="exp-markdown"></pre></div>
+                    <div class="export-actions">
+                        <button class="btn-secondary" onclick="copySection('exp-markdown',this)">Kopieren</button>
+                        <button class="btn-secondary" onclick="downloadMarkdown()">Download .md</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- /content -->
+
+    <footer class="ta-footer">
+        <p>&copy; 2026 <a href="https://www.t-alpha.ch" target="_blank">T-Alpha GmbH</a>
+        &middot; IT Security
+        &middot; <a href="index.html">← Web-Tools</a>
+        &middot; <a href="agent-management.html">Agent-Verwaltung</a></p>
+    </footer>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   DATA – GROUP CATALOG
+   ══════════════════════════════════════════════════════════ */
+var CATALOG = [
+    /* OS */
+    { id:'linux-servers',    cat:'os',   icon:'🐧', name:'linux-servers',
+      desc:'Standard-Monitoring für Linux-Server (Ubuntu, Debian, RHEL, SLES)',
+      when:'Alle physischen und virtuellen Linux-Server',
+      fim:['/etc','/usr/bin','/usr/sbin','/bin','/sbin'],
+      logs:['syslog (/var/log/syslog)','auth.log (/var/log/auth.log)','journald'],
+      sca:'cis_ubuntu22-04.yml',
+      tags:['linux','server'] },
+    { id:'linux-endpoints',  cat:'os',   icon:'💻', name:'linux-endpoints',
+      desc:'Linux-Workstations und Desktops',
+      when:'Linux-Desktops, Entwickler-Workstations',
+      fim:['/etc','/usr/bin'],
+      logs:['syslog','auth.log'],
+      sca:'cis_ubuntu22-04.yml',
+      tags:['linux','endpoint'] },
+    { id:'windows-endpoints',cat:'os',   icon:'🪟', name:'windows-endpoints',
+      desc:'Windows 10/11 Workstations und Desktops',
+      when:'Alle Windows-Arbeitsplätze',
+      fim:['%WINDIR%/System32','%PROGRAMFILES%','%WINDIR%/SysWOW64'],
+      logs:['Security','System','Application','Microsoft-Windows-PowerShell/Operational','Microsoft-Windows-Windows Defender/Operational'],
+      sca:'cis_win11_enterprise.yml',
+      tags:['windows','endpoint'] },
+    { id:'windows-servers',  cat:'os',   icon:'🖥️', name:'windows-servers',
+      desc:'Windows Server 2019/2022 (non-DC)',
+      when:'Windows-Server aller Rollen außer Domain Controller',
+      fim:['%WINDIR%/System32','%PROGRAMFILES%'],
+      logs:['Security','System','Application','PowerShell/Operational'],
+      sca:'cis_ws2022.yml',
+      tags:['windows','server'] },
+    { id:'macos-endpoints',  cat:'os',   icon:'🍎', name:'macos-endpoints',
+      desc:'macOS Endpoints (macOS 13+)',
+      when:'Apple Mac Workstations',
+      fim:['/etc','/usr/bin','/usr/local/bin'],
+      logs:['/var/log/system.log','unified log (log stream)'],
+      sca:'',
+      tags:['macos','endpoint'] },
+    /* ROLLE */
+    { id:'web-servers',      cat:'role', icon:'🌐', name:'web-servers',
+      desc:'Web- und Applikationsserver (Apache, Nginx, IIS, Tomcat)',
+      when:'Webserver, Reverse Proxies, Load Balancer',
+      fim:['/etc/nginx','/etc/apache2','/var/www','/etc/ssl/certs'],
+      logs:['/var/log/nginx/access.log','/var/log/nginx/error.log','/var/log/apache2/access.log','/var/log/apache2/error.log'],
+      sca:'',
+      tags:['web','linux'] },
+    { id:'db-servers',       cat:'role', icon:'🗄️', name:'db-servers',
+      desc:'Datenbankserver (MySQL, PostgreSQL, MSSQL, Oracle)',
+      when:'Alle Datenbankserver – hoher Schutz erforderlich',
+      fim:['/etc/mysql','/etc/postgresql','/var/lib/mysql/mysql'],
+      logs:['/var/log/mysql/error.log','/var/log/postgresql/postgresql-*.log'],
+      sca:'',
+      tags:['database','linux','windows'] },
+    { id:'domain-controllers',cat:'role',icon:'🏛️', name:'domain-controllers',
+      desc:'Active Directory Domain Controller – höchstes Monitoring-Level',
+      when:'Alle AD DCs – kritischste Systeme im Netzwerk',
+      fim:['%WINDIR%/SYSVOL','%WINDIR%/NTDS','%SYSTEMROOT%/system32/GroupPolicy'],
+      logs:['Security (AD-erweitert)','Directory Service','DFS Replication','DNS Server','Microsoft-Windows-Kerberos/Operational'],
+      sca:'cis_ws2022_dc.yml',
+      tags:['windows','dc','critical'] },
+    { id:'mail-servers',     cat:'role', icon:'✉️', name:'mail-servers',
+      desc:'Mail-Server (Exchange, Postfix, Dovecot)',
+      when:'SMTP/IMAP/POP3 Server',
+      fim:['/etc/postfix','/etc/dovecot'],
+      logs:['/var/log/mail.log','/var/log/mail.err','Microsoft-Windows-MSExchangeTransport'],
+      sca:'',
+      tags:['mail','linux','windows'] },
+    { id:'containers',       cat:'role', icon:'📦', name:'containers',
+      desc:'Docker-Hosts und Kubernetes Nodes',
+      when:'Container-Hosts, K8s Worker/Master Nodes',
+      fim:['/etc/docker','/etc/kubernetes','/var/lib/docker/volumes'],
+      logs:['/var/log/containers/*.log','docker daemon log (journald)'],
+      sca:'cis_docker.yml',
+      tags:['linux','container','devops'] },
+    { id:'backup-servers',   cat:'role', icon:'💾', name:'backup-servers',
+      desc:'Backup-Infrastruktur (Veeam, Bacula, Borgmatic)',
+      when:'Backup-Server – häufiges Ziel für Ransomware',
+      fim:['/etc/bacula','/etc/borgmatic'],
+      logs:['/var/log/bacula/*.log','/var/log/borgmatic.log'],
+      sca:'',
+      tags:['backup','linux','windows'] },
+    /* ZONE */
+    { id:'dmz',              cat:'zone', icon:'🛡️', name:'dmz',
+      desc:'Demilitarisierte Zone – öffentlich erreichbare Systeme',
+      when:'Alle Systeme die direkt aus dem Internet erreichbar sind',
+      fim:['/etc','/var/www'],
+      logs:['alle verfügbaren Logs – minimale Filterung'],
+      sca:'',
+      tags:['dmz','network','critical'] },
+    { id:'production',       cat:'zone', icon:'🏭', name:'production',
+      desc:'Produktionsumgebung – kritische Geschäftsprozesse',
+      when:'Alle Systeme in PROD-Umgebung',
+      fim:[],
+      logs:[],
+      sca:'',
+      tags:['prod','environment'] },
+    { id:'staging',          cat:'zone', icon:'🔧', name:'staging',
+      desc:'Staging / Pre-Production – Testumgebung vor PROD',
+      when:'Staging, UAT, Pre-Prod Systeme',
+      fim:[],
+      logs:[],
+      sca:'',
+      tags:['staging','environment'] },
+    { id:'development',      cat:'zone', icon:'⚗️', name:'development',
+      desc:'Entwicklungsumgebung – reduziertes Monitoring',
+      when:'Developer-Workstations, Dev-Server, CI/CD',
+      fim:[],
+      logs:[],
+      sca:'',
+      tags:['dev','environment'] },
+    /* COMPLIANCE */
+    { id:'pci-dss',          cat:'compliance', icon:'💳', name:'pci-dss',
+      desc:'PCI-DSS Scope – Zahlungskarten-Umgebung (erweiterte Audit-Logs)',
+      when:'Systeme im PCI-DSS Scope (CHD, Kartendaten)',
+      fim:['/etc','/var/log','/home'],
+      logs:['alle Logs – 12 Monate Retention','alle privilegierten Zugriffe'],
+      sca:'cis_pci_dss.yml',
+      tags:['compliance','pci','audit'] },
+    { id:'gdpr-sensitive',   cat:'compliance', icon:'🇪🇺', name:'gdpr-sensitive',
+      desc:'DSGVO – Systeme mit personenbezogenen Daten',
+      when:'Systeme die personenbezogene Daten verarbeiten oder speichern',
+      fim:[],
+      logs:['alle Datenzugriffe loggen','Benutzeraktionen mit PII'],
+      sca:'',
+      tags:['compliance','gdpr','privacy'] },
+    { id:'iso27001',         cat:'compliance', icon:'📜', name:'iso27001',
+      desc:'ISO 27001 Kontrollziele – umfassendes Audit-Logging',
+      when:'Systeme im ISO 27001 Geltungsbereich',
+      fim:['/etc','/var/log'],
+      logs:['privilegierte Zugriffe','Konfigurationsänderungen'],
+      sca:'',
+      tags:['compliance','iso','audit'] }
+];
+
+/* ══════════════════════════════════════════════════════════
+   HOSTNAME PATTERN RULES
+   ══════════════════════════════════════════════════════════ */
+var HOSTNAME_RULES = [
+    { label:'dc- / *-dc-* / DC*', pattern:/^(dc[\-\d]|.*\-dc\-|domain\-ctrl)/i, groups:['domain-controllers','windows-servers'], conf:'high' },
+    { label:'web- / www- / nginx- / apache-', pattern:/^(web[\-\d]|www[\-\d]|nginx[\-\d]|apache[\-\d]|iis[\-\d])/i, groups:['web-servers'], conf:'high' },
+    { label:'db- / sql- / mysql- / pg- / ora-', pattern:/^(db[\-\d]|sql[\-\d]|mysql[\-\d]|pg[\-\d]|pgsql[\-\d]|ora[\-\d]|mssql[\-\d])/i, groups:['db-servers'], conf:'high' },
+    { label:'mail- / mx- / ex- / exchange-', pattern:/^(mail[\-\d]|mx[\-\d]|ex[\-\d]|exchange[\-\d]|smtp[\-\d])/i, groups:['mail-servers'], conf:'high' },
+    { label:'backup- / bkp- / veeam-', pattern:/^(backup[\-\d]|bkp[\-\d]|veeam[\-\d]|bacula[\-\d])/i, groups:['backup-servers'], conf:'high' },
+    { label:'docker- / k8s- / kube- / node-', pattern:/^(docker[\-\d]|k8s[\-\d]|kube[\-\d]|container[\-\d])/i, groups:['containers'], conf:'high' },
+    { label:'win- / pc- / ws- / laptop-', pattern:/^(win[\-\d]|pc[\-\d]|ws[\-\d]|laptop[\-\d]|desktop[\-\d])/i, groups:['windows-endpoints'], conf:'high' },
+    { label:'srv- / server-', pattern:/^(srv[\-\d]|server[\-\d])/i, groups:['linux-servers'], conf:'medium' },
+    { label:'*-prod-* / prd-', pattern:/(\-prod[\-\d]|[\-\.]prd[\-\.]|^prd[\-\d])/i, groups:['production'], conf:'medium' },
+    { label:'*-stg-* / stag-', pattern:/(\-stg[\-\d]|[\-\.]stag[\-\.]|^stg[\-\d])/i, groups:['staging'], conf:'medium' },
+    { label:'*-dev-* / dev-', pattern:/^dev[\-\d]|[\-\.]dev[\-\.]/i, groups:['development'], conf:'medium' },
+    { label:'*-dmz* / dmz-*', pattern:/dmz/i, groups:['dmz'], conf:'high' },
+];
+
+var OS_RULES = [
+    { patterns:[/ubuntu/i,/debian/i,/centos/i,/rhel/i,/fedora/i,/linux/i], groups:['linux-servers'], label:'Linux OS' },
+    { patterns:[/windows 1[01]/i,/win1[01]/i,/windows workstation/i], groups:['windows-endpoints'], label:'Windows 10/11' },
+    { patterns:[/windows server/i,/win.*server/i,/server 20[12]/i], groups:['windows-servers'], label:'Windows Server' },
+    { patterns:[/macos/i,/mac os/i,/darwin/i,/osx/i], groups:['macos-endpoints'], label:'macOS' },
+];
+
+/* ══════════════════════════════════════════════════════════
+   STATE
+   ══════════════════════════════════════════════════════════ */
+var selectedGroups = {}; // id → group object
+var invData = [];        // parsed inventory rows
+var currentAgentConfGroup = null;
+var currentFmt = 'csv';
+
+/* ══════════════════════════════════════════════════════════
+   TAB SWITCHING
+   ══════════════════════════════════════════════════════════ */
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+        document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        if (btn.dataset.tab === 'export') renderExport();
+    });
+});
+
+/* ══════════════════════════════════════════════════════════
+   CATALOG / BAUKASTEN
+   ══════════════════════════════════════════════════════════ */
+function buildCatalog() {
+    renderCatalogGrid('', '');
+    buildPatternList();
+
+    document.querySelectorAll('.cat-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.cat-btn').forEach(function(b){ b.classList.remove('active'); });
+            btn.classList.add('active');
+            renderCatalogGrid(btn.dataset.cat, document.getElementById('catalog-search').value);
+        });
+    });
+}
+
+function filterCatalog() {
+    var q = document.getElementById('catalog-search').value;
+    var cat = (document.querySelector('.cat-btn.active')||{}).dataset || {};
+    renderCatalogGrid(cat.cat||'', q);
+}
+
+function renderCatalogGrid(cat, q) {
+    var grid = document.getElementById('catalog-grid');
+    grid.innerHTML = '';
+    var items = CATALOG.concat(Object.values(selectedGroups).filter(function(g){ return g.custom; }));
+    items.forEach(function(g) {
+        if (cat && g.cat !== cat) return;
+        if (q && !g.name.toLowerCase().includes(q.toLowerCase()) && !g.desc.toLowerCase().includes(q.toLowerCase())) return;
+        var card = document.createElement('div');
+        card.className = 'group-card' + (selectedGroups[g.id] ? ' selected' : '');
+        card.innerHTML =
+            '<div class="gc-check">✓</div>' +
+            '<div class="gc-icon">' + g.icon + '</div>' +
+            '<div class="gc-name">' + esc(g.name) + '</div>' +
+            '<div class="gc-desc">' + esc(g.desc) + '</div>' +
+            (g.when ? '<div class="gc-when">' + esc(g.when) + '</div>' : '') +
+            '<div class="gc-tags">' + (g.tags||[]).map(function(t){ return '<span class="gc-tag">'+esc(t)+'</span>'; }).join('') + '</div>';
+        card.addEventListener('click', function(){ toggleGroup(g); });
+        grid.appendChild(card);
+    });
+}
+
+function toggleGroup(g) {
+    if (selectedGroups[g.id]) {
+        delete selectedGroups[g.id];
+    } else {
+        selectedGroups[g.id] = g;
+    }
+    renderCatalogGrid((document.querySelector('.cat-btn.active')||{}).dataset && document.querySelector('.cat-btn.active').dataset.cat || '',
+        document.getElementById('catalog-search').value);
+    renderSelectedList();
+}
+
+function renderSelectedList() {
+    var list = document.getElementById('selected-list');
+    var ids = Object.keys(selectedGroups);
+    document.getElementById('sel-count').textContent = ids.length;
+    document.getElementById('export-btn').disabled = ids.length === 0;
+
+    if (!ids.length) {
+        list.innerHTML = '<div class="empty-note">Noch keine Gruppen ausgewählt.<br>Links auf eine Gruppe klicken.</div>';
+        return;
+    }
+    list.innerHTML = '';
+    ids.forEach(function(id) {
+        var g = selectedGroups[id];
+        var item = document.createElement('div');
+        item.className = 'selected-item';
+        item.innerHTML =
+            '<span class="si-icon">' + g.icon + '</span>' +
+            '<span class="si-name">' + esc(g.name) + '</span>' +
+            '<button class="si-del" onclick="removeGroup(\'' + id + '\')" title="Entfernen">✕</button>';
+        list.appendChild(item);
+    });
+}
+
+function removeGroup(id) {
+    delete selectedGroups[id];
+    renderCatalogGrid((document.querySelector('.cat-btn.active')||{}).dataset && document.querySelector('.cat-btn.active').dataset.cat || '',
+        document.getElementById('catalog-search').value);
+    renderSelectedList();
+}
+
+function addCustomGroup() {
+    var name = document.getElementById('custom-name').value.trim().replace(/\s+/g,'-').toLowerCase();
+    var desc = document.getElementById('custom-desc').value.trim();
+    var cat  = document.getElementById('custom-cat').value;
+    if (!name) { alert('Bitte Gruppenname eingeben.'); return; }
+    var g = { id: name, name: name, cat: cat, icon: '⚙️', desc: desc||name,
+              when:'', fim:[], logs:[], sca:'', tags:['custom'], custom:true };
+    CATALOG.push(g);
+    selectedGroups[g.id] = g;
+    document.getElementById('custom-name').value = '';
+    document.getElementById('custom-desc').value = '';
+    renderCatalogGrid((document.querySelector('.cat-btn.active')||{}).dataset && document.querySelector('.cat-btn.active').dataset.cat || '', '');
+    renderSelectedList();
+}
+
+function goToExport() {
+    document.querySelectorAll('.tab-btn')[2].click();
+}
+
+function buildPatternList() {
+    var pl = document.getElementById('pattern-list');
+    if (!pl) return;
+    pl.innerHTML = HOSTNAME_RULES.slice(0,6).map(function(r) {
+        return '<span style="font-family:monospace;color:var(--ta-blue);">' + esc(r.label) + '</span>' +
+               ' → <span style="color:#2a9d8f;">' + r.groups.join(', ') + '</span>';
+    }).join('<br>') + '<span style="color:#aaa;font-style:italic;"> … + ' + (HOSTNAME_RULES.length-6) + ' weitere</span>';
+}
+
+/* ══════════════════════════════════════════════════════════
+   INVENTORY ANALYSIS
+   ══════════════════════════════════════════════════════════ */
+var FMT_HINTS = {
+    csv:    'Spalten: hostname,ip,os,role,location,department (Header-Zeile wird erkannt)\n' +
+            'Beispiel: srv-web-01,192.168.1.20,Ubuntu 22.04,web-server,Frankfurt,IT',
+    json:   'Array von Objekten: [{"hostname":"srv-web-01","ip":"192.168.1.20","os":"Ubuntu 22.04","role":"web"}]',
+    manual: 'Einen Hostnamen pro Zeile. Optionale IP mit Leerzeichen: srv-web-01 192.168.1.20'
+};
+
+function setFmt(f, btn) {
+    currentFmt = f;
+    document.querySelectorAll('.fmt-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById('fmt-hint').textContent = FMT_HINTS[f];
+    document.getElementById('inv-input').value = '';
+    invData = [];
+    document.getElementById('inv-results').innerHTML = '';
+    document.getElementById('inv-stat').textContent = '';
+}
+
+function loadExample() {
+    var examples = {
+        csv: 'hostname,ip,os,role,location\n' +
+             'dc-prod-01,192.168.1.10,Windows Server 2022,Domain Controller,Frankfurt\n' +
+             'srv-web-01,192.168.1.20,Ubuntu 22.04,webserver,Frankfurt\n' +
+             'db-prod-01,192.168.1.30,Ubuntu 22.04,database,Frankfurt\n' +
+             'win-pc-42,192.168.1.42,Windows 11,workstation,Bern\n' +
+             'backup-01,192.168.1.50,Ubuntu 22.04,backup,Frankfurt\n' +
+             'docker-worker-01,10.10.1.5,Ubuntu 22.04,container,Zürich\n' +
+             'k8s-master-01,10.10.1.1,Ubuntu 22.04,kubernetes,Zürich\n' +
+             'dmz-proxy-01,203.0.113.10,Ubuntu 22.04,reverse-proxy,Frankfurt',
+        json: JSON.stringify([
+            { hostname:'dc-prod-01',  ip:'192.168.1.10', os:'Windows Server 2022', role:'Domain Controller' },
+            { hostname:'srv-web-01',  ip:'192.168.1.20', os:'Ubuntu 22.04',        role:'webserver' },
+            { hostname:'db-prod-01',  ip:'192.168.1.30', os:'Ubuntu 22.04',        role:'database' },
+            { hostname:'win-pc-42',   ip:'192.168.1.42', os:'Windows 11',          role:'workstation' },
+            { hostname:'dmz-proxy-01',ip:'203.0.113.10', os:'Ubuntu 22.04',        role:'reverse-proxy' }
+        ], null, 2),
+        manual: 'dc-prod-01 192.168.1.10\nsrv-web-01 192.168.1.20\ndb-prod-01 192.168.1.30\nwin-pc-42 192.168.1.42\ndmz-proxy-01 203.0.113.10'
+    };
+    document.getElementById('inv-input').value = examples[currentFmt] || examples.csv;
+    parseInventory();
+}
+
+function parseInventory() {
+    var raw = document.getElementById('inv-input').value.trim();
+    if (!raw) { invData = []; document.getElementById('inv-results').innerHTML = ''; return; }
+
+    var rows = [];
+    try {
+        if (currentFmt === 'json') {
+            var arr = JSON.parse(raw);
+            if (!Array.isArray(arr)) throw new Error('Kein Array');
+            rows = arr.map(function(obj) {
+                return { hostname: obj.hostname||obj.host||obj.name||'', ip: obj.ip||obj.address||'',
+                         os: obj.os||obj.operating_system||'', role: obj.role||obj.function||obj.type||'',
+                         location: obj.location||obj.site||'' };
+            });
+        } else if (currentFmt === 'manual') {
+            rows = raw.split('\n').filter(Boolean).map(function(l) {
+                var parts = l.trim().split(/\s+/);
+                return { hostname: parts[0]||'', ip: parts[1]||'', os:'', role:'', location:'' };
+            });
+        } else { /* CSV */
+            var lines = raw.split('\n').filter(Boolean);
+            var header = lines[0].toLowerCase().split(',').map(function(h){ return h.trim(); });
+            var hIdx = function(names) {
+                for (var i=0; i<names.length; i++) { var x = header.indexOf(names[i]); if (x>=0) return x; }
+                return -1;
+            };
+            var iH = hIdx(['hostname','host','name','computername','server']);
+            var iI = hIdx(['ip','ipaddress','ip_address','address','ip-address']);
+            var iO = hIdx(['os','operating_system','operating system','betriebssystem']);
+            var iR = hIdx(['role','function','type','rolle','funktion']);
+            var iL = hIdx(['location','site','standort','dc','datacenter']);
+            var startLine = (iH >= 0) ? 1 : 0;
+            if (iH < 0) iH = 0; // assume first column is hostname
+            lines.slice(startLine).forEach(function(l) {
+                var p = l.split(',').map(function(v){ return v.trim().replace(/^"|"$/g,''); });
+                rows.push({ hostname: p[iH]||'', ip: p[iI>=0?iI:1]||'',
+                             os: p[iO>=0?iO:2]||'', role: p[iR>=0?iR:-1]||'', location: p[iL>=0?iL:-1]||'' });
+            });
+        }
+    } catch(e) {
+        document.getElementById('inv-results').innerHTML = '<div class="alert alert-danger">Parse-Fehler: ' + esc(e.message) + '</div>';
+        return;
+    }
+
+    rows = rows.filter(function(r){ return r.hostname; });
+
+    /* Analyse each host */
+    invData = rows.map(function(r) {
+        return { host: r, suggested: suggestGroups(r) };
+    });
+
+    renderInventoryTable();
+    updateInvApplyBar();
+}
+
+function suggestGroups(row) {
+    var groups = {};
+    var hostname = (row.hostname||'').toLowerCase();
+    var os = (row.os||'').toLowerCase();
+    var role = (row.role||'').toLowerCase();
+    var ip = (row.ip||'');
+
+    /* Hostname rules */
+    HOSTNAME_RULES.forEach(function(rule) {
+        if (rule.pattern.test(hostname)) {
+            rule.groups.forEach(function(g){ groups[g] = { source:'hostname', conf:rule.conf }; });
+        }
+    });
+
+    /* OS rules */
+    OS_RULES.forEach(function(rule) {
+        rule.patterns.forEach(function(p) {
+            if (p.test(os)) {
+                rule.groups.forEach(function(g){
+                    if (!groups[g]) groups[g] = { source:'os', conf:'medium' };
+                });
+            }
+        });
+    });
+
+    /* Role field rules */
+    var roleMap = {
+        'web':['web-servers'],'webserver':['web-servers'],'web server':['web-servers'],
+        'db':['db-servers'],'database':['db-servers'],'sql':['db-servers'],
+        'dc':['domain-controllers','windows-servers'],'domain controller':['domain-controllers','windows-servers'],
+        'mail':['mail-servers'],'smtp':['mail-servers'],
+        'backup':['backup-servers'],
+        'container':['containers'],'docker':['containers'],'kubernetes':['containers'],'k8s':['containers'],
+        'workstation':['windows-endpoints'],'desktop':['windows-endpoints'],'client':['windows-endpoints'],
+    };
+    Object.keys(roleMap).forEach(function(key) {
+        if (role.includes(key)) {
+            roleMap[key].forEach(function(g){
+                if (!groups[g]) groups[g] = { source:'role', conf:'high' };
+            });
+        }
+    });
+
+    /* IP range heuristics */
+    var ipOcts = ip.split('.').map(Number);
+    if (ipOcts.length === 4) {
+        /* Heuristic: first octet 10.x = likely internal/prod if not already classified */
+        if (ipOcts[0] === 172 && ipOcts[1] >= 16 && ipOcts[1] <= 31) {
+            /* RFC1918 172.16-31 range – note only */
+        }
+        /* Public IP → might be DMZ */
+        var isPrivate = (ipOcts[0]===10) || (ipOcts[0]===172 && ipOcts[1]>=16 && ipOcts[1]<=31) ||
+                        (ipOcts[0]===192 && ipOcts[1]===168) || (ipOcts[0]===127);
+        if (!isPrivate && ip && !groups['dmz']) {
+            groups['dmz'] = { source:'ip', conf:'medium' };
+        }
+    }
+
+    /* Default fallback */
+    if (Object.keys(groups).length === 0) {
+        groups['linux-servers'] = { source:'fallback', conf:'low' };
+    }
+
+    return groups;
+}
+
+function renderInventoryTable() {
+    if (!invData.length) {
+        document.getElementById('inv-results').innerHTML = '<div class="alert alert-warning">Keine Hosts erkannt.</div>';
+        return;
+    }
+
+    var confColors = { high:'#2a9d8f', medium:'#e9a000', low:'#aaa' };
+    var sourceLabels = { hostname:'Hostname', os:'OS', role:'Rolle', ip:'IP', fallback:'Standard' };
+
+    var html = '<div class="inv-table-wrap"><table class="inv-table">' +
+        '<thead><tr><th>Hostname</th><th>IP</th><th>OS / Rolle</th><th>Vorgeschlagene Gruppen</th></tr></thead><tbody>';
+
+    invData.forEach(function(row) {
+        var grpHtml = Object.keys(row.suggested).map(function(gid) {
+            var info = row.suggested[gid];
+            var dot = '<span class="conf-dot" style="background:' + (confColors[info.conf]||'#aaa') + '" title="Konfidenz: ' + info.conf + '"></span>';
+            return '<span class="grp-badge suggested" title="Quelle: ' + (sourceLabels[info.source]||info.source) + '">' + dot + ' ' + esc(gid) + '</span>';
+        }).join('');
+
+        html += '<tr>' +
+            '<td><strong style="font-family:monospace;">' + esc(row.host.hostname) + '</strong>' +
+            (row.host.location ? '<br><span style="font-size:0.78em;color:#888;">' + esc(row.host.location) + '</span>' : '') + '</td>' +
+            '<td style="font-family:monospace;font-size:0.85em;">' + esc(row.host.ip) + '</td>' +
+            '<td style="font-size:0.82em;">' + esc(row.host.os||'–') + (row.host.role ? '<br><span style="color:#888;">'+esc(row.host.role)+'</span>' : '') + '</td>' +
+            '<td><div class="groups-cell">' + grpHtml + '</div></td>' +
+            '</tr>';
+    });
+
+    html += '</tbody></table></div>';
+
+    /* Summary per group */
+    var groupCount = {};
+    invData.forEach(function(row) {
+        Object.keys(row.suggested).forEach(function(g) {
+            groupCount[g] = (groupCount[g]||0) + 1;
+        });
+    });
+    html += '<div style="margin-top:16px;"><strong style="font-size:0.88em;color:var(--ta-blue);">Zusammenfassung – erkannte Gruppen:</strong>' +
+        '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">' +
+        Object.keys(groupCount).map(function(g) {
+            return '<span class="grp-badge suggested" style="font-size:0.8em;padding:3px 10px;">' + esc(g) + ' <strong>(' + groupCount[g] + ')</strong></span>';
+        }).join('') + '</div></div>';
+
+    document.getElementById('inv-results').innerHTML = html;
+    document.getElementById('inv-stat').textContent = invData.length + ' Hosts analysiert · ' + Object.keys(groupCount).length + ' Gruppen erkannt';
+}
+
+function updateInvApplyBar() {
+    var bar = document.getElementById('inv-apply-bar');
+    if (!invData.length) { bar.style.display = 'none'; return; }
+    var groupCount = {};
+    invData.forEach(function(row) {
+        Object.keys(row.suggested).forEach(function(g) { groupCount[g] = 1; });
+    });
+    var n = Object.keys(groupCount).length;
+    document.getElementById('inv-apply-text').textContent = n + ' Gruppen erkannt · Als Selektion übernehmen und Export erstellen';
+    bar.style.display = 'flex';
+}
+
+function applyInventoryToExport() {
+    var groupCount = {};
+    invData.forEach(function(row) {
+        Object.keys(row.suggested).forEach(function(g) { groupCount[g] = 1; });
+    });
+    Object.keys(groupCount).forEach(function(gid) {
+        var catalogEntry = CATALOG.find(function(c){ return c.id === gid; });
+        if (catalogEntry && !selectedGroups[gid]) {
+            selectedGroups[gid] = catalogEntry;
+        } else if (!catalogEntry && !selectedGroups[gid]) {
+            selectedGroups[gid] = { id:gid, name:gid, cat:'custom', icon:'⚙️', desc:'Erkannte Gruppe', when:'', fim:[], logs:[], sca:'', tags:['auto'] };
+        }
+    });
+    renderSelectedList();
+    document.querySelectorAll('.tab-btn')[2].click();
+}
+
+/* ══════════════════════════════════════════════════════════
+   EXPORT
+   ══════════════════════════════════════════════════════════ */
+function renderExport() {
+    var groups = Object.values(selectedGroups);
+    if (!groups.length) {
+        document.getElementById('export-empty').style.display = 'block';
+        document.getElementById('export-content').style.display = 'none';
+        return;
+    }
+    document.getElementById('export-empty').style.display = 'none';
+    document.getElementById('export-content').style.display = 'block';
+    document.getElementById('exp-count').textContent = groups.length;
+
+    /* CLI commands */
+    var cli = '#!/bin/bash\n' +
+        '# Agent-Gruppen erstellen – T-Alpha GmbH\n' +
+        '# Generiert: ' + new Date().toLocaleDateString('de-CH') + '\n' +
+        '# Ausführen auf dem Wazuh Manager als root oder mit sudo\n' +
+        '#\n' +
+        '# Referenz:\n' +
+        '#   /var/ossec/bin/agent_groups -a -g <gruppenname>\n' +
+        '#   /var/ossec/bin/agent_groups -a -i <agent_id> -g <gruppenname>\n\n' +
+        'set -euo pipefail\n\n';
+
+    groups.forEach(function(g) {
+        cli += '# ' + g.icon + ' ' + g.name + ' – ' + (g.desc||'') + '\n';
+        cli += '/var/ossec/bin/agent_groups -a -g ' + g.name + '\n\n';
+    });
+
+    cli += '# Gruppen-Liste prüfen\n';
+    cli += '/var/ossec/bin/agent_groups -l\n\n';
+    cli += '# Beispiel: Agent zuweisen\n';
+    cli += '# /var/ossec/bin/agent_groups -a -i <AGENT_ID> -g ' + groups[0].name + '\n';
+
+    document.getElementById('exp-cli').innerHTML = hlBash(cli);
+
+    /* Agent assignments from inventory */
+    if (invData.length > 0) {
+        document.getElementById('exp-assignments-section').style.display = 'block';
+        var asgn = '#!/bin/bash\n' +
+            '# Agent-Zuweisungen aus Inventar-Analyse\n' +
+            '# HINWEIS: Agent-IDs müssen vor Ausführung überprüft werden!\n' +
+            '# Aktuelle Agent-IDs: /var/ossec/bin/agent_control -l\n\n';
+        invData.forEach(function(row, i) {
+            asgn += '# ' + row.host.hostname + (row.host.ip ? ' (' + row.host.ip + ')' : '') + '\n';
+            Object.keys(row.suggested).forEach(function(gid) {
+                asgn += '# /var/ossec/bin/agent_groups -a -i <ID_' + row.host.hostname.toUpperCase().replace(/[^A-Z0-9]/g,'_') + '> -g ' + gid + '\n';
+            });
+            asgn += '\n';
+        });
+        document.getElementById('exp-assignments').innerHTML = hlBash(asgn);
+    } else {
+        document.getElementById('exp-assignments-section').style.display = 'none';
+    }
+
+    /* agent.conf tabs */
+    var tabsEl = document.getElementById('exp-agentconf-tabs');
+    tabsEl.innerHTML = '';
+    groups.forEach(function(g, i) {
+        var btn = document.createElement('button');
+        btn.className = 'fmt-btn' + (i===0?' active':'');
+        btn.textContent = g.icon + ' ' + g.name;
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('#exp-agentconf-tabs .fmt-btn').forEach(function(b){ b.classList.remove('active'); });
+            btn.classList.add('active');
+            showAgentConf(g);
+        });
+        tabsEl.appendChild(btn);
+    });
+    if (groups.length) showAgentConf(groups[0]);
+
+    /* Markdown docs */
+    var md = '# Agent-Gruppen-Dokumentation\n\n';
+    md += 'Generiert: ' + new Date().toLocaleDateString('de-CH') + '  \n';
+    md += 'Erstellt mit: T-Alpha Agent-Gruppen-Planer  \n\n';
+    md += '---\n\n';
+    md += '## Gruppen-Übersicht\n\n';
+    md += '| Gruppe | Kategorie | Beschreibung | Anwendungsfall |\n';
+    md += '|--------|-----------|-------------|----------------|\n';
+    groups.forEach(function(g) {
+        md += '| `' + g.name + '` | ' + (g.cat||'') + ' | ' + (g.desc||'') + ' | ' + (g.when||'') + ' |\n';
+    });
+    md += '\n---\n\n';
+    md += '## Erstellungs-Befehle\n\n';
+    md += '```bash\n';
+    groups.forEach(function(g) {
+        md += '/var/ossec/bin/agent_groups -a -g ' + g.name + '\n';
+    });
+    md += '```\n\n';
+    if (invData.length > 0) {
+        md += '## Inventar-Analyse\n\n';
+        md += '| Hostname | IP | Gruppen |\n|----------|----|---------|\n';
+        invData.forEach(function(row) {
+            md += '| `' + row.host.hostname + '` | ' + (row.host.ip||'–') + ' | ' + Object.keys(row.suggested).map(function(g){ return '`'+g+'`'; }).join(', ') + ' |\n';
+        });
+        md += '\n';
+    }
+    document.getElementById('exp-markdown').textContent = md;
+}
+
+function showAgentConf(g) {
+    currentAgentConfGroup = g;
+    var xml = '<!--\n' +
+        '  agent.conf – Gruppen-Konfiguration: ' + g.name + '\n' +
+        '  Speicherort: /var/ossec/etc/shared/' + g.name + '/agent.conf\n' +
+        '  Generiert:   ' + new Date().toLocaleDateString('de-CH') + '\n' +
+        '  Beschreibung: ' + (g.desc||'') + '\n' +
+        '-->\n\n' +
+        '<agent_config>\n\n';
+
+    if (g.fim && g.fim.length > 0) {
+        xml += '  <!-- ════════ FILE INTEGRITY MONITORING ════════ -->\n';
+        xml += '  <syscheck>\n';
+        xml += '    <disabled>no</disabled>\n';
+        xml += '    <frequency>43200</frequency>\n';
+        xml += '    <scan_on_start>yes</scan_on_start>\n';
+        g.fim.forEach(function(p) {
+            xml += '    <directories check_all="yes" realtime="yes">' + esc(p) + '</directories>\n';
+        });
+        if (g.cat === 'os' && g.name.includes('linux')) {
+            xml += '    <ignore>/etc/mtab</ignore>\n';
+            xml += '    <ignore>/etc/hosts.deny</ignore>\n';
+            xml += '    <ignore>/etc/random-seed</ignore>\n';
+        }
+        if (g.cat === 'compliance' && g.name === 'pci-dss') {
+            xml += '    <!-- PCI-DSS 11.5: alle Änderungen an kritischen Systemdateien -->\n';
+            xml += '    <alert_new_files>yes</alert_new_files>\n';
+        }
+        xml += '  </syscheck>\n\n';
+    }
+
+    if (g.logs && g.logs.length > 0 && g.cat !== 'zone' && g.cat !== 'compliance') {
+        xml += '  <!-- ════════ LOG-QUELLEN ════════ -->\n';
+        if (g.name.includes('linux') || g.cat === 'os' && !g.name.includes('windows') && !g.name.includes('macos')) {
+            xml += '  <localfile>\n    <log_format>syslog</log_format>\n    <location>/var/log/syslog</location>\n  </localfile>\n';
+            xml += '  <localfile>\n    <log_format>syslog</log_format>\n    <location>/var/log/auth.log</location>\n  </localfile>\n';
+        }
+        if (g.name === 'web-servers') {
+            xml += '  <localfile>\n    <log_format>apache</log_format>\n    <location>/var/log/nginx/access.log</location>\n  </localfile>\n';
+            xml += '  <localfile>\n    <log_format>syslog</log_format>\n    <location>/var/log/nginx/error.log</location>\n  </localfile>\n';
+            xml += '  <localfile>\n    <log_format>apache</log_format>\n    <location>/var/log/apache2/access.log</location>\n  </localfile>\n';
+        }
+        if (g.name === 'db-servers') {
+            xml += '  <localfile>\n    <log_format>mysql_log</log_format>\n    <location>/var/log/mysql/error.log</location>\n  </localfile>\n';
+            xml += '  <localfile>\n    <log_format>postgresql_log</log_format>\n    <location>/var/log/postgresql/postgresql-*-main.log</location>\n  </localfile>\n';
+        }
+        if (g.name.includes('windows') || g.name === 'domain-controllers') {
+            xml += '  <localfile>\n    <log_format>eventchannel</log_format>\n    <location>Security</location>\n  </localfile>\n';
+            xml += '  <localfile>\n    <log_format>eventchannel</log_format>\n    <location>System</location>\n  </localfile>\n';
+            xml += '  <localfile>\n    <log_format>eventchannel</log_format>\n    <location>Application</location>\n  </localfile>\n';
+            xml += '  <localfile>\n    <log_format>eventchannel</log_format>\n    <location>Microsoft-Windows-PowerShell/Operational</location>\n  </localfile>\n';
+        }
+        if (g.name === 'domain-controllers') {
+            xml += '  <localfile>\n    <log_format>eventchannel</log_format>\n    <location>Directory Service</location>\n  </localfile>\n';
+            xml += '  <localfile>\n    <log_format>eventchannel</log_format>\n    <location>DFS Replication</location>\n  </localfile>\n';
+        }
+        if (g.name === 'containers') {
+            xml += '  <localfile>\n    <log_format>syslog</log_format>\n    <location>/var/log/containers/*.log</location>\n  </localfile>\n';
+        }
+        xml += '\n';
+    }
+
+    if (g.sca) {
+        xml += '  <!-- ════════ SECURITY CONFIG ASSESSMENT ════════ -->\n';
+        xml += '  <sca>\n';
+        xml += '    <enabled>yes</enabled>\n';
+        xml += '    <scan_on_start>yes</scan_on_start>\n';
+        xml += '    <interval>12h</interval>\n';
+        xml += '    <policies>\n';
+        xml += '      <policy>/var/ossec/ruleset/sca/' + g.sca + '</policy>\n';
+        xml += '    </policies>\n';
+        xml += '  </sca>\n\n';
+    }
+
+    if (g.name === 'pci-dss') {
+        xml += '  <!-- ════════ PCI-DSS: Audit Logging ════════ -->\n';
+        xml += '  <!-- Alle privilegierten Aktionen und Datenzugriffe müssen lückenlos erfasst werden -->\n';
+        xml += '  <!-- Retention: mindestens 12 Monate -->\n\n';
+    }
+
+    xml += '</agent_config>';
+    document.getElementById('exp-agentconf').innerHTML = hlXml(xml);
+}
+
+/* ══════════════════════════════════════════════════════════
+   COPY / DOWNLOAD
+   ══════════════════════════════════════════════════════════ */
+function copySection(preId, btn) {
+    var el = document.getElementById(preId);
+    navigator.clipboard.writeText(el.innerText).then(function() {
+        var orig = btn.textContent;
+        btn.textContent = '✓ Kopiert!';
+        setTimeout(function(){ btn.textContent = orig; }, 2000);
+    });
+}
+
+function copyAll() {
+    var parts = ['exp-cli','exp-agentconf','exp-markdown'];
+    var text = parts.map(function(id){
+        var el = document.getElementById(id);
+        return el ? el.innerText : '';
+    }).join('\n\n# ─────────────────────\n\n');
+    navigator.clipboard.writeText(text).then(function(){
+        alert('Alles in Zwischenablage kopiert.');
+    });
+}
+
+function downloadAll() {
+    var text = document.getElementById('exp-cli').innerText;
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text],{type:'text/plain'}));
+    a.download = 'create-groups-' + new Date().toISOString().slice(0,10) + '.sh';
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+
+function downloadAgentConf() {
+    if (!currentAgentConfGroup) return;
+    var text = document.getElementById('exp-agentconf').innerText;
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text],{type:'text/xml'}));
+    a.download = 'agent.conf-' + currentAgentConfGroup.name + '.xml';
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+
+function downloadMarkdown() {
+    var text = document.getElementById('exp-markdown').innerText;
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text],{type:'text/markdown'}));
+    a.download = 'agent-groups-' + new Date().toISOString().slice(0,10) + '.md';
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+
+/* ══════════════════════════════════════════════════════════
+   SYNTAX HIGHLIGHTING
+   ══════════════════════════════════════════════════════════ */
+function hlXml(raw) {
+    return raw
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/(&lt;!--[\s\S]*?--&gt;)/g,'<span class="hl-comment">$1</span>')
+        .replace(/(&lt;\/?)([\w\-]+)/g,'$1<span class="hl-tag">$2</span>')
+        .replace(/([\w\-]+)(=)(&quot;[^&]*&quot;)/g,'<span class="hl-attr">$1</span>$2<span class="hl-val">$3</span>');
+}
+function hlBash(raw) {
+    return raw
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/(#[^\n]*)/g,'<span class="hl-comment">$1</span>')
+        .replace(/\b(set|echo|if|fi|then|else|for|do|done|exit)\b/g,'<span class="hl-cmd-kw">$1</span>')
+        .replace(/(-[a-zA-Z]+)/g,'<span class="hl-cmd-flag">$1</span>');
+}
+
+function esc(s) {
+    return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ══════════════════════════════════════════════════════════
+   INIT
+   ══════════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', function() {
+    buildCatalog();
+    document.getElementById('fmt-hint').textContent = FMT_HINTS.csv;
+});
+</script>
+</body>
+</html>

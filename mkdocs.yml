@@ -126,6 +126,7 @@ nav:
     - Konfigurations-Generator: webforms/config-generator.html
     - Alert-Regeleditor: webforms/alert-regeleditor.html
     - Patch-Planer: webforms/patch-planner.html
+    - Agent-Gruppen-Planer: webforms/agent-group-planner.html
 
   - Betrieb:
     - Übersicht: overview/index.md
