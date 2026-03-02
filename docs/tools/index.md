@@ -61,7 +61,6 @@ Kein Server, keine Installation – alles läuft direkt im Browser.
 </div>
 
 ---
-
 ## Administration
 
 <div class="grid cards" markdown>
@@ -79,36 +78,52 @@ Kein Server, keine Installation – alles läuft direkt im Browser.
 
     [:octicons-arrow-right-24: Agent-Verwaltung öffnen](../webforms/agent-management.html)
 
+-   **Alert-Regeleditor**
+
+    ---
+
+    Wazuh Custom Detection Rules visuell erstellen, validieren und als XML exportieren.
+
+    - Visueller Regel-Builder (kein XML nötig)
+    - 8 Vorlagen (Brute-Force, Mimikatz, PowerShell, …)
+    - Live XML-Vorschau mit Validierung
+    - MITRE ATT&CK Mapping, Regel-Bibliothek
+
+    [:octicons-arrow-right-24: Alert-Regeleditor öffnen](../webforms/alert-regeleditor.html)
+
 </div>
 
 ---
 
-## In Entwicklung
-
-Folgende Tools sind geplant und werden in zukünftigen Versionen verfügbar sein:
+## Konfiguration & Planung
 
 <div class="grid cards" markdown>
 
--   **Konfigurations-Generator** _(geplant)_
+-   **Konfigurations-Generator**
 
     ---
 
-    Formularbasierte Erstellung von `ossec.conf` für Manager und Agent.
-    Variablen aus einem Formular eingeben – fertige Konfigurationsdatei zum Kopieren erhalten.
+    Wazuh Konfigurationsdateien per Formular generieren – kein manuelles Editieren mehr.
 
--   **Alert-Regeleditor** _(geplant)_
+    - Manager, Agent (Linux/Windows), Indexer, Filebeat
+    - Live-Vorschau mit Syntax-Highlighting
+    - ossec.conf Validator (Altlasten & Diffs)
+    - Copy + Download als Datei
+
+    [:octicons-arrow-right-24: Konfigurations-Generator öffnen](../webforms/config-generator.html)
+
+-   **Patch-Planer**
 
     ---
 
-    Wazuh Custom Detection Rules direkt im Browser erstellen und validieren.
-    XML-Editor mit Syntaxhighlighting und Test-Interface.
+    Wartungsfenster für mehrere Kunden koordinieren und Konflikte vermeiden.
 
--   **Patch-Planer** _(geplant)_
+    - Monatskalender (100% Browser/offline)
+    - Kunden, Typen, Versionen, Dauer verwalten
+    - JSON Import/Export für Team-Sharing
+    - PDF-Export für Ticketsystem
 
-    ---
-
-    Wartungsfenster für mehrere Kunden koordinieren.
-    Upgrade-Abhängigkeiten und Zeitpläne in einer Übersicht visualisieren.
+    [:octicons-arrow-right-24: Patch-Planer öffnen](../webforms/patch-planner.html)
 
 </div>
 
@@ -141,4 +156,4 @@ Folgende Tools sind geplant und werden in zukünftigen Versionen verfügbar sein
 - Alle Tools laufen **vollständig im Browser** – keine Serverprozesse, kein Backend
 - Daten werden lokal im **LocalStorage** des Browsers gespeichert
 - Funktionieren **offline** nach dem ersten Laden (Fonts werden gecacht)
-- **PDF-Export** ist im Upgrade-Formular und Wartungsprotokoll verfügbar
+- **PDF-Export** verfügbar in Upgrade-Formular, Wartungsprotokoll und Patch-Planer
