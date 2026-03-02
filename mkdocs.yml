@@ -123,6 +123,9 @@ nav:
 
   - Web-Tools:
     - tools/index.md
+    - Konfigurations-Generator: webforms/config-generator.html
+    - Alert-Regeleditor: webforms/alert-regeleditor.html
+    - Patch-Planer: webforms/patch-planner.html
 
   - Betrieb:
     - Übersicht: overview/index.md

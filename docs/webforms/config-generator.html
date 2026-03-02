@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfigurations-Generator – Ta-SIEMPlus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/ta-alpha-brand.css">
+    <style>
+        .tab-nav {
+            display: flex;
+            gap: 4px;
+            border-bottom: 2px solid var(--ta-blue);
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            padding: 9px 18px;
+            border: none;
+            background: var(--ta-gray-light);
+            color: var(--ta-gray);
+            font-family: inherit;
+            font-size: 0.88em;
+            font-weight: 600;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .tab-btn:hover { background: var(--ta-blue-pale); color: var(--ta-blue); }
+        .tab-btn.active { background: var(--ta-blue); color: #fff; }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        .config-layout {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+        @media (max-width: 900px) {
+            .config-layout { grid-template-columns: 1fr; }
+        }
+
+        .config-form { background: var(--ta-gray-light); border: 1.5px solid var(--ta-gray-mid); border-radius: var(--ta-border-radius); padding: 20px; }
+        .config-form h3 { margin: 0 0 16px; color: var(--ta-blue); font-size: 1em; font-weight: 700; }
+        .config-form .section-label {
+            font-size: 0.75em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--ta-gray);
+            margin: 16px 0 8px;
+            padding-top: 12px;
+            border-top: 1px solid var(--ta-gray-mid);
+        }
+        .config-form .section-label:first-of-type { margin-top: 4px; border-top: none; padding-top: 0; }
+        .fg { margin-bottom: 12px; }
+        .fg label { display: block; font-size: 0.82em; font-weight: 600; color: var(--ta-gray); margin-bottom: 4px; }
+        .fg input, .fg select { width: 100%; box-sizing: border-box; padding: 7px 10px; border: 1.5px solid var(--ta-gray-mid); border-radius: 5px; font-family: inherit; font-size: 0.88em; background: #fff; color: #222; transition: border-color 0.15s; }
+        .fg input:focus, .fg select:focus { outline: none; border-color: var(--ta-blue); }
+        .fg .hint { font-size: 0.75em; color: var(--ta-gray); margin-top: 3px; }
+        .fg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .toggle-row { display: flex; align-items: center; gap: 10px; }
+        .toggle-row label { margin: 0; font-size: 0.88em; font-weight: 600; color: var(--ta-gray); }
+        .toggle-row input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--ta-blue); cursor: pointer; }
+
+        .config-preview-wrap { position: sticky; top: 20px; }
+        .preview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1e2030;
+            color: #c9d1d9;
+            padding: 10px 16px;
+            border-radius: 8px 8px 0 0;
+            font-size: 0.83em;
+            font-weight: 600;
+        }
+        .preview-header .file-name { font-family: 'JetBrains Mono', monospace; opacity: 0.8; }
+        .preview-actions { display: flex; gap: 8px; }
+        .preview-actions button {
+            padding: 5px 12px;
+            border: 1.5px solid rgba(255,255,255,0.25);
+            background: transparent;
+            color: #c9d1d9;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.82em;
+            font-weight: 600;
+            font-family: inherit;
+            transition: all 0.15s;
+        }
+        .preview-actions button:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }
+        .preview-actions button.copied { color: #7ee787; border-color: #7ee787; }
+        .config-preview {
+            background: #161b22;
+            border-radius: 0 0 8px 8px;
+            overflow: auto;
+            max-height: 72vh;
+            min-height: 300px;
+        }
+        .config-preview pre {
+            margin: 0;
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78em;
+            line-height: 1.65;
+            color: #e6edf3;
+            white-space: pre;
+            tab-size: 2;
+        }
+        /* Syntax coloring */
+        .hl-comment { color: #8b949e; }
+        .hl-tag { color: #7ee787; }
+        .hl-attr { color: #79c0ff; }
+        .hl-val { color: #a5d6ff; }
+        .hl-key { color: #d2a8ff; }
+        .hl-string { color: #a5d6ff; }
+        .hl-num { color: #f8c555; }
+        .hl-anchor { color: #ffa657; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <div class="header-inner">
+            <img src="assets/ta-alpha-logo.svg" alt="T-Alpha GmbH" class="header-logo">
+            <div class="header-text">
+                <h1>Konfigurations-Generator</h1>
+                <p class="subtitle">Wazuh Konfigurationsdateien per Formular generieren &middot; T-Alpha GmbH</p>
+            </div>
+        </div>
+        <div style="position:absolute;top:20px;right:32px;display:flex;gap:10px;">
+            <a href="index.html" style="color:rgba(255,255,255,0.85);text-decoration:none;font-size:0.85em;font-weight:500;padding:6px 14px;border:1.5px solid rgba(255,255,255,0.4);border-radius:20px;">← Web-Tools</a>
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="alert alert-info" style="margin-bottom:20px;">
+            Formular ausfüllen → Konfigurationsdatei wird live generiert. Dann <strong>Kopieren</strong> oder <strong>Download</strong>.
+        </div>
+
+        <div class="tab-nav">
+            <button class="tab-btn active" data-tab="manager">Manager (ossec.conf)</button>
+            <button class="tab-btn" data-tab="agent-linux">Agent Linux (ossec.conf)</button>
+            <button class="tab-btn" data-tab="agent-win">Agent Windows (ossec.conf)</button>
+            <button class="tab-btn" data-tab="indexer">Indexer (opensearch.yml)</button>
+            <button class="tab-btn" data-tab="filebeat">Filebeat (filebeat.yml)</button>
+            <button class="tab-btn" data-tab="validator" style="background:#fff3cd;color:#856404;border:1.5px solid #ffc107;">ossec.conf Validator</button>
+        </div>
+
+        <!-- ─── TAB: MANAGER ─── -->
+        <div class="tab-panel active" id="tab-manager">
+            <div class="config-layout">
+                <div class="config-form">
+                    <h3>Manager – Variablen</h3>
+
+                    <div class="section-label">Metadaten</div>
+                    <div class="fg"><label>Kunden-ID</label><input type="text" id="m_customer" placeholder="KUNDE-01" oninput="renderManager()"></div>
+                    <div class="fg-row">
+                        <div class="fg"><label>Wazuh Version</label><input type="text" id="m_version" placeholder="4.12.0" oninput="renderManager()"></div>
+                        <div class="fg"><label>Change-Ticket</label><input type="text" id="m_ticket" placeholder="CHG-0042" oninput="renderManager()"></div>
+                    </div>
+
+                    <div class="section-label">Netzwerk</div>
+                    <div class="fg"><label>Manager Hostname / IP</label><input type="text" id="m_host" placeholder="wazuh-manager-01" oninput="renderManager()"></div>
+                    <div class="fg"><label>Cluster Node Name</label><input type="text" id="m_nodename" placeholder="wazuh-master-01" oninput="renderManager()"></div>
+                    <div class="fg-row">
+                        <div class="fg"><label>Agent Port</label><input type="text" id="m_port" value="1514" oninput="renderManager()"></div>
+                        <div class="fg"><label>Protokoll</label>
+                            <select id="m_proto" onchange="renderManager()"><option value="tcp">tcp</option><option value="udp">udp</option></select>
+                        </div>
+                    </div>
+
+                    <div class="section-label">Logging</div>
+                    <div class="fg">
+                        <label>Log-Format</label>
+                        <select id="m_logfmt" onchange="renderManager()"><option value="plain">plain</option><option value="json">json</option></select>
+                    </div>
+                    <div class="fg toggle-row">
+                        <input type="checkbox" id="m_logall" onchange="renderManager()">
+                        <label for="m_logall">Alle Events loggen (logall)</label>
+                    </div>
+
+                    <div class="section-label">E-Mail-Alerts</div>
+                    <div class="fg toggle-row">
+                        <input type="checkbox" id="m_email_en" onchange="toggleEmailFields(); renderManager()">
+                        <label for="m_email_en">E-Mail-Benachrichtigung aktivieren</label>
+                    </div>
+                    <div id="email-fields" style="display:none;">
+                        <div class="fg"><label>SMTP Server</label><input type="text" id="m_smtp" placeholder="smtp.example.com" oninput="renderManager()"></div>
+                        <div class="fg-row">
+                            <div class="fg"><label>Absender (From)</label><input type="text" id="m_efrom" placeholder="wazuh@example.com" oninput="renderManager()"></div>
+                            <div class="fg"><label>Empfänger (To)</label><input type="text" id="m_eto" placeholder="soc@example.com" oninput="renderManager()"></div>
+                        </div>
+                        <div class="fg"><label>Alert-Level ab (1–15)</label><input type="number" id="m_elevel" value="10" min="1" max="15" oninput="renderManager()"></div>
+                    </div>
+
+                    <div class="section-label">Features</div>
+                    <div class="fg toggle-row">
+                        <input type="checkbox" id="m_vuln" checked onchange="renderManager()">
+                        <label for="m_vuln">Vulnerability Detection aktivieren</label>
+                    </div>
+                    <div class="fg toggle-row">
+                        <input type="checkbox" id="m_sca" checked onchange="renderManager()">
+                        <label for="m_sca">SCA (Security Config Assessment) aktivieren</label>
+                    </div>
+                    <div class="fg toggle-row">
+                        <input type="checkbox" id="m_fim" checked onchange="renderManager()">
+                        <label for="m_fim">FIM (File Integrity Monitoring) aktivieren</label>
+                    </div>
+                </div>
+                <div class="config-preview-wrap">
+                    <div class="preview-header">
+                        <span class="file-name">/var/ossec/etc/ossec.conf</span>
+                        <div class="preview-actions">
+                            <button onclick="copyPreview('prev-manager', this)">Kopieren</button>
+                            <button onclick="downloadPreview('prev-manager', 'ossec.conf')">Download</button>
+                        </div>
+                    </div>
+                    <div class="config-preview"><pre id="prev-manager"></pre></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── TAB: AGENT LINUX ─── -->
+        <div class="tab-panel" id="tab-agent-linux">
+            <div class="config-layout">
+                <div class="config-form">
+                    <h3>Agent Linux – Variablen</h3>
+
+                    <div class="section-label">Metadaten</div>
+                    <div class="fg"><label>Agent-Name</label><input type="text" id="al_name" placeholder="srv-web-01" oninput="renderAgentLinux()"></div>
+                    <div class="fg"><label>Kunden-ID</label><input type="text" id="al_customer" placeholder="KUNDE-01" oninput="renderAgentLinux()"></div>
+                    <div class="fg-row">
+                        <div class="fg"><label>Wazuh Version</label><input type="text" id="al_version" placeholder="4.12.0" oninput="renderAgentLinux()"></div>
+                        <div class="fg"><label>Change-Ticket</label><input type="text" id="al_ticket" placeholder="CHG-0042" oninput="renderAgentLinux()"></div>
+                    </div>
+
+                    <div class="section-label">Manager-Verbindung</div>
+                    <div class="fg"><label>Manager IP / Hostname</label><input type="text" id="al_mhost" placeholder="192.168.1.10" oninput="renderAgentLinux()"></div>
+                    <div class="fg-row">
+                        <div class="fg"><label>Port</label><input type="text" id="al_port" value="1514" oninput="renderAgentLinux()"></div>
+                        <div class="fg"><label>Protokoll</label>
+                            <select id="al_proto" onchange="renderAgentLinux()"><option>tcp</option><option>udp</option></select>
+                        </div>
+                    </div>
+                    <div class="fg"><label>Agent-Gruppe(n)</label><input type="text" id="al_group" placeholder="linux-servers" oninput="renderAgentLinux()">
+                        <div class="hint">Mehrere: kommagetrennt, z.B. <code>linux-servers,prod</code></div>
+                    </div>
+
+                    <div class="section-label">Syscheck (FIM)</div>
+                    <div class="fg-row">
+                        <div class="fg"><label>Scan-Interval (Sek.)</label><input type="number" id="al_freq" value="43200" oninput="renderAgentLinux()"></div>
+                        <div class="fg"><label>Realtime-Monitoring</label>
+                            <select id="al_rt" onchange="renderAgentLinux()"><option value="yes">aktiviert</option><option value="no">deaktiviert</option></select>
+                        </div>
+                    </div>
+                    <div class="fg"><label>Überwachte Pfade (kommagetrennt)</label>
+                        <input type="text" id="al_paths" value="/etc,/usr/bin,/usr/sbin,/bin,/sbin" oninput="renderAgentLinux()">
+                    </div>
+                </div>
+                <div class="config-preview-wrap">
+                    <div class="preview-header">
+                        <span class="file-name">/var/ossec/etc/ossec.conf</span>
+                        <div class="preview-actions">
+                            <button onclick="copyPreview('prev-agent-linux', this)">Kopieren</button>
+                            <button onclick="downloadPreview('prev-agent-linux', 'ossec-agent-linux.conf')">Download</button>
+                        </div>
+                    </div>
+                    <div class="config-preview"><pre id="prev-agent-linux"></pre></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── TAB: AGENT WINDOWS ─── -->
+        <div class="tab-panel" id="tab-agent-win">
+            <div class="config-layout">
+                <div class="config-form">
+                    <h3>Agent Windows – Variablen</h3>
+
+                    <div class="section-label">Metadaten</div>
+                    <div class="fg"><label>Agent-Name</label><input type="text" id="aw_name" placeholder="WIN-PC-01" oninput="renderAgentWin()"></div>
+                    <div class="fg"><label>Kunden-ID</label><input type="text" id="aw_customer" placeholder="KUNDE-01" oninput="renderAgentWin()"></div>
+                    <div class="fg-row">
+                        <div class="fg"><label>Wazuh Version</label><input type="text" id="aw_version" placeholder="4.12.0" oninput="renderAgentWin()"></div>
+                        <div class="fg"><label>Change-Ticket</label><input type="text" id="aw_ticket" placeholder="CHG-0042" oninput="renderAgentWin()"></div>
+                    </div>
+
+                    <div class="section-label">Manager-Verbindung</div>
+                    <div class="fg"><label>Manager IP / Hostname</label><input type="text" id="aw_mhost" placeholder="192.168.1.10" oninput="renderAgentWin()"></div>
+                    <div class="fg-row">
+                        <div class="fg"><label>Port</label><input type="text" id="aw_port" value="1514" oninput="renderAgentWin()"></div>
+                        <div class="fg"><label>Protokoll</label>
+                            <select id="aw_proto" onchange="renderAgentWin()"><option>tcp</option><option>udp</option></select>
+                        </div>
+                    </div>
+                    <div class="fg"><label>Agent-Gruppe(n)</label><input type="text" id="aw_group" placeholder="windows-endpoints" oninput="renderAgentWin()"></div>
+
+                    <div class="section-label">Windows Event Logs</div>
+                    <div class="fg toggle-row">
+                        <input type="checkbox" id="aw_sys" checked onchange="renderAgentWin()">
+                        <label for="aw_sys">System Events</label>
+                    </div>
+                    <div class="fg toggle-row">
+                        <input type="checkbox" id="aw_sec" checked onchange="renderAgentWin()">
+                        <label for="aw_sec">Security Events (Logon, Policy)</label>
+                    </div>
+                    <div class="fg toggle-row">
+                        <input type="checkbox" id="aw_app" checked onchange="renderAgentWin()">
+                        <label for="aw_app">Application Events</label>
+                    </div>
+                    <div class="fg toggle-row">
+                        <input type="checkbox" id="aw_ps" checked onchange="renderAgentWin()">
+                        <label for="aw_ps">PowerShell Events (4103/4104)</label>
+                    </div>
+                    <div class="fg toggle-row">
+                        <input type="checkbox" id="aw_sysmon" onchange="renderAgentWin()">
+                        <label for="aw_sysmon">Sysmon Events (Microsoft-Windows-Sysmon/Operational)</label>
+                    </div>
+
+                    <div class="section-label">Syscheck (FIM)</div>
+                    <div class="fg"><label>Überwachte Pfade</label>
+                        <input type="text" id="aw_paths" value="%WINDIR%/System32,C:/Users" oninput="renderAgentWin()">
+                    </div>
+                </div>
+                <div class="config-preview-wrap">
+                    <div class="preview-header">
+                        <span class="file-name">C:\Program Files (x86)\ossec-agent\ossec.conf</span>
+                        <div class="preview-actions">
+                            <button onclick="copyPreview('prev-agent-win', this)">Kopieren</button>
+                            <button onclick="downloadPreview('prev-agent-win', 'ossec-agent-windows.conf')">Download</button>
+                        </div>
+                    </div>
+                    <div class="config-preview"><pre id="prev-agent-win"></pre></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── TAB: INDEXER ─── -->
+        <div class="tab-panel" id="tab-indexer">
+            <div class="config-layout">
+                <div class="config-form">
+                    <h3>Indexer – Variablen</h3>
+
+                    <div class="section-label">Metadaten</div>
+                    <div class="fg"><label>Kunden-ID</label><input type="text" id="ix_customer" placeholder="KUNDE-01" oninput="renderIndexer()"></div>
+                    <div class="fg-row">
+                        <div class="fg"><label>Wazuh Version</label><input type="text" id="ix_version" placeholder="4.12.0" oninput="renderIndexer()"></div>
+                        <div class="fg"><label>Change-Ticket</label><input type="text" id="ix_ticket" placeholder="CHG-0042" oninput="renderIndexer()"></div>
+                    </div>
+
+                    <div class="section-label">Cluster</div>
+                    <div class="fg"><label>Cluster-Name</label><input type="text" id="ix_cluster" placeholder="wazuh-cluster" oninput="renderIndexer()"></div>
+                    <div class="fg"><label>Initial Cluster Manager Nodes (kommagetrennt)</label>
+                        <input type="text" id="ix_masters" placeholder="wazuh-indexer-01" oninput="renderIndexer()">
+                    </div>
+
+                    <div class="section-label">Node</div>
+                    <div class="fg"><label>Node-Name</label><input type="text" id="ix_node" placeholder="wazuh-indexer-01" oninput="renderIndexer()"></div>
+                    <div class="fg"><label>Node IP</label><input type="text" id="ix_ip" placeholder="192.168.1.10" oninput="renderIndexer()"></div>
+
+                    <div class="section-label">Netzwerk</div>
+                    <div class="fg"><label>Network Host (bind address)</label><input type="text" id="ix_nethost" value="0.0.0.0" oninput="renderIndexer()"></div>
+                    <div class="fg-row">
+                        <div class="fg"><label>HTTP Port</label><input type="number" id="ix_port" value="9200" oninput="renderIndexer()"></div>
+                        <div class="fg"><label>Transport Port</label><input type="number" id="ix_tport" value="9300" oninput="renderIndexer()"></div>
+                    </div>
+                </div>
+                <div class="config-preview-wrap">
+                    <div class="preview-header">
+                        <span class="file-name">/etc/wazuh-indexer/opensearch.yml</span>
+                        <div class="preview-actions">
+                            <button onclick="copyPreview('prev-indexer', this)">Kopieren</button>
+                            <button onclick="downloadPreview('prev-indexer', 'opensearch.yml')">Download</button>
+                        </div>
+                    </div>
+                    <div class="config-preview"><pre id="prev-indexer"></pre></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── TAB: FILEBEAT ─── -->
+        <div class="tab-panel" id="tab-filebeat">
+            <div class="config-layout">
+                <div class="config-form">
+                    <h3>Filebeat – Variablen</h3>
+
+                    <div class="section-label">Metadaten</div>
+                    <div class="fg"><label>Kunden-ID</label><input type="text" id="fb_customer" placeholder="KUNDE-01" oninput="renderFilebeat()"></div>
+                    <div class="fg-row">
+                        <div class="fg"><label>Wazuh Version</label><input type="text" id="fb_version" placeholder="4.12.0" oninput="renderFilebeat()"></div>
+                        <div class="fg"><label>Change-Ticket</label><input type="text" id="fb_ticket" placeholder="CHG-0042" oninput="renderFilebeat()"></div>
+                    </div>
+
+                    <div class="section-label">Indexer (Output)</div>
+                    <div class="fg"><label>Indexer Host / IP</label><input type="text" id="fb_ixhost" placeholder="127.0.0.1" oninput="renderFilebeat()"></div>
+                    <div class="fg-row">
+                        <div class="fg"><label>Indexer Port</label><input type="number" id="fb_ixport" value="9200" oninput="renderFilebeat()"></div>
+                        <div class="fg"><label>Benutzername</label><input type="text" id="fb_ixuser" value="admin" oninput="renderFilebeat()"></div>
+                    </div>
+                    <div class="alert alert-warning" style="margin-top:4px;font-size:0.82em;padding:8px 12px;">
+                        Passwort wird als Umgebungsvariable <code>$INDEXER_PASSWORD</code> gesetzt – niemals im Klartext speichern!
+                    </div>
+
+                    <div class="section-label">TLS-Zertifikate</div>
+                    <div class="fg"><label>Root CA Pfad</label><input type="text" id="fb_ca" value="/etc/filebeat/certs/root-ca.pem" oninput="renderFilebeat()"></div>
+                    <div class="fg"><label>Zertifikat (cert)</label><input type="text" id="fb_cert" value="/etc/filebeat/certs/filebeat.pem" oninput="renderFilebeat()"></div>
+                    <div class="fg"><label>Private Key</label><input type="text" id="fb_key" value="/etc/filebeat/certs/filebeat-key.pem" oninput="renderFilebeat()"></div>
+                </div>
+                <div class="config-preview-wrap">
+                    <div class="preview-header">
+                        <span class="file-name">/etc/filebeat/filebeat.yml</span>
+                        <div class="preview-actions">
+                            <button onclick="copyPreview('prev-filebeat', this)">Kopieren</button>
+                            <button onclick="downloadPreview('prev-filebeat', 'filebeat.yml')">Download</button>
+                        </div>
+                    </div>
+                    <div class="config-preview"><pre id="prev-filebeat"></pre></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── TAB: VALIDATOR ─── -->
+        <div class="tab-panel" id="tab-validator">
+            <div style="max-width:1100px;">
+                <div class="alert alert-info" style="margin-bottom:20px;">
+                    <strong>ossec.conf Validator</strong> – Bestehende Manager-Konfiguration einfügen. Der Validator prüft auf
+                    Altlasten, fehlende Features und zeigt Empfehlungen.
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;">
+                    <!-- Input -->
+                    <div>
+                        <div style="font-weight:700;color:var(--ta-blue);margin-bottom:8px;">Aktuelle ossec.conf einfügen</div>
+                        <div style="font-size:0.8em;color:var(--ta-gray);margin-bottom:8px;">
+                            Inhalt aus <code>cat /var/ossec/etc/ossec.conf</code> hier einfügen:
+                        </div>
+                        <textarea id="val-input" rows="28"
+                            placeholder="&lt;ossec_config&gt;&#10;  ...&#10;&lt;/ossec_config&gt;"
+                            style="width:100%;box-sizing:border-box;font-family:'JetBrains Mono',monospace;font-size:0.8em;padding:12px;border:2px solid var(--ta-gray-mid);border-radius:6px;resize:vertical;background:#fdfdfd;line-height:1.6;"
+                            oninput="runValidator()"></textarea>
+                        <div style="margin-top:8px;display:flex;gap:8px;">
+                            <button class="btn-primary" onclick="runValidator()">Analysieren</button>
+                            <button class="btn-secondary" onclick="document.getElementById('val-input').value='';document.getElementById('val-results').innerHTML='';document.getElementById('val-summary').innerHTML='';">Leeren</button>
+                        </div>
+                    </div>
+
+                    <!-- Results -->
+                    <div>
+                        <div id="val-summary" style="margin-bottom:16px;"></div>
+                        <div id="val-results"></div>
+                    </div>
+                </div>
+
+                <!-- Diff view -->
+                <div id="val-diff-section" style="display:none;margin-top:24px;">
+                    <div style="font-weight:700;color:var(--ta-blue);margin-bottom:12px;font-size:1em;">
+                        Konfigurationsdiff – Empfohlene Ergänzungen
+                    </div>
+                    <div style="background:#161b22;border-radius:8px;overflow:auto;max-height:400px;">
+                        <pre id="val-diff" style="margin:0;padding:16px;font-family:'JetBrains Mono',monospace;font-size:0.78em;line-height:1.65;color:#e6edf3;white-space:pre;"></pre>
+                    </div>
+                    <div style="margin-top:8px;display:flex;gap:8px;">
+                        <button class="btn-secondary" onclick="copyDiff()">Diff kopieren</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /content -->
+
+    <footer class="ta-footer">
+        <p>&copy; 2026 <a href="https://www.t-alpha.ch" target="_blank">T-Alpha GmbH</a>
+        &middot; IT Security
+        &middot; <a href="index.html">← Web-Tools</a>
+        &middot; <a href="../config-templates/">Config Templates</a></p>
+    </footer>
+</div><!-- /container -->
+
+<script>
+/* ─── Tab Switching ─── */
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+        document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+});
+
+function v(id, fallback) {
+    var el = document.getElementById(id);
+    if (!el) return fallback || '';
+    var val = el.type === 'checkbox' ? (el.checked ? 'yes' : 'no') : (el.value || fallback || '');
+    return val;
+}
+
+function toggleEmailFields() {
+    var en = document.getElementById('m_email_en').checked;
+    document.getElementById('email-fields').style.display = en ? 'block' : 'none';
+}
+
+/* ─── Syntax Highlighting ─── */
+function hlXml(raw) {
+    return raw
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/(&lt;!--[\s\S]*?--&gt;)/g, '<span class="hl-comment">$1</span>')
+        .replace(/(&lt;\/?)([\w\-]+)/g, '$1<span class="hl-tag">$2</span>')
+        .replace(/([\w\-]+)(=)(&quot;[^&]*&quot;)/g, '<span class="hl-attr">$1</span>$2<span class="hl-val">$3</span>');
+}
+function hlYaml(raw) {
+    return raw
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/(^|\n)(#[^\n]*)/g, '$1<span class="hl-comment">$2</span>')
+        .replace(/(^|\n)(\s*)([\w\.\-]+)(:)/gm, '$1$2<span class="hl-key">$3</span>$4')
+        .replace(/"([^"]*)"/g, '<span class="hl-string">"$1"</span>');
+}
+
+function setPreview(id, raw, lang) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = lang === 'yaml' ? hlYaml(raw) : hlXml(raw);
+}
+
+/* ─── Copy & Download ─── */
+function copyPreview(preId, btn) {
+    var el = document.getElementById(preId);
+    navigator.clipboard.writeText(el.innerText).then(function() {
+        btn.textContent = '✓ Kopiert!';
+        btn.classList.add('copied');
+        setTimeout(function() { btn.textContent = 'Kopieren'; btn.classList.remove('copied'); }, 2000);
+    });
+}
+function downloadPreview(preId, filename) {
+    var el = document.getElementById(preId);
+    var blob = new Blob([el.innerText], { type: 'text/plain' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+
+/* ──────────────────────────────────────────────
+   MANAGER ossec.conf
+   ────────────────────────────────────────────── */
+function renderManager() {
+    var customer  = v('m_customer', 'KUNDE-XX');
+    var version   = v('m_version',  '4.x.x');
+    var ticket    = v('m_ticket',   'CHG-XXXX');
+    var host      = v('m_host',     'wazuh-manager-01');
+    var nodename  = v('m_nodename', 'wazuh-master-01');
+    var port      = v('m_port',     '1514');
+    var proto     = v('m_proto',    'tcp');
+    var logfmt    = v('m_logfmt',   'plain');
+    var logall    = v('m_logall');
+    var emailEn   = document.getElementById('m_email_en').checked ? 'yes' : 'no';
+    var smtp      = v('m_smtp',   'smtp.example.com');
+    var efrom     = v('m_efrom',  'wazuh@example.com');
+    var eto       = v('m_eto',    'soc@example.com');
+    var elevel    = v('m_elevel', '10');
+    var vuln      = document.getElementById('m_vuln').checked ? 'yes' : 'no';
+    var sca       = document.getElementById('m_sca').checked  ? 'yes' : 'no';
+    var fim       = document.getElementById('m_fim').checked;
+
+    var cfg = '<!--\n' +
+'  ossec.conf – Wazuh Manager (All-In-One, Ubuntu)\n' +
+'  Template Version: 1.0\n' +
+'  Wazuh Version:    ' + version + '\n' +
+'  Kunde:            ' + customer + '\n' +
+'  Change-Ticket:    ' + ticket + '\n' +
+'-->\n' +
+'<ossec_config>\n\n' +
+'  <!-- GLOBALE EINSTELLUNGEN -->\n' +
+'  <global>\n' +
+'    <jsonout_output>yes</jsonout_output>\n' +
+'    <alerts_log>yes</alerts_log>\n' +
+'    <logall>' + logall + '</logall>\n' +
+'    <logall_json>no</logall_json>\n' +
+'    <email_notification>' + emailEn + '</email_notification>\n' +
+(emailEn === 'yes' ?
+'    <smtp_server>' + smtp + '</smtp_server>\n' +
+'    <email_from>' + efrom + '</email_from>\n' +
+'    <email_to>' + eto + '</email_to>\n' +
+'    <email_maxperhour>12</email_maxperhour>\n' +
+'    <email_alert_level>' + elevel + '</email_alert_level>\n' +
+'    <email_idsname>Wazuh – ' + nodename + '</email_idsname>\n' : '') +
+'  </global>\n\n' +
+'  <!-- ALERTS -->\n' +
+'  <alerts>\n' +
+'    <log_alert_level>3</log_alert_level>\n' +
+'    <email_alert_level>' + (emailEn === 'yes' ? elevel : '10') + '</email_alert_level>\n' +
+'  </alerts>\n\n' +
+'  <!-- LOGGING -->\n' +
+'  <logging>\n' +
+'    <log_format>' + logfmt + '</log_format>\n' +
+'  </logging>\n\n' +
+'  <!-- REMOTE (AGENT-KOMMUNIKATION) -->\n' +
+'  <remote>\n' +
+'    <connection>secure</connection>\n' +
+'    <port>' + port + '</port>\n' +
+'    <protocol>' + proto + '</protocol>\n' +
+'    <queue_size>131072</queue_size>\n' +
+'  </remote>\n\n' +
+(fim ?
+'  <!-- SYSCHECK (FIM) -->\n' +
+'  <syscheck>\n' +
+'    <disabled>no</disabled>\n' +
+'    <frequency>43200</frequency>\n' +
+'    <scan_on_start>yes</scan_on_start>\n' +
+'    <directories>/etc,/usr/bin,/usr/sbin</directories>\n' +
+'    <directories>/bin,/sbin</directories>\n' +
+'    <ignore>/etc/mtab</ignore>\n' +
+'    <ignore>/etc/hosts.deny</ignore>\n' +
+'  </syscheck>\n\n' : '') +
+(sca === 'yes' ?
+'  <!-- SCA -->\n' +
+'  <sca>\n' +
+'    <enabled>yes</enabled>\n' +
+'    <scan_on_start>yes</scan_on_start>\n' +
+'    <interval>12h</interval>\n' +
+'    <skip_nfs>yes</skip_nfs>\n' +
+'  </sca>\n\n' : '') +
+(vuln === 'yes' ?
+'  <!-- VULNERABILITY DETECTION -->\n' +
+'  <vulnerability-detection>\n' +
+'    <enabled>yes</enabled>\n' +
+'    <index-status>yes</index-status>\n' +
+'    <feed-update-interval>60m</feed-update-interval>\n' +
+'  </vulnerability-detection>\n\n' : '') +
+'  <!-- INDEXER -->\n' +
+'  <indexer>\n' +
+'    <enabled>yes</enabled>\n' +
+'    <hosts>\n' +
+'      <host>https://' + host + ':9200</host>\n' +
+'    </hosts>\n' +
+'    <ssl>\n' +
+'      <certificate_authorities>\n' +
+'        <ca>/etc/filebeat/certs/root-ca.pem</ca>\n' +
+'      </certificate_authorities>\n' +
+'      <certificate>/etc/filebeat/certs/filebeat.pem</certificate>\n' +
+'      <key>/etc/filebeat/certs/filebeat-key.pem</key>\n' +
+'    </ssl>\n' +
+'  </indexer>\n\n' +
+'  <!-- ACTIVE RESPONSE -->\n' +
+'  <active-response>\n' +
+'    <disabled>no</disabled>\n' +
+'  </active-response>\n\n' +
+'</ossec_config>';
+
+    setPreview('prev-manager', cfg, 'xml');
+}
+
+/* ──────────────────────────────────────────────
+   AGENT LINUX ossec.conf
+   ────────────────────────────────────────────── */
+function renderAgentLinux() {
+    var name    = v('al_name',     'srv-hostname');
+    var customer= v('al_customer', 'KUNDE-XX');
+    var version = v('al_version',  '4.x.x');
+    var ticket  = v('al_ticket',   'CHG-XXXX');
+    var mhost   = v('al_mhost',    '192.168.1.10');
+    var port    = v('al_port',     '1514');
+    var proto   = v('al_proto',    'tcp');
+    var group   = v('al_group',    'linux-servers');
+    var freq    = v('al_freq',     '43200');
+    var rt      = v('al_rt',       'no');
+    var rawPaths= v('al_paths',    '/etc,/usr/bin,/usr/sbin,/bin,/sbin');
+    var paths   = rawPaths.split(',').map(function(p){ return p.trim(); });
+
+    var cfg = '<!--\n' +
+'  ossec.conf – Wazuh Agent (Linux)\n' +
+'  Template Version: 1.0\n' +
+'  Wazuh Version:    ' + version + '\n' +
+'  Agent-Name:       ' + name + '\n' +
+'  Gruppe:           ' + group + '\n' +
+'  Kunde:            ' + customer + '\n' +
+'  Change-Ticket:    ' + ticket + '\n' +
+'-->\n' +
+'<ossec_config>\n\n' +
+'  <!-- VERBINDUNG ZUM MANAGER -->\n' +
+'  <client>\n' +
+'    <server>\n' +
+'      <address>' + mhost + '</address>\n' +
+'      <port>' + port + '</port>\n' +
+'      <protocol>' + proto + '</protocol>\n' +
+'    </server>\n' +
+'    <config-profile>' + group + '</config-profile>\n' +
+'    <notify_time>10</notify_time>\n' +
+'    <time-reconnect>60</time-reconnect>\n' +
+'    <auto_restart>yes</auto_restart>\n' +
+'  </client>\n\n' +
+'  <!-- CLIENT BUFFER -->\n' +
+'  <client_buffer>\n' +
+'    <disabled>no</disabled>\n' +
+'    <queue_size>5000</queue_size>\n' +
+'    <events_per_second>500</events_per_second>\n' +
+'  </client_buffer>\n\n' +
+'  <!-- SYSCHECK (FIM) -->\n' +
+'  <syscheck>\n' +
+'    <disabled>no</disabled>\n' +
+'    <frequency>' + freq + '</frequency>\n' +
+'    <scan_on_start>yes</scan_on_start>\n' +
+paths.map(function(p) {
+    return '    <directories' + (rt === 'yes' ? ' realtime="yes"' : '') + '>' + p + '</directories>';
+}).join('\n') + '\n' +
+'    <ignore>/etc/mtab</ignore>\n' +
+'    <ignore>/etc/hosts.deny</ignore>\n' +
+'    <ignore>/etc/random-seed</ignore>\n' +
+'    <nodiff>/etc/ssl/private.key</nodiff>\n' +
+'    <skip_nfs>yes</skip_nfs>\n' +
+'  </syscheck>\n\n' +
+'  <!-- ROOTCHECK -->\n' +
+'  <rootcheck>\n' +
+'    <disabled>no</disabled>\n' +
+'    <check_files>yes</check_files>\n' +
+'    <check_trojans>yes</check_trojans>\n' +
+'    <check_dev>yes</check_dev>\n' +
+'    <check_sys>yes</check_sys>\n' +
+'    <check_pids>yes</check_pids>\n' +
+'    <check_ports>yes</check_ports>\n' +
+'    <check_if>yes</check_if>\n' +
+'    <frequency>36000</frequency>\n' +
+'  </rootcheck>\n\n' +
+'  <!-- LOG-ANALYSE -->\n' +
+'  <localfile>\n' +
+'    <log_format>command</log_format>\n' +
+'    <command>df -P</command>\n' +
+'    <frequency>360</frequency>\n' +
+'  </localfile>\n' +
+'  <localfile>\n' +
+'    <log_format>syslog</log_format>\n' +
+'    <location>/var/log/syslog</location>\n' +
+'  </localfile>\n' +
+'  <localfile>\n' +
+'    <log_format>syslog</log_format>\n' +
+'    <location>/var/log/auth.log</location>\n' +
+'  </localfile>\n\n' +
+'</ossec_config>';
+
+    setPreview('prev-agent-linux', cfg, 'xml');
+}
+
+/* ──────────────────────────────────────────────
+   AGENT WINDOWS ossec.conf
+   ────────────────────────────────────────────── */
+function renderAgentWin() {
+    var name    = v('aw_name',    'WIN-PC-01');
+    var customer= v('aw_customer','KUNDE-XX');
+    var version = v('aw_version', '4.x.x');
+    var ticket  = v('aw_ticket',  'CHG-XXXX');
+    var mhost   = v('aw_mhost',   '192.168.1.10');
+    var port    = v('aw_port',    '1514');
+    var proto   = v('aw_proto',   'tcp');
+    var group   = v('aw_group',   'windows-endpoints');
+    var rawPaths= v('aw_paths',   '%WINDIR%/System32,C:/Users');
+    var paths   = rawPaths.split(',').map(function(p){ return p.trim(); });
+
+    var evtLogs = '';
+    if (document.getElementById('aw_sys').checked) evtLogs +=
+'  <localfile>\n    <log_format>eventchannel</log_format>\n    <location>System</location>\n  </localfile>\n';
+    if (document.getElementById('aw_sec').checked) evtLogs +=
+'  <localfile>\n    <log_format>eventchannel</log_format>\n    <location>Security</location>\n    <query>Event/System[EventID != 5156 and EventID != 5157]</query>\n  </localfile>\n';
+    if (document.getElementById('aw_app').checked) evtLogs +=
+'  <localfile>\n    <log_format>eventchannel</log_format>\n    <location>Application</location>\n  </localfile>\n';
+    if (document.getElementById('aw_ps').checked) evtLogs +=
+'  <localfile>\n    <log_format>eventchannel</log_format>\n    <location>Microsoft-Windows-PowerShell/Operational</location>\n  </localfile>\n';
+    if (document.getElementById('aw_sysmon').checked) evtLogs +=
+'  <localfile>\n    <log_format>eventchannel</log_format>\n    <location>Microsoft-Windows-Sysmon/Operational</location>\n  </localfile>\n';
+
+    var cfg = '<!--\n' +
+'  ossec.conf – Wazuh Agent (Windows)\n' +
+'  Template Version: 1.0\n' +
+'  Wazuh Version:    ' + version + '\n' +
+'  Agent-Name:       ' + name + '\n' +
+'  Gruppe:           ' + group + '\n' +
+'  Kunde:            ' + customer + '\n' +
+'  Change-Ticket:    ' + ticket + '\n' +
+'-->\n' +
+'<ossec_config>\n\n' +
+'  <!-- VERBINDUNG ZUM MANAGER -->\n' +
+'  <client>\n' +
+'    <server>\n' +
+'      <address>' + mhost + '</address>\n' +
+'      <port>' + port + '</port>\n' +
+'      <protocol>' + proto + '</protocol>\n' +
+'    </server>\n' +
+'    <config-profile>' + group + '</config-profile>\n' +
+'    <notify_time>10</notify_time>\n' +
+'    <time-reconnect>60</time-reconnect>\n' +
+'    <auto_restart>yes</auto_restart>\n' +
+'  </client>\n\n' +
+'  <!-- SYSCHECK (FIM) -->\n' +
+'  <syscheck>\n' +
+'    <disabled>no</disabled>\n' +
+'    <frequency>43200</frequency>\n' +
+'    <scan_on_start>yes</scan_on_start>\n' +
+paths.map(function(p) {
+    return '    <directories check_all="yes">' + p + '</directories>';
+}).join('\n') + '\n' +
+'    <ignore>%PROGRAMDATA%/Microsoft/Windows/WER</ignore>\n' +
+'  </syscheck>\n\n' +
+'  <!-- WINDOWS EVENT LOGS -->\n' +
+evtLogs +
+'</ossec_config>';
+
+    setPreview('prev-agent-win', cfg, 'xml');
+}
+
+/* ──────────────────────────────────────────────
+   INDEXER opensearch.yml
+   ────────────────────────────────────────────── */
+function renderIndexer() {
+    var customer = v('ix_customer', 'KUNDE-XX');
+    var version  = v('ix_version',  '4.x.x');
+    var ticket   = v('ix_ticket',   'CHG-XXXX');
+    var cluster  = v('ix_cluster',  'wazuh-cluster');
+    var masters  = v('ix_masters',  'wazuh-indexer-01');
+    var node     = v('ix_node',     'wazuh-indexer-01');
+    var ip       = v('ix_ip',       '192.168.1.10');
+    var nethost  = v('ix_nethost',  '0.0.0.0');
+    var port     = v('ix_port',     '9200');
+    var tport    = v('ix_tport',    '9300');
+
+    var masterList = masters.split(',').map(function(m){ return '  - "' + m.trim() + '"'; }).join('\n');
+    var ipList     = ip.split(',').map(function(i){ return '  - "' + i.trim() + '"'; }).join('\n');
+
+    var cfg =
+'# opensearch.yml – Wazuh Indexer (OpenSearch)\n' +
+'# Template Version: 1.0\n' +
+'# Wazuh Version:    ' + version + '\n' +
+'# Kunde:            ' + customer + '\n' +
+'# Change-Ticket:    ' + ticket + '\n\n' +
+'# ============================================================\n' +
+'# CLUSTER\n' +
+'# ============================================================\n' +
+'cluster.name: ' + cluster + '\n' +
+'cluster.initial_cluster_manager_nodes:\n' + masterList + '\n\n' +
+'# ============================================================\n' +
+'# NODE\n' +
+'# ============================================================\n' +
+'node.name: ' + node + '\n\n' +
+'# ============================================================\n' +
+'# NETZWERK\n' +
+'# ============================================================\n' +
+'network.host: ' + nethost + '\n' +
+'http.port: ' + port + '\n' +
+'transport.port: ' + tport + '\n\n' +
+'# ============================================================\n' +
+'# DISCOVERY\n' +
+'# ============================================================\n' +
+'discovery.seed_hosts:\n' + ipList + '\n\n' +
+'# ============================================================\n' +
+'# PFADE\n' +
+'# ============================================================\n' +
+'path.data: /var/lib/wazuh-indexer\n' +
+'path.logs: /var/log/wazuh-indexer\n\n' +
+'# ============================================================\n' +
+'# SECURITY (OpenSearch Security Plugin)\n' +
+'# ============================================================\n' +
+'plugins.security.ssl.transport.pemcert_filepath: /etc/wazuh-indexer/certs/' + node + '.pem\n' +
+'plugins.security.ssl.transport.pemkey_filepath: /etc/wazuh-indexer/certs/' + node + '-key.pem\n' +
+'plugins.security.ssl.transport.pemtrustedcas_filepath: /etc/wazuh-indexer/certs/root-ca.pem\n' +
+'plugins.security.ssl.transport.enforce_hostname_verification: false\n' +
+'plugins.security.ssl.http.enabled: true\n' +
+'plugins.security.ssl.http.pemcert_filepath: /etc/wazuh-indexer/certs/' + node + '.pem\n' +
+'plugins.security.ssl.http.pemkey_filepath: /etc/wazuh-indexer/certs/' + node + '-key.pem\n' +
+'plugins.security.ssl.http.pemtrustedcas_filepath: /etc/wazuh-indexer/certs/root-ca.pem\n' +
+'plugins.security.nodes_dn:\n' +
+'  - "CN=' + node + ',OU=Wazuh,O=Wazuh,L=California,C=US"\n' +
+'plugins.security.authcz.admin_dn:\n' +
+'  - "CN=admin,OU=Wazuh,O=Wazuh,L=California,C=US"\n';
+
+    setPreview('prev-indexer', cfg, 'yaml');
+}
+
+/* ──────────────────────────────────────────────
+   FILEBEAT filebeat.yml
+   ────────────────────────────────────────────── */
+function renderFilebeat() {
+    var customer = v('fb_customer', 'KUNDE-XX');
+    var version  = v('fb_version',  '4.x.x');
+    var ticket   = v('fb_ticket',   'CHG-XXXX');
+    var ixhost   = v('fb_ixhost',   '127.0.0.1');
+    var ixport   = v('fb_ixport',   '9200');
+    var ixuser   = v('fb_ixuser',   'admin');
+    var ca       = v('fb_ca',       '/etc/filebeat/certs/root-ca.pem');
+    var cert     = v('fb_cert',     '/etc/filebeat/certs/filebeat.pem');
+    var key      = v('fb_key',      '/etc/filebeat/certs/filebeat-key.pem');
+
+    var cfg =
+'# filebeat.yml – Filebeat für Wazuh\n' +
+'# Template Version: 1.0\n' +
+'# Wazuh Version:    ' + version + '\n' +
+'# Kunde:            ' + customer + '\n' +
+'# Change-Ticket:    ' + ticket + '\n\n' +
+'# ============================================================\n' +
+'# OUTPUT – Wazuh Indexer (OpenSearch)\n' +
+'# ============================================================\n' +
+'output.elasticsearch:\n' +
+'  hosts:\n' +
+'    - "https://' + ixhost + ':' + ixport + '"\n' +
+'  protocol: https\n' +
+'  username: "' + ixuser + '"\n' +
+'  # Passwort aus Umgebungsvariable – niemals im Klartext!\n' +
+'  password: "${INDEXER_PASSWORD}"\n' +
+'  ssl.certificate_authorities:\n' +
+'    - ' + ca + '\n' +
+'  ssl.certificate: ' + cert + '\n' +
+'  ssl.key: ' + key + '\n\n' +
+'# ============================================================\n' +
+'# SETUP – Index-Template & Dashboards\n' +
+'# ============================================================\n' +
+'setup.template.json.enabled: true\n' +
+'setup.template.json.path: \'/etc/filebeat/wazuh-template.json\'\n' +
+'setup.template.json.name: \'wazuh\'\n' +
+'setup.ilm.overwrite: true\n' +
+'setup.ilm.enabled: false\n\n' +
+'# ============================================================\n' +
+'# INPUT – Wazuh Alerts\n' +
+'# ============================================================\n' +
+'filebeat.modules:\n' +
+'  - module: wazuh\n' +
+'    alerts:\n' +
+'      enabled: true\n' +
+'    archives:\n' +
+'      enabled: false\n\n' +
+'# ============================================================\n' +
+'# LOGGING\n' +
+'# ============================================================\n' +
+'logging.level: info\n' +
+'logging.to_files: true\n' +
+'logging.files:\n' +
+'  path: /var/log/filebeat\n' +
+'  name: filebeat\n' +
+'  keepfiles: 7\n' +
+'  permissions: 0644\n';
+
+    setPreview('prev-filebeat', cfg, 'yaml');
+}
+
+/* ──────────────────────────────────────────────
+   OSSEC.CONF VALIDATOR
+   ────────────────────────────────────────────── */
+
+/* Deprecated / legacy patterns to detect */
+var VAL_DEPRECATED = [
+    {
+        id: 'dep-authd',
+        pattern: /<authd>/i,
+        title: 'Veraltetes &lt;authd&gt;-Block',
+        detail: 'Der <code>&lt;authd&gt;</code>-Block ist ab Wazuh 4.x veraltet. ' +
+            'Die Enrollment-Konfiguration erfolgt jetzt über den Agent selbst (<code>wazuh-agent.conf</code> → <code>&lt;enrollment&gt;</code>).',
+        suggestion: '&lt;authd&gt;-Block aus ossec.conf entfernen. Agent-Enrollment über wazuh-agent oder Wazuh API konfigurieren.'
+    },
+    {
+        id: 'dep-vulnerability-detector',
+        pattern: /<vulnerability-detector>/i,
+        title: 'Veraltetes &lt;vulnerability-detector&gt;',
+        detail: 'In Wazuh ≥ 4.8 wurde <code>&lt;vulnerability-detector&gt;</code> umbenannt zu ' +
+            '<code>&lt;vulnerability-detection&gt;</code>. Der alte Blocknamen wird ignoriert.',
+        suggestion: 'Umbenennen zu: <code>&lt;vulnerability-detection&gt;</code>',
+        diff: '- <vulnerability-detector>\n+ <vulnerability-detection>\n    <enabled>yes</enabled>\n    <index-status>yes</index-status>\n    <feed-update-interval>60m</feed-update-interval>\n+ </vulnerability-detection>'
+    },
+    {
+        id: 'dep-registration',
+        pattern: /<registration>/i,
+        title: 'Veraltetes &lt;registration&gt;-Block',
+        detail: 'Das <code>&lt;registration&gt;</code>-Element wurde in Wazuh 4.x entfernt. ' +
+            'Agent-Registrierung läuft jetzt über den Enrollment-Mechanismus.',
+        suggestion: 'Den &lt;registration&gt;-Block vollständig entfernen.'
+    },
+    {
+        id: 'dep-agent-auth',
+        pattern: /agent-auth/i,
+        title: 'Veraltetes agent-auth Binary',
+        detail: '<code>agent-auth</code> wurde durch <code>agent-auth</code> (unified enrollment) ersetzt. ' +
+            'In Wazuh 4.x nutzt man <code>wazuh-agent</code> mit <code>enrollment</code>-Konfiguration.',
+        suggestion: 'Enrollment über <code>/var/ossec/bin/wazuh-agent</code> oder Wazuh API.'
+    },
+    {
+        id: 'dep-cluster-disabled',
+        pattern: /<disabled>yes<\/disabled>/i,
+        title: 'Cluster deaktiviert (&lt;disabled&gt;yes)',
+        detail: 'Cluster ist deaktiviert – für AIO-Installationen korrekt. Bei Multi-Node auf <code>no</code> setzen.',
+        severity: 'info',
+        suggestion: 'Für AIO: korrekt. Für Multi-Node: <code>&lt;disabled&gt;no&lt;/disabled&gt;</code>'
+    },
+    {
+        id: 'dep-logall',
+        pattern: /<logall>yes<\/logall>/i,
+        title: 'logall aktiviert (Performance-Warnung)',
+        detail: '<code>logall yes</code> schreibt <strong>alle</strong> Events in archives.log. ' +
+            'Kann zu sehr hohem Speicher- und I/O-Verbrauch führen.',
+        severity: 'warning',
+        suggestion: 'Nur aktivieren wenn explizit benötigt. Standard: <code>&lt;logall&gt;no&lt;/logall&gt;</code>'
+    },
+    {
+        id: 'dep-md5',
+        pattern: /check_md5sum/i,
+        title: 'Veraltetes check_md5sum in Syscheck',
+        detail: '<code>check_md5sum</code> ist zugunsten von SHA-256 veraltet. MD5 gilt als kryptografisch unsicher.',
+        suggestion: 'Ersetzen durch <code>check_sha256sum="yes"</code> in den &lt;directories&gt;-Attributen.'
+    },
+    {
+        id: 'dep-ossec-conf-profile',
+        pattern: /<config-profile>default<\/config-profile>/i,
+        title: 'Standard-Gruppe "default" als Profil',
+        detail: 'Agents nutzen die "default"-Gruppe ohne spezifische Zuordnung. Für gezielte Konfigurationsverteilung sollten dedizierte Gruppen genutzt werden.',
+        severity: 'info',
+        suggestion: 'Dedizierte Gruppen verwenden, z.B. <code>linux-servers</code>, <code>windows-endpoints</code>.'
+    }
+];
+
+/* Required / recommended blocks */
+var VAL_REQUIRED = [
+    {
+        id: 'req-indexer',
+        pattern: /<indexer>/i,
+        title: '&lt;indexer&gt;-Block vorhanden',
+        missing: 'Kein &lt;indexer&gt;-Block gefunden – Manager kann keine Daten an den Wazuh Indexer senden!',
+        severity: 'error',
+        diff: '<indexer>\n  <enabled>yes</enabled>\n  <hosts>\n    <host>https://INDEXER-IP:9200</host>\n  </hosts>\n  <ssl>\n    <certificate_authorities>\n      <ca>/etc/filebeat/certs/root-ca.pem</ca>\n    </certificate_authorities>\n    <certificate>/etc/filebeat/certs/filebeat.pem</certificate>\n    <key>/etc/filebeat/certs/filebeat-key.pem</key>\n  </ssl>\n</indexer>'
+    },
+    {
+        id: 'req-remote',
+        pattern: /<remote>/i,
+        title: '&lt;remote&gt;-Block vorhanden',
+        missing: 'Kein &lt;remote&gt;-Block – Manager akzeptiert keine Agent-Verbindungen!',
+        severity: 'error',
+        diff: '<remote>\n  <connection>secure</connection>\n  <port>1514</port>\n  <protocol>tcp</protocol>\n  <queue_size>131072</queue_size>\n</remote>'
+    },
+    {
+        id: 'req-queue-size',
+        pattern: /<queue_size>/i,
+        title: '&lt;queue_size&gt; konfiguriert',
+        missing: 'Kein &lt;queue_size&gt; in &lt;remote&gt; – Standard (16384) kann bei hohem Event-Volumen zu Drops führen.',
+        severity: 'warning',
+        diff: '<!-- In <remote>-Block ergänzen: -->\n<queue_size>131072</queue_size>'
+    },
+    {
+        id: 'req-vulnerability',
+        pattern: /<vulnerability-detection>/i,
+        title: '&lt;vulnerability-detection&gt; aktiviert',
+        missing: 'Vulnerability Detection nicht konfiguriert – CVE-Erkennung fehlt.',
+        severity: 'warning',
+        diff: '<vulnerability-detection>\n  <enabled>yes</enabled>\n  <index-status>yes</index-status>\n  <feed-update-interval>60m</feed-update-interval>\n</vulnerability-detection>'
+    },
+    {
+        id: 'req-sca',
+        pattern: /<sca>/i,
+        title: 'SCA (Security Config Assessment) konfiguriert',
+        missing: 'SCA nicht konfiguriert – Compliance-Checks fehlen.',
+        severity: 'warning',
+        diff: '<sca>\n  <enabled>yes</enabled>\n  <scan_on_start>yes</scan_on_start>\n  <interval>12h</interval>\n  <skip_nfs>yes</skip_nfs>\n</sca>'
+    },
+    {
+        id: 'req-syscheck',
+        pattern: /<syscheck>/i,
+        title: 'FIM/Syscheck konfiguriert',
+        missing: 'Kein Syscheck/FIM-Block – File Integrity Monitoring fehlt.',
+        severity: 'warning',
+        diff: '<syscheck>\n  <disabled>no</disabled>\n  <frequency>43200</frequency>\n  <scan_on_start>yes</scan_on_start>\n  <directories>/etc,/usr/bin,/usr/sbin</directories>\n  <directories>/bin,/sbin</directories>\n  <ignore>/etc/mtab</ignore>\n</syscheck>'
+    },
+    {
+        id: 'req-active-response',
+        pattern: /<active-response>/i,
+        title: '&lt;active-response&gt; konfiguriert',
+        missing: 'Kein Active-Response-Block. Automatische Gegenmaßnahmen nicht konfiguriert.',
+        severity: 'info',
+        diff: '<active-response>\n  <disabled>no</disabled>\n</active-response>'
+    },
+    {
+        id: 'req-global',
+        pattern: /<global>/i,
+        title: '&lt;global&gt;-Block vorhanden',
+        missing: 'Kein &lt;global&gt;-Block – Globale Einstellungen fehlen.',
+        severity: 'error',
+        diff: '<global>\n  <jsonout_output>yes</jsonout_output>\n  <alerts_log>yes</alerts_log>\n  <logall>no</logall>\n  <email_notification>no</email_notification>\n</global>'
+    }
+];
+
+function runValidator() {
+    var content = document.getElementById('val-input').value;
+    if (!content.trim()) {
+        document.getElementById('val-results').innerHTML = '';
+        document.getElementById('val-summary').innerHTML = '';
+        document.getElementById('val-diff-section').style.display = 'none';
+        return;
+    }
+
+    var errors = 0, warnings = 0, infos = 0;
+    var resultsHtml = '';
+    var diffLines = [];
+
+    /* Check deprecated */
+    resultsHtml += '<div style="font-weight:700;color:#c0392b;margin-bottom:8px;font-size:0.9em;">Veraltete / problematische Einstellungen</div>';
+    var foundDep = false;
+    VAL_DEPRECATED.forEach(function(check) {
+        if (check.pattern.test(content)) {
+            foundDep = true;
+            var sev = check.severity || 'error';
+            var icon = sev === 'error' ? '✕' : sev === 'warning' ? '⚠' : 'ℹ';
+            var color = sev === 'error' ? '#dc3545' : sev === 'warning' ? '#c9a227' : '#457b9d';
+            if (sev === 'error') errors++;
+            else if (sev === 'warning') warnings++;
+            else infos++;
+            resultsHtml +=
+                '<div style="background:#fff;border:1.5px solid ' + color + ';border-left:4px solid ' + color + ';' +
+                'border-radius:6px;padding:10px 14px;margin-bottom:8px;">' +
+                '<div style="font-weight:700;color:' + color + ';font-size:0.88em;">' + icon + ' ' + check.title + '</div>' +
+                '<div style="font-size:0.8em;color:#444;margin-top:4px;line-height:1.5;">' + check.detail + '</div>' +
+                '<div style="font-size:0.78em;color:#666;margin-top:5px;background:var(--ta-gray-light);padding:5px 8px;border-radius:4px;">' +
+                '<strong>Empfehlung:</strong> ' + check.suggestion + '</div>' +
+                '</div>';
+            if (check.diff) diffLines.push('# ' + check.title.replace(/<[^>]*>/g,'') + '\n' + check.diff);
+        }
+    });
+    if (!foundDep) {
+        resultsHtml += '<div style="color:#2a9d8f;font-size:0.85em;padding:8px 0;">✓ Keine veralteten Einstellungen gefunden.</div>';
+    }
+
+    /* Check required/recommended */
+    resultsHtml += '<div style="font-weight:700;color:var(--ta-blue);margin-top:16px;margin-bottom:8px;font-size:0.9em;">Empfohlene / erforderliche Einstellungen</div>';
+    VAL_REQUIRED.forEach(function(check) {
+        var found = check.pattern.test(content);
+        var sev = check.severity || 'info';
+        if (found) {
+            resultsHtml +=
+                '<div style="background:#fff;border:1.5px solid #2a9d8f;border-left:4px solid #2a9d8f;' +
+                'border-radius:6px;padding:8px 14px;margin-bottom:6px;display:flex;gap:10px;align-items:center;">' +
+                '<span style="color:#2a9d8f;font-size:1.1em;">✓</span>' +
+                '<span style="font-size:0.85em;color:#1a1a2e;">' + check.title + '</span>' +
+                '</div>';
+        } else {
+            var color = sev === 'error' ? '#dc3545' : sev === 'warning' ? '#c9a227' : '#457b9d';
+            var icon  = sev === 'error' ? '✕' : sev === 'warning' ? '⚠' : 'ℹ';
+            if (sev === 'error') errors++;
+            else if (sev === 'warning') warnings++;
+            else infos++;
+            resultsHtml +=
+                '<div style="background:#fff;border:1.5px solid ' + color + ';border-left:4px solid ' + color + ';' +
+                'border-radius:6px;padding:10px 14px;margin-bottom:6px;">' +
+                '<div style="font-weight:700;color:' + color + ';font-size:0.88em;">' + icon + ' ' + check.missing + '</div>' +
+                (check.diff ? '<div style="font-size:0.75em;color:#666;margin-top:5px;background:var(--ta-gray-light);padding:5px 8px;border-radius:4px;font-family:monospace;white-space:pre;">' + escHtml(check.diff) + '</div>' : '') +
+                '</div>';
+            if (check.diff) diffLines.push('# Fehlt: ' + check.title.replace(/<[^>]*>/g,'') + '\n' + check.diff);
+        }
+    });
+
+    /* Summary */
+    var summaryColor = errors > 0 ? '#dc3545' : warnings > 0 ? '#c9a227' : '#2a9d8f';
+    var summaryText  = errors > 0 ? 'Kritische Probleme gefunden' : warnings > 0 ? 'Warnungen vorhanden' : 'Keine kritischen Probleme';
+    document.getElementById('val-summary').innerHTML =
+        '<div style="background:' + summaryColor + ';color:#fff;border-radius:8px;padding:12px 16px;margin-bottom:4px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;">' +
+        '<div style="font-weight:700;font-size:1em;">' + summaryText + '</div>' +
+        '<div style="font-size:0.85em;opacity:0.9;display:flex;gap:12px;">' +
+          '<span>✕ Fehler: <strong>' + errors + '</strong></span>' +
+          '<span>⚠ Warnungen: <strong>' + warnings + '</strong></span>' +
+          '<span>ℹ Info: <strong>' + infos + '</strong></span>' +
+        '</div>' +
+        '</div>';
+
+    document.getElementById('val-results').innerHTML = resultsHtml;
+
+    /* Diff */
+    if (diffLines.length > 0) {
+        var diffContent = '# ossec.conf – Empfohlene Ergänzungen / Fixes\n' +
+            '# Generiert: ' + new Date().toLocaleDateString('de-CH') + '\n' +
+            '# Bitte einzeln in /var/ossec/etc/ossec.conf einfügen\n\n' +
+            diffLines.join('\n\n');
+        document.getElementById('val-diff').textContent = diffContent;
+        document.getElementById('val-diff-section').style.display = 'block';
+    } else {
+        document.getElementById('val-diff-section').style.display = 'none';
+    }
+}
+
+function copyDiff() {
+    var text = document.getElementById('val-diff').textContent;
+    navigator.clipboard.writeText(text).then(function() {
+        alert('Diff in Zwischenablage kopiert.');
+    });
+}
+
+function escHtml(s) {
+    return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ─── Init: render all previews with defaults ─── */
+document.addEventListener('DOMContentLoaded', function() {
+    renderManager();
+    renderAgentLinux();
+    renderAgentWin();
+    renderIndexer();
+    renderFilebeat();
+});
+</script>
+</body>
+</html>
