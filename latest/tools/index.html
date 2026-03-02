@@ -2006,9 +2006,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#in-entwicklung" class="md-nav__link">
+  <a href="#konfiguration-planung" class="md-nav__link">
     <span class="md-ellipsis">
-      In Entwicklung
+      Konfiguration &amp; Planung
     </span>
   </a>
   
@@ -2129,30 +2129,47 @@ und erstellt Checklisten für Pre- und Post-Checks.</p>
 </ul>
 <p><a href="../webforms/agent-management.html"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Agent-Verwaltung öffnen</a></p>
 </li>
+<li>
+<p><strong>Alert-Regeleditor</strong></p>
+<hr />
+<p>Wazuh Custom Detection Rules visuell erstellen, validieren und als XML exportieren.</p>
+<ul>
+<li>Visueller Regel-Builder (kein XML nötig)</li>
+<li>8 Vorlagen (Brute-Force, Mimikatz, PowerShell, …)</li>
+<li>Live XML-Vorschau mit Validierung</li>
+<li>MITRE ATT&amp;CK Mapping, Regel-Bibliothek</li>
+</ul>
+<p><a href="../webforms/alert-regeleditor.html"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Alert-Regeleditor öffnen</a></p>
+</li>
 </ul>
 </div>
 <hr />
-<h2 id="in-entwicklung">In Entwicklung<a class="headerlink" href="#in-entwicklung" title="Permanent link">&para;</a></h2>
-<p>Folgende Tools sind geplant und werden in zukünftigen Versionen verfügbar sein:</p>
+<h2 id="konfiguration-planung">Konfiguration &amp; Planung<a class="headerlink" href="#konfiguration-planung" title="Permanent link">&para;</a></h2>
 <div class="grid cards">
 <ul>
 <li>
-<p><strong>Konfigurations-Generator</strong> <em>(geplant)</em></p>
+<p><strong>Konfigurations-Generator</strong></p>
 <hr />
-<p>Formularbasierte Erstellung von <code>ossec.conf</code> für Manager und Agent.
-Variablen aus einem Formular eingeben – fertige Konfigurationsdatei zum Kopieren erhalten.</p>
+<p>Wazuh Konfigurationsdateien per Formular generieren – kein manuelles Editieren mehr.</p>
+<ul>
+<li>Manager, Agent (Linux/Windows), Indexer, Filebeat</li>
+<li>Live-Vorschau mit Syntax-Highlighting</li>
+<li>ossec.conf Validator (Altlasten &amp; Diffs)</li>
+<li>Copy + Download als Datei</li>
+</ul>
+<p><a href="../webforms/config-generator.html"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Konfigurations-Generator öffnen</a></p>
 </li>
 <li>
-<p><strong>Alert-Regeleditor</strong> <em>(geplant)</em></p>
+<p><strong>Patch-Planer</strong></p>
 <hr />
-<p>Wazuh Custom Detection Rules direkt im Browser erstellen und validieren.
-XML-Editor mit Syntaxhighlighting und Test-Interface.</p>
-</li>
-<li>
-<p><strong>Patch-Planer</strong> <em>(geplant)</em></p>
-<hr />
-<p>Wartungsfenster für mehrere Kunden koordinieren.
-Upgrade-Abhängigkeiten und Zeitpläne in einer Übersicht visualisieren.</p>
+<p>Wartungsfenster für mehrere Kunden koordinieren und Konflikte vermeiden.</p>
+<ul>
+<li>Monatskalender (100% Browser/offline)</li>
+<li>Kunden, Typen, Versionen, Dauer verwalten</li>
+<li>JSON Import/Export für Team-Sharing</li>
+<li>PDF-Export für Ticketsystem</li>
+</ul>
+<p><a href="../webforms/patch-planner.html"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Patch-Planer öffnen</a></p>
 </li>
 </ul>
 </div>
@@ -2181,7 +2198,7 @@ ein ganzheitliches SIEM mit Wazuh bietet.</p>
 <li>Alle Tools laufen <strong>vollständig im Browser</strong> – keine Serverprozesse, kein Backend</li>
 <li>Daten werden lokal im <strong>LocalStorage</strong> des Browsers gespeichert</li>
 <li>Funktionieren <strong>offline</strong> nach dem ersten Laden (Fonts werden gecacht)</li>
-<li><strong>PDF-Export</strong> ist im Upgrade-Formular und Wartungsprotokoll verfügbar</li>
+<li><strong>PDF-Export</strong> verfügbar in Upgrade-Formular, Wartungsprotokoll und Patch-Planer</li>
 </ul>
 
 
