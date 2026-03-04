@@ -1,6 +1,6 @@
 # Ta-SIEMPlus Documentation Configuration
 site_name: Ta-SIEMPlus
-site_description: Operative Dokumentation für standardisierte Wazuh SIEM Wartungsabläufe
+site_description: Operative Dokumentation für standardisierte Wazuh SIEM Wartungsabläufe / Operational documentation for standardized Wazuh SIEM maintenance workflows
 site_author: T-Alpha GmbH
 site_url: https://istagmbh.github.io/Ta-SIEMPlus
 
@@ -24,14 +24,14 @@ theme:
       accent: custom
       toggle:
         icon: material/brightness-7
-        name: Auf Dunkelmodus wechseln
+        name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: custom
       accent: custom
       toggle:
         icon: material/brightness-4
-        name: Auf Hellmodus wechseln
+        name: Switch to light mode
 
   font:
     text: Inter
@@ -44,7 +44,6 @@ theme:
     repo: fontawesome/brands/github
 
   features:
-    - navigation.instant
     - navigation.tracking
     - navigation.tabs
     - navigation.tabs.sticky
@@ -71,8 +70,55 @@ extra_javascript:
 # Plugins
 plugins:
   - search:
-      lang: de
+      lang:
+        - de
+        - en
       separator: '[\s\-\.]+'
+  - i18n:
+      docs_structure: suffix
+      fallback_to_default: true
+      reconfigure_search: true
+      languages:
+        - locale: de
+          default: true
+          name: Deutsch
+          build: true
+          site_name: Ta-SIEMPlus
+          site_description: Operative Dokumentation für standardisierte Wazuh SIEM Wartungsabläufe
+        - locale: en
+          name: English
+          build: true
+          site_name: Ta-SIEMPlus
+          site_description: Operational documentation for standardized Wazuh SIEM maintenance workflows
+          nav_translations:
+            Start: Home
+            Web-Tools: Web Tools
+            Betrieb: Operations
+            Konfiguration: Configuration
+            Referenz: Reference
+            Übersicht: Overview
+            Upgrade Guides: Upgrade Guides
+            Runbooks: Runbooks
+            Checklisten: Checklists
+            Katalog: Catalog
+            Kunden: Customers
+            Katalog-Info: Catalog Info
+            Variablenreferenz: Variable Reference
+            Manager: Manager
+            Agent: Agent
+            Indexer: Indexer
+            Filebeat: Filebeat
+            Schnellreferenz: Quick Reference
+            Erste Schritte: Getting Started
+            Projektübersicht: Project Overview
+            Anleitungen: Guides
+            Templates: Templates
+            Deployment: Deployment
+            Runbook-Vorlage: Runbook Template
+            Checklisten-Vorlage: Checklist Template
+            Versionierung: Versioning
+            Checklisten-Anleitung: Checklist Guide
+            Katalog-Verwaltung: Catalog Management
   - mike:
       version_selector: true
       css_dir: css
@@ -126,6 +172,7 @@ nav:
     - Konfigurations-Generator: webforms/config-generator.html
     - Alert-Regeleditor: webforms/alert-regeleditor.html
     - Patch-Planer: webforms/patch-planner.html
+    - Agent-Gruppen-Planer: webforms/agent-group-planner.html
 
   - Betrieb:
     - Übersicht: overview/index.md
@@ -179,6 +226,13 @@ nav:
 
 # Extra
 extra:
+  alternate:
+    - name: Deutsch
+      link: /Ta-SIEMPlus/
+      lang: de
+    - name: English
+      link: /Ta-SIEMPlus/en/
+      lang: en
   social:
     - icon: fontawesome/solid/globe
       link: https://www.t-alpha.ch

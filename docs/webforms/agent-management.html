@@ -15,7 +15,7 @@
             <div class="header-inner" style="padding-left: 48px;">
                 <img src="assets/ta-alpha-logo.svg" alt="T-Alpha GmbH" class="header-logo">
                 <div class="header-text">
-                    <h1>Agent-Verwaltung</h1>
+                    <h1 data-i18n="agent.title">Agent-Verwaltung</h1>
                     <p class="subtitle">T-Alpha GmbH &middot; IT Security</p>
                 </div>
             </div>
@@ -23,31 +23,31 @@
 
         <div class="content">
             <div class="alert alert-info">
-                <strong>📘 Dokumentation:</strong> Alle Befehle basieren auf dem 
-                <a href="../runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT/" style="color: #0c5460; text-decoration: underline;">Agent Management Runbook</a>
+                <strong data-i18n="agent.docAlertStrong">📘 Dokumentation:</strong> Alle Befehle basieren auf dem
+                <a href="../runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT/" style="color: #0c5460; text-decoration: underline;" data-i18n="agent.docLink">Agent Management Runbook</a>
             </div>
 
             <div class="tabs">
-                <button class="tab active" onclick="switchTab('generator')">🔧 Befehls-Generator</button>
-                <button class="tab" onclick="switchTab('examples')">📚 Beispiele</button>
-                <button class="tab" onclick="switchTab('reference')">📖 Referenz</button>
+                <button class="tab active" onclick="switchTab('generator')" data-i18n="agent.tabGenerator">🔧 Befehls-Generator</button>
+                <button class="tab" onclick="switchTab('examples')" data-i18n="agent.tabExamples">📚 Beispiele</button>
+                <button class="tab" onclick="switchTab('reference')" data-i18n="agent.tabReference">📖 Referenz</button>
             </div>
 
             <!-- Tab 1: Command Generator -->
             <div class="tab-content active" id="tab-generator">
                 <div class="section">
-                    <h2>🔧 Befehls-Generator</h2>
-                    
+                    <h2 data-i18n="agent.generatorTitle">🔧 Befehls-Generator</h2>
+
                     <div class="form-group">
-                        <label>Operation auswählen</label>
+                        <label data-i18n="agent.lblOperation">Operation auswählen</label>
                         <select id="operation" onchange="updateCommandForm()">
-                            <option value="create">Gruppe erstellen</option>
-                            <option value="assign">Agenten zuweisen</option>
-                            <option value="unassign">Agenten aus Gruppe entfernen</option>
-                            <option value="list">Gruppen auflisten</option>
-                            <option value="list-agents">Agenten einer Gruppe auflisten</option>
-                            <option value="remove">Gruppe löschen</option>
-                            <option value="config">Gruppenkonfiguration erstellen</option>
+                            <option value="create" data-i18n="agent.opCreate">Gruppe erstellen</option>
+                            <option value="assign" data-i18n="agent.opAssign">Agenten zuweisen</option>
+                            <option value="unassign" data-i18n="agent.opUnassign">Agenten aus Gruppe entfernen</option>
+                            <option value="list" data-i18n="agent.opList">Gruppen auflisten</option>
+                            <option value="list-agents" data-i18n="agent.opListAgents">Agenten einer Gruppe auflisten</option>
+                            <option value="remove" data-i18n="agent.opRemove">Gruppe löschen</option>
+                            <option value="config" data-i18n="agent.opConfig">Gruppenkonfiguration erstellen</option>
                         </select>
                     </div>
 
@@ -56,14 +56,14 @@
                     </div>
 
                     <div class="button-group">
-                        <button class="btn-primary" onclick="generateCommand()">⚡ Befehl generieren</button>
-                        <button class="btn-secondary" onclick="clearForm()">🔄 Zurücksetzen</button>
+                        <button class="btn-primary" onclick="generateCommand()" data-i18n="agent.btnGenerate">⚡ Befehl generieren</button>
+                        <button class="btn-secondary" onclick="clearForm()" data-i18n="agent.btnReset">🔄 Zurücksetzen</button>
                     </div>
 
                     <div id="generatedCommand" style="margin-top: 20px; display: none;">
-                        <h3 style="color: #667eea; margin-bottom: 10px;">Generierter Befehl:</h3>
+                        <h3 style="color: #667eea; margin-bottom: 10px;" data-i18n="agent.generatedTitle">Generierter Befehl:</h3>
                         <div class="command-output">
-                            <button class="copy-btn" onclick="copyCommand()">📋 Kopieren</button>
+                            <button class="copy-btn" onclick="copyCommand()" data-i18n="agent.btnCopy">📋 Kopieren</button>
                             <pre id="commandText"></pre>
                         </div>
                         <div id="commandDescription" class="alert alert-info" style="margin-top: 10px;"></div>
@@ -74,7 +74,7 @@
             <!-- Tab 2: Examples -->
             <div class="tab-content" id="tab-examples">
                 <div class="section">
-                    <h2>📚 Häufige Operationen</h2>
+                    <h2 data-i18n="agent.examplesTitle">📚 Häufige Operationen</h2>
 
                     <div class="operation-card">
                         <h4>1. Neue Gruppe erstellen</h4>
@@ -159,14 +159,14 @@ EOF
             <!-- Tab 3: Reference -->
             <div class="tab-content" id="tab-reference">
                 <div class="section">
-                    <h2>📖 Schnellreferenz</h2>
+                    <h2 data-i18n="agent.refTitle">📖 Schnellreferenz</h2>
 
-                    <h3>CLI-Tool: agent_groups</h3>
+                    <h3 data-i18n="agent.refCliTitle">CLI-Tool: agent_groups</h3>
                     <div class="command-output">
 /var/ossec/bin/agent_groups [OPTIONS]
                     </div>
 
-                    <h3 style="margin-top: 30px;">Wichtige Optionen</h3>
+                    <h3 style="margin-top: 30px;" data-i18n="agent.refOptionsTitle">Wichtige Optionen</h3>
                     <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
                         <tr style="background: #f8f9fa;">
                             <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Option</th>
@@ -205,7 +205,7 @@ EOF
                         </tr>
                     </table>
 
-                    <h3 style="margin-top: 30px;">Dateipfade</h3>
+                    <h3 style="margin-top: 30px;" data-i18n="agent.refPathsTitle">Dateipfade</h3>
                     <div class="command-output">
 # Gruppenkonfigurationen
 /var/ossec/etc/shared/&lt;group_name&gt;/agent.conf
@@ -217,7 +217,7 @@ EOF
 /var/ossec/etc/client.keys
                     </div>
 
-                    <h3 style="margin-top: 30px;">Best Practices</h3>
+                    <h3 style="margin-top: 30px;" data-i18n="agent.refBestPractices">Best Practices</h3>
                     <ul style="margin-left: 30px; margin-top: 10px;">
                         <li style="margin-bottom: 10px;">Verwenden Sie aussagekräftige Gruppennamen (z.B. <code>webservers</code>, <code>databases</code>, <code>prod</code>)</li>
                         <li style="margin-bottom: 10px;">Testen Sie neue Gruppenkonfigurationen zuerst mit einem Test-Agent</li>
@@ -423,5 +423,6 @@ EOF
             updateCommandForm();
         });
     </script>
+    <script src="assets/i18n/i18n.js"></script>
 </body>
 </html>

@@ -162,7 +162,7 @@
         <div class="header-inner">
             <img src="assets/ta-alpha-logo.svg" alt="T-Alpha GmbH" class="header-logo">
             <div class="header-text">
-                <h1>Alert-Regeleditor</h1>
+                <h1 data-i18n="alert.title">Alert-Regeleditor</h1>
                 <p class="subtitle">Wazuh Custom Detection Rules visuell erstellen &amp; exportieren &middot; T-Alpha GmbH</p>
             </div>
         </div>
@@ -173,9 +173,9 @@
 
     <div class="content">
         <div class="tab-nav">
-            <button class="tab-btn active" data-tab="editor">Regel-Editor</button>
-            <button class="tab-btn" data-tab="templates">Vorlagen-Bibliothek</button>
-            <button class="tab-btn" data-tab="reference">Referenz</button>
+            <button class="tab-btn active" data-tab="editor" data-i18n="alert.tabEditor">Regel-Editor</button>
+            <button class="tab-btn" data-tab="templates" data-i18n="alert.tabTemplates">Vorlagen-Bibliothek</button>
+            <button class="tab-btn" data-tab="reference" data-i18n="alert.tabReference">Referenz</button>
         </div>
 
         <!-- ─── TAB: EDITOR ─── -->
@@ -183,18 +183,18 @@
             <div class="editor-layout">
                 <!-- FORM -->
                 <div class="rule-form">
-                    <h3>Regel definieren</h3>
+                    <h3 data-i18n="alert.conditionsTitle">Regel definieren</h3>
                     <p class="form-subtitle">Formular ausfüllen → XML wird live generiert</p>
 
                     <div class="section-label">Basis-Eigenschaften</div>
                     <div class="fg-row">
                         <div class="fg">
-                            <label>Rule ID <span style="color:#dc3545">*</span></label>
+                            <label data-i18n="alert.lblRuleId">Rule ID</label>
                             <input type="number" id="r-id" placeholder="100001" min="100000" max="199999" oninput="renderRule()">
                             <div class="hint">Eigene Regeln: 100000–199999</div>
                         </div>
                         <div class="fg">
-                            <label>Level (1–15) <span style="color:#dc3545">*</span></label>
+                            <label data-i18n="alert.lblLevel">Level (1–15)</label>
                             <input type="number" id="r-level" placeholder="7" min="1" max="15" oninput="renderRule(); updateLevelBar()">
                         </div>
                     </div>
@@ -203,11 +203,11 @@
                         <span class="level-label" id="level-text" style="font-size:0.78em;color:var(--ta-gray);"></span>
                     </div>
                     <div class="fg">
-                        <label>Beschreibung <span style="color:#dc3545">*</span></label>
+                        <label data-i18n="alert.lblDescription">Beschreibung</label>
                         <input type="text" id="r-desc" placeholder="Beschreibt, was diese Regel erkennt" oninput="renderRule()">
                     </div>
                     <div class="fg">
-                        <label>Gruppen (kommagetrennt)</label>
+                        <label data-i18n="alert.lblGroups">Gruppen (kommagetrennt)</label>
                         <input type="text" id="r-groups" placeholder="authentication_failed,pci_dss_10.2.4" oninput="renderRule()">
                         <div class="hint">Kategorien für Dashboards &amp; Filter</div>
                     </div>
@@ -227,7 +227,7 @@
 
                     <div class="section-label">Bedingungen (Match-Felder)</div>
                     <div class="conditions-list" id="conditions-list"></div>
-                    <button class="btn-secondary" onclick="addCondition()" style="margin-top:8px;font-size:0.85em;padding:7px 14px;">+ Bedingung hinzufügen</button>
+                    <button class="btn-secondary" onclick="addCondition()" style="margin-top:8px;font-size:0.85em;padding:7px 14px;" data-i18n="alert.btnAddCondition">+ Bedingung hinzufügen</button>
 
                     <div class="section-label">Frequenz &amp; Zeitfenster</div>
                     <div class="fg-row">
@@ -266,11 +266,11 @@
                     <div class="section-label">MITRE ATT&amp;CK (optional)</div>
                     <div class="fg-row">
                         <div class="fg">
-                            <label>Tactic ID (e.g. TA0006)</label>
+                            <label data-i18n="alert.lblTactic">Tactic ID (e.g. TA0006)</label>
                             <input type="text" id="r-mitre-tac" placeholder="TA0006" oninput="renderRule()">
                         </div>
                         <div class="fg">
-                            <label>Technique ID (e.g. T1110)</label>
+                            <label data-i18n="alert.lblTechnique">Technique ID (e.g. T1110)</label>
                             <input type="text" id="r-mitre-tec" placeholder="T1110" oninput="renderRule()">
                         </div>
                     </div>
@@ -281,9 +281,9 @@
                     <div class="preview-header">
                         <span style="font-family:'JetBrains Mono',monospace;opacity:0.8;">/var/ossec/etc/rules/local_rules.xml</span>
                         <div class="preview-actions">
-                            <button onclick="copyXml(this)">Kopieren</button>
+                            <button onclick="copyXml(this)" data-i18n="alert.btnCopyXml">Kopieren</button>
                             <button onclick="downloadXml()">Download .xml</button>
-                            <button onclick="resetForm()">Zurücksetzen</button>
+                            <button onclick="resetForm()" data-i18n="alert.btnReset">Zurücksetzen</button>
                         </div>
                     </div>
                     <div class="xml-preview"><pre id="xml-preview"></pre></div>
@@ -294,8 +294,8 @@
                     <!-- Rule library (saved rules) -->
                     <div style="margin-top:16px;">
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-                            <strong style="font-size:0.88em;color:var(--ta-blue);">Gespeicherte Regeln</strong>
-                            <button class="btn-primary" onclick="saveRule()" style="padding:6px 14px;font-size:0.82em;">Regel speichern</button>
+                            <strong style="font-size:0.88em;color:var(--ta-blue);" data-i18n="alert.libraryTitle">Gespeicherte Regeln</strong>
+                            <button class="btn-primary" onclick="saveRule()" style="padding:6px 14px;font-size:0.82em;" data-i18n="alert.btnAddToLibrary">Regel speichern</button>
                         </div>
                         <div class="rule-library" id="rule-library">
                             <div style="text-align:center;color:var(--ta-gray);font-size:0.85em;padding:16px;">
@@ -319,7 +319,7 @@
         <div class="tab-panel" id="tab-reference">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
                 <div>
-                    <h3 style="color:var(--ta-blue);margin-top:0;">Match-Typen</h3>
+                    <h3 style="color:var(--ta-blue);margin-top:0;" data-i18n="alert.refMatchTypes">Match-Typen</h3>
                     <table style="width:100%;border-collapse:collapse;font-size:0.88em;">
                         <thead><tr style="background:var(--ta-blue);color:#fff;">
                             <th style="padding:8px;text-align:left;">Typ</th><th style="padding:8px;text-align:left;">Beschreibung</th>
@@ -333,7 +333,7 @@
                         </tbody>
                     </table>
 
-                    <h3 style="color:var(--ta-blue);margin-top:24px;">Level-Übersicht</h3>
+                    <h3 style="color:var(--ta-blue);margin-top:24px;" data-i18n="alert.refLevels">Level-Übersicht</h3>
                     <table style="width:100%;border-collapse:collapse;font-size:0.88em;">
                         <thead><tr style="background:var(--ta-blue);color:#fff;">
                             <th style="padding:8px;">Level</th><th style="padding:8px;text-align:left;">Bedeutung</th>
@@ -348,7 +348,7 @@
                     </table>
                 </div>
                 <div>
-                    <h3 style="color:var(--ta-blue);margin-top:0;">Häufige Felder (field name)</h3>
+                    <h3 style="color:var(--ta-blue);margin-top:0;" data-i18n="alert.refFields">Häufige Felder (field name)</h3>
                     <table style="width:100%;border-collapse:collapse;font-size:0.85em;">
                         <thead><tr style="background:var(--ta-blue);color:#fff;">
                             <th style="padding:8px;text-align:left;">Feld</th><th style="padding:8px;text-align:left;">Beschreibung</th>
@@ -379,6 +379,7 @@
     </footer>
 </div>
 
+<script src="assets/i18n/i18n.js"></script>
 <script>
 /* ─── Tab Switching ─── */
 document.querySelectorAll('.tab-btn').forEach(function(btn) {

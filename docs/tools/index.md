@@ -91,6 +91,19 @@ Kein Server, keine Installation – alles läuft direkt im Browser.
 
     [:octicons-arrow-right-24: Alert-Regeleditor öffnen](../webforms/alert-regeleditor.html)
 
+-   **Agent-Gruppen-Planer**
+
+    ---
+
+    Gruppen-Struktur per Baukastenkatalog planen und Inventardaten automatisch analysieren.
+
+    - Gruppen-Baukasten (OS, Rolle, Netzwerkzone, Compliance)
+    - Inventar-Analyse: CSV/JSON → automatische Gruppen-Vorschläge
+    - Hostname-Pattern-Erkennung (dc-, web-, db-, dmz-, …)
+    - CLI-Befehle + agent.conf XML + Markdown-Dokumentation
+
+    [:octicons-arrow-right-24: Agent-Gruppen-Planer öffnen](../webforms/agent-group-planner.html)
+
 </div>
 
 ---

@@ -128,7 +128,7 @@
         <div class="header-inner">
             <img src="assets/ta-alpha-logo.svg" alt="T-Alpha GmbH" class="header-logo">
             <div class="header-text">
-                <h1>Konfigurations-Generator</h1>
+                <h1 data-i18n="config.title">Konfigurations-Generator</h1>
                 <p class="subtitle">Wazuh Konfigurationsdateien per Formular generieren &middot; T-Alpha GmbH</p>
             </div>
         </div>
@@ -143,12 +143,12 @@
         </div>
 
         <div class="tab-nav">
-            <button class="tab-btn active" data-tab="manager">Manager (ossec.conf)</button>
-            <button class="tab-btn" data-tab="agent-linux">Agent Linux (ossec.conf)</button>
-            <button class="tab-btn" data-tab="agent-win">Agent Windows (ossec.conf)</button>
-            <button class="tab-btn" data-tab="indexer">Indexer (opensearch.yml)</button>
-            <button class="tab-btn" data-tab="filebeat">Filebeat (filebeat.yml)</button>
-            <button class="tab-btn" data-tab="validator" style="background:#fff3cd;color:#856404;border:1.5px solid #ffc107;">ossec.conf Validator</button>
+            <button class="tab-btn active" data-tab="manager" data-i18n="config.tabManager">Manager (ossec.conf)</button>
+            <button class="tab-btn" data-tab="agent-linux" data-i18n="config.tabAgentLinux">Agent Linux (ossec.conf)</button>
+            <button class="tab-btn" data-tab="agent-win" data-i18n="config.tabAgentWin">Agent Windows (ossec.conf)</button>
+            <button class="tab-btn" data-tab="indexer" data-i18n="config.tabIndexer">Indexer (opensearch.yml)</button>
+            <button class="tab-btn" data-tab="filebeat" data-i18n="config.tabFilebeat">Filebeat (filebeat.yml)</button>
+            <button class="tab-btn" data-tab="validator" style="background:#fff3cd;color:#856404;border:1.5px solid #ffc107;" data-i18n="config.tabValidator">ossec.conf Validator</button>
         </div>
 
         <!-- ─── TAB: MANAGER ─── -->
@@ -165,10 +165,10 @@
                     </div>
 
                     <div class="section-label">Netzwerk</div>
-                    <div class="fg"><label>Manager Hostname / IP</label><input type="text" id="m_host" placeholder="wazuh-manager-01" oninput="renderManager()"></div>
+                    <div class="fg"><label data-i18n="config.lblManagerHost">Manager Hostname / IP</label><input type="text" id="m_host" placeholder="wazuh-manager-01" oninput="renderManager()"></div>
                     <div class="fg"><label>Cluster Node Name</label><input type="text" id="m_nodename" placeholder="wazuh-master-01" oninput="renderManager()"></div>
                     <div class="fg-row">
-                        <div class="fg"><label>Agent Port</label><input type="text" id="m_port" value="1514" oninput="renderManager()"></div>
+                        <div class="fg"><label data-i18n="config.lblManagerPort">Agent Port</label><input type="text" id="m_port" value="1514" oninput="renderManager()"></div>
                         <div class="fg"><label>Protokoll</label>
                             <select id="m_proto" onchange="renderManager()"><option value="tcp">tcp</option><option value="udp">udp</option></select>
                         </div>
@@ -181,19 +181,19 @@
                     </div>
                     <div class="fg toggle-row">
                         <input type="checkbox" id="m_logall" onchange="renderManager()">
-                        <label for="m_logall">Alle Events loggen (logall)</label>
+                        <label for="m_logall" data-i18n="config.lblLogAll">Alle Events loggen (logall)</label>
                     </div>
 
                     <div class="section-label">E-Mail-Alerts</div>
                     <div class="fg toggle-row">
                         <input type="checkbox" id="m_email_en" onchange="toggleEmailFields(); renderManager()">
-                        <label for="m_email_en">E-Mail-Benachrichtigung aktivieren</label>
+                        <label for="m_email_en" data-i18n="config.lblEmailEnabled">E-Mail-Benachrichtigung aktivieren</label>
                     </div>
                     <div id="email-fields" style="display:none;">
-                        <div class="fg"><label>SMTP Server</label><input type="text" id="m_smtp" placeholder="smtp.example.com" oninput="renderManager()"></div>
+                        <div class="fg"><label data-i18n="config.lblSmtpServer">SMTP Server</label><input type="text" id="m_smtp" placeholder="smtp.example.com" oninput="renderManager()"></div>
                         <div class="fg-row">
-                            <div class="fg"><label>Absender (From)</label><input type="text" id="m_efrom" placeholder="wazuh@example.com" oninput="renderManager()"></div>
-                            <div class="fg"><label>Empfänger (To)</label><input type="text" id="m_eto" placeholder="soc@example.com" oninput="renderManager()"></div>
+                            <div class="fg"><label data-i18n="config.lblEmailFrom">Absender (From)</label><input type="text" id="m_efrom" placeholder="wazuh@example.com" oninput="renderManager()"></div>
+                            <div class="fg"><label data-i18n="config.lblEmailTo">Empfänger (To)</label><input type="text" id="m_eto" placeholder="soc@example.com" oninput="renderManager()"></div>
                         </div>
                         <div class="fg"><label>Alert-Level ab (1–15)</label><input type="number" id="m_elevel" value="10" min="1" max="15" oninput="renderManager()"></div>
                     </div>
@@ -216,8 +216,8 @@
                     <div class="preview-header">
                         <span class="file-name">/var/ossec/etc/ossec.conf</span>
                         <div class="preview-actions">
-                            <button onclick="copyPreview('prev-manager', this)">Kopieren</button>
-                            <button onclick="downloadPreview('prev-manager', 'ossec.conf')">Download</button>
+                            <button onclick="copyPreview('prev-manager', this)" data-i18n="config.btnCopy">Kopieren</button>
+                            <button onclick="downloadPreview('prev-manager', 'ossec.conf')" data-i18n="config.btnDownload">Download</button>
                         </div>
                     </div>
                     <div class="config-preview"><pre id="prev-manager"></pre></div>
@@ -266,8 +266,8 @@
                     <div class="preview-header">
                         <span class="file-name">/var/ossec/etc/ossec.conf</span>
                         <div class="preview-actions">
-                            <button onclick="copyPreview('prev-agent-linux', this)">Kopieren</button>
-                            <button onclick="downloadPreview('prev-agent-linux', 'ossec-agent-linux.conf')">Download</button>
+                            <button onclick="copyPreview('prev-agent-linux', this)" data-i18n="config.btnCopy">Kopieren</button>
+                            <button onclick="downloadPreview('prev-agent-linux', 'ossec-agent-linux.conf')" data-i18n="config.btnDownload">Download</button>
                         </div>
                     </div>
                     <div class="config-preview"><pre id="prev-agent-linux"></pre></div>
@@ -330,8 +330,8 @@
                     <div class="preview-header">
                         <span class="file-name">C:\Program Files (x86)\ossec-agent\ossec.conf</span>
                         <div class="preview-actions">
-                            <button onclick="copyPreview('prev-agent-win', this)">Kopieren</button>
-                            <button onclick="downloadPreview('prev-agent-win', 'ossec-agent-windows.conf')">Download</button>
+                            <button onclick="copyPreview('prev-agent-win', this)" data-i18n="config.btnCopy">Kopieren</button>
+                            <button onclick="downloadPreview('prev-agent-win', 'ossec-agent-windows.conf')" data-i18n="config.btnDownload">Download</button>
                         </div>
                     </div>
                     <div class="config-preview"><pre id="prev-agent-win"></pre></div>
@@ -353,13 +353,13 @@
                     </div>
 
                     <div class="section-label">Cluster</div>
-                    <div class="fg"><label>Cluster-Name</label><input type="text" id="ix_cluster" placeholder="wazuh-cluster" oninput="renderIndexer()"></div>
+                    <div class="fg"><label data-i18n="config.lblClusterName">Cluster-Name</label><input type="text" id="ix_cluster" placeholder="wazuh-cluster" oninput="renderIndexer()"></div>
                     <div class="fg"><label>Initial Cluster Manager Nodes (kommagetrennt)</label>
                         <input type="text" id="ix_masters" placeholder="wazuh-indexer-01" oninput="renderIndexer()">
                     </div>
 
                     <div class="section-label">Node</div>
-                    <div class="fg"><label>Node-Name</label><input type="text" id="ix_node" placeholder="wazuh-indexer-01" oninput="renderIndexer()"></div>
+                    <div class="fg"><label data-i18n="config.lblNodeName">Node-Name</label><input type="text" id="ix_node" placeholder="wazuh-indexer-01" oninput="renderIndexer()"></div>
                     <div class="fg"><label>Node IP</label><input type="text" id="ix_ip" placeholder="192.168.1.10" oninput="renderIndexer()"></div>
 
                     <div class="section-label">Netzwerk</div>
@@ -373,8 +373,8 @@
                     <div class="preview-header">
                         <span class="file-name">/etc/wazuh-indexer/opensearch.yml</span>
                         <div class="preview-actions">
-                            <button onclick="copyPreview('prev-indexer', this)">Kopieren</button>
-                            <button onclick="downloadPreview('prev-indexer', 'opensearch.yml')">Download</button>
+                            <button onclick="copyPreview('prev-indexer', this)" data-i18n="config.btnCopy">Kopieren</button>
+                            <button onclick="downloadPreview('prev-indexer', 'opensearch.yml')" data-i18n="config.btnDownload">Download</button>
                         </div>
                     </div>
                     <div class="config-preview"><pre id="prev-indexer"></pre></div>
@@ -396,7 +396,7 @@
                     </div>
 
                     <div class="section-label">Indexer (Output)</div>
-                    <div class="fg"><label>Indexer Host / IP</label><input type="text" id="fb_ixhost" placeholder="127.0.0.1" oninput="renderFilebeat()"></div>
+                    <div class="fg"><label data-i18n="config.lblIndexerHost">Indexer Host / IP</label><input type="text" id="fb_ixhost" placeholder="127.0.0.1" oninput="renderFilebeat()"></div>
                     <div class="fg-row">
                         <div class="fg"><label>Indexer Port</label><input type="number" id="fb_ixport" value="9200" oninput="renderFilebeat()"></div>
                         <div class="fg"><label>Benutzername</label><input type="text" id="fb_ixuser" value="admin" oninput="renderFilebeat()"></div>
@@ -414,8 +414,8 @@
                     <div class="preview-header">
                         <span class="file-name">/etc/filebeat/filebeat.yml</span>
                         <div class="preview-actions">
-                            <button onclick="copyPreview('prev-filebeat', this)">Kopieren</button>
-                            <button onclick="downloadPreview('prev-filebeat', 'filebeat.yml')">Download</button>
+                            <button onclick="copyPreview('prev-filebeat', this)" data-i18n="config.btnCopy">Kopieren</button>
+                            <button onclick="downloadPreview('prev-filebeat', 'filebeat.yml')" data-i18n="config.btnDownload">Download</button>
                         </div>
                     </div>
                     <div class="config-preview"><pre id="prev-filebeat"></pre></div>
@@ -427,14 +427,13 @@
         <div class="tab-panel" id="tab-validator">
             <div style="max-width:1100px;">
                 <div class="alert alert-info" style="margin-bottom:20px;">
-                    <strong>ossec.conf Validator</strong> – Bestehende Manager-Konfiguration einfügen. Der Validator prüft auf
-                    Altlasten, fehlende Features und zeigt Empfehlungen.
+                    <strong data-i18n="config.validatorTitle">ossec.conf Validator</strong> – <span data-i18n="config.validatorDesc">Bestehende Manager-Konfiguration einfügen. Der Validator prüft auf Altlasten, fehlende Features und zeigt Empfehlungen.</span>
                 </div>
 
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;">
                     <!-- Input -->
                     <div>
-                        <div style="font-weight:700;color:var(--ta-blue);margin-bottom:8px;">Aktuelle ossec.conf einfügen</div>
+                        <div style="font-weight:700;color:var(--ta-blue);margin-bottom:8px;" data-i18n="config.validatorPaste">Aktuelle ossec.conf einfügen</div>
                         <div style="font-size:0.8em;color:var(--ta-gray);margin-bottom:8px;">
                             Inhalt aus <code>cat /var/ossec/etc/ossec.conf</code> hier einfügen:
                         </div>
@@ -443,7 +442,7 @@
                             style="width:100%;box-sizing:border-box;font-family:'JetBrains Mono',monospace;font-size:0.8em;padding:12px;border:2px solid var(--ta-gray-mid);border-radius:6px;resize:vertical;background:#fdfdfd;line-height:1.6;"
                             oninput="runValidator()"></textarea>
                         <div style="margin-top:8px;display:flex;gap:8px;">
-                            <button class="btn-primary" onclick="runValidator()">Analysieren</button>
+                            <button class="btn-primary" onclick="runValidator()" data-i18n="config.btnValidate">Analysieren</button>
                             <button class="btn-secondary" onclick="document.getElementById('val-input').value='';document.getElementById('val-results').innerHTML='';document.getElementById('val-summary').innerHTML='';">Leeren</button>
                         </div>
                     </div>
@@ -1199,5 +1198,6 @@ document.addEventListener('DOMContentLoaded', function() {
     renderFilebeat();
 });
 </script>
+<script src="assets/i18n/i18n.js"></script>
 </body>
 </html>
