@@ -212,7 +212,7 @@
         <div class="header-inner">
             <img src="assets/ta-alpha-logo.svg" alt="T-Alpha GmbH" class="header-logo">
             <div class="header-text">
-                <h1>Patch-Planer</h1>
+                <h1 data-i18n="patch.title">Patch-Planer</h1>
                 <p class="subtitle">Wartungsfenster koordinieren &middot; Kunden &amp; Upgrades planen &middot; T-Alpha GmbH</p>
             </div>
         </div>
@@ -229,36 +229,36 @@
                 <h3 id="form-title">Neuer Eintrag</h3>
                 <input type="hidden" id="edit-id" value="">
 
-                <div class="fg"><label>Kunde / Installation</label>
+                <div class="fg"><label data-i18n="patch.lblCustomer">Kunde / Installation</label>
                     <input type="text" id="f-customer" placeholder="KUNDE-01">
                 </div>
-                <div class="fg"><label>Titel / Beschreibung</label>
+                <div class="fg"><label data-i18n="patch.lblTitle">Titel / Beschreibung</label>
                     <input type="text" id="f-title" placeholder="Wazuh 4.12 Upgrade">
                 </div>
-                <div class="fg"><label>Typ</label>
+                <div class="fg"><label data-i18n="patch.lblType">Typ</label>
                     <select id="f-type">
-                        <option value="upgrade">Upgrade</option>
-                        <option value="check">Health-Check</option>
-                        <option value="agent">Agent-Verwaltung</option>
-                        <option value="config">Konfiguration</option>
-                        <option value="other">Sonstiges</option>
+                        <option value="upgrade" data-i18n="patch.typeUpgrade">Upgrade</option>
+                        <option value="check" data-i18n="patch.typeCheck">Health-Check</option>
+                        <option value="agent" data-i18n="patch.typeAgent">Agent-Verwaltung</option>
+                        <option value="config" data-i18n="patch.typeConfig">Konfiguration</option>
+                        <option value="other" data-i18n="patch.typeOther">Sonstiges</option>
                     </select>
                 </div>
                 <div class="fg-row">
-                    <div class="fg"><label>Datum</label>
+                    <div class="fg"><label data-i18n="patch.lblDate">Datum</label>
                         <input type="date" id="f-date">
                     </div>
-                    <div class="fg"><label>Uhrzeit</label>
+                    <div class="fg"><label data-i18n="patch.lblTime">Uhrzeit</label>
                         <input type="time" id="f-time" value="08:00">
                     </div>
                 </div>
-                <div class="fg"><label>Dauer (h)</label>
+                <div class="fg"><label data-i18n="patch.lblDuration">Dauer (h)</label>
                     <input type="number" id="f-duration" value="2" min="0.5" step="0.5">
                 </div>
-                <div class="fg"><label>Aktuell → Ziel Version</label>
+                <div class="fg"><label data-i18n="patch.lblVersion">Aktuell → Ziel Version</label>
                     <input type="text" id="f-version" placeholder="4.11.2 → 4.12.0">
                 </div>
-                <div class="fg"><label>Notizen</label>
+                <div class="fg"><label data-i18n="patch.lblNotes">Notizen</label>
                     <textarea id="f-notes" placeholder="Anmerkungen, Kontaktperson, Ticket-Nr. …"></textarea>
                 </div>
 
@@ -266,17 +266,17 @@
                     <button class="btn-primary" onclick="saveEntry()" style="flex:1;">
                         <span id="save-btn-text">Hinzufügen</span>
                     </button>
-                    <button class="btn-secondary" onclick="cancelEdit()" id="cancel-btn" style="display:none;">Abbrechen</button>
+                    <button class="btn-secondary" onclick="cancelEdit()" id="cancel-btn" style="display:none;" data-i18n="patch.btnCancel">Abbrechen</button>
                 </div>
 
                 <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--ta-gray-mid);">
                     <div style="font-size:0.8em;font-weight:700;color:var(--ta-gray);margin-bottom:10px;">Daten-Management</div>
                     <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                        <button class="btn-secondary" onclick="exportJSON()" style="font-size:0.8em;padding:6px 12px;">JSON Export</button>
-                        <label class="btn-secondary" style="font-size:0.8em;padding:6px 12px;cursor:pointer;">
+                        <button class="btn-secondary" onclick="exportJSON()" style="font-size:0.8em;padding:6px 12px;" data-i18n="patch.btnExportJson">JSON Export</button>
+                        <label class="btn-secondary" style="font-size:0.8em;padding:6px 12px;cursor:pointer;" data-i18n="patch.btnImportJson">
                             JSON Import <input type="file" accept=".json" onchange="importJSON(event)" style="display:none;">
                         </label>
-                        <button class="btn-secondary" onclick="exportPDF()" style="font-size:0.8em;padding:6px 12px;">PDF Export</button>
+                        <button class="btn-secondary" onclick="exportPDF()" style="font-size:0.8em;padding:6px 12px;" data-i18n="patch.btnExportPdf">PDF Export</button>
                     </div>
                 </div>
             </div>
@@ -295,8 +295,8 @@
                 <!-- View toggle -->
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
                     <div class="view-tabs">
-                        <button class="view-tab active" onclick="setView('cal', this)">Kalender</button>
-                        <button class="view-tab" onclick="setView('list', this)">Liste</button>
+                        <button class="view-tab active" onclick="setView('cal', this)" data-i18n="patch.viewCalendar">Kalender</button>
+                        <button class="view-tab" onclick="setView('list', this)" data-i18n="patch.viewList">Liste</button>
                     </div>
                     <div class="filter-bar">
                         <label>Filter:</label>
@@ -315,9 +315,9 @@
                 <!-- Calendar view -->
                 <div id="view-cal">
                     <div class="cal-header">
-                        <button class="btn-secondary" onclick="changeMonth(-1)" style="padding:6px 14px;">&#8249; Zurück</button>
+                        <button class="btn-secondary" onclick="changeMonth(-1)" style="padding:6px 14px;" data-i18n="patch.btnPrevMonth">&#8249; Zurück</button>
                         <h2 id="cal-title"></h2>
-                        <button class="btn-secondary" onclick="changeMonth(1)" style="padding:6px 14px;">Weiter &#8250;</button>
+                        <button class="btn-secondary" onclick="changeMonth(1)" style="padding:6px 14px;" data-i18n="patch.btnNextMonth">Weiter &#8250;</button>
                     </div>
                     <div class="cal-grid" id="cal-grid"></div>
                 </div>
@@ -338,6 +338,7 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="assets/i18n/i18n.js"></script>
 <script>
 var STORAGE_KEY = 'ta-patch-planner-v1';
 var entries = [];

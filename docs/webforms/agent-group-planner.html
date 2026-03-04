@@ -130,7 +130,7 @@
         <div class="header-inner">
             <img src="assets/ta-alpha-logo.svg" alt="T-Alpha GmbH" class="header-logo">
             <div class="header-text">
-                <h1>Agent-Gruppen-Planer</h1>
+                <h1 data-i18n="planner.title">Agent-Gruppen-Planer</h1>
                 <p class="subtitle">Wazuh Agent-Gruppen strukturieren, Inventar analysieren &amp; Konfiguration exportieren &middot; T-Alpha GmbH</p>
             </div>
         </div>
@@ -141,9 +141,9 @@
 
     <div class="content">
         <div class="tab-nav">
-            <button class="tab-btn active" data-tab="catalog">Gruppen-Baukasten</button>
-            <button class="tab-btn" data-tab="inventory">Inventar-Analyse</button>
-            <button class="tab-btn" data-tab="export">Export &amp; Befehle</button>
+            <button class="tab-btn active" data-tab="catalog" data-i18n="planner.tabCatalog">Gruppen-Baukasten</button>
+            <button class="tab-btn" data-tab="inventory" data-i18n="planner.tabInventory">Inventar-Analyse</button>
+            <button class="tab-btn" data-tab="export" data-i18n="planner.tabExport">Export &amp; Befehle</button>
         </div>
 
         <!-- ═══════════ TAB 1: GRUPPEN-BAUKASTEN ═══════════ -->
@@ -152,8 +152,8 @@
                 <div>
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
                         <div>
-                            <strong style="color:var(--ta-blue);">Gruppe auswählen</strong>
-                            <span style="font-size:0.82em;color:var(--ta-gray);margin-left:8px;">Klicken zum Aktivieren/Deaktivieren</span>
+                            <strong style="color:var(--ta-blue);" data-i18n="planner.catalogTitle">Gruppe auswählen</strong>
+                            <span style="font-size:0.82em;color:var(--ta-gray);margin-left:8px;" data-i18n="planner.catalogDesc">Klicken zum Aktivieren/Deaktivieren</span>
                         </div>
                         <input type="text" id="catalog-search" placeholder="Gruppe suchen…"
                             oninput="filterCatalog()"
@@ -161,10 +161,10 @@
                     </div>
                     <div class="cat-filters">
                         <button class="cat-btn active" data-cat="">Alle</button>
-                        <button class="cat-btn" data-cat="os">Betriebssystem</button>
-                        <button class="cat-btn" data-cat="role">Serverrolle</button>
-                        <button class="cat-btn" data-cat="zone">Netzwerkzone</button>
-                        <button class="cat-btn" data-cat="compliance">Compliance</button>
+                        <button class="cat-btn" data-cat="os" data-i18n="planner.catOS">Betriebssystem</button>
+                        <button class="cat-btn" data-cat="role" data-i18n="planner.catRole">Serverrolle</button>
+                        <button class="cat-btn" data-cat="zone" data-i18n="planner.catZone">Netzwerkzone</button>
+                        <button class="cat-btn" data-cat="compliance" data-i18n="planner.catCompliance">Compliance</button>
                         <button class="cat-btn" data-cat="custom">Eigene</button>
                     </div>
                     <div class="catalog-grid" id="catalog-grid"></div>
@@ -172,9 +172,9 @@
 
                 <!-- Selected panel -->
                 <div class="selected-panel">
-                    <h3>Ausgewählte Gruppen <span id="sel-count" style="background:var(--ta-blue);color:#fff;border-radius:10px;padding:1px 8px;font-size:0.75em;margin-left:4px;">0</span></h3>
+                    <h3><span data-i18n="planner.selectedGroups">Ausgewählte Gruppen</span> <span id="sel-count" style="background:var(--ta-blue);color:#fff;border-radius:10px;padding:1px 8px;font-size:0.75em;margin-left:4px;">0</span></h3>
                     <div class="selected-list" id="selected-list">
-                        <div class="empty-note">Noch keine Gruppen ausgewählt.<br>Links auf eine Gruppe klicken.</div>
+                        <div class="empty-note" data-i18n="planner.noGroupsSelected">Noch keine Gruppen ausgewählt.<br>Links auf eine Gruppe klicken.</div>
                     </div>
 
                     <div class="custom-group-form">
@@ -211,7 +211,7 @@
         <div class="tab-panel" id="tab-inventory">
             <div class="inv-layout">
                 <div class="inv-input-wrap">
-                    <div style="font-weight:700;color:var(--ta-blue);margin-bottom:8px;">Inventar einfügen oder eingeben</div>
+                    <div style="font-weight:700;color:var(--ta-blue);margin-bottom:8px;" data-i18n="planner.inventoryTitle">Inventar einfügen oder eingeben</div>
 
                     <div class="format-tabs">
                         <button class="fmt-btn active" onclick="setFmt('csv',this)">CSV</button>
@@ -224,7 +224,7 @@
                     <textarea id="inv-input" placeholder="" oninput="parseInventory()"></textarea>
 
                     <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
-                        <button class="btn-primary" onclick="parseInventory()">Analysieren</button>
+                        <button class="btn-primary" onclick="parseInventory()" data-i18n="planner.btnAnalyze">Analysieren</button>
                         <button class="btn-secondary" onclick="loadExample()">Beispiel laden</button>
                         <button class="btn-secondary" onclick="document.getElementById('inv-input').value='';document.getElementById('inv-results').innerHTML='';invData=[];">Leeren</button>
                     </div>
@@ -266,48 +266,48 @@
                     </div>
                     <div style="display:flex;gap:8px;">
                         <button class="btn-secondary" onclick="copyAll()" style="font-size:0.85em;">Alles kopieren</button>
-                        <button class="btn-secondary" onclick="downloadAll()" style="font-size:0.85em;">Download (.sh)</button>
+                        <button class="btn-secondary" onclick="downloadAll()" style="font-size:0.85em;" data-i18n="planner.btnDownloadAll">Download (.sh)</button>
                     </div>
                 </div>
 
                 <!-- CLI Commands -->
                 <div class="export-section">
-                    <h3>1. Gruppen erstellen – CLI-Befehle</h3>
+                    <h3 data-i18n="planner.exportCliTitle">1. Gruppen erstellen – CLI-Befehle</h3>
                     <div class="code-block-wrap"><pre id="exp-cli"></pre></div>
                     <div class="export-actions">
-                        <button class="btn-secondary" onclick="copySection('exp-cli',this)">Kopieren</button>
+                        <button class="btn-secondary" onclick="copySection('exp-cli',this)" data-i18n="planner.btnCopyCli">Kopieren</button>
                     </div>
                 </div>
 
                 <!-- Agent assignments -->
                 <div class="export-section" id="exp-assignments-section" style="display:none;">
-                    <h3>2. Agent-Zuweisungen (aus Inventar-Analyse)</h3>
+                    <h3 data-i18n="planner.exportAssignTitle">2. Agent-Zuweisungen (aus Inventar-Analyse)</h3>
                     <div class="code-block-wrap"><pre id="exp-assignments"></pre></div>
                     <div class="export-actions">
-                        <button class="btn-secondary" onclick="copySection('exp-assignments',this)">Kopieren</button>
+                        <button class="btn-secondary" onclick="copySection('exp-assignments',this)" data-i18n="planner.btnCopyCli">Kopieren</button>
                     </div>
                 </div>
 
                 <!-- agent.conf XML per group -->
                 <div class="export-section">
-                    <h3>3. agent.conf – Gruppen-Konfiguration</h3>
+                    <h3 data-i18n="planner.exportConfTitle">3. agent.conf – Gruppen-Konfiguration</h3>
                     <div style="font-size:0.82em;color:var(--ta-gray);margin-bottom:8px;">
                         Für jede Gruppe eine separate Datei unter <code>/var/ossec/etc/shared/&lt;gruppe&gt;/agent.conf</code>
                     </div>
                     <div id="exp-agentconf-tabs" style="display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap;"></div>
                     <div class="code-block-wrap"><pre id="exp-agentconf"></pre></div>
                     <div class="export-actions">
-                        <button class="btn-secondary" onclick="copySection('exp-agentconf',this)">Kopieren</button>
+                        <button class="btn-secondary" onclick="copySection('exp-agentconf',this)" data-i18n="planner.btnCopyConf">Kopieren</button>
                         <button class="btn-secondary" onclick="downloadAgentConf()">Download agent.conf</button>
                     </div>
                 </div>
 
                 <!-- Markdown documentation -->
                 <div class="export-section">
-                    <h3>4. Dokumentation (Markdown)</h3>
+                    <h3 data-i18n="planner.exportDocTitle">4. Dokumentation (Markdown)</h3>
                     <div class="code-block-wrap"><pre id="exp-markdown"></pre></div>
                     <div class="export-actions">
-                        <button class="btn-secondary" onclick="copySection('exp-markdown',this)">Kopieren</button>
+                        <button class="btn-secondary" onclick="copySection('exp-markdown',this)" data-i18n="planner.btnCopyDoc">Kopieren</button>
                         <button class="btn-secondary" onclick="downloadMarkdown()">Download .md</button>
                     </div>
                 </div>
@@ -1126,5 +1126,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('fmt-hint').textContent = FMT_HINTS.csv;
 });
 </script>
+<script src="assets/i18n/i18n.js"></script>
 </body>
 </html>

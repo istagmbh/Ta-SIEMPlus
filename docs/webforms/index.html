@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ta-SIEMPlus – Web-Tools</title>
+    <title data-i18n="index.title">Ta-SIEMPlus – Web-Tools</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/ta-alpha-brand.css">
@@ -178,12 +178,12 @@
                 <img src="assets/ta-alpha-logo.svg" alt="T-Alpha GmbH" class="header-logo">
                 <div class="header-text">
                     <h1>Ta-SIEMPlus Web-Tools</h1>
-                    <p class="subtitle">T-Alpha GmbH &middot; IT Security &middot; www.t-alpha.ch</p>
+                    <p class="subtitle" data-i18n="index.subtitle">T-Alpha GmbH &middot; IT Security &middot; www.t-alpha.ch</p>
                 </div>
             </div>
             <div class="header-actions">
-                <a href="../">← Dokumentation</a>
-                <a href="https://github.com/istagmbh/Ta-SIEMPlus" target="_blank">GitHub ↗</a>
+                <a href="../" data-i18n="index.headerDocs">← Dokumentation</a>
+                <a href="https://github.com/istagmbh/Ta-SIEMPlus" target="_blank" data-i18n="index.headerGithub">GitHub ↗</a>
             </div>
         </header>
 
@@ -193,23 +193,23 @@
             <div class="info-banner">
                 <div class="info-item">
                     <span class="info-icon">✓</span>
-                    Kein Login, kein Server
+                    <span data-i18n="index.infoNoLogin">Kein Login, kein Server</span>
                 </div>
                 <div class="info-item">
                     <span class="info-icon">✓</span>
-                    Offline-fähig
+                    <span data-i18n="index.infoOffline">Offline-fähig</span>
                 </div>
                 <div class="info-item">
                     <span class="info-icon">✓</span>
-                    PDF-Export
+                    <span data-i18n="index.infoPdf">PDF-Export</span>
                 </div>
                 <div class="info-item">
                     <span class="info-icon">✓</span>
-                    Automatische Befehlsgenerierung
+                    <span data-i18n="index.infoCommands">Automatische Befehlsgenerierung</span>
                 </div>
                 <div class="info-item">
                     <span class="info-icon">✓</span>
-                    LocalStorage – Daten bleiben im Browser
+                    <span data-i18n="index.infoStorage">LocalStorage – Daten bleiben im Browser</span>
                 </div>
             </div>
 
@@ -217,51 +217,51 @@
             <div class="category">
                 <div class="category-header">
                     <span class="cat-icon">🔧</span>
-                    <h2>Upgrade &amp; Wartung</h2>
-                    <span class="cat-badge">3 Tools</span>
+                    <h2 data-i18n="index.catUpgrade">Upgrade &amp; Wartung</h2>
+                    <span class="cat-badge" data-i18n="index.catUpgradeBadge">3 Tools</span>
                 </div>
                 <div class="tools-grid">
 
                     <a href="upgrade-form.html" class="tool-card">
                         <div class="badge">Upgrade</div>
                         <div class="icon">🔄</div>
-                        <h3>Wazuh Upgrade Formular</h3>
-                        <p>Geführter Upgrade-Workflow für Wazuh AIO. Generiert automatisch alle Befehle und Checklisten.</p>
+                        <h3 data-i18n="index.upgradeFormTitle">Wazuh Upgrade Formular</h3>
+                        <p data-i18n="index.upgradeFormDesc">Geführter Upgrade-Workflow für Wazuh AIO. Generiert automatisch alle Befehle und Checklisten.</p>
                         <ul class="features">
-                            <li>Pre-Flight Checks &amp; No-Go Gates</li>
-                            <li>Schritt-für-Schritt Anleitung</li>
-                            <li>Health Snapshots Pre &amp; Post</li>
-                            <li>PDF-Export für Ticketsystem</li>
+                            <li data-i18n="index.upgradeFormFeat1">Pre-Flight Checks &amp; No-Go Gates</li>
+                            <li data-i18n="index.upgradeFormFeat2">Schritt-für-Schritt Anleitung</li>
+                            <li data-i18n="index.upgradeFormFeat3">Health Snapshots Pre &amp; Post</li>
+                            <li data-i18n="index.upgradeFormFeat4">PDF-Export für Ticketsystem</li>
                         </ul>
-                        <span class="btn">Upgrade starten →</span>
+                        <span class="btn" data-i18n="index.upgradeFormBtn">Upgrade starten →</span>
                     </a>
 
                     <a href="checklist-generator.html" class="tool-card">
                         <div class="badge">Checkliste</div>
                         <div class="icon">✅</div>
-                        <h3>Checklisten-Generator</h3>
-                        <p>Individuelle Checklisten für Wartungsfenster generieren, befüllen und exportieren.</p>
+                        <h3 data-i18n="index.checklistTitle">Checklisten-Generator</h3>
+                        <p data-i18n="index.checklistDesc">Individuelle Checklisten für Wartungsfenster generieren, befüllen und exportieren.</p>
                         <ul class="features">
-                            <li>Anpassbare Templates</li>
-                            <li>Metadaten-Management</li>
-                            <li>Markdown-Export</li>
-                            <li>Copy-to-Ticket</li>
+                            <li data-i18n="index.checklistFeat1">Anpassbare Templates</li>
+                            <li data-i18n="index.checklistFeat2">Metadaten-Management</li>
+                            <li data-i18n="index.checklistFeat3">Markdown-Export</li>
+                            <li data-i18n="index.checklistFeat4">Copy-to-Ticket</li>
                         </ul>
-                        <span class="btn">Checkliste erstellen →</span>
+                        <span class="btn" data-i18n="index.checklistBtn">Checkliste erstellen →</span>
                     </a>
 
                     <a href="maintenance-protocol.html" class="tool-card">
                         <div class="badge">Protokoll</div>
                         <div class="icon">📋</div>
-                        <h3>Wartungsprotokoll</h3>
-                        <p>Strukturierte Protokollierung von Wartungsarbeiten mit lokalem Speichern.</p>
+                        <h3 data-i18n="index.maintenanceTitle">Wartungsprotokoll</h3>
+                        <p data-i18n="index.maintenanceDesc">Strukturierte Protokollierung von Wartungsarbeiten mit lokalem Speichern.</p>
                         <ul class="features">
-                            <li>Strukturierte Erfassung</li>
-                            <li>Zeiterfassung</li>
-                            <li>Problembehebung dokumentieren</li>
-                            <li>PDF-Archivierung</li>
+                            <li data-i18n="index.maintenanceFeat1">Strukturierte Erfassung</li>
+                            <li data-i18n="index.maintenanceFeat2">Zeiterfassung</li>
+                            <li data-i18n="index.maintenanceFeat3">Problembehebung dokumentieren</li>
+                            <li data-i18n="index.maintenanceFeat4">PDF-Archivierung</li>
                         </ul>
-                        <span class="btn">Protokoll erstellen →</span>
+                        <span class="btn" data-i18n="index.maintenanceBtn">Protokoll erstellen →</span>
                     </a>
 
                 </div>
@@ -271,51 +271,51 @@
             <div class="category">
                 <div class="category-header">
                     <span class="cat-icon">⚙️</span>
-                    <h2>Administration</h2>
-                    <span class="cat-badge">3 Tools</span>
+                    <h2 data-i18n="index.catAdmin">Administration</h2>
+                    <span class="cat-badge" data-i18n="index.catAdminBadge">3 Tools</span>
                 </div>
                 <div class="tools-grid">
 
                     <a href="agent-management.html" class="tool-card">
                         <div class="badge">Agent</div>
                         <div class="icon">👥</div>
-                        <h3>Agent-Verwaltung</h3>
-                        <p>Befehlsgenerator für Wazuh Agent-Gruppen, Registrierung und Konfigurationsverteilung.</p>
+                        <h3 data-i18n="index.agentMgmtTitle">Agent-Verwaltung</h3>
+                        <p data-i18n="index.agentMgmtDesc">Befehlsgenerator für Wazuh Agent-Gruppen, Registrierung und Konfigurationsverteilung.</p>
                         <ul class="features">
-                            <li>Gruppen erstellen &amp; bearbeiten</li>
-                            <li>Agenten zuweisen</li>
-                            <li>Befehls-Generator</li>
-                            <li>Multi-Gruppen Support</li>
+                            <li data-i18n="index.agentMgmtFeat1">Gruppen erstellen &amp; bearbeiten</li>
+                            <li data-i18n="index.agentMgmtFeat2">Agenten zuweisen</li>
+                            <li data-i18n="index.agentMgmtFeat3">Befehls-Generator</li>
+                            <li data-i18n="index.agentMgmtFeat4">Multi-Gruppen Support</li>
                         </ul>
-                        <span class="btn">Agenten verwalten →</span>
+                        <span class="btn" data-i18n="index.agentMgmtBtn">Agenten verwalten →</span>
                     </a>
 
                     <a href="agent-group-planner.html" class="tool-card">
                         <div class="badge">Planung</div>
                         <div class="icon">🗂️</div>
-                        <h3>Agent-Gruppen-Planer</h3>
-                        <p>Gruppen-Struktur per Baukastenkatalog planen und Inventardaten automatisch analysieren.</p>
+                        <h3 data-i18n="index.agentPlannerTitle">Agent-Gruppen-Planer</h3>
+                        <p data-i18n="index.agentPlannerDesc">Gruppen-Struktur per Baukastenkatalog planen und Inventardaten automatisch analysieren.</p>
                         <ul class="features">
-                            <li>Gruppen-Baukasten (OS, Rolle, Zone, Compliance)</li>
-                            <li>Inventar-Analyse: CSV/JSON → Gruppen-Vorschläge</li>
-                            <li>Hostname-Pattern-Erkennung (dc-, web-, db-, …)</li>
-                            <li>CLI-Befehle + agent.conf XML Export</li>
+                            <li data-i18n="index.agentPlannerFeat1">Gruppen-Baukasten (OS, Rolle, Zone, Compliance)</li>
+                            <li data-i18n="index.agentPlannerFeat2">Inventar-Analyse: CSV/JSON → Gruppen-Vorschläge</li>
+                            <li data-i18n="index.agentPlannerFeat3">Hostname-Pattern-Erkennung (dc-, web-, db-, …)</li>
+                            <li data-i18n="index.agentPlannerFeat4">CLI-Befehle + agent.conf XML Export</li>
                         </ul>
-                        <span class="btn">Gruppen planen →</span>
+                        <span class="btn" data-i18n="index.agentPlannerBtn">Gruppen planen →</span>
                     </a>
 
                     <a href="alert-regeleditor.html" class="tool-card">
                         <div class="badge">Detection</div>
                         <div class="icon">🎯</div>
-                        <h3>Alert-Regeleditor</h3>
-                        <p>Wazuh Custom Detection Rules visuell erstellen, validieren und als XML exportieren.</p>
+                        <h3 data-i18n="index.alertEditorTitle">Alert-Regeleditor</h3>
+                        <p data-i18n="index.alertEditorDesc">Wazuh Custom Detection Rules visuell erstellen, validieren und als XML exportieren.</p>
                         <ul class="features">
-                            <li>Visueller Regel-Builder (kein XML nötig)</li>
-                            <li>8 Vorlagen (Brute-Force, Mimikatz, …)</li>
-                            <li>Live XML-Vorschau mit Validierung</li>
-                            <li>MITRE ATT&amp;CK Mapping</li>
+                            <li data-i18n="index.alertEditorFeat1">Visueller Regel-Builder (kein XML nötig)</li>
+                            <li data-i18n="index.alertEditorFeat2">8 Vorlagen (Brute-Force, Mimikatz, …)</li>
+                            <li data-i18n="index.alertEditorFeat3">Live XML-Vorschau mit Validierung</li>
+                            <li data-i18n="index.alertEditorFeat4">MITRE ATT&amp;CK Mapping</li>
                         </ul>
-                        <span class="btn">Regeln erstellen →</span>
+                        <span class="btn" data-i18n="index.alertEditorBtn">Regeln erstellen →</span>
                     </a>
 
                 </div>
@@ -325,37 +325,37 @@
             <div class="category">
                 <div class="category-header">
                     <span class="cat-icon">📐</span>
-                    <h2>Konfiguration &amp; Planung</h2>
-                    <span class="cat-badge">2 Tools</span>
+                    <h2 data-i18n="index.catConfig">Konfiguration &amp; Planung</h2>
+                    <span class="cat-badge" data-i18n="index.catConfigBadge">2 Tools</span>
                 </div>
                 <div class="tools-grid">
 
                     <a href="config-generator.html" class="tool-card">
                         <div class="badge">Konfiguration</div>
                         <div class="icon">📝</div>
-                        <h3>Konfigurations-Generator</h3>
-                        <p>Wazuh Konfigurationsdateien per Formular generieren – kein manuelles Editieren von XML/YAML mehr.</p>
+                        <h3 data-i18n="index.configGenTitle">Konfigurations-Generator</h3>
+                        <p data-i18n="index.configGenDesc">Wazuh Konfigurationsdateien per Formular generieren – kein manuelles Editieren von XML/YAML mehr.</p>
                         <ul class="features">
-                            <li>Manager, Agent (Linux/Windows), Indexer, Filebeat</li>
-                            <li>Live-Vorschau mit Syntax-Highlighting</li>
-                            <li>ossec.conf Validator (Altlasten &amp; Diffs)</li>
-                            <li>Copy + Download als Datei</li>
+                            <li data-i18n="index.configGenFeat1">Manager, Agent (Linux/Windows), Indexer, Filebeat</li>
+                            <li data-i18n="index.configGenFeat2">Live-Vorschau mit Syntax-Highlighting</li>
+                            <li data-i18n="index.configGenFeat3">ossec.conf Validator (Altlasten &amp; Diffs)</li>
+                            <li data-i18n="index.configGenFeat4">Copy + Download als Datei</li>
                         </ul>
-                        <span class="btn">Config generieren →</span>
+                        <span class="btn" data-i18n="index.configGenBtn">Config generieren →</span>
                     </a>
 
                     <a href="patch-planner.html" class="tool-card">
                         <div class="badge">Planung</div>
                         <div class="icon">📅</div>
-                        <h3>Patch-Planer</h3>
-                        <p>Wartungsfenster für mehrere Kunden koordinieren, Konflikte vermeiden und PDF exportieren.</p>
+                        <h3 data-i18n="index.patchPlannerTitle">Patch-Planer</h3>
+                        <p data-i18n="index.patchPlannerDesc">Wartungsfenster für mehrere Kunden koordinieren, Konflikte vermeiden und PDF exportieren.</p>
                         <ul class="features">
-                            <li>Monatskalender (Browser, kein Server)</li>
-                            <li>Kunden, Typen, Versionen verwalten</li>
-                            <li>JSON Import/Export für Team-Sharing</li>
-                            <li>PDF-Export für Ticketsystem</li>
+                            <li data-i18n="index.patchPlannerFeat1">Monatskalender (Browser, kein Server)</li>
+                            <li data-i18n="index.patchPlannerFeat2">Kunden, Typen, Versionen verwalten</li>
+                            <li data-i18n="index.patchPlannerFeat3">JSON Import/Export für Team-Sharing</li>
+                            <li data-i18n="index.patchPlannerFeat4">PDF-Export für Ticketsystem</li>
                         </ul>
-                        <span class="btn">Patch-Plan öffnen →</span>
+                        <span class="btn" data-i18n="index.patchPlannerBtn">Patch-Plan öffnen →</span>
                     </a>
 
                 </div>
@@ -365,23 +365,23 @@
             <div class="category">
                 <div class="category-header">
                     <span class="cat-icon">📖</span>
-                    <h2>Information &amp; Beratung</h2>
-                    <span class="cat-badge">1 Seite</span>
+                    <h2 data-i18n="index.catInfo">Information &amp; Beratung</h2>
+                    <span class="cat-badge" data-i18n="index.catInfoBadge">1 Seite</span>
                 </div>
                 <div class="tools-grid">
 
                     <a href="warum-siem.html" class="tool-card">
                         <div class="badge">Info</div>
                         <div class="icon">🛡️</div>
-                        <h3>Warum ganzheitliches SIEM?</h3>
-                        <p>Erklärt, warum Antivirus allein nicht ausreicht und welchen Mehrwert ein ganzheitliches SIEM mit Wazuh bietet.</p>
+                        <h3 data-i18n="index.warumSiemTitle">Warum ganzheitliches SIEM?</h3>
+                        <p data-i18n="index.warumSiemDesc">Erklärt, warum Antivirus allein nicht ausreicht und welchen Mehrwert ein ganzheitliches SIEM mit Wazuh bietet.</p>
                         <ul class="features">
-                            <li>Antivirus vs. SIEM Vergleich</li>
-                            <li>Ganzheitliche Sicherheitsüberwachung</li>
-                            <li>Paradigmenwechsel erklärt</li>
-                            <li>Empfohlene nächste Schritte</li>
+                            <li data-i18n="index.warumSiemFeat1">Antivirus vs. SIEM Vergleich</li>
+                            <li data-i18n="index.warumSiemFeat2">Ganzheitliche Sicherheitsüberwachung</li>
+                            <li data-i18n="index.warumSiemFeat3">Paradigmenwechsel erklärt</li>
+                            <li data-i18n="index.warumSiemFeat4">Empfohlene nächste Schritte</li>
                         </ul>
-                        <span class="btn">Mehr erfahren →</span>
+                        <span class="btn" data-i18n="index.warumSiemBtn">Mehr erfahren →</span>
                     </a>
 
                 </div>
@@ -389,14 +389,14 @@
 
             <!-- ─── Dokumentations-Links ─── -->
             <div class="docs-bar">
-                <span class="docs-bar-label">Dokumentation:</span>
-                <a href="../">🏠 Start</a>
-                <a href="../quick-reference/">⚡ Schnellreferenz</a>
-                <a href="../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU/">📘 Upgrade Runbook</a>
-                <a href="../runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT/">📗 Agent Runbook</a>
-                <a href="../catalog/CUSTOMERS/">👥 Kundenkatalog</a>
-                <a href="../config-templates/">🔧 Config Templates</a>
-                <a href="https://github.com/istagmbh/Ta-SIEMPlus" target="_blank">GitHub ↗</a>
+                <span class="docs-bar-label" data-i18n="index.docsLabel">Dokumentation:</span>
+                <a href="../" data-i18n="index.docsHome">🏠 Start</a>
+                <a href="../quick-reference/" data-i18n="index.docsQuickRef">⚡ Schnellreferenz</a>
+                <a href="../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU/" data-i18n="index.docsUpgradeRb">📘 Upgrade Runbook</a>
+                <a href="../runbooks/RUNBOOK_WAZUH_AGENT_GROUP_MANAGEMENT/" data-i18n="index.docsAgentRb">📗 Agent Runbook</a>
+                <a href="../catalog/CUSTOMERS/" data-i18n="index.docsCatalog">👥 Kundenkatalog</a>
+                <a href="../config-templates/" data-i18n="index.docsConfigTpl">🔧 Config Templates</a>
+                <a href="https://github.com/istagmbh/Ta-SIEMPlus" target="_blank" data-i18n="index.headerGithub">GitHub ↗</a>
             </div>
 
         </div>
@@ -408,5 +408,6 @@
             &middot; <a href="../">Dokumentation</a></p>
         </footer>
     </div>
+    <script src="assets/i18n/i18n.js"></script>
 </body>
 </html>
