@@ -42,6 +42,17 @@ Bevor du startest, brauchst du diese Informationen:
   (oder Backup-Pfad: /backups/wazuh_backup_2026-01-30.tar.gz)
 ```
 
+### Aus dem Secret-Store (Pflicht!):
+```
+✔ Indexer Admin-Passwort:    vault://... (aus CUSTOMERS.md → secrets_ref)
+✔ Wazuh API-Passwort:        vault://... (aus CUSTOMERS.md → secrets_ref)
+✔ Dashboard Login:            [verifiziert ja/nein]
+✔ SSH/Root-Zugang:            [getestet ja/nein]
+```
+
+> **WICHTIG:** Rufe alle Passwörter VOR Beginn des Wartungsfensters ab!
+> Während der Wartung ist keine Zeit, um fehlende Credentials zu suchen.
+
 ---
 
 ## 🖊️ SCHRITT 2: Checkliste kopieren & ausfüllen
