@@ -50,12 +50,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: |
-          pip install \
-            mkdocs==1.5.3 \
-            mkdocs-material==9.5.3 \
-            mike==2.0.0 \
-            pymdown-extensions==10.7
+        run: pip install -r requirements.txt
 
       - name: Build MkDocs site
         run: mkdocs build --strict
