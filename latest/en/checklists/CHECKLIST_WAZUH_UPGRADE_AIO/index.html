@@ -2402,13 +2402,27 @@ Commands stehen im Runbook: <code>{{runbook_ref}}</code></p>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Change freigegeben (approved)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Kunde informiert (Downtime/Impact kommuniziert)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Guide gelesen (Breaking Changes / besondere Schritte)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Offiziellen Wazuh Upgrade Guide gelesen (<a href="https://documentation.wazuh.com/current/upgrade-guide/upgrading-central-components.html">Link</a>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Interner versionsspezifischer Guide geprüft (siehe <code>upgrade-guides/&lt;version&gt;/</code>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Breaking Changes / besondere Schritte für Zielversion bekannt</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Voraussetzungen validiert</strong> (siehe Runbook Abschnitt "Voraussetzungen")</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Persistente Terminal-Session aktiv (<code>screen</code> oder <code>tmux</code> gestartet)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Zugangsdaten/Credentials vorhanden und verifiziert:</strong><ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Indexer Admin-Credentials aus Secret-Store abgerufen (siehe <code>CUSTOMERS.md</code> → <code>secrets_ref</code>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Wazuh API-Credentials verfügbar</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> SSH/Root-Zugang zum Zielsystem getestet</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Dashboard-Login-Credentials bekannt</li>
+</ul>
+</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> System-Ressourcen geprüft (Disk &lt; 85%, RAM verfügbar, <strong>No-Go wenn Disk &gt; 90%</strong>)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Netzwerk-Konnektivität zu Wazuh-Repositories bestätigt</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Wazuh APT-Repository aktiv (<code>/etc/apt/sources.list.d/wazuh.list</code> geprüft, nicht auskommentiert)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Netzwerk-Konnektivität zu Wazuh-Repositories bestätigt (<code>ping packages.wazuh.com</code>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>apt-get update</code> erfolgreich ausgeführt</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Candidate-Versionen sind <strong>identisch</strong> (Indexer/Manager/Dashboard inkl. Patchlevel)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> VM/Volume-Snapshot erstellt (empfohlen) ODER Konfigurations-Backup erstellt</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Snapshot/Backup-ID dokumentiert (<code>snapshot_id</code>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Individuelle Konfigurationsanpassungen geprüft (siehe Runbook 2.2a)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Falls Anpassungen vorhanden: Dokumentiert, welche nach Upgrade erneut anzuwenden sind</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Health Snapshot (Runbook Abschnitt 1)</strong> durchgeführt und im Ticket abgelegt</li>
 </ul>
 <hr />
@@ -2471,6 +2485,7 @@ Commands stehen im Runbook: <code>{{runbook_ref}}</code></p>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Datenfluss plausibel (neue Events kommen an / Testevent verifiziert)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Keine kritischen Fehler in journalctl-Logs (Indexer/Manager/Dashboard/Filebeat)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Alle Ports hören wie erwartet (1514, 1515, 55000, 9200, 5601)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Wazuh APT-Repository nach Upgrade deaktiviert ODER Pakete auf "hold" gesetzt (Entscheidung dokumentiert)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Abschlussmeldung an Kunde gesendet (Versionen + kurzer Health-Status)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Change/Ticket sauber dokumentiert (Start/Ende, Findings, Abweichungen)</li>
 </ul>
@@ -2482,7 +2497,18 @@ Commands stehen im Runbook: <code>{{runbook_ref}}</code></p>
 - [ ] Zielversion erreicht und dokumentiert</p>
 <hr />
 <h2 id="e-storung-rollback-entscheidung">E) Störung / Rollback Entscheidung<a class="headerlink" href="#e-storung-rollback-entscheidung" title="Permanent link">&para;</a></h2>
-<p><strong>Trigger für Rollback (Beispiele):</strong>
+<blockquote>
+<p><strong>Dieser Abschnitt ist NUR auszufüllen, wenn ein Rollback durchgeführt wurde.</strong>
+Wenn das Upgrade erfolgreich war, überspringen Sie diesen Abschnitt und
+setzen Sie direkt bei Section F fort.</p>
+</blockquote>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Rollback wurde durchgeführt:</strong> JA / NEIN</li>
+</ul>
+<p><strong>Falls NEIN → Weiter mit Abschnitt F (kein Ausfüllen der folgenden Punkte erforderlich)</strong></p>
+<hr />
+<p><strong>Falls JA, bitte ausfüllen:</strong></p>
+<p><strong>Trigger für Rollback (zutreffende(s) ankreuzen):</strong>
 - [ ] Indexer nicht stabil (Crash/Red-Cluster)
 - [ ] Auth/TLS/Index Security nicht funktionsfähig
 - [ ] Datenfluss bricht nachhaltig (keine Events, Filebeat Errors)

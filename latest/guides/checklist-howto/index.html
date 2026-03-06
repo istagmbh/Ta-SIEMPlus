@@ -1855,6 +1855,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#aus-dem-secret-store-pflicht" class="md-nav__link">
+    <span class="md-ellipsis">
+      Aus dem Secret-Store (Pflicht!):
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2445,6 +2454,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#aus-dem-secret-store-pflicht" class="md-nav__link">
+    <span class="md-ellipsis">
+      Aus dem Secret-Store (Pflicht!):
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2768,6 +2786,16 @@
 <div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>✔ Snapshot-ID:             snap-0987654321fedcba0
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  (oder Backup-Pfad: /backups/wazuh_backup_2026-01-30.tar.gz)
 </span></code></pre></div>
+<h3 id="aus-dem-secret-store-pflicht">Aus dem Secret-Store (Pflicht!):<a class="headerlink" href="#aus-dem-secret-store-pflicht" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>✔ Indexer Admin-Passwort:    vault://... (aus CUSTOMERS.md → secrets_ref)
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>✔ Wazuh API-Passwort:        vault://... (aus CUSTOMERS.md → secrets_ref)
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>✔ Dashboard Login:            [verifiziert ja/nein]
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>✔ SSH/Root-Zugang:            [getestet ja/nein]
+</span></code></pre></div>
+<blockquote>
+<p><strong>WICHTIG:</strong> Rufe alle Passwörter VOR Beginn des Wartungsfensters ab!
+Während der Wartung ist keine Zeit, um fehlende Credentials zu suchen.</p>
+</blockquote>
 <hr />
 <h2 id="schritt-2-checkliste-kopieren-ausfullen">🖊️ SCHRITT 2: Checkliste kopieren &amp; ausfüllen<a class="headerlink" href="#schritt-2-checkliste-kopieren-ausfullen" title="Permanent link">&para;</a></h2>
 <h3 id="2a-checkliste-offnen">2a) Checkliste öffnen<a class="headerlink" href="#2a-checkliste-offnen" title="Permanent link">&para;</a></h3>
@@ -2790,57 +2818,57 @@
 <h2 id="schritt-3-metadaten-ausfullen-yaml-block-oben">📌 SCHRITT 3: Metadaten ausfüllen (YAML Block oben)<a class="headerlink" href="#schritt-3-metadaten-ausfullen-yaml-block-oben" title="Permanent link">&para;</a></h2>
 <p>Am Anfang der Checkliste steht ein YAML-Block. Fülle ihn <strong>jetzt</strong> (vor Beginn!) aus:</p>
 <h3 id="beispiel-vorher-leer">Beispiel: VORHER (leer)<a class="headerlink" href="#beispiel-vorher-leer" title="Permanent link">&para;</a></h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nn">---</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nt">checklist_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CHG-WAZUH-UPG-AIO&quot;</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nt">customer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nt">infrastructure</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nt">change_ticket</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="nt">maintenance_window_start</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="nt">maintenance_window_end</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="nt">target_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="nt">current_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="nt">snapshot_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="nn">---</span>
-</span></code></pre></div>
-<h3 id="beispiel-nachher-ausgefullt">Beispiel: NACHHER (ausgefüllt)<a class="headerlink" href="#beispiel-nachher-ausgefullt" title="Permanent link">&para;</a></h3>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nn">---</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nt">checklist_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CHG-WAZUH-UPG-AIO&quot;</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;David</span><span class="nv"> </span><span class="s">Dutler&quot;</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nt">customer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DeepCloud</span><span class="nv"> </span><span class="s">AG&quot;</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="nt">infrastructure</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DeepPay&quot;</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="nt">change_ticket</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CHG-2026-00456&quot;</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="nt">maintenance_window_start</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-01-30</span><span class="nv"> </span><span class="s">22:00&quot;</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="nt">maintenance_window_end</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-01-31</span><span class="nv"> </span><span class="s">00:30&quot;</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="nt">target_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4.12.0&quot;</span>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="nt">current_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4.9.0&quot;</span>
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="nt">snapshot_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;snap-0987654321fedcba0&quot;</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nt">customer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="nt">infrastructure</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="nt">change_ticket</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="nt">maintenance_window_start</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="nt">maintenance_window_end</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="nt">target_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="nt">current_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="nt">snapshot_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UNSET&quot;</span>
 </span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="nn">---</span>
+</span></code></pre></div>
+<h3 id="beispiel-nachher-ausgefullt">Beispiel: NACHHER (ausgefüllt)<a class="headerlink" href="#beispiel-nachher-ausgefullt" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nn">---</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nt">checklist_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CHG-WAZUH-UPG-AIO&quot;</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;David</span><span class="nv"> </span><span class="s">Dutler&quot;</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="nt">customer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DeepCloud</span><span class="nv"> </span><span class="s">AG&quot;</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nt">infrastructure</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DeepPay&quot;</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="nt">change_ticket</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CHG-2026-00456&quot;</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="nt">maintenance_window_start</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-01-30</span><span class="nv"> </span><span class="s">22:00&quot;</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="nt">maintenance_window_end</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-01-31</span><span class="nv"> </span><span class="s">00:30&quot;</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="nt">target_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4.12.0&quot;</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="nt">current_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4.9.0&quot;</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="nt">snapshot_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;snap-0987654321fedcba0&quot;</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="nn">---</span>
 </span></code></pre></div>
 <p>💡 <strong>Tipp:</strong> Diese Werte kopierst du überall, wo <code>{{variable_name}}</code> steht!</p>
 <hr />
 <h2 id="schritt-4-pre-go-gates-prufen-abschnitt-b">✅ SCHRITT 4: Pre-Go Gates prüfen (Abschnitt B)<a class="headerlink" href="#schritt-4-pre-go-gates-prufen-abschnitt-b" title="Permanent link">&para;</a></h2>
 <h3 id="was-sind-pre-go-gates">Was sind Pre-Go Gates?<a class="headerlink" href="#was-sind-pre-go-gates" title="Permanent link">&para;</a></h3>
 <p>Das sind <strong>kritische Bedingungen</strong>, die ALLE erfüllt sein müssen:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>⛔ Wenn AUCH NUR EINE Box NICHT ✓ ist → UPGRADE VERSCHIEBEN!
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>⛔ Wenn AUCH NUR EINE Box NICHT ✓ ist → UPGRADE VERSCHIEBEN!
 </span></code></pre></div>
 <h3 id="beispiel-pre-go-gates">Beispiel: Pre-Go Gates<a class="headerlink" href="#beispiel-pre-go-gates" title="Permanent link">&para;</a></h3>
-<div class="language-markdown highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gu">## B) Pre-Go (No-Go Gates)</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">- [x]</span> Change freigegeben (approved)
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>       ↑ Ja, ist genehmigt seit 2026-01-27 10:00
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="k">- [ ]</span> Kunde informiert (Downtime/Impact kommuniziert)
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>       ↑ Noch nicht getan → Kundennotiz schreiben vor Start!
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="k">- [ ]</span> Guide gelesen (Breaking Changes / besondere Schritte)
-</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>       ↑ Todo: Wazuh 4.12.0 Release Notes durchlesen
-</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
-</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="k">- [x]</span> System-Ressourcen geprüft (Disk &lt; 85%, RAM verfügbar)
-</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>       ↑ Disk 72%, RAM 24 GB frei → OK
-</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>
-</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="k">- [ ]</span> Snapshot/Backup erstellt
-</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>       ↑ Todo: VM-Snapshot erstellen
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="gu">## B) Pre-Go (No-Go Gates)</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="k">- [x]</span> Change freigegeben (approved)
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>       ↑ Ja, ist genehmigt seit 2026-01-27 10:00
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="k">- [ ]</span> Kunde informiert (Downtime/Impact kommuniziert)
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>       ↑ Noch nicht getan → Kundennotiz schreiben vor Start!
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="k">- [ ]</span> Guide gelesen (Breaking Changes / besondere Schritte)
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>       ↑ Todo: Wazuh 4.12.0 Release Notes durchlesen
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="k">- [x]</span> System-Ressourcen geprüft (Disk &lt; 85%, RAM verfügbar)
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>       ↑ Disk 72%, RAM 24 GB frei → OK
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="k">- [ ]</span> Snapshot/Backup erstellt
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>       ↑ Todo: VM-Snapshot erstellen
 </span></code></pre></div>
 <h3 id="checklisten-vor-dem-start">Checklisten vor dem Start<a class="headerlink" href="#checklisten-vor-dem-start" title="Permanent link">&para;</a></h3>
 <table>
@@ -2895,38 +2923,38 @@
 <li><strong>Öffne das Runbook</strong> parallel: <code>runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md</code></li>
 <li><strong>Suche die entsprechende Sektion</strong> im Runbook (z.B. "Step 2: Stop Services")</li>
 <li><strong>Kopiere den Befehl</strong> (grau hinterlegt):
-   <div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>systemctl<span class="w"> </span>stop<span class="w"> </span>filebeat
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>systemctl<span class="w"> </span>stop<span class="w"> </span>filebeat
 </span></code></pre></div></li>
 <li><strong>Führe ihn auf dem Server aus:</strong>
-   <div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>$<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>filebeat
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>$<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>filebeat
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># Output: inactive (dead) ← OK!</span>
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>$<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>filebeat
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>$<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>filebeat
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c1"># Output: inactive (dead) ← OK!</span>
 </span></code></pre></div></li>
 <li><strong>Hake die Box in der Checkliste ab:</strong>
-   <div class="language-markdown highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">- [x]</span> Stop filebeat        ← Ändere [ ] zu [x]
+   <div class="language-markdown highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">- [x]</span> Stop filebeat        ← Ändere [ ] zu [x]
 </span></code></pre></div></li>
 </ol>
 <hr />
 <h2 id="schritt-6-health-snapshots-dokumentieren">📸 SCHRITT 6: Health Snapshots dokumentieren<a class="headerlink" href="#schritt-6-health-snapshots-dokumentieren" title="Permanent link">&para;</a></h2>
 <h3 id="pre-snapshot-vorher-vor-upgrade-starten">Pre-Snapshot (VORHER – vor Upgrade starten)<a class="headerlink" href="#pre-snapshot-vorher-vor-upgrade-starten" title="Permanent link">&para;</a></h3>
 <p>Im Runbook, Abschnitt "Health Snapshot (Pre-Change)", gibt es einen kompletten Befehl:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Kopiere diesen Befehl &amp; führe ihn aus:</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>date<span class="w"> </span>-Is
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== DISK ===&quot;</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>df<span class="w"> </span>-h<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span>tmpfs
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== SERVICES ===&quot;</span>
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>systemctl<span class="w"> </span>status<span class="w"> </span>wazuh-indexer<span class="w"> </span>wazuh-manager<span class="w"> </span>wazuh-dashboard<span class="w"> </span>filebeat
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== VERSIONS ===&quot;</span>
-</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>dpkg<span class="w"> </span>-l<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;wazuh-(indexer|manager|dashboard)|filebeat&#39;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Kopiere diesen Befehl &amp; führe ihn aus:</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>date<span class="w"> </span>-Is
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== DISK ===&quot;</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>df<span class="w"> </span>-h<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span>tmpfs
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== SERVICES ===&quot;</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>systemctl<span class="w"> </span>status<span class="w"> </span>wazuh-indexer<span class="w"> </span>wazuh-manager<span class="w"> </span>wazuh-dashboard<span class="w"> </span>filebeat
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== VERSIONS ===&quot;</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>dpkg<span class="w"> </span>-l<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;wazuh-(indexer|manager|dashboard)|filebeat&#39;</span>
 </span></code></pre></div>
 <p><strong>Speichere die komplette Ausgabe:</strong>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>2026-01-30T22:01:00+01:00
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>=== DISK ===
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>Filesystem     Size  Used Avail Use% Mounted on
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>/dev/sda1      100G  62G  35G  65% /
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>=== SERVICES ===
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>...
-</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>(alle Ausgaben speichern)
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>2026-01-30T22:01:00+01:00
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>=== DISK ===
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>Filesystem     Size  Used Avail Use% Mounted on
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>/dev/sda1      100G  62G  35G  65% /
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>=== SERVICES ===
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>...
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>(alle Ausgaben speichern)
 </span></code></pre></div></p>
 <p>Poste diese Ausgabe <strong>im Change-Ticket</strong> (z.B. in einem Kommentar oder als Attachment).</p>
 <hr />
@@ -2939,27 +2967,27 @@
    - Alle Services laufen? ✅
    - Disk OK? ✅</p>
 <p><strong>In der Checkliste dokumentieren:</strong>
-<div class="language-markdown highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="gu">### D) Post-Checks (Acceptance Criteria)</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="k">- [x]</span> Pre-Snapshot durchgeführt und im Ticket dokumentiert
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>      → https://link-to-ticket/comment/12345
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
-</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="k">- [x]</span> Post-Snapshot durchgeführt und im Ticket dokumentiert
-</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>      → https://link-to-ticket/comment/12346
-</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>
-</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="k">- [x]</span> Versionen korrekt: 4.12.0 auf allen Komponenten
-</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>      wazuh-indexer: 4.12.0
-</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>      wazuh-manager: 4.12.0
-</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>      wazuh-dashboard: 4.12.0
-</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>      filebeat: 4.12.0
-</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>
-</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="k">- [x]</span> Alle Services running
-</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>      wazuh-indexer: active (running)
-</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>      wazuh-manager: active (running)
-</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>      wazuh-dashboard: active (running)
-</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>      filebeat: active (running)
-</span><span id="__span-13-20"><a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a>
-</span><span id="__span-13-21"><a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a><span class="k">- [x]</span> Dashboard erreichbar (Login OK)
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="gu">### D) Post-Checks (Acceptance Criteria)</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="k">- [x]</span> Pre-Snapshot durchgeführt und im Ticket dokumentiert
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>      → https://link-to-ticket/comment/12345
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="k">- [x]</span> Post-Snapshot durchgeführt und im Ticket dokumentiert
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>      → https://link-to-ticket/comment/12346
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="k">- [x]</span> Versionen korrekt: 4.12.0 auf allen Komponenten
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>      wazuh-indexer: 4.12.0
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>      wazuh-manager: 4.12.0
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>      wazuh-dashboard: 4.12.0
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>      filebeat: 4.12.0
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="k">- [x]</span> Alle Services running
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>      wazuh-indexer: active (running)
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>      wazuh-manager: active (running)
+</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>      wazuh-dashboard: active (running)
+</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>      filebeat: active (running)
+</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>
+</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="k">- [x]</span> Dashboard erreichbar (Login OK)
 </span></code></pre></div></p>
 <hr />
 <h2 id="schritt-7-bei-problemen-troubleshooting">🚨 SCHRITT 7: Bei Problemen – Troubleshooting<a class="headerlink" href="#schritt-7-bei-problemen-troubleshooting" title="Permanent link">&para;</a></h2>
@@ -2968,7 +2996,7 @@
 <ol>
 <li>Öffne das Runbook, Abschnitt <strong>"Troubleshooting"</strong> (meist Abschnitt 11)</li>
 <li>Führe die dort gelisteten <strong>Diagnose-Befehle</strong> aus:
-   <div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>journalctl<span class="w"> </span>-u<span class="w"> </span>wazuh-manager<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span><span class="w"> </span>--no-pager<span class="w"> </span>-p<span class="w"> </span>err
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>journalctl<span class="w"> </span>-u<span class="w"> </span>wazuh-manager<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span><span class="w"> </span>--no-pager<span class="w"> </span>-p<span class="w"> </span>err
 </span></code></pre></div></li>
 <li>Poste die Fehlerausgabe <strong>im Change-Ticket</strong></li>
 <li>Wähle eine Lösung aus dem Runbook</li>
@@ -2982,31 +3010,31 @@
 <li><strong>Option 2:</strong> Downgrade von Packages</li>
 <li><strong>Option 3:</strong> Configuration-Restore</li>
 <li>Dokumentiere im Ticket:
-   <div class="language-markdown highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="gu">## Rollback durchgeführt</span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="gs">**Grund:**</span> wazuh-manager startet nicht nach Upgrade (Java OOM Error)
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="gs">**Methode:**</span> VM-Snapshot restore (snap-...)
-</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="gs">**Zeitpunkt:**</span> 2026-01-30 23:45
-</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="gs">**Ergebnis:**</span> ✅ Erfolgreich, System wiederhergestellt
+   <div class="language-markdown highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="gu">## Rollback durchgeführt</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="gs">**Grund:**</span> wazuh-manager startet nicht nach Upgrade (Java OOM Error)
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="gs">**Methode:**</span> VM-Snapshot restore (snap-...)
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="gs">**Zeitpunkt:**</span> 2026-01-30 23:45
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="gs">**Ergebnis:**</span> ✅ Erfolgreich, System wiederhergestellt
 </span></code></pre></div></li>
 <li>Erstelle ein <strong>Incident-Ticket</strong> für Root-Cause-Analysis</li>
 </ol>
 <hr />
 <h2 id="schritt-8-checkliste-abschlieen">💾 SCHRITT 8: Checkliste abschließen<a class="headerlink" href="#schritt-8-checkliste-abschlieen" title="Permanent link">&para;</a></h2>
 <p>Am Ende der Checkliste:</p>
-<div class="language-markdown highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="gu">## Sign-Off &amp; Documentation</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="gu">### Approval</span>
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="k">- [x]</span> Executed by (Operator): David Dutler
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="k">- [x]</span> Approved by (Reviewer): Ivan Stricker, 2026-01-31 01:00
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="k">- [x]</span> Customer Notified: YES (Email sent 2026-01-31 01:15)
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>
-</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="gu">### Final Checklist</span>
-</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="k">- [x]</span> Change ticket CLOSED (status: Completed)
-</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="k">- [x]</span> Pre- and post-health snapshots ATTACHED
-</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="k">- [x]</span> All deviations DOCUMENTED
-</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="k">- [x]</span> Customer sign-off OBTAINED
-</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="k">- [x]</span> Runbook feedback PROVIDED
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="gu">## Sign-Off &amp; Documentation</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="gu">### Approval</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="k">- [x]</span> Executed by (Operator): David Dutler
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="k">- [x]</span> Approved by (Reviewer): Ivan Stricker, 2026-01-31 01:00
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="k">- [x]</span> Customer Notified: YES (Email sent 2026-01-31 01:15)
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="gu">### Final Checklist</span>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="k">- [x]</span> Change ticket CLOSED (status: Completed)
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="k">- [x]</span> Pre- and post-health snapshots ATTACHED
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="k">- [x]</span> All deviations DOCUMENTED
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="k">- [x]</span> Customer sign-off OBTAINED
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="k">- [x]</span> Runbook feedback PROVIDED
 </span></code></pre></div>
 <h3 id="finale-schritte">Finale Schritte:<a class="headerlink" href="#finale-schritte" title="Permanent link">&para;</a></h3>
 <ol>
@@ -3018,22 +3046,22 @@
 </ol>
 <hr />
 <h2 id="zusammenfassung-quick-checklist">🎯 Zusammenfassung (Quick Checklist)<a class="headerlink" href="#zusammenfassung-quick-checklist" title="Permanent link">&para;</a></h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>CHECKLISTEN-WORKFLOW:
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>1️⃣  Metadaten sammeln (Customer, Versions, Ticket, Snapshot)
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>2️⃣  Checklisten-Datei kopieren → in Change-Ticket einfügen
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>3️⃣  YAML-Block ausfüllen (operator, customer, etc.)
-</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>4️⃣  Pre-Go Gates prüfen (alle ✅ sein!)
-</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>5️⃣  Health Snapshot (pre) ausführen → im Ticket speichern
-</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>6️⃣  Schritte von oben nach unten abarbeiten
-</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>    - Checklisten-Box lesen
-</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>    - Ins Runbook gucken
-</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>    - Befehl kopieren &amp; ausführen
-</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>    - Box abhaken [x]
-</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>7️⃣  Health Snapshot (post) ausführen → mit pre vergleichen
-</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>8️⃣  Abschlussnote schreiben
-</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>9️⃣  Reviewer unterschreibt
-</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>🔟 Ticket schließen + Kunde informieren
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>CHECKLISTEN-WORKFLOW:
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>1️⃣  Metadaten sammeln (Customer, Versions, Ticket, Snapshot)
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>2️⃣  Checklisten-Datei kopieren → in Change-Ticket einfügen
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>3️⃣  YAML-Block ausfüllen (operator, customer, etc.)
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>4️⃣  Pre-Go Gates prüfen (alle ✅ sein!)
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>5️⃣  Health Snapshot (pre) ausführen → im Ticket speichern
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>6️⃣  Schritte von oben nach unten abarbeiten
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>    - Checklisten-Box lesen
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>    - Ins Runbook gucken
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>    - Befehl kopieren &amp; ausführen
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>    - Box abhaken [x]
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>7️⃣  Health Snapshot (post) ausführen → mit pre vergleichen
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>8️⃣  Abschlussnote schreiben
+</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>9️⃣  Reviewer unterschreibt
+</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>🔟 Ticket schließen + Kunde informieren
 </span></code></pre></div>
 <hr />
 <h2 id="haufige-fehler-vermeiden">💡 Häufige Fehler (vermeiden!)<a class="headerlink" href="#haufige-fehler-vermeiden" title="Permanent link">&para;</a></h2>

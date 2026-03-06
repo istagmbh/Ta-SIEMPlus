@@ -2553,13 +2553,27 @@
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Change approved and authorized</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Customer notified (downtime/impact communicated)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Upgrade guide read (breaking changes checked)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Official Wazuh Upgrade Guide read (<a href="https://documentation.wazuh.com/current/upgrade-guide/upgrading-central-components.html">Link</a>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Internal version-specific guide reviewed (see <code>upgrade-guides/&lt;version&gt;/</code>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Breaking changes / special steps for target version known</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Prerequisites validated (see Runbook "Prerequisites" section)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Persistent terminal session active (<code>screen</code> or <code>tmux</code> started)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>All credentials retrieved and verified:</strong><ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Indexer admin credentials retrieved from secret store (see <code>CUSTOMERS.md</code> → <code>secrets_ref</code>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Wazuh API credentials available</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> SSH/root access to target system tested</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Dashboard login credentials available</li>
+</ul>
+</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> System resources confirmed (Disk &lt; 85%, RAM available, <strong>STOP if Disk &gt; 90%</strong>)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Network connectivity to Wazuh repositories verified</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Wazuh APT repository active (<code>/etc/apt/sources.list.d/wazuh.list</code> checked, not commented out)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Network connectivity to Wazuh repositories verified (<code>ping packages.wazuh.com</code>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>apt-get update</code> executed successfully</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Candidate versions are <strong>identical</strong> (Indexer/Manager/Dashboard same patch level)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> VM/Volume snapshot created (recommended) OR configuration backup created</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Snapshot/Backup ID documented in <code>snapshot_id</code> above</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Custom configuration modifications checked (see Runbook 2.2a)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> If customizations found: documented which ones need to be re-applied after upgrade</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Health Snapshot (pre-change) captured and attached to this ticket</li>
 </ul>
 <p><strong>If all above are ✓, proceed to Section C.</strong></p>
@@ -2653,6 +2667,7 @@
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Data ingestion working (agents reporting data)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> API responsive (<code>/api/v1/manager/info</code>)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> No critical errors in logs (check journal output)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Wazuh APT repository disabled after upgrade OR packages set to "hold" (decision documented)</li>
 </ul>
 <p>See Runbook Section 10 for detailed tests.</p>
 <hr />
@@ -2669,6 +2684,16 @@
 </ul>
 <hr />
 <h2 id="e-rollback-if-needed">E) Rollback (If Needed)<a class="headerlink" href="#e-rollback-if-needed" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>This section is CONDITIONAL – only fill in if a rollback was performed.</strong>
+If the upgrade was successful, skip this entire section and proceed to Section F.</p>
+</blockquote>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Rollback was performed:</strong> YES / NO</li>
+</ul>
+<p><strong>If NO → Skip to Section F (no further entries required in this section)</strong></p>
+<hr />
+<p><strong>If YES, fill in below:</strong></p>
 <h3 id="rollback-triggers">Rollback Triggers<a class="headerlink" href="#rollback-triggers" title="Permanent link">&para;</a></h3>
 <p>Execute rollback <strong>immediately</strong> if:
 - [ ] Service fails to start after 2-3 minutes

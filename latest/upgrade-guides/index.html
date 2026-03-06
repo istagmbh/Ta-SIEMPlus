@@ -2042,6 +2042,48 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#prufprozess-bei-neuen-wazuh-versionen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prüfprozess bei neuen Wazuh-Versionen
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prüfprozess bei neuen Wazuh-Versionen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#schritt-1-offiziellen-upgrade-guide-prufen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 1: Offiziellen Upgrade Guide prüfen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schritt-2-interne-dokumentation-aktualisieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 2: Interne Dokumentation aktualisieren
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schritt-3-freigabe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 3: Freigabe
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#available-upgrade-guides" class="md-nav__link">
     <span class="md-ellipsis">
       🎯 Available Upgrade Guides
@@ -2291,6 +2333,34 @@
 <li>Review historical upgrade paths</li>
 <li>Understand version-specific requirements and changes</li>
 </ul>
+<h2 id="prufprozess-bei-neuen-wazuh-versionen">Prüfprozess bei neuen Wazuh-Versionen<a class="headerlink" href="#prufprozess-bei-neuen-wazuh-versionen" title="Permanent link">&para;</a></h2>
+<p>Wenn eine neue Wazuh-Version erscheint, MUSS folgender Prozess durchlaufen werden,
+<strong>bevor</strong> die Version für Kunden-Upgrades freigegeben wird:</p>
+<h3 id="schritt-1-offiziellen-upgrade-guide-prufen">Schritt 1: Offiziellen Upgrade Guide prüfen<a class="headerlink" href="#schritt-1-offiziellen-upgrade-guide-prufen" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Wazuh Release Notes lesen: https://documentation.wazuh.com/current/release-notes/</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Offiziellen Upgrade Guide lesen: https://documentation.wazuh.com/current/upgrade-guide/</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Breaking Changes identifizieren und dokumentieren</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Deprecated Features notieren</li>
+</ul>
+<h3 id="schritt-2-interne-dokumentation-aktualisieren">Schritt 2: Interne Dokumentation aktualisieren<a class="headerlink" href="#schritt-2-interne-dokumentation-aktualisieren" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Neuen Ordner unter <code>upgrade-guides/&lt;version&gt;/</code> erstellen</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Version-spezifische Hinweise, Breaking Changes und bekannte Probleme dokumentieren</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Runbook auf Kompatibilität prüfen (haben sich Befehle/Pfade geändert?)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Checkliste auf Vollständigkeit prüfen</li>
+</ul>
+<h3 id="schritt-3-freigabe">Schritt 3: Freigabe<a class="headerlink" href="#schritt-3-freigabe" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Review durch zweite Person</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Pull Request mit Änderungen erstellen</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Version als "freigegeben für Upgrades" markieren</li>
+</ul>
+<blockquote>
+<p><strong>WICHTIG:</strong> Kein Kunden-Upgrade durchführen, solange der interne Prüfprozess
+nicht abgeschlossen ist!</p>
+</blockquote>
+<hr />
 <h2 id="available-upgrade-guides">🎯 Available Upgrade Guides<a class="headerlink" href="#available-upgrade-guides" title="Permanent link">&para;</a></h2>
 <h3 id="wazuh-4x-series">Wazuh 4.x Series<a class="headerlink" href="#wazuh-4x-series" title="Permanent link">&para;</a></h3>
 <h4 id="wazuh-412-upgrade-guide"><a href="4.12/">Wazuh 4.12 Upgrade Guide</a><a class="headerlink" href="#wazuh-412-upgrade-guide" title="Permanent link">&para;</a></h4>
