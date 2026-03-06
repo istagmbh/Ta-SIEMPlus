@@ -10,6 +10,33 @@ Upgrade guides are **versioned using mike** to maintain documentation for multip
 - Review historical upgrade paths
 - Understand version-specific requirements and changes
 
+## Prüfprozess bei neuen Wazuh-Versionen
+
+Wenn eine neue Wazuh-Version erscheint, MUSS folgender Prozess durchlaufen werden,
+**bevor** die Version für Kunden-Upgrades freigegeben wird:
+
+### Schritt 1: Offiziellen Upgrade Guide prüfen
+- [ ] Wazuh Release Notes lesen: https://documentation.wazuh.com/current/release-notes/
+- [ ] Offiziellen Upgrade Guide lesen: https://documentation.wazuh.com/current/upgrade-guide/
+- [ ] Breaking Changes identifizieren und dokumentieren
+- [ ] Deprecated Features notieren
+
+### Schritt 2: Interne Dokumentation aktualisieren
+- [ ] Neuen Ordner unter `upgrade-guides/<version>/` erstellen
+- [ ] Version-spezifische Hinweise, Breaking Changes und bekannte Probleme dokumentieren
+- [ ] Runbook auf Kompatibilität prüfen (haben sich Befehle/Pfade geändert?)
+- [ ] Checkliste auf Vollständigkeit prüfen
+
+### Schritt 3: Freigabe
+- [ ] Review durch zweite Person
+- [ ] Pull Request mit Änderungen erstellen
+- [ ] Version als "freigegeben für Upgrades" markieren
+
+> **WICHTIG:** Kein Kunden-Upgrade durchführen, solange der interne Prüfprozess
+> nicht abgeschlossen ist!
+
+---
+
 ## 🎯 Available Upgrade Guides
 
 ### Wazuh 4.x Series

@@ -30,6 +30,21 @@ This guide covers upgrading to **Wazuh 4.12.x** from previous 4.x versions.
 - Enhanced authentication mechanisms
 - Improved query performance
 
+## Breaking Changes und Besonderheiten (Interne Prüfung)
+
+> Ergebnis der internen Prüfung des offiziellen Wazuh 4.12 Upgrade Guides.
+> Geprüft am: YYYY-MM-DD | Geprüft von: [Name]
+
+### Breaking Changes
+- Keine bekannten Breaking Changes für 4.12 (Stand: [Datum])
+
+### Besondere Upgrade-Schritte
+- [Hier version-spezifische Hinweise eintragen, die vom offiziellen Guide abweichen
+  oder besonders hervorgehoben werden müssen]
+
+### Bekannte Inkompatibilitäten
+- [Hier dokumentieren, z.B. bestimmte Plugin-Versionen, OS-Versionen etc.]
+
 ## 🔧 Prerequisites
 
 ### System Requirements

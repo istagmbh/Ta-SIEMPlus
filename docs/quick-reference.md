@@ -38,7 +38,17 @@ runbook_ref: "../runbooks/RUNBOOK_WAZUH_UPGRADE_AIO_UBUNTU.md"
 
 ## 📋 Health Snapshot (Pre/Post Upgrade)
 
-### Pre-Snapshot (vor Upgrade)
+### Kompakt-Snapshot (für Tickets / Wartungsformular)
+```bash
+echo "=== SNAPSHOT $(date -Is) ==="
+dpkg -l | egrep 'wazuh-(indexer|manager|dashboard)|filebeat' | awk '{printf "%-20s %s\n", $2, $3}'
+for S in wazuh-indexer wazuh-manager wazuh-dashboard filebeat; do echo "$S: $(systemctl is-active $S 2>/dev/null)"; done
+df -h / | tail -1 | awk '{print "Disk: "$5" belegt"}'
+curl -sk -u admin:admin https://127.0.0.1:9200/_cluster/health 2>/dev/null | python3 -c "import sys,json;d=json.load(sys.stdin);print(f'Cluster: {d[\"status\"]}')" 2>/dev/null || echo "Cluster: N/A"
+echo "=== END ==="
+```
+
+### Ausführlicher Snapshot (vollständige Diagnose)
 ```bash
 date -Is
 echo "=== DISK ==="
@@ -384,7 +394,19 @@ cat /tmp/pre-upgrade-health.txt  # Später im Ticket posten
 grep -n "infrastructure:" Catalog/CUSTOMERS.md | grep DeepInfra
 ```
 
-### Tip 4: Checkliste lokal öffnen
+### Tip 4: Screen-Session für Upgrades (Pflicht bei Remote-Zugriff)
+```bash
+# Session starten (vor dem Upgrade!)
+screen -S wazuh-upgrade
+
+# Nach Verbindungsabbruch wiederherstellen
+screen -r wazuh-upgrade
+
+# Alle Sessions anzeigen
+screen -ls
+```
+
+### Tip 5: Checkliste lokal öffnen
 ```bash
 # Mac:
 open checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md

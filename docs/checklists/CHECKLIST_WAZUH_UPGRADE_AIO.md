@@ -55,13 +55,25 @@ notes: ""
 
 - [ ] Change freigegeben (approved)
 - [ ] Kunde informiert (Downtime/Impact kommuniziert)
-- [ ] Guide gelesen (Breaking Changes / besondere Schritte)
+- [ ] Offiziellen Wazuh Upgrade Guide gelesen ([Link](https://documentation.wazuh.com/current/upgrade-guide/upgrading-central-components.html))
+- [ ] Interner versionsspezifischer Guide geprüft (siehe `upgrade-guides/<version>/`)
+- [ ] Breaking Changes / besondere Schritte für Zielversion bekannt
 - [ ] **Voraussetzungen validiert** (siehe Runbook Abschnitt "Voraussetzungen")
+- [ ] Persistente Terminal-Session aktiv (`screen` oder `tmux` gestartet)
+- [ ] **Zugangsdaten/Credentials vorhanden und verifiziert:**
+    - [ ] Indexer Admin-Credentials aus Secret-Store abgerufen (siehe `CUSTOMERS.md` → `secrets_ref`)
+    - [ ] Wazuh API-Credentials verfügbar
+    - [ ] SSH/Root-Zugang zum Zielsystem getestet
+    - [ ] Dashboard-Login-Credentials bekannt
 - [ ] System-Ressourcen geprüft (Disk < 85%, RAM verfügbar, **No-Go wenn Disk > 90%**)
-- [ ] Netzwerk-Konnektivität zu Wazuh-Repositories bestätigt
+- [ ] Wazuh APT-Repository aktiv (`/etc/apt/sources.list.d/wazuh.list` geprüft, nicht auskommentiert)
+- [ ] Netzwerk-Konnektivität zu Wazuh-Repositories bestätigt (`ping packages.wazuh.com`)
+- [ ] `apt-get update` erfolgreich ausgeführt
 - [ ] Candidate-Versionen sind **identisch** (Indexer/Manager/Dashboard inkl. Patchlevel)
 - [ ] VM/Volume-Snapshot erstellt (empfohlen) ODER Konfigurations-Backup erstellt
 - [ ] Snapshot/Backup-ID dokumentiert (`snapshot_id`)
+- [ ] Individuelle Konfigurationsanpassungen geprüft (siehe Runbook 2.2a)
+- [ ] Falls Anpassungen vorhanden: Dokumentiert, welche nach Upgrade erneut anzuwenden sind
 - [ ] **Health Snapshot (Runbook Abschnitt 1)** durchgeführt und im Ticket abgelegt
 
 ---
@@ -120,6 +132,7 @@ notes: ""
 - [ ] Datenfluss plausibel (neue Events kommen an / Testevent verifiziert)
 - [ ] Keine kritischen Fehler in journalctl-Logs (Indexer/Manager/Dashboard/Filebeat)
 - [ ] Alle Ports hören wie erwartet (1514, 1515, 55000, 9200, 5601)
+- [ ] Wazuh APT-Repository nach Upgrade deaktiviert ODER Pakete auf "hold" gesetzt (Entscheidung dokumentiert)
 - [ ] Abschlussmeldung an Kunde gesendet (Versionen + kurzer Health-Status)
 - [ ] Change/Ticket sauber dokumentiert (Start/Ende, Findings, Abweichungen)
 
@@ -134,7 +147,19 @@ notes: ""
 
 ## E) Störung / Rollback Entscheidung
 
-**Trigger für Rollback (Beispiele):**
+> **Dieser Abschnitt ist NUR auszufüllen, wenn ein Rollback durchgeführt wurde.**
+> Wenn das Upgrade erfolgreich war, überspringen Sie diesen Abschnitt und
+> setzen Sie direkt bei Section F fort.
+
+- [ ] **Rollback wurde durchgeführt:** JA / NEIN
+
+**Falls NEIN → Weiter mit Abschnitt F (kein Ausfüllen der folgenden Punkte erforderlich)**
+
+---
+
+**Falls JA, bitte ausfüllen:**
+
+**Trigger für Rollback (zutreffende(s) ankreuzen):**
 - [ ] Indexer nicht stabil (Crash/Red-Cluster)
 - [ ] Auth/TLS/Index Security nicht funktionsfähig
 - [ ] Datenfluss bricht nachhaltig (keine Events, Filebeat Errors)

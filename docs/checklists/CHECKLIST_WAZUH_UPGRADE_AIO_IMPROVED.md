@@ -58,13 +58,25 @@ guide_ref: "https://documentation.wazuh.com/current/upgrade-guide/upgrading-cent
 
 - [ ] Change approved and authorized
 - [ ] Customer notified (downtime/impact communicated)
-- [ ] Upgrade guide read (breaking changes checked)
+- [ ] Official Wazuh Upgrade Guide read ([Link](https://documentation.wazuh.com/current/upgrade-guide/upgrading-central-components.html))
+- [ ] Internal version-specific guide reviewed (see `upgrade-guides/<version>/`)
+- [ ] Breaking changes / special steps for target version known
 - [ ] Prerequisites validated (see Runbook "Prerequisites" section)
+- [ ] Persistent terminal session active (`screen` or `tmux` started)
+- [ ] **All credentials retrieved and verified:**
+    - [ ] Indexer admin credentials retrieved from secret store (see `CUSTOMERS.md` → `secrets_ref`)
+    - [ ] Wazuh API credentials available
+    - [ ] SSH/root access to target system tested
+    - [ ] Dashboard login credentials available
 - [ ] System resources confirmed (Disk < 85%, RAM available, **STOP if Disk > 90%**)
-- [ ] Network connectivity to Wazuh repositories verified
+- [ ] Wazuh APT repository active (`/etc/apt/sources.list.d/wazuh.list` checked, not commented out)
+- [ ] Network connectivity to Wazuh repositories verified (`ping packages.wazuh.com`)
+- [ ] `apt-get update` executed successfully
 - [ ] Candidate versions are **identical** (Indexer/Manager/Dashboard same patch level)
 - [ ] VM/Volume snapshot created (recommended) OR configuration backup created
 - [ ] Snapshot/Backup ID documented in `snapshot_id` above
+- [ ] Custom configuration modifications checked (see Runbook 2.2a)
+- [ ] If customizations found: documented which ones need to be re-applied after upgrade
 - [ ] Health Snapshot (pre-change) captured and attached to this ticket
 
 **If all above are ✓, proceed to Section C.**
@@ -178,6 +190,7 @@ curl -sk -u admin:admin https://127.0.0.1:9200/_cluster/health?pretty
 - [ ] Data ingestion working (agents reporting data)
 - [ ] API responsive (`/api/v1/manager/info`)
 - [ ] No critical errors in logs (check journal output)
+- [ ] Wazuh APT repository disabled after upgrade OR packages set to "hold" (decision documented)
 
 See Runbook Section 10 for detailed tests.
 
@@ -199,6 +212,17 @@ See Runbook Section 10 for detailed tests.
 ---
 
 ## E) Rollback (If Needed)
+
+> **This section is CONDITIONAL – only fill in if a rollback was performed.**
+> If the upgrade was successful, skip this entire section and proceed to Section F.
+
+- [ ] **Rollback was performed:** YES / NO
+
+**If NO → Skip to Section F (no further entries required in this section)**
+
+---
+
+**If YES, fill in below:**
 
 ### Rollback Triggers
 

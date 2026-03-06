@@ -28,6 +28,11 @@ Dieses Runbook beschreibt den vollständigen Upgrade-Prozess für Wazuh Central 
 - https://documentation.wazuh.com/current/upgrade-guide/upgrading-central-components.html
 - Offizielle Wazuh Dokumentation: https://documentation.wazuh.com/
 
+> **WICHTIG (Versionsprüfung):** Vor jedem Upgrade MUSS der offizielle Wazuh Upgrade Guide
+> für die Zielversion geprüft werden. Breaking Changes, geänderte Upgrade-Schritte und
+> neue Abhängigkeiten sind im internen versionsspezifischen Guide zu dokumentieren
+> (siehe `upgrade-guides/<version>/`). Details zum Prüfprozess: `upgrade-guides/index.md`
+
 ## Zugehörige Checkliste
 - `../checklists/CHECKLIST_WAZUH_UPGRADE_AIO.md`
 
@@ -41,6 +46,24 @@ Vor Beginn des Upgrades müssen folgende Voraussetzungen erfüllt sein:
 - Ausreichend Speicherplatz (mindestens 20% frei auf allen relevanten Partitionen)
 - Gültige Backup/Snapshot-Lösung verfügbar
 - Zugriff auf das Wazuh Dashboard und API für Validierung
+- Shell: **Bash** muss als aktive Shell verwendet werden (nicht ZSH oder andere Shells)
+
+> **ACHTUNG (Shell-Kompatibilität):** Alle Skripte in diesem Runbook verwenden
+> Bash-spezifische Syntax (`set -euo pipefail`, Brace Expansion, etc.).
+> Falls Ihre Standard-Shell ZSH ist (z.B. bei einigen vorinstallierten Systemen),
+> stellen Sie sicher, dass Sie **explizit Bash verwenden**:
+>
+> ```bash
+> # Aktuelle Shell prüfen
+> echo $SHELL
+> echo $0
+>
+> # Falls nicht Bash: Explizit Bash starten
+> bash
+>
+> # Oder bei screen/tmux direkt Bash starten:
+> screen -S wazuh-upgrade bash
+> ```
 
 ### Organisatorische Voraussetzungen
 - Genehmigtes Change-Ticket/Change Request
@@ -48,6 +71,8 @@ Vor Beginn des Upgrades müssen folgende Voraussetzungen erfüllt sein:
 - Definiertes Wartungsfenster mit ausreichend Zeitpuffer
 - Dokumentierte Rollback-Strategie
 - Notfallkontakte verfügbar
+- **Alle erforderlichen Zugangsdaten aus dem Secret-Store abgerufen und verifiziert**
+  (Indexer-Admin, API, Dashboard-Login – siehe `catalog/CUSTOMERS.md` → `secrets_ref`)
 
 ### Wissensbasis
 - Grundlegendes Verständnis von Wazuh-Architektur
@@ -84,6 +109,95 @@ dpkg -l | egrep 'wazuh-(indexer|manager|dashboard)|filebeat'
 
 ---
 
+### Session-Absicherung (Pflicht bei Remote-Zugriff)
+
+> **KRITISCH:** Bei Zugriff über Tailscale, VPN oder andere Remote-Verbindungen
+> MUSS eine persistente Terminal-Session verwendet werden. Wenn die Verbindung
+> als root über Tailscale aufgebaut wird und die Session abbricht, kann die
+> laufende Shell **NICHT** wiederhergestellt werden – laufende Prozesse (z.B.
+> `apt install`) werden abgebrochen und können das System in einem inkonsistenten
+> Zustand hinterlassen.
+
+**Empfohlen: `screen`** (auf den meisten Systemen vorinstalliert)
+
+```bash
+# Prüfen ob screen installiert ist
+which screen || apt-get install -y screen
+
+# Neue benannte Session starten
+screen -S wazuh-upgrade
+
+# Falls die Verbindung abbricht – Session wiederherstellen:
+screen -r wazuh-upgrade
+
+# Alle laufenden Sessions anzeigen:
+screen -ls
+```
+
+**Alternative: `tmux`**
+
+```bash
+# Neue benannte Session starten
+tmux new -s wazuh-upgrade
+
+# Falls die Verbindung abbricht – Session wiederherstellen:
+tmux attach -t wazuh-upgrade
+
+# Alle laufenden Sessions anzeigen:
+tmux ls
+```
+
+**Wichtige Hinweise:**
+- Starten Sie die `screen`/`tmux`-Session **VOR** dem ersten Upgrade-Schritt
+- Benennen Sie die Session eindeutig (z.B. `wazuh-upgrade` oder `CHG-2026-00123`)
+- Bei Tailscale-Zugriff als root: Ohne `screen`/`tmux` ist ein Reconnect nach
+  Verbindungsabbruch **nicht möglich**
+
+---
+
+### Wazuh APT-Repository prüfen und verwalten
+
+> Manche Umgebungen haben die Wazuh-Repositories bewusst deaktiviert (z.B. um
+> unkontrollierte Updates zu verhindern). Vor dem Upgrade muss das Repository
+> aktiv sein; nach dem Upgrade kann es wieder deaktiviert werden.
+
+```bash
+# Repository-Status prüfen
+echo "=== Wazuh Repository Status ==="
+cat /etc/apt/sources.list.d/wazuh.list 2>/dev/null || echo "WARN: /etc/apt/sources.list.d/wazuh.list nicht gefunden!"
+
+# Prüfen ob Repository aktiv (nicht auskommentiert)
+grep -v '^#' /etc/apt/sources.list.d/wazuh.list 2>/dev/null || echo "WARN: Alle Zeilen sind auskommentiert – Repository ist DEAKTIVIERT"
+
+# Repository aktivieren (falls deaktiviert)
+# sed -i 's/^#\s*deb/deb/' /etc/apt/sources.list.d/wazuh.list
+
+# Nach Aktivierung: apt update ausführen
+# apt-get update
+```
+
+**Nach dem Upgrade (optional, aber empfohlen für Produktion):**
+
+```bash
+# Repository wieder deaktivieren (verhindert unbeabsichtigte Updates)
+# sed -i 's/^deb/# deb/' /etc/apt/sources.list.d/wazuh.list
+# apt-get update
+
+# Alternativ: Wazuh-Pakete auf "hold" setzen
+apt-mark hold wazuh-indexer wazuh-manager wazuh-dashboard
+apt-mark showhold
+```
+
+**Vorgehen:**
+
+1. VOR dem Upgrade: Repository-Status prüfen
+2. Falls deaktiviert: Repository aktivieren + `apt update`
+3. Upgrade durchführen
+4. NACH dem Upgrade: Repository deaktivieren ODER Pakete auf "hold" setzen
+5. Entscheidung im Change-Ticket dokumentieren
+
+---
+
 ## 0) Nicht verhandelbare Regeln (Upgrade)
 
 1. **Komponenten-Versionen müssen identisch sein (inkl. Patchlevel):**
@@ -104,6 +218,9 @@ dpkg -l | egrep 'wazuh-(indexer|manager|dashboard)|filebeat'
 ```bash
 set -euo pipefail
 
+ERRORS=()
+WARNINGS=()
+
 echo "=== HEALTH SNAPSHOT START ==="
 echo "Timestamp: $(date -Is)"
 echo "Operator: ${USER}"
@@ -116,39 +233,99 @@ uptime
 echo ""
 echo "=== DISK/MEM ==="
 df -h | egrep -v 'tmpfs|devtmpfs'
+# Disk-Schwellwert prüfen
+DISK_USAGE=$(df / | tail -1 | awk '{print $5}' | tr -d '%')
+if [ "$DISK_USAGE" -gt 90 ]; then
+    ERRORS+=("DISK: Belegung ${DISK_USAGE}% – ÜBER 90% NO-GO SCHWELLWERT!")
+elif [ "$DISK_USAGE" -gt 85 ]; then
+    WARNINGS+=("DISK: Belegung ${DISK_USAGE}% – über 85% Warnschwelle")
+fi
 echo ""
 free -h
 
 echo ""
 echo "=== SERVICES STATUS ==="
-systemctl --no-pager -l status wazuh-indexer wazuh-manager wazuh-dashboard filebeat || true
+for SVC in wazuh-indexer wazuh-manager wazuh-dashboard filebeat; do
+    if systemctl is-active --quiet "$SVC" 2>/dev/null; then
+        echo "OK: $SVC is active (running)"
+    else
+        ERRORS+=("SERVICE: $SVC ist NICHT aktiv!")
+        echo "FEHLER: $SVC ist NICHT aktiv!"
+        systemctl status "$SVC" --no-pager 2>/dev/null || true
+    fi
+done
 
 echo ""
 echo "=== PORTS (sanity check) ==="
-ss -lntp | egrep '(:1514|:1515|:55000|:9200|:5601)\s' || echo "WARN: Not all expected ports listening"
+for PORT in 1514 1515 55000 9200 5601; do
+    if ss -lntp | grep -q ":${PORT} "; then
+        echo "OK: Port $PORT listening"
+    else
+        WARNINGS+=("PORT: Port $PORT ist NICHT aktiv")
+        echo "WARNUNG: Port $PORT ist NICHT aktiv"
+    fi
+done
 
 echo ""
 echo "=== INSTALLED PACKAGES ==="
-dpkg -l | egrep 'wazuh-(indexer|manager|dashboard|agent)|filebeat' || true
+dpkg -l | egrep 'wazuh-(indexer|manager|dashboard|agent)|filebeat' || WARNINGS+=("PACKAGES: Keine Wazuh-Pakete gefunden")
 
 echo ""
-echo "=== INDEXER CLUSTER HEALTH (if accessible) ==="
-curl -sk -u admin:admin https://127.0.0.1:9200/_cluster/health?pretty 2>/dev/null || echo "INFO: Indexer not accessible or stopped"
+echo "=== INDEXER CLUSTER HEALTH ==="
+CLUSTER_HEALTH=$(curl -sk -u admin:admin https://127.0.0.1:9200/_cluster/health?pretty 2>/dev/null)
+if [ -z "$CLUSTER_HEALTH" ]; then
+    ERRORS+=("INDEXER: Cluster Health konnte NICHT abgefragt werden!")
+    echo "FEHLER: Indexer nicht erreichbar oder gestoppt"
+else
+    echo "$CLUSTER_HEALTH"
+    STATUS=$(echo "$CLUSTER_HEALTH" | grep '"status"' | tr -d ' ",' | cut -d: -f2)
+    if [ "$STATUS" = "red" ]; then
+        ERRORS+=("INDEXER: Cluster Status ist RED!")
+    elif [ "$STATUS" = "yellow" ]; then
+        WARNINGS+=("INDEXER: Cluster Status ist YELLOW (bei Single-Node AIO akzeptabel)")
+    fi
+fi
 
 echo ""
-echo "=== INDEXER NODES (if accessible) ==="
-curl -sk -u admin:admin https://127.0.0.1:9200/_cat/nodes?v 2>/dev/null || echo "INFO: Indexer not accessible or stopped"
+echo "=== INDEXER NODES ==="
+curl -sk -u admin:admin https://127.0.0.1:9200/_cat/nodes?v 2>/dev/null || ERRORS+=("INDEXER: Nodes konnten NICHT abgefragt werden!")
 
 echo ""
 echo "=== RECENT ERRORS (last 50 lines per service) ==="
-echo "--- wazuh-indexer ---"
-journalctl -u wazuh-indexer -n 50 --no-pager -p err || true
-echo "--- wazuh-manager ---"
-journalctl -u wazuh-manager -n 50 --no-pager -p err || true
-echo "--- wazuh-dashboard ---"
-journalctl -u wazuh-dashboard -n 50 --no-pager -p err || true
-echo "--- filebeat ---"
-journalctl -u filebeat -n 50 --no-pager -p err || true
+for SVC in wazuh-indexer wazuh-manager wazuh-dashboard filebeat; do
+    echo "--- $SVC ---"
+    ERR_COUNT=$(journalctl -u "$SVC" -n 50 --no-pager -p err 2>/dev/null | grep -c "" || true)
+    journalctl -u "$SVC" -n 50 --no-pager -p err 2>/dev/null || true
+    if [ "$ERR_COUNT" -gt 0 ]; then
+        WARNINGS+=("LOGS: $SVC hat $ERR_COUNT Error-Einträge in den letzten 50 Zeilen")
+    fi
+done
+
+echo ""
+echo "=========================================="
+echo "=== ZUSAMMENFASSUNG (HEALTH SNAPSHOT) ==="
+echo "=========================================="
+echo ""
+
+if [ ${#ERRORS[@]} -gt 0 ]; then
+    echo "!!! FEHLER (${#ERRORS[@]}) – ACHTUNG !!!"
+    for e in "${ERRORS[@]}"; do
+        echo "  [FEHLER] $e"
+    done
+    echo ""
+fi
+
+if [ ${#WARNINGS[@]} -gt 0 ]; then
+    echo "WARNUNGEN (${#WARNINGS[@]}):"
+    for w in "${WARNINGS[@]}"; do
+        echo "  [WARNUNG] $w"
+    done
+    echo ""
+fi
+
+if [ ${#ERRORS[@]} -eq 0 ] && [ ${#WARNINGS[@]} -eq 0 ]; then
+    echo "Alle Checks bestanden – keine Fehler oder Warnungen."
+fi
 
 echo ""
 echo "=== HEALTH SNAPSHOT END ==="
@@ -158,6 +335,53 @@ echo "=== HEALTH SNAPSHOT END ==="
 - Kopieren Sie die gesamte Ausgabe in Ihr Change-Ticket
 - Markieren Sie ob Pre- oder Post-Upgrade
 - Bei Post-Upgrade: Vergleichen Sie mit Pre-Upgrade Snapshot
+
+### Kompakt-Snapshot (für Wartungsformular / Ticket)
+
+> Kürzere Variante des Health Snapshots, die nur die wichtigsten Informationen enthält.
+> Ideal zum Einfügen in Change-Tickets oder das Wartungsformular.
+
+```bash
+set -euo pipefail
+
+echo "=== KOMPAKT HEALTH SNAPSHOT ==="
+echo "Zeitpunkt: $(date -Is)"
+echo "Hostname:  $(hostname)"
+echo ""
+
+# Versionen (einzeilig)
+echo "Versionen:"
+dpkg -l | egrep 'wazuh-(indexer|manager|dashboard)|filebeat' | awk '{printf "  %-20s %s\n", $2, $3}'
+
+echo ""
+
+# Services (einzeilig pro Service)
+echo "Services:"
+for SVC in wazuh-indexer wazuh-manager wazuh-dashboard filebeat; do
+    STATUS=$(systemctl is-active "$SVC" 2>/dev/null || echo "inactive")
+    echo "  $SVC: $STATUS"
+done
+
+echo ""
+
+# Disk (nur Root-Partition)
+echo "Disk (/):"
+df -h / | tail -1 | awk '{printf "  Belegt: %s von %s (%s)\n", $3, $2, $5}'
+
+echo ""
+
+# Cluster Health (einzeilig)
+echo -n "Indexer Cluster: "
+HEALTH=$(curl -sk -u admin:admin https://127.0.0.1:9200/_cluster/health 2>/dev/null)
+if [ -n "$HEALTH" ]; then
+    echo "$HEALTH" | python3 -c "import sys,json; d=json.load(sys.stdin); print(f'status={d[\"status\"]}, nodes={d[\"number_of_nodes\"]}, shards={d[\"active_shards\"]}')" 2>/dev/null || echo "Parsing fehlgeschlagen – Rohdaten: $HEALTH"
+else
+    echo "NICHT ERREICHBAR"
+fi
+
+echo ""
+echo "=== KOMPAKT SNAPSHOT END ==="
+```
 
 ---
 
@@ -250,6 +474,75 @@ ls -lh "$BACKUP_DIR"
 - Erstellen Sie vor dem nächsten Schritt einen VM-Snapshot über Ihre Virtualisierungsplattform
 - Dokumentieren Sie die Snapshot-ID im Change-Ticket
 - Snapshot sollte erstellt werden, während Services noch laufen (konsistenter Zustand)
+
+---
+
+### 2.2a Individuelle Konfigurationsanpassungen prüfen
+
+> **Zweck:** Vor dem Upgrade prüfen, ob individuelle Anpassungen an den
+> Konfigurationsdateien vorgenommen wurden, die beim Upgrade überschrieben
+> werden könnten.
+
+```bash
+set -euo pipefail
+
+echo "=== Konfigurations-Prüfung (Individuelle Anpassungen) ==="
+echo ""
+
+# Dateien die beim apt-Upgrade überschrieben werden können:
+CONFIG_FILES=(
+    "/etc/wazuh-indexer/opensearch.yml"
+    "/etc/wazuh-indexer/jvm.options"
+    "/etc/wazuh-dashboard/opensearch_dashboards.yml"
+    "/etc/filebeat/filebeat.yml"
+    "/var/ossec/etc/ossec.conf"
+)
+
+CUSTOM_FOUND=false
+
+for CFG in "${CONFIG_FILES[@]}"; do
+    if [ -f "$CFG" ]; then
+        # Prüfen ob die Datei gegenüber dem dpkg-Original verändert wurde
+        PKG=$(dpkg -S "$CFG" 2>/dev/null | cut -d: -f1 || true)
+        if [ -n "$PKG" ]; then
+            CHANGED=$(dpkg --verify "$PKG" 2>/dev/null | grep "$CFG" || true)
+            if [ -n "$CHANGED" ]; then
+                echo "ANGEPASST: $CFG (Paket: $PKG)"
+                CUSTOM_FOUND=true
+            else
+                echo "Standard:  $CFG"
+            fi
+        else
+            echo "INFO:      $CFG (kein Paket zugeordnet – manuell erstellt)"
+            CUSTOM_FOUND=true
+        fi
+    else
+        echo "FEHLT:     $CFG"
+    fi
+done
+
+echo ""
+if [ "$CUSTOM_FOUND" = true ]; then
+    echo "ACHTUNG: Individuelle Anpassungen gefunden!"
+    echo "Diese Dateien könnten beim Upgrade überschrieben werden."
+    echo "Stellen Sie sicher, dass die Backups (Schritt 2.2) vollständig sind"
+    echo "und merken Sie sich, welche Anpassungen nach dem Upgrade"
+    echo "möglicherweise erneut angewendet werden müssen."
+else
+    echo "Keine individuellen Anpassungen gefunden – Standard-Konfiguration."
+fi
+
+echo ""
+echo "=== Konfigurations-Prüfung Ende ==="
+```
+
+> **Hinweis:** Typische individuelle Anpassungen die erhalten werden müssen:
+>
+> - `jvm.options`: Heap-Größe (`-Xms`, `-Xmx`)
+> - `opensearch.yml`: Cluster-Name, Network-Binding, TLS-Pfade
+> - `opensearch_dashboards.yml`: Server-Host, Base-Path, TLS-Konfiguration
+> - `filebeat.yml`: Output-Konfiguration, Credentials
+> - `ossec.conf`: Custom Rules, Decoders, Agent-Gruppen-Konfiguration
 
 ---
 
